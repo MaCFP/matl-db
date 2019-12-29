@@ -51,7 +51,7 @@ More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, Com
   - Diameter: 0.07 m
   - Thickness: 0.0058 m
 * Backing Insulation: None  
-Samples were epoxied to copper foil to reduce swelling, morphing and flowing; as well as to provide a substrate with good thermal contact to measure back surface temperatures. The exposed (back) side of the copper foil was painted with high emissivity paint (Îµ = 0.95) allowing for temperature measurements on the backside of the sample using an IR camera.
+Samples were epoxied to copper foil to reduce swelling, morphing and flowing; as well as to provide a substrate with good thermal contact to measure back surface temperatures. The exposed (back) side of the copper foil was painted with high emissivity paint (alpha = 0.95) allowing for temperature measurements on the backside of the sample using an IR camera.
 * Temperature Measurements:
     Temperature measurements were made at 12 points representing 4 radial locations (r = 0, 0.01, 163 0.02 and 0.03 m from the center). However, since the temperature distribution was found to be radially uniform, average temperatures are reported here. 
 
@@ -59,22 +59,22 @@ Samples were epoxied to copper foil to reduce swelling, morphing and flowing; as
 The boundary conditions were averaged over the test duration for both heat fluxes. External radiation was measured by a Schmidt-Boelter heat flux gauge with a cooling water temperature of 290 K. The convective heat losses from the front and back sample surfaces were quantified through detailed simulations and further validated against experimental measurements. 
 
 ###### External Heat Flux = 25 kW/m2
-_**Front surface**_
-External Heat Flux = 25 kW/m2
-Average convection coefficient = 8.6 W/(m^2  K)
-Average outside gas temperature = 330 K
-_**Back surface**_
-Average convection coefficient = 4 W/(m^2 K)
-Average outside gas temperature = 300 K
+_**Front surface**_  
+External Heat Flux = 25 kW/m2  
+Average convection coefficient = 8.6 W/(m^2  K)  
+Average outside gas temperature = 330 K  
+_**Back surface**_  
+Average convection coefficient = 4 W/(m^2 K)  
+Average outside gas temperature = 300 K  
 
-###### External Heat Flux = 60 kW/m2
-_**Front surface**_
-External Heat Flux = 25 kW/m2
-Average convection coefficient = 8.6 W/(m^2  K)
-Average outside gas temperature = 365 K
-_**Back surface**_
-Average convection coefficient = 4 W/(m^2 K)
-Average outside gas temperature = 303 K
+###### External Heat Flux = 60 kW/m2  
+_**Front surface**_  
+External Heat Flux = 25 kW/m2  
+Average convection coefficient = 8.6 W/(m^2  K)  
+Average outside gas temperature = 365 K  
+_**Back surface**_  
+Average convection coefficient = 4 W/(m^2 K)  
+Average outside gas temperature = 303 K  
 
 
 
