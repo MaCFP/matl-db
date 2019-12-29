@@ -78,4 +78,5 @@ Average outside gas temperature = 303 K
 
 
 
-
+### Absorption Coefficient  
+The density normalized absorption coefficient was found to be 2.38 m^2/kg with an error (two times the standard error of the mean) of 0.23 m^2/kg.
