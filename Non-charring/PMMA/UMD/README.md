@@ -60,7 +60,7 @@ The boundary conditions were averaged over the test duration for both heat fluxe
 
 ###### External Heat Flux = 25 kW/m2
 _**Front surface**_  
-External Heat Flux = 25 kW/m2  
+External Radiant Heat Flux = 25 kW/m2  
 Average convection coefficient = 8.6 W/(m^2  K)  
 Average outside gas temperature = 330 K  
 _**Back surface**_  
@@ -69,7 +69,7 @@ Average outside gas temperature = 300 K
 
 ###### External Heat Flux = 60 kW/m2  
 _**Front surface**_  
-External Heat Flux = 25 kW/m2  
+External Radiant Heat Flux = 60 kW/m2  
 Average convection coefficient = 8.6 W/(m^2  K)  
 Average outside gas temperature = 365 K  
 _**Back surface**_  
