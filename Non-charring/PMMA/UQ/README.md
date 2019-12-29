@@ -5,8 +5,13 @@
   - Initial temperature 323.15 K
   - Isotherm: 60s (hold at 323.15K for 60s)  
   - Maximum Temperature 1223.15 K
+* Sample mass: 5.1-5.6 mg
+* Sample geometry: powdered
 * Calibration type: Annual internal mass calibration  
 * Crucible type: 6.8? / 85 µL, Al2O3 crucibles  
+* Carrier Gas
+  - Air or Nitrogen
+  - Flow rate = 150 ml/min
 
 ###### Tests Conducted in Air (flow rate = 150 ml/min)  
 
