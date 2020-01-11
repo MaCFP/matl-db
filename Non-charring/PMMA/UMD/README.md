@@ -13,6 +13,7 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 * Carrier Gas
   - Ultra High Purity (UHP) Nitrogen
   - Flow rate = 50 ml/min
+* Instrument type: Netzsch F3 Jupiter
 
 
 ### Experimental Conditions: MCC
@@ -34,6 +35,7 @@ An FAA microscale combustion calorimeter was used to conduct MCC experiments.  A
 * Combustor Carrier Gas
   - Ultra High Purity (UHP) Oxygen + Pyrolyzer Carrier Gas
   - O2 Flow rate = 20 ml/min
+* Instrument type: FAA Microscale Combustion Calorimeter
 
 
 ### Experimental Conditions: Gasification Tests (CAPA II)
