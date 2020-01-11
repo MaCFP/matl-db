@@ -1,4 +1,4 @@
-####How to Submit Experimental Data
+#### How to Submit Experimental Data
 
 Experimental and Modeling Results will be submitted, stored, and made publicly available on the [MaCFP GitHub Repository](https://github.com/MaCFP/matl-db/tree/master/Non-charring/PMMA). Experimental data may be shared by submitting pull requests to this repository or by sending data via email to [Dr. Morgan Bruns] (mailto:brunsmc@vmi.edu).
 
