@@ -27,6 +27,7 @@
 
 ### Experimental Conditions, DSC
 
+* Measurement of cp was made by comparison with sapphire and using modulation
 * Heating Rates: 3, 10, 20 K/min
 * Temperature program
   - Initial temperature 243.15 K
@@ -41,10 +42,13 @@
 * Instrument type: Discovery TA
 
 
-|Test Name | Heating Rate (K/min) | Initial Sample Mass (mg)|  
-|----------|:------:|  :------:| 
-|UMET\_DSC\_N2\_1 | 3 | [?] |
-|UMET\_DSC\_N2\_2 | 3 | [?] |
+|Test Name | Heating Rate (K/min) | 
+|----------|:------:|  
+|UMET\_DSC\_N2\_1 | 3 | 
+|UMET\_DSC\_N2\_2 | 10 |
+|UMET\_DSC\_N2\_3 | 10 |
+|UMET\_DSC\_N2\_4 | 20 |
+|UMET\_DSC\_N2\_5 | 20 |
 
 ### Diffusivity (LFA 467 Hyperflash- Netzsch):
 * Laser flash analysis
@@ -57,3 +61,8 @@
 * Kapton sensor (radius 2.0mm)
 * Ambient temperature measurement
 * 2 plates for measurement
+* Isotropic material
+* The material is considered as semi-infinite when using the appropriate size of the sensor.
+*Energy pulse:
+  - Power: 35 mW
+  - Duration: 20 s
