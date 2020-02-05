@@ -1,0 +1,48 @@
+### Experimental Conditions: TGA, DSC
+A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
+
+* Heating Rate: 10 K/min
+* Temperature program
+  - Initial temperature 303 K
+  - Isotherm: None
+  - Maximum Temperature 923 K
+* Sample mass: 2-6 mg
+* Sample geometry: powdered
+* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Internal mass calibration are performed before each experimental campaigns. [Heat/Temperature calibration?]
+* Crucible type: 6.8mm / 85 µL, Al2O3 crucibles [Not Pt or Al for DSC?]
+* Carrier Gas
+  - Air (21% O2), 10.5% O2, or Pure Nitrogen (0% O2)
+  - Flow rate = 60  ml/min  
+
+| Test Name | O2 volume % |  Initial Sample Mass (mg) | 
+| --------- | :---------: | :------------------------: |
+|GIDAZE+\_STA\_N2\_1 | 0 | 2.015|  
+|GIDAZE+\_STA\_N2\_2 | 0 | 1.978|  
+|GIDAZE+\_STA\_O2\_10\_1 | 10.5 | 1.976|  
+|GIDAZE+\_STA\_O2\_10\_2 | 10.5 | 1.993|  
+|GIDAZE+\_STA\_O2\_21\_1 | 21 | 2.04| 
+|GIDAZE+\_STA\_O2\_21\_2 | 21 | 2.039|  
+|GIDAZE+\_STA\_O2\_21\_3 | 21 | 6.044|  
+|GIDAZE+\_STA\_O2\_21\_4 | 21 | 6.019|   
+
+
+### Experimental Conditions: Cone Calorimeter
+* Cone calorimeter tests were conducted using a configuration similar to the Torero et. al. ('Determination of the flammability properties of polymeric materials: A novel method', March 2011, Polymer Degradation and Stability 96(3):314-319).
+* Extraction flow rate: 24L/s
+* Sample holder dimensions:
+    - A block of aluminium (100 mm x 100 mm x 8 mm thick) at the rear face of the PMMA.
+    - Retainer frame/grid: [None?]
+* Backing Insulation: Ceramic fibre backing pad at the sides of the sample and the aluminum block and at the rear face of the aluminum block [thickness / thermal properties of insulation?]
+* Thermocouple location:
+    - T_1: central on sample exposed surface
+    - T_3: in-depth at 3 mm
+    - T_4: central on sample back surface
+
+###### Test Heating Conditions  
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
+|----------|:------:| :---: |
+|GIDAZE+_Cone_25_1| 25 | 589 |
+|GIDAZE+_Cone_25_2| 25 | 589 |
+|GIDAZE+_Cone_65_1| 65 | 844 |
+|GIDAZE+_Cone_65_2| 65 | 844 |
+
