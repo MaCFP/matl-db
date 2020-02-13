@@ -17,6 +17,9 @@ Three repeated pyrolysis tests were conducted to measure the mass loss and front
 |FM\_Gasification\_25kWm2\_1 | ? | 25 | ? |
 |FM\_Gasification\_25kWm2\_2 | ? | 25 | ? |
 |FM\_Gasification\_25kWm2\_3 | ? | 25 | ? |
+|FM\_Gasification\_50kWm2\_1 | ? | 50 | ? |
+|FM\_Gasification\_50kWm2\_2 | ? | 50 | ? |
+|FM\_Gasification\_50kWm2\_3 | ? | 50 | ? |
 |FM\_Gasification\_65kWm2\_1 | ? | 65 | ? |
 |FM\_Gasification\_65kWm2\_2 | ? | 65 | ? |
 |FM\_Gasification\_65kWm2\_3 | ? | 65 | ? |
