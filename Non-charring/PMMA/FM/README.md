@@ -14,12 +14,12 @@ Three repeated pyrolysis tests were conducted to measure the mass loss and front
 ###### Sample Mass and Test Heating Conditions  
 |Test Name | Initial sample mass (g)| Heat Flux (kW/m2)| Heater Temperature (K) |
 |----------|:------:| :---: | :---: |
-|FM\_Gasification\_25kWm2\_1 | ? | 25 | ? |
-|FM\_Gasification\_25kWm2\_2 | ? | 25 | ? |
-|FM\_Gasification\_25kWm2\_3 | ? | 25 | ? |
-|FM\_Gasification\_50kWm2\_1 | ? | 50 | ? |
-|FM\_Gasification\_50kWm2\_2 | ? | 50 | ? |
-|FM\_Gasification\_50kWm2\_3 | ? | 50 | ? |
-|FM\_Gasification\_65kWm2\_1 | ? | 65 | ? |
-|FM\_Gasification\_65kWm2\_2 | ? | 65 | ? |
-|FM\_Gasification\_65kWm2\_3 | ? | 65 | ? |
+|FM\_Gasification\_25kWm2\_1 | 168.332879 | 25 | ? |
+|FM\_Gasification\_25kWm2\_2 | 168.479587 | 25 | ? |
+|FM\_Gasification\_25kWm2\_3 | 168.263386 | 25 | ? |
+|FM\_Gasification\_50kWm2\_1 | 168.009602 | 50 | ? |
+|FM\_Gasification\_50kWm2\_2 | 167.831299 | 50 | ? |
+|FM\_Gasification\_50kWm2\_3 | 167.404452 | 50 | ? |
+|FM\_Gasification\_65kWm2\_1 | 169.489286 | 65 | ? |
+|FM\_Gasification\_65kWm2\_2 | 166.066022 | 65 | ? |
+|FM\_Gasification\_65kWm2\_3 | 168.190993 | 65 | ? |
