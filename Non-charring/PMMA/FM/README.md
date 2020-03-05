@@ -1,3 +1,5 @@
+# FM Global 
+
 ### Test Summary
 Three repeated pyrolysis tests were conducted to measure the mass loss and front surface temperature of pyrolysis tests in nitrogen environment at external heat flux of 25 and 65 kW/m2, respectively. The sample has a circular shape, with a diameter of 9.52 cm (3.75 in.) and thickness of 0.6 cm. The sample was insulated both on the side and bottom.
 [what type of apparatus? // heater type/temperature?]
