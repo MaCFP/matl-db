@@ -1,3 +1,5 @@
+# The Hong Kong Polytechnic University (HKPoly)
+
 ### Experimental Conditions, TGA
 A TA Instruments SDT Q600 (V20.9 Build 20) was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. STA experiments performed in Nitrogen and in Air. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
 

@@ -1,3 +1,5 @@
+# Technical Institute of Fire Protection in Prague (TIFP)
+
 ### Experimental Conditions: TGA, DSC
 TGA and DSC were performed simultaneously using an STA appartus.
 STA experiments performed in nitrogen. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.

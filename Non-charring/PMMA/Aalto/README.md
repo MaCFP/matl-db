@@ -1,3 +1,5 @@
+# Aalto University
+
 ### Test Summary
 Standard cone calorimeter and gasification tests were carried out on 100 x 100 x 6 mm slabs of cast black PMMA  in a controlled atmosphere cone calorimeter manufactured by Concept Equipment (UK). Before each test, the temperature of the conical heater element was calibrated such that All tests were carried out under the heat flux of 65 kW/m2.   
 

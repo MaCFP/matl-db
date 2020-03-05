@@ -1,3 +1,5 @@
+# University of Maryland (UMD)
+
 ### Experimental Conditions: TGA, DSC
 A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. Reported measurement data indicates an average of [##?##] repeated tests; errors are calculated as two standard deviations of the mean. More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, "Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate)," submitted to IAFSS 2020. 
 
