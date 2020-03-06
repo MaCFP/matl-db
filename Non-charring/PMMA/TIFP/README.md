@@ -2,7 +2,7 @@
 
 ### Experimental Conditions: TGA, DSC
 TGA and DSC were performed simultaneously using an STA appartus.
-STA experiments performed in nitrogen. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
+STA experiments performed both in nitrogen and in air. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
 
 ##### STA Tests in Nitrogen
 * Heating Rate: 10 K/min
@@ -35,13 +35,13 @@ STA experiments performed in nitrogen. Although tests were conducted simultaneou
 * Calibration type: air,  10 °C/min, material In
 * Crucible type: Al2O3, 70 microliters, no lid
 * Carrier Gas
-  - Pure Nitrogen (0% O2)
-  - Flow rate = purge flow 50 ml/min + protective 20 ml/min
+  - Air (vol % O2 = ambient)
+  - Flow rate = purge flow 50 ml/min + protective 10 ml/min
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|TIFP\_STA\_Air\_1 | ? | 4.4790|  
-|TIFP\_STA\_Air\_2 | ? | 5.2040|  
+|TIFP\_STA\_Air\_1 | Ambient | 4.4790|  
+|TIFP\_STA\_Air\_2 | Ambient | 5.2040|  
 
 
 
@@ -51,7 +51,7 @@ STA experiments performed in nitrogen. Although tests were conducted simultaneou
 * Sample holder dimensions:
     - according to ISO 5660-1, stainless steel
     - Retainer frame/grid: frame was used
-* Backing Insulation: earth-alkali silicate wool, [thickness?], thermal conductivity at 600 °C 0.16 kW/m/K 
+* Backing Insulation: earth-alkali silicate wool, [thickness?], thermal conductivity at 600K 0.16 kW/m/K 
 * Thermocouple location:
     - Temperature1: glued to back surface of sample, at center
     - Temperature2: glued to back surface of sample, x=-25 mm, y=0
