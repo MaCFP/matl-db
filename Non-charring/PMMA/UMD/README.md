@@ -1,7 +1,7 @@
 # University of Maryland (UMD)
 
 ### Experimental Conditions: TGA, DSC
-A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. Reported measurement data indicates an average of [##?##] repeated tests; errors are calculated as two standard deviations of the mean. More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, "Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate)," submitted to IAFSS 2020. 
+A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. Reported measurement data indicates an average of 7 repeated tests; errors are calculated as two standard deviations of the mean. More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, "Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate)," submitted to IAFSS 2020. 
 
 * Heating Rate: 10 K/min
 * Temperature program
@@ -10,7 +10,7 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
   - Maximum Temperature 850 K
 * Sample mass: 4-7 mg
 * Sample geometry: Powdered
-* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 6 months using a set of 5 reference materials with melting temperatures between [?]60-900 C[?]
+* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 6 months using a set of 5 reference materials with melting temperatures between 60-820 C
 * Crucible type: Pt-Rh crucibles (outer diameter 6.8mm / volume 85µL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
 * Carrier Gas
   - Ultra High Purity (UHP) Nitrogen
@@ -41,7 +41,7 @@ An FAA microscale combustion calorimeter was used to conduct MCC experiments.  A
 ### Experimental Conditions: Gasification Tests (CAPA II)
 A custom-built [Controlled Atmosphere Pyrolysis Apparatus II (CAPA II)](https://www.sciencedirect.com/science/article/abs/pii/S0379711217300541) was used to perform anaerobic (02 concentration < 1 vol. %) gasification experiments of PMMA slabs in response to well-characterized radiant heating. 
 
-Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5 Hz and presented here without any data processing. The mass data were collected at a frequency of 2 Hz. The mass loss rate (MLR) was computed using a 5 s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5 s bins for which mean MLR and mean time values were computed. The data is synchronized from the time when the sample is exposed to specific external heat flux. [# of repeat tests?]
+Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5 Hz and presented here without any data processing. The mass data were collected at a frequency of 2 Hz. The mass loss rate (MLR) was computed using a 5 s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5 s bins for which mean MLR and mean time values were computed. The data is synchronized from the time when the sample is exposed to specific external heat flux. [2 repeat tests]
 
 More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate), submitted to IAFSS 2020. 
 
