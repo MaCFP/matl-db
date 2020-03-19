@@ -6,7 +6,7 @@ A Netzsch F1 Jupiter was used to conduct Thermogravimetric Analysis (TGA) experi
 * Heating Rate: 10 K/min
 * Temperature program
   - Initial temperature 300 K
-  - Isotherm: 15200s (hold at 300K for 1500s)  
+  - Isotherm: 1500s (hold at 300K for 1500s)  
   - Maximum Temperature 1000 K
 * Sample mass: 4.2 mg
 * Sample geometry: Powdered
