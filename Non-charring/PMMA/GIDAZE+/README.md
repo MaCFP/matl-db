@@ -55,6 +55,7 @@ Although Mass and Temperature were measured simultaneously during experiments, m
 
 * Extraction flow rate: 150L/s
 * Inlet Air Supply 3.3 l/s
+* Sample Surface Area: ?
 * Sample holder dimensions:
     - Following the standard ISO 12136
     - Retainer frame/grid: [None?]
