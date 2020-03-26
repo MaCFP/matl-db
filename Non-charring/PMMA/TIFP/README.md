@@ -46,8 +46,9 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 
 
 ### Experimental Conditions: Cone Calorimeter
-* Radiant heat flux 25 and 65 kW/m2, three runs were performed for each heat flux. Backside tempereature measured by K type thermocouples glued to the sample in the middle (x=0, y=0) and at location x=-25 mm, y=0. Sample surface area 0.0084 m2.
+* Radiant heat flux 25 and 65 kW/m2, three runs were performed for each heat flux. Backside tempereature measured by K type thermocouples glued to the sample in the middle (x=0, y=0) and at location x=-25 mm, y=0. 
 * Extraction flow rate: 24L/s
+* Sample Surface Area: 0.0084 m2
 * Sample holder dimensions:
     - according to ISO 5660-1, stainless steel
     - Retainer frame/grid: frame was used
@@ -66,3 +67,19 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 |TIFP_Cone_65_2| 65 | 1397.15 |
 |TIFP_Cone_65_3| 65 | 1397.15 |
 
+
+### Experimental Conditions: Gasification Tests
+* Radiant heat flux 65 kW/m2, two runs were performed in a cone calorimeter apparatus with vitiated atmosphere module, pure nitrogen.
+* Extraction flow rate: 24L/s
+* Sample Surface Area: 0.0084 m2
+* Sample holder dimensions:
+    - according to ISO 5660-1, stainless steel
+    - Retainer frame/grid: frame was used
+* Backing Insulation: earth-alkali silicate wool, [thickness?], thermal conductivity at 600K 0.16 kW/m/K 
+* Thermocouple location: None
+
+###### Test Heating Conditions [confirm units of Temperature ?]  
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
+|----------|:------:| :---: |
+|TIFP_Gasification_65kW_1| 65 | 1403.15 |
+|TIFP_Gasification_65kW_2| 65 | 1403.15 |

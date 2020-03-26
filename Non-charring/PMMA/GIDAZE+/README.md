@@ -29,8 +29,10 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 
 
 ### Experimental Conditions: Cone Calorimeter
-* Cone calorimeter tests were conducted using a configuration similar to the Torero et. al. ('Determination of the flammability properties of polymeric materials: A novel method', March 2011, Polymer Degradation and Stability 96(3):314-319).
+Cone calorimeter tests were conducted using a configuration similar to the Torero et. al. ('Determination of the flammability properties of polymeric materials: A novel method', March 2011, Polymer Degradation and Stability 96(3):314-319).
+
 * Extraction flow rate: 24L/s
+* Sample Surface Area: 0.01 m2 (nominal)
 * Sample holder dimensions:
     - A block of aluminium (100 mm x 100 mm x 8 mm thick) at the rear face of the PMMA.
     - Retainer frame/grid: [None?]
@@ -48,3 +50,23 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 |GIDAZE+_Cone_65_1| 65 | 844 |
 |GIDAZE+_Cone_65_2| 65 | 844 |
 
+### Experimental Conditions: Fire Propagation Apparatus (FPA)
+Although Mass and Temperature were measured simultaneously during experiments, measurement data presented here are separated into two files because they were recorded at different frequencies.
+
+* Extraction flow rate: 150L/s
+* Inlet Air Supply 3.3 l/s
+* Sample Surface Area: ?
+* Sample holder dimensions:
+    - Following the standard ISO 12136
+    - Retainer frame/grid: [None?]
+* Backing Insulation: Calcium silicate board.[thickness / thermal properties of insulation?]
+* Thermocouple location:
+    - Back Surface Temperature: central on sample back surface
+
+###### Test Heating Conditions  
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
+|----------|:------:| :---: |
+|GIDAZE+_FPA_25_1| 25 | ? |
+|GIDAZE+_FPA_25_2| 25 | ? |
+|GIDAZE+_FPA_65_1| 65 | ? |
+|GIDAZE+_FPA_65_2| 65 | ? |
