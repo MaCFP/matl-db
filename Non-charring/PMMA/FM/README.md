@@ -7,8 +7,9 @@ Three repeated pyrolysis tests were conducted to measure the mass loss and front
 
 #### Experimental Conditions
 * Extraction/N2 flow rate: [??] L/s
+* Sample Surface Area: 0.00712 m2 (nominal)
 * Sample holder dimensions:
-    - at least 9.5 cm...
+    - at least 9.5 cm... [??]
 * Backing Insulation: [thickness? / type?]
 * Thermocouple locations 
     - Sample front surface temperature was measured with [TC, radiometer, IR camera?] at [location; center?]
