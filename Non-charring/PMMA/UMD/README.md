@@ -18,7 +18,7 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 
 
 ### Experimental Conditions: MCC
-An FAA microscale combustion calorimeter was used to conduct MCC experiments.  At the end of each test, the residual solid yield was measured and found to be consistent with the TGA results. Reported measurement data indicates an average of four (4) repeated tests; errors are calculated as two standard deviations of the mean.More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, "Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate)," submitted to IAFSS 2020. 
+An FAA microscale combustion calorimeter was used to conduct MCC experiments.  At the end of each test, the residual solid yield was measured and found to be consistent with the TGA results. Reported measurement data indicates an average of four (4) repeated tests; errors are calculated as two standard deviations of the mean. More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, "Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate)," submitted to IAFSS 2020. 
 
 * Heating Rate: 60 K/min
 * Temperature program (Pyrolyzer)
@@ -43,10 +43,11 @@ A custom-built [Controlled Atmosphere Pyrolysis Apparatus II (CAPA II)](https://
 
 Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5 Hz and presented here without any data processing. The mass data were collected at a frequency of 2 Hz. The mass loss rate (MLR) was computed using a 5 s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5 s bins for which mean MLR and mean time values were computed. The data is synchronized from the time when the sample is exposed to specific external heat flux. [2 repeat tests]
 
-More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate), submitted to IAFSS 2020. 
+ore information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate), submitted to IAFSS 2020. 
 
 * Extraction flow rate (exhaust): 175L/s
 * Nitrogen flow rate: 185 SLPM.
+* Sample Surface Area: 0.00385 m2 (nominal)
 * Sample holder dimensions:
     - Circular pan: diameter = 0.08 m
     - Insulation thickness around the sample 0.01m
