@@ -56,6 +56,7 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 * Thermocouple location:
     - Temperature1: glued to back surface of sample, at center
     - Temperature2: glued to back surface of sample, x=-25 mm, y=0
+* Note: For consistency with datasets submitted by other institutions, cone calorimeter HRR measurements submitted by Aalto have been normalized by sample surface area (nominal) to provide HRR per unit area [kW/m2]
 
 ###### Test Heating Conditions [confirm units of Temperature ?]  
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
