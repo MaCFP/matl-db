@@ -2,6 +2,7 @@
 
 ### Experimental Conditions, TGA
 Four repeats were performed but only the best three were selected. 
+Pleae note: TGA Measurements received from LCPP from tests conducted at 10 and 20 K/min appear to be identical. LCPP has been contacted in an effort to resolve this issue: when possible, the offending dataset will be edited accordingly.
 
 * Heating Rate: 2.5, 5, 10, or 20 K/min
 * Temperature program

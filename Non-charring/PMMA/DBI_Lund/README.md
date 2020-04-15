@@ -102,6 +102,7 @@ For cone calorimeter tests, time-resolved cone heater temperature and sample-sur
 
 
 * Extraction flow rate: 24L/s
+* Sample Surface Area: 0.01 m2 (nominal, square) or 0.00387 m2 (avg, round)
 * Sample holder dimensions:
     - Square pan: 106mm x 106mm x 25mm [?]
     - Retainer frame: None

@@ -10,6 +10,7 @@ The sample was observed to be entirely consumed in all of the experiments, leadi
 
 
 #### Experimental Conditions
+* Sample Surface Area: 0.01 m2 (nominal)
 * Sample holder dimensions:
     - Square pan otherwise complying with specifications of standard ISO 5660-1, except for a 1 cm hole drilled in a corner next to the handle to allow for the passage of thermocouples below the sample.
     - Retainer frame: None
@@ -24,6 +25,7 @@ The sample was observed to be entirely consumed in all of the experiments, leadi
 * Extraction flow rate: 24L/s
 * Sample chamber doors were closed
 * Air intake grilles on the bottom of the chamber were kept open.
+* Note: For consistency with datasets submitted by other institutions, cone calorimeter HRR measurements submitted by Aalto have been normalized by sample surface area (nominal) to provide HRR per unit area [kW/m2]
 
 
 ##### Gasification Tests
