@@ -1,3 +1,5 @@
+# University of Dayton Research Institute (UDRI)
+
 ### Experimental Conditions, TGA
 
 * Heating Rate: 10 K/min
@@ -26,6 +28,7 @@
 
 ### Experimental Conditions, Cone calorimeter
 * Extraction flow rate: 24L/s
+* Sample Surface Area: 0.00884
 * Sample holder dimensions:
     - Square pan: 106mm x 106mm x 25mm
     - Retainer frame: 111mm x 111mm x 54mm (opening dimensions: 94mm x 94mm)

@@ -1,3 +1,5 @@
+# University of Central Lancashire (UClan)
+
 ### Experimental Conditions: TGA, DSC
 [Number of tests // instrument used (manufacturer // STA or TGA and DSC separately) ?]
 * Heating Rate: 10 K/min

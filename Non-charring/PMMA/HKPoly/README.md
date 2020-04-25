@@ -1,3 +1,5 @@
+# The Hong Kong Polytechnic University (HKPoly)
+
 ### Experimental Conditions, TGA
 A TA Instruments SDT Q600 (V20.9 Build 20) was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. STA experiments performed in Nitrogen and in Air. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
 
@@ -24,11 +26,13 @@ A TA Instruments SDT Q600 (V20.9 Build 20) was used to conduct Simultaneous Ther
 
 ### Experimental Conditions, Cone calorimeter
 * Extraction flow rate: 7.14L/s
+* Sample Surface Area: 0.01 m2 (nominal)
 * Sample holder dimensions:
     - Insulation board with a dimension of 10 cm * 10 cm * 5 cm
 * Backing Insulation: thermal conductivity?0.1 W/m.K, density?800 kg/m3, heat capacity?0.5
 * Thermocouple location:
     - Back surface [center?]
+
 ###### Test Heating Conditions  
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
 |----------|:------:| :---: |

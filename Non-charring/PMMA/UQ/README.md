@@ -1,3 +1,5 @@
+# University of Queensland (UQ)
+
 ### Experimental Conditions, TGA
 
 * Heating Rate: 10 K/min
@@ -46,10 +48,6 @@
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
 |----------|:------:| :---: |
 |UQ\_Cone\_25KW\_1 | 25| 856  
-|UQ\_Cone\_25KW\_2 | 25| 1110
-|UQ\_Cone\_65KW\_1 | 65| 856  
+|UQ\_Cone\_25KW\_2 | 25| 856
+|UQ\_Cone\_65KW\_1 | 65| 1110
 |UQ\_Cone\_65KW\_2 | 65| 1110
-
-
-
-
