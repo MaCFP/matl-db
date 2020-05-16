@@ -1,4 +1,4 @@
-# University of Lille - ENSCL - Unité Matériaux et Transformations (UMET)
+# University of Lille - ENSCL - UnitÃ© MatÃ©riaux et Transformations (UMET)
 
 ### Experimental Conditions, TGA
 
@@ -7,10 +7,10 @@
   - Initial temperature 313.15 K
   - Isotherm: None
   - Maximum Temperature 1273.15 K
-* Sample mass: 3.93 – 5.98 mg
+* Sample mass: 3.93 â€“ 5.98 mg
 * Sample geometry: powdered
 * Calibration type: Temperature calibration was performed every 6 months using a set of 5 reference materials with melting temperatures between 156.6 - 660 C
-* Crucible type: 85 µL Al2O3 crucibles  
+* Crucible type: 85 ÂµL Al2O3 crucibles  
 * Carrier Gas
   - Nitrogen (Vacuuming and filling according to the desired atmosphere)
   - Flow rate = 40 ml/min
@@ -55,7 +55,7 @@
 ### Diffusivity (LFA 467 Hyperflash- Netzsch):
 * Laser flash analysis
 * 3 flash for each temperature
-* Square sample 25.4*25.4cm²
+* Square sample 25.4*25.4cmÂ²
 * Both sides of the sample coated with graphite paint
 
 ### Conductivity (TPS 2500S-Hot Disk):
@@ -65,6 +65,6 @@
 * 2 plates for measurement
 * Isotropic material
 * The material is considered as semi-infinite when using the appropriate size of the sensor.
-*Energy pulse:
+* Energy pulse:
   - Power: 35 mW
   - Duration: 20 s
