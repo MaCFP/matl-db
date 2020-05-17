@@ -5,17 +5,27 @@ A Netzsch F1 Jupiter was used to conduct Thermogravimetric Analysis (TGA) experi
 
 * Heating Rate: 10 K/min
 * Temperature program
-  - Initial temperature 300 K
-  - Isotherm: 1500s (hold at 300K for 1500s)  
-  - Maximum Temperature 1000 K
+  - Initial Temperature: 300 K
+  - Initial Isotherm: 1500 s (hold at 300 K for 1500 s)  
+  - Maximum Temperature: 1000 K
+  - Final Isotherm: None
 * Sample mass: 4.2 mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 6 months using a set of 5 [6?] reference materials with melting temperatures between 60-820 C
-* Crucible type: Pt-Rh crucibles (outer diameter 6.8mm / volume 85µL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
+* Crucible
+  - Type: Pt-Rh
+  - Volume: 85 ÂµL
+  - Diameter: 6.8 mm
+  - Mass: None
+  - Lid: True
+  - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85ÂµL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
 * Carrier Gas
-  - Ultra High Purity (UHP) Nitrogen
-  - Flow rate = 50 ml/min
-
+  - Type: Nitrogen
+  - Flow rate: 50 ml/min
+  - Note: Ultra High Purity (UHP) Nitrogen
+* Instrument
+  - Type: Netzsch F1 Jupiter
+  - Note: None
 
 ### Experimental Conditions: MCC
 An FAA microscale combustion calorimeter was used to conduct MCC experiments.  At the end of each test, the residual solid yield was measured and found to be consistent with the TGA results. 
@@ -29,7 +39,7 @@ An FAA microscale combustion calorimeter was used to conduct MCC experiments.  A
 * Sample mass: 4-7 mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using a 3-4 mg sample of polystyrene as a reference. O2 sensor/flow calibration was checked at the start of each day of testing, Temperature calibration was performed every 6 months.
-* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71µL) with no lid
+* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71ÂµL) with no lid
 * Pyrolyzer Carrier Gas
   - Ultra High Purity (UHP) Nitrogen 
   - N2 Flow rate = 80 ml/min
