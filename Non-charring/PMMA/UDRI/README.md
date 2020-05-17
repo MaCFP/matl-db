@@ -4,17 +4,27 @@
 
 * Heating Rate: 10 K/min
 * Temperature program
-  - Initial temperature 298.15 K
-  - Isotherm: None  
-  - Maximum Temperature 1123.15 K
+  - Initial Temperature: 298.15 K
+  - Initial Isotherm: None  
+  - Maximum Temperature: 1123.15 K
+  - Final Isotherm: None
 * Sample mass: 6.63 - 7.16 mg
 * Sample geometry: Powdered
-* Calibration type: 
-* Crucible type: Platinum crucibles  
+* Calibration type: None [?]
+* Crucible
+  - Type: Platinum
+  - Volume: None
+  - Diameter: None
+  - Mass: None
+  - Lid: None
+  - Note: None
 * Carrier Gas
-  - Nitrogen
-  - Flow rate = [?]
-
+  - Type: Nitrogen
+  - Flow rate: None [?]
+  - Note: None
+* Instrument
+  - Type: None [?]
+  - Note: None
 
 ###### Tests Conducted in Nitrogen 
 
