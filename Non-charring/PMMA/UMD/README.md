@@ -5,17 +5,27 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 
 * Heating Rate: 10 K/min
 * Temperature program
-  - Initial temperature 313 K
-  - Isotherm: 1200s (hold at 313K for 1200s)  
-  - Maximum Temperature 850 K
+  - Initial Temperature: 313 K
+  - Initial Isotherm: 1200 s (hold at 313 K for 1200 s)  
+  - Maximum Temperature: 850 K
+  - Final Isotherm: None
 * Sample mass: 4-7 mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 6 months using a set of 5 reference materials with melting temperatures between 60-820 C
-* Crucible type: Pt-Rh crucibles (outer diameter 6.8mm / volume 85µL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
+* Crucible
+  - Type: Pt-Rh
+  - Volume: 85 ÂµL
+  - Diameter: 6.8 mm
+  - Mass: None
+  - Lid: True
+  - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85ÂµL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
 * Carrier Gas
-  - Ultra High Purity (UHP) Nitrogen
-  - Flow rate = 50 ml/min
-
+  - Type: Nitrogen
+  - Flow rate: 50 ml/min
+  - Note: Ultra High Purity (UHP) Nitrogen
+* Instrument
+  - Type: Netzsch F3 Jupiter
+  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files, average of 7 repeated tests
 
 ### Experimental Conditions: MCC
 An FAA microscale combustion calorimeter was used to conduct MCC experiments.  At the end of each test, the residual solid yield was measured and found to be consistent with the TGA results. Reported measurement data indicates an average of four (4) repeated tests; errors are calculated as two standard deviations of the mean. More information is available at G.J. Fiola, D.M. Chaudhari, S.I. Stoliarov, "Comparison of Pyrolysis properties of extruded and cast Poly (methyl methacrylate)," submitted to IAFSS 2020. 
@@ -29,7 +39,7 @@ An FAA microscale combustion calorimeter was used to conduct MCC experiments.  A
 * Sample mass: 4-7 mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using a 3.5 mg sample of polystyrene as a reference. O2 sensor/flow calibration was checked at the start of each day of testing, Temperature calibration was performed every 4 months.
-* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71µL) with no lid
+* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71ÂµL) with no lid
 * Pyrolyzer Carrier Gas
   - Ultra High Purity (UHP) Nitrogen 
   - N2 Flow rate = 80 ml/min
