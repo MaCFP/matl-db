@@ -5,17 +5,27 @@ A Netzsch F3 Jupiter using a DSC sample carrier with S-type thermocouples, and a
 
 * Heating Rate: 1, 10, or 50 K/min
 * Temperature program
-  - Initial temperature 303.15 K
-  - Isotherm: 20 minutes
-  - Maximum Temperature 873.15 K
+  - Initial Temperature: 303.15 K
+  - Initial Isotherm: 20 minutes
+  - Maximum Temperature: 873.15 K
+  - Final Isotherm: None
 * Sample mass: 2-6 mg
 * Sample geometry: powdered
 * Calibration type: The instrument is calibrated at least once per 6 months, or sooner (as needed), using melting point standards for both temperature and DSC sensitivity.  The calibration standards used are In, Sn, Bi, Zn, Al, Ag, Au, and Ni.
-
-* Crucible type: 85 µL, Al2O3 crucibles (no lids)
+* Crucible
+  - Type: Al2O3
+  - Volume: 85 ÂµL
+  - Diameter: None
+  - Mass: None
+  - Lid: False
+  - Note: None
 * Carrier Gas
-  - ultra-high-purity argon  (0% O2)
-  - Flow rate = 100  ml/min  
+  - Type: Argon
+  - Flow rate: 100 ml/min
+  - Note: ultra-high-purity argon  (0% O2)
+* Instrument
+  - Type: Netzsch F3 Jupiter
+  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files, using a DSC sample carrier with S-type thermocouples, Silicon Carbide furnace
 
 | Test Name | Heating Rate (K/min)|  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
