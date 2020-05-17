@@ -4,17 +4,27 @@
 
 * Heating Rates: 1, 2, 5, 10, 20, 50, and 100 K/min
 * Temperature program
-  - Initial temperature 313.15 K
-  - Isotherm: None
-  - Maximum Temperature 1273.15 K
+  - Initial Temperature: 313.15 K
+  - Initial Isotherm: None
+  - Maximum Temperature: 1273.15 K
+  - Final Isotherm: None
 * Sample mass: 3.93 – 5.98 mg
 * Sample geometry: powdered
 * Calibration type: Temperature calibration was performed every 6 months using a set of 5 reference materials with melting temperatures between 156.6 - 660 C
-* Crucible type: 85 µL Al2O3 crucibles  
+* Crucible
+  - Type: Al2O3
+  - Volume: 85 µL
+  - Diameter: None
+  - Mass: None
+  - Lid: None
+  - Note: None
 * Carrier Gas
-  - Nitrogen (Vacuuming and filling according to the desired atmosphere)
-  - Flow rate = 40 ml/min
-* Instrument type: Netzsch TG 209 Libra
+  - Type: Nitrogen
+  - Flow rate: 40 ml/min
+  - Note: Nitrogen (Vacuuming and filling according to the desired atmosphere)
+* Instrument
+  - Type: Netzsch TG 209 Libra
+  - Note: None
 
 
 |Test Name | Heating Rate (K/min) | Initial Sample Mass (mg)|  
