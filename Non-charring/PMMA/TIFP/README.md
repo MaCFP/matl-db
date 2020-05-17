@@ -7,16 +7,27 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 ##### STA Tests in Nitrogen
 * Heating Rate: 10 K/min
 * Temperature program
-  - Initial temperature 300.15 K
-  - Isotherm: 5 minutes
-  - Maximum Temperature 823.15 K
+  - Initial Temperature: 300.15 K
+  - Initial Isotherm: 5 minutes
+  - Maximum Temperature: 823.15 K
+  - Final Isotherm: None
 * Sample mass: ~5.4 mg
 * Sample geometry: powdered
-* Calibration type: nitrogen 70 ml/min, Al2O3 crucible, open, 10 °C/min, 20 to 1000 °C, material In, Bi, Zn, Al, Ag
-* Crucible type: Al2O3, 85 microliters, no lid
+* Calibration type: nitrogen 70 ml/min, Al2O3 crucible, open, 10 Â°C/min, 20 to 1000 Â°C, material In, Bi, Zn, Al, Ag
+* Crucible
+  - Type: Al2O3
+  - Volume: 85 ÂµL
+  - Diameter: None
+  - Mass: None
+  - Lid: False
+  - Note: None
 * Carrier Gas
-  - Pure Nitrogen (0% O2)
-  - Flow rate = purge flow 50 ml/min + protective 20 ml/min
+  - Type: Nitrogen
+  - Flow rate: 70 ml/min
+  - Note: Pure Nitrogen (0% O2), purge flow 50 ml/min + protective 20 ml/min
+* Instrument
+  - Type: STA apparatus
+  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
@@ -32,7 +43,7 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
   - Maximum Temperature 1023.15 K
 * Sample mass: ~5.85 mg
 * Sample geometry: powdered
-* Calibration type: air,  10 °C/min, material In
+* Calibration type: air,  10 Â°C/min, material In
 * Crucible type: Al2O3, 70 microliters, no lid
 * Carrier Gas
   - Air (vol % O2 = ambient)
