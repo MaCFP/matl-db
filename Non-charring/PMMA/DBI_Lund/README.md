@@ -7,17 +7,27 @@ A Netzsch  STA 449 F3 Jupiter was used to conduct Simultaneous Thermal Analysis 
 
 * Heating Rate: 20 K/min
 * Temperature program
-  - Initial temperature 298.15 K
-  - Isotherm: None
-  - Maximum Temperature 1223.15 K
+  - Initial Temperature: 298.15 K
+  - Initial Isotherm: None
+  - Maximum Temperature: 1223.15 K
   - Final Isotherm: None
 * Sample mass: 4.9-5.8 mg
 * Sample geometry: powdered
 * Calibration type: Indium for temperature and heat sensitivity
-* Crucible type: Alumina, 85uL
+* Crucible
+  - Type: Alumina
+  - Volume: 85 ÂµL
+  - Diameter: None
+  - Mass: None
+  - Lid: None
+  - Note: None
 * Carrier Gas
-  - Nitrogen
-  - Flow rate = [?] ml/min
+  - Type: Nitrogen
+  - Flow rate: None [?]
+  - Note: None
+* Instrument
+  - Type: Netzsch STA 449 F3 Jupiter
+  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files
  
 | Test Name | Heating Rate [K/min] |  Initial Sample Mass [mg] | 
 | --------- | :----: | :------------------------:|
@@ -46,10 +56,10 @@ Slab gasification tests were performed in a controlled atmosphere cone calorimet
 |DBILund\_Gasification\_50kW\_1 | 50| 1093| 2.2-3.0|
 |DBILund\_Gasification\_50kW\_2 | 50| 1093| 2.4-3.2|
 
-It must be noted that the heater temperature may not be regarded as a ‘real’ temperature of the heater. It is a reference value for maintaining and controlling the heat flux. It should be assumed that the thermocouples on the heater coil are not fixed properly.
+It must be noted that the heater temperature may not be regarded as a â€˜realâ€™ temperature of the heater. It is a reference value for maintaining and controlling the heat flux. It should be assumed that the thermocouples on the heater coil are not fixed properly.
 
 ###### Test Calibration 
-Heater calibration was performed before setting up a new irradiance level in accordance with ISO 5660-1:2019 section 10.2.5.  Operating analyser calibration zeroed with nitrogen and adjusted for a response of 20.95 % ± 0.01 % with dried ambient air (ISO-1:2019 5660 section 10.2.3). The distance from the conical heater to the specimen surface is set 25 mm in the start of the day.
+Heater calibration was performed before setting up a new irradiance level in accordance with ISO 5660-1:2019 section 10.2.5.  Operating analyser calibration zeroed with nitrogen and adjusted for a response of 20.95 % Â± 0.01 % with dried ambient air (ISO-1:2019 5660 section 10.2.3). The distance from the conical heater to the specimen surface is set 25 mm in the start of the day.
 
 
 
@@ -68,7 +78,7 @@ PMMA specimens were weighed and measured, then wrapped (bottom and sides) in alu
 1) Test calibrations are performed as described above
 2) The load cell is set to an arbitrary level for ensuring that it in the measurement range. As a result the mass in raw data files does not correspond to the specimen nor to the prepared test specimen, but is rather an arbitrary mass fitting the measurement range of the equipment
 3) A baseline is done with the atmosphere controlling camber opened
-4) The chamber is closed and the Nitrogen flow in the chamber is started. 0.85 l/s is performed until the oxygen level stabilise. Typically it was around 3 – 3.5 %
+4) The chamber is closed and the Nitrogen flow in the chamber is started. 0.85 l/s is performed until the oxygen level stabilise. Typically it was around 3 â€“ 3.5 %
 5) A second baseline is performed for 60 seconds. The start time of the second baseline is written in comments section after the test
 6) The shield covering the conical heater is closed. The specimen is placed inside the chamber. This action requires opening the chamber and the atmosphere inside the chamber is with oxygen
 7) 90 seconds are taken before starting the test to ensure that the atmosphere inside the chamber stabilizes (Measured irradiance to the specimen surface while the shield is closed are provided below
@@ -131,7 +141,7 @@ For cone calorimeter tests, time-resolved cone heater temperature and sample-sur
 ###### Sample Preparation 
 Square PMMA specimens were weighed and measured, then wrapped (bottom and sides) in aluminium foil, and placed on top of two 13 mm thick layers of Morgan Thermal Ceramics Superwool SW Plus (Density 64 kg/m3; nominally 100 x 100 mm square). 
 
-Round PMMA samples were approximately 7 cm in diameter. A standard sample holder with no edge frame was used. One layer of 3 mm insulfrax ’paper’ insulation was placed at the bottom of the sample holder and one layer of Morgan Thermal Ceramics 13mm was placed in the sample holder. Round PMMA samples were placed inside of two layers of 3 mm thick Insulfrax insulation paper and wrapped in an aluminium foil. Wrapped samples were then placed on the top of the Morgan thermal Ceramics insulation.
+Round PMMA samples were approximately 7 cm in diameter. A standard sample holder with no edge frame was used. One layer of 3 mm insulfrax â€™paperâ€™ insulation was placed at the bottom of the sample holder and one layer of Morgan Thermal Ceramics 13mm was placed in the sample holder. Round PMMA samples were placed inside of two layers of 3 mm thick Insulfrax insulation paper and wrapped in an aluminium foil. Wrapped samples were then placed on the top of the Morgan thermal Ceramics insulation.
 
 |Test Name | Initial Sample Mass [g]| Sample Thickness [mm]|Sample Surface Area [m2]|
 |:----------:|:------:|:---:|:--:|
