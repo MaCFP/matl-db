@@ -5,16 +5,27 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 
 * Heating Rate: 10 K/min
 * Temperature program
-  - Initial temperature 303 K
-  - Isotherm: None
-  - Maximum Temperature 923 K
+  - Initial Temperature: 303 K
+  - Initial Isotherm: None
+  - Maximum Temperature: 923 K
+  - Final Isotherm: None
 * Sample mass: 2-6 mg
 * Sample geometry: powdered
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Internal mass calibration are performed before each experimental campaigns. [Heat/Temperature calibration?]
-* Crucible type: 6.8mm / 85 µL, Al2O3 crucibles [Not Pt or Al for DSC?]
+* Crucible 
+  - Type: Al2O3 [Not Pt or Al for DSC?]
+  - Volume: 85 µL
+  - Diameter: 6.8 mm
+  - Mass: None
+  - Lid: None
+  - Note: None
 * Carrier Gas
-  - Air (21% O2), 10.5% O2, or Pure Nitrogen (0% O2)
-  - Flow rate = 60  ml/min  
+  - Type: Air, low oxygen (10.5%), Nitrogen
+  - Flow rate: 60  ml/min
+  - Note: Air (21% O2), 10.5% O2, or Pure Nitrogen (0% O2)
+* Instrument
+  - Type: Netzsch F3 Jupiter
+  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
