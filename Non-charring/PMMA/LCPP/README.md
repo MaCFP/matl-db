@@ -1,4 +1,4 @@
-# Laboratoire Central de la Préfecture de Police (LCPP)
+# Laboratoire Central de la PrÃ©fecture de Police (LCPP)
 
 ### Experimental Conditions, TGA
 Four repeats were performed but only the best three were selected. 
@@ -6,17 +6,27 @@ Pleae note: TGA Measurements received from LCPP from tests conducted at 10 and 2
 
 * Heating Rate: 2.5, 5, 10, or 20 K/min
 * Temperature program
-  - Initial temperature 300 K
-  - Isotherm: 300 s
-  - Maximum Temperature 800 K
+  - Initial Temperature: 300 K
+  - Initial Isotherm: 300 s
+  - Maximum Temperature: 800 K
   - Final Isotherm: 300 s
 * Sample mass: ~4 mg
 * Sample geometry: powdered
 * Calibration type: A full calibration is performed every two years. Last calibration carried out in December 2017 using onset temperatures of Indium and Aluminium and verification of calibration on CaCO3. Periodical verification of the equipment: every 6 months or before any extensive use of the equipment.
-* Crucible type: Alumina, 70uL, ~170 mg
+* Crucible
+  - Type: Alumina
+  - Volume: 70 ÂµL
+  - Diameter: None
+  - Mass: ~170 mg
+  - Lid: None
+  - Note: None
 * Carrier Gas
-  - Nitrogen
-  - Flow rate = 80 ml/min
+  - Type: Nitrogen
+  - Flow rate: 80 ml/min
+  - Note: None
+* Instrument
+  - Type: None [?]
+  - Note: None
  
 | Test Name | Heating Rate (K/min) |  Initial Sample Mass (mg) | 
 | --------- | :----: | :------------------------:|
@@ -39,7 +49,7 @@ Pleae note: TGA Measurements received from LCPP from tests conducted at 10 and 2
 
 
 ### Experimental Conditions, Cone calorimeter
-For three out of four samples for each heat flux, no mass information is available. Measurements of temperature and HRR for these 6 samples are however made available for estimation of HRR repeatability. A single thermocouple was used to measure temperature at the center of the sample back surface. Prior to testing, samples were wrapped with aluminum foil. Distance between sample side and the conical heater resistance = 25 mm. 
+For three out of four samples for each heat flux, no mass information is available. Measurements of temperature and HRR for these 6 samples are however made available for estimation of HRR repeatability. A single thermocouple was used to measure temperature at the center of the sample back surface. Prior to testing, samples were wrapped with aluminum foil. Distance between sample side and the conical heater resistance = 25Â mm. 
 
 * Extraction flow rate: 24L/s
 * Sample holder dimensions:
