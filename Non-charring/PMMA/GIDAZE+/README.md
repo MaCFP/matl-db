@@ -29,14 +29,14 @@ A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DS
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|GIDAZE+\_STA\_N2\_1 | 0 | 2.015|  
-|GIDAZE+\_STA\_N2\_2 | 0 | 1.978|  
-|GIDAZE+\_STA\_O2\_10\_1 | 10.5 | 1.976|  
-|GIDAZE+\_STA\_O2\_10\_2 | 10.5 | 1.993|  
-|GIDAZE+\_STA\_O2\_21\_1 | 21 | 2.04| 
-|GIDAZE+\_STA\_O2\_21\_2 | 21 | 2.039|  
-|GIDAZE+\_STA\_O2\_21\_3 | 21 | 6.044|  
-|GIDAZE+\_STA\_O2\_21\_4 | 21 | 6.019|   
+|GIDAZE+\_STA\_N2\_10K\_1 | 0 | 2.015|  
+|GIDAZE+\_STA\_N2\_10K\_2 | 0 | 1.978|  
+|GIDAZE+\_STA\_O2\-10\_10K\_1 | 10.5 | 1.976|  
+|GIDAZE+\_STA\_O2\-10\_10K\_2 | 10.5 | 1.993|  
+|GIDAZE+\_STA\_O2\-21\_10K\_1 | 21 | 2.04| 
+|GIDAZE+\_STA\_O2\-21\_10K\_2 | 21 | 2.039|  
+|GIDAZE+\_STA\_O2\-21\_10K\_3 | 21 | 6.044|  
+|GIDAZE+\_STA\_O2\-21\_10K\_4 | 21 | 6.019|   
 
 
 ### Experimental Conditions: Cone Calorimeter
@@ -56,10 +56,10 @@ Cone calorimeter tests were conducted using a configuration similar to the Torer
 ###### Test Heating Conditions  
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
 |----------|:------:| :---: |
-|GIDAZE+_Cone_25_1| 25 | 589 |
-|GIDAZE+_Cone_25_2| 25 | 589 |
-|GIDAZE+_Cone_65_1| 65 | 844 |
-|GIDAZE+_Cone_65_2| 65 | 844 |
+|GIDAZE+_Cone_25kW_1| 25 | 589 |
+|GIDAZE+_Cone_25kW_2| 25 | 589 |
+|GIDAZE+_Cone_65kW_1| 65 | 844 |
+|GIDAZE+_Cone_65kW_2| 65 | 844 |
 
 ### Experimental Conditions: Fire Propagation Apparatus (FPA)
 Although Mass and Temperature were measured simultaneously during experiments, measurement data presented here are separated into two files because they were recorded at different frequencies.
@@ -77,7 +77,7 @@ Although Mass and Temperature were measured simultaneously during experiments, m
 ###### Test Heating Conditions  
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
 |----------|:------:| :---: |
-|GIDAZE+_FPA_25_1| 25 | ? |
-|GIDAZE+_FPA_25_2| 25 | ? |
-|GIDAZE+_FPA_65_1| 65 | ? |
-|GIDAZE+_FPA_65_2| 65 | ? |
+|GIDAZE+_FPA_25kW_1| 25 | ? |
+|GIDAZE+_FPA_25kW_2| 25 | ? |
+|GIDAZE+_FPA_65kW_1| 65 | ? |
+|GIDAZE+_FPA_65kW_2| 65 | ? |
