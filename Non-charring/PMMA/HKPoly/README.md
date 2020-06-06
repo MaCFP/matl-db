@@ -29,10 +29,10 @@ A TA Instruments SDT Q600 (V20.9 Build 20) was used to conduct Simultaneous Ther
  
 | Test Name | O2 vol % |  Initial Sample Mass (mg) | 
 | --------- | :----: | :------------------------:|
-|HKPolyU\_STA\_N2\_1 |  0  | 4.104|  
-|HKPolyU\_STA\_N2\_2 |  0  | 4.1896|  
-|HKPolyU\_STA\_Air\_1 | 21? |3.9309|  
-|HKPolyU\_STA\_Air\_2 | 21? |3.8808|  
+|HKPolyU\_STA\_N2\_10K\_1 |  0  | 4.104|  
+|HKPolyU\_STA\_N2\_10K\_2 |  0  | 4.1896|  
+|HKPolyU\_STA\_O2-21\_10K\_1 | 21? |3.9309|  
+|HKPolyU\_STA\_O2-21\_10K\_2 | 21? |3.8808|  
 
 
 ### Experimental Conditions, Cone calorimeter

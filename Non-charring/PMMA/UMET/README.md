@@ -29,13 +29,13 @@
 
 |Test Name | Heating Rate (K/min) | Initial Sample Mass (mg)|  
 |----------|:------:|  :------:| 
-|UMET\_TGA\_N2\_1 | 1 | 4.336 |
-|UMET\_TGA\_N2\_2 | 2 | 4.845 |
-|UMET\_TGA\_N2\_3 | 5 | 4.093 |
-|UMET\_TGA\_N2\_4 | 10 | 5.339  |
-|UMET\_TGA\_N2\_5 | 20 | 3.929  |
-|UMET\_TGA\_N2\_6 | 50 | 5.980 |
-|UMET\_TGA\_N2\_7 | 100 | 5.364 |
+|UMET\_TGA\_N2\_1K\_1 | 1 | 4.336 |
+|UMET\_TGA\_N2\_2K\_1 | 2 | 4.845 |
+|UMET\_TGA\_N2\_5K\_1 | 5 | 4.093 |
+|UMET\_TGA\_N2\_10K\_1 | 10 | 5.339  |
+|UMET\_TGA\_N2\_20K\_1 | 20 | 3.929  |
+|UMET\_TGA\_N2\_50K\_1 | 50 | 5.980 |
+|UMET\_TGA\_N2\_100K\_1 | 100 | 5.364 |
 
 ### Experimental Conditions, DSC
 
@@ -56,11 +56,11 @@
 
 |Test Name | Heating Rate (K/min) | 
 |----------|:------:|  
-|UMET\_DSC\_N2\_1 | 3 | 
-|UMET\_DSC\_N2\_2 | 10 |
-|UMET\_DSC\_N2\_3 | 10 |
-|UMET\_DSC\_N2\_4 | 20 |
-|UMET\_DSC\_N2\_5 | 20 |
+|UMET\_DSC\_N2\_1K\_1 | 3 | 
+|UMET\_DSC\_N2\_2K\_1 | 10 |
+|UMET\_DSC\_N2\_5K\_1 | 10 |
+|UMET\_DSC\_N2\_10K\_1 | 20 |
+|UMET\_DSC\_N2\_20K\_1 | 20 |
 
 ### Diffusivity (LFA 467 Hyperflash- Netzsch):
 * Laser flash analysis

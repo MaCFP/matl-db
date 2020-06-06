@@ -31,8 +31,8 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|TIFP\_STA\_N2\_1 | 0 | 5.4338|  
-|TIFP\_STA\_N2\_2 | 0 | 5.3668|  
+|TIFP\_STA\_N2\_10K\_1 | 0 | 5.4338|  
+|TIFP\_STA\_N2\_10K\_2 | 0 | 5.3668|  
 
 
 ##### STA Tests in Air
@@ -51,8 +51,8 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|TIFP\_STA\_Air\_1 | Ambient | 4.4790|  
-|TIFP\_STA\_Air\_2 | Ambient | 5.2040|  
+|TIFP\_STA\_O2-21\_10K\_1 | Ambient | 4.4790|  
+|TIFP\_STA\_O2-21\_10K\_2 | Ambient | 5.2040|  
 
 
 
@@ -72,12 +72,12 @@ STA experiments performed both in nitrogen and in air. Although tests were condu
 ###### Test Heating Conditions [confirm units of Temperature ?]  
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
 |----------|:------:| :---: |
-|TIFP_Cone_25_1| 25 | 1134.65 |
-|TIFP_Cone_25_2| 25 | 1134.65 |
-|TIFP_Cone_25_3| 25 | 1134.65 |
-|TIFP_Cone_65_1| 65 | 1397.15 |
-|TIFP_Cone_65_2| 65 | 1397.15 |
-|TIFP_Cone_65_3| 65 | 1397.15 |
+|TIFP_Cone_25kW_1| 25 | 1134.65 |
+|TIFP_Cone_25kW_2| 25 | 1134.65 |
+|TIFP_Cone_25kW_3| 25 | 1134.65 |
+|TIFP_Cone_65kW_1| 65 | 1397.15 |
+|TIFP_Cone_65kW_2| 65 | 1397.15 |
+|TIFP_Cone_65kW_3| 65 | 1397.15 |
 
 
 ### Experimental Conditions: Gasification Tests

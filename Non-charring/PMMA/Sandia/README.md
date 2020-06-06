@@ -29,12 +29,12 @@ A Netzsch F3 Jupiter using a DSC sample carrier with S-type thermocouples, and a
 
 | Test Name | Heating Rate (K/min)|  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|SANDIA\_STA\_Ar\_1 | 1  | 4.903|  
-|SANDIA\_STA\_Ar\_2 | 10 | 4.917|  
-|SANDIA\_STA\_Ar\_3 | 10 | 4.828|  
-|SANDIA\_STA\_Ar\_4 | 50 | 5.376|  
-|SANDIA\_STA\_Ar\_5 | 50 | 4.835| 
-|SANDIA\_STA\_Ar\_6 | 50 | 4.682|  
+|SANDIA\_STA\_Ar\_1K\_1 | 1  | 4.903|  
+|SANDIA\_STA\_Ar\_10K\_1 | 10 | 4.917|  
+|SANDIA\_STA\_Ar\_10K\_2 | 10 | 4.828|  
+|SANDIA\_STA\_Ar\_50K\_1 | 50 | 5.376|  
+|SANDIA\_STA\_Ar\_50K\_2 | 50 | 4.835| 
+|SANDIA\_STA\_Ar\_50K\_3 | 50 | 4.682|  
 
 
 
