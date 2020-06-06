@@ -30,9 +30,9 @@
 
 |Test Name | Initial Sample Mass (mg)|  
 |----------|:------:|  
-|UDRI\_TGA\_N2\_1 | 7.157|  
-|UDRI\_TGA\_N2\_2 | 6.630|  
-|UDRI\_TGA\_N2\_3 | 6.906|  
+|UDRI\_TGA\_N2\_10K\_1 | 7.157|  
+|UDRI\_TGA\_N2\_10K\_2 | 6.630|  
+|UDRI\_TGA\_N2\_10K\_3 | 6.906|  
 
 
 

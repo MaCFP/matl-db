@@ -31,17 +31,17 @@
  
 | Test Name | Initial Sample Mass (mg) | 
 | --------- | :------------------------:|
-|UQ\_TGA\_Air\_1 | 5.1|  
-|UQ\_TGA\_Air\_2 | 5.2|  
-|UQ\_TGA\_Air\_3 | 5.4|  
+|UQ\_TGA\_O2-21\_10K\_1 | 5.1|  
+|UQ\_TGA\_O2-21\_10K\_2 | 5.2|  
+|UQ\_TGA\_O2-21\_10K\_3 | 5.4|  
 
 ###### Tests Conducted in Nitrogen (flow rate = 150 ml/min)  
 
 |Test Name | Initial Sample Mass (mg)|  
 |----------|:------:|  
-|UQ\_TGA\_N2\_1 | 5.3|  
-|UQ\_TGA\_N2\_2 | 5.1|  
-|UQ\_TGA\_N2\_3 | 5.6|  
+|UQ\_TGA\_N2\_10K\_1 | 5.3|  
+|UQ\_TGA\_N2\_10K\_2 | 5.1|  
+|UQ\_TGA\_N2\_10K\_3 | 5.6|  
 
 ### Experimental Conditions, Cone calorimeter
 * Extraction flow rate: 24L/s
