@@ -28,6 +28,8 @@
 
 
 ### Experimental Conditions: Cone Calorimeter
+Note: Cone HRR data was provided as HRR [kW] as originally requested. This dataset was then scaled to provide [kW/m2] assuming a sample surface area of 0.0088m2 (standard for cone calorimeter tests with a sample holder cover)
+Additionally, back surface temperature measurements were originally output at 2Hz, they have been linearaly interpolated here to provide estimates of Temperature at 1Hz.
 [Type of cone, open/closed, number of replicate tests?]
 * Extraction flow rate: [?]
 * Sample holder dimensions:
