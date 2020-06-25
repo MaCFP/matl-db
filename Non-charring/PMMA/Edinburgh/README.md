@@ -9,6 +9,7 @@ Before each trial the sample mass was recorded. The sample was observed to be en
 
 Difference between total mass lost and reported initial sample mass is generally within 5-10%; the highest difference observed was approximately 10 g. The difference in recorded mass loss and initial sample mass may be a result of the thermocouple wire interfering with load cell measurements.
 
+NOTE: Sample Holder Mass was not tared prior to testing, thus initial mass could be >1000g. All cone data was 'tared' such that the initial mass, m0_exp, was determined (5s average when readings were first steady) and the difference (m_diff = m0_exp - m0) between this value and the reported initial mass of the sample (m0) was calculated. ALL reported mass values where then reduced by m_diff.
 
 
 #### Experimental Conditions
