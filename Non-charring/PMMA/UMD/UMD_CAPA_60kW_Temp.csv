@@ -1,4 +1,4 @@
-Time,MLR_mean,"Temp_avg, all4",MLR_error,Temperature_Error
+Time,MLR_mean,Temp_avg_all4,MLR_error,Temperature_Error
 [s],[kg/s/m^2],[K],[kg/s/m^2],[K]
 0,0,309.2903896,0,1.438438046
 0.133,0,309.4826629,0,1.480297768
