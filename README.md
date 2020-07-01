@@ -11,7 +11,7 @@ For simplicity, please collect your files in a single folder with your INSTITUTE
 
 
 ###### File Organization
-easurement data from repeated experiments should be saved and submitted as separate files, numbered sequentially (e.g.,INSITUTE\_TGA1.csv and INSITUTE\_TGA2.csv). 
+Measurement data from repeated experiments should be saved and submitted as separate files, numbered sequentially (e.g.,INSITUTE\_TGA1.csv and INSITUTE\_TGA2.csv). 
 
 
 ###### File Description
