@@ -1,4 +1,4 @@
-# University of Lille - ENSCL - Unité Matériaux et Transformations (UMET)
+# University of Lille - ENSCL - Unite Materiaux et Transformations (UMET)
 
 ### Experimental Conditions, TGA
 
@@ -37,6 +37,7 @@
 |UMET\_TGA\_N2\_50K\_1 | 50 | 5.980 |
 |UMET\_TGA\_N2\_100K\_1 | 100 | 5.364 |
 
+NOTE: TGA time data was reported as [s] but appeared to be in units of [min]. Values were scaled by a factor of 60, accordingly.
 ### Experimental Conditions, DSC
 
 * Measurement of cp was made by comparison with sapphire and using modulation
