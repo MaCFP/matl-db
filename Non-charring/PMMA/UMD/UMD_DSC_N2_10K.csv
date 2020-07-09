@@ -1,4 +1,5 @@
-Time,Temp (K),DSC (mW/mg),Error (mW/mg)
+Time,Temperature,Heat Flow,Error
+[s],[K],[mW/mg],[mW/mg]
 0,313,0.0402,0.001958106
 24.2118,314.002,0.0623,0.003017524
 41.5014,315.004,0.0803,0.003883938
