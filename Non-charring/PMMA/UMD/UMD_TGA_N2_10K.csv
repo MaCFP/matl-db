@@ -1,4 +1,5 @@
-Time (s),Temperature (K),Mass fraction (-),Error (-)
+Time,Temperature,Mass fraction,Error
+[s],[K],[g/g],[g/g]
 0,313,0.9998,0.001198471
 21.6744,314.002,0.9999,0.001390148
 37.9164,315.004,0.9996,0.001293813
