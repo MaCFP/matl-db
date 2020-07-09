@@ -3,6 +3,7 @@
 ### Experimental Conditions: TGA, DSC
 TGA and DSC were performed simultaneously using an STA appartus.
 STA experiments performed both in nitrogen and in air. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
+Note: DSC heat flow data was rescaled (multiplied by -1)such that endothermic heat flow events are positive (endo up)
 
 ##### STA Tests in Nitrogen
 * Heating Rate: 10 K/min
