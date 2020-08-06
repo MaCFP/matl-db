@@ -2,6 +2,7 @@
 
 ### Experimental Conditions: TGA, DSC
 A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
+Note: DSC heat flow data was rescaled (multiplied by -1)such that endothermic heat flow events are positive (endo up)
 
 * Heating Rate: 10 K/min
 * Temperature program
