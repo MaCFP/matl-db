@@ -370,7 +370,7 @@ The measurement data presented here is provided with limited processing and shou
 
 \subsection{Thermogravimetric Analysis (TGA)}
 
-\paragraph{Heating Rate}
+\subsubsection{Heating Rate}
 
 All TGA experiments submitted to this workshop were performed at constant heating rates between 1 and 100 K/min. In practice, actual heating rate may vary throughout the course of experiments (especially at their start, while the TGA furnace is first heating up). Figures ~\ref{Fig:dTdt_TGA10K} and ~\ref{Fig:dTdt_TGA_20K} show actual time-resolved heating rates in tests conducted, nominally, at $\beta$ = 10 and 20 K/min, respectively. In either figure, each curve represents the mean instantaneous heating rate as calculated from repeated experiments conducted by the same institution, under the same gaseous environment and target heating rate. When multiple curves are shown for the same institution on Fig. ~\ref{Fig:dTdt_TGA10K}, they represent average heating rates measured in tests conducted under different gaseous environments (e.g., pure nitrogen, pure argon, or 10 to 21 vol. \% oxygen in nitrogen).
 
@@ -391,7 +391,7 @@ As shown here, the actual heating rate can vary significantly during the early s
 \end{figure}
 
 
-\paragraph{Mass Fraction and Mass Loss Rate}
+\subsubsection{Mass Fraction and Mass Loss Rate}
 
 The key measurements recorded during TGA tests are sample mass, m [mg], and temperature, T [K] (and the time, t [s], at which these two values were recorded).  Both m and T were reported as time-resolved measurements. Prior to further analysis, sample mass was normalized by initial mass, m0, which was calculated as the average value recorded during the first 5s of the experiment.
 
@@ -779,7 +779,7 @@ Two institutions conducted MCC experiments in Nitrogen at 60 K/min; this data is
 
 Key measurement data from cone calorimeter tests include: sample heat release rate (HRR [kW/m$^2$]), sample mass (m [g]), and back surface temperature (Tback, [K]). Each quantity was reported as a time-resolved measurement. For most tests, recording frequencies were close to or equal to 1 Hz. For almost all tests, signals were thus first processed (linear interpolation) such that they were each reported at the same regular time intervals (1 Hz). For some experimental datasets (i.e., Gatineau and Rimouski), the original reporting frequency of one or more of these signals was deemed too coarse (0.2 or 0.05 Hz) for this linear interpolation, thus this processing was not applied.
 
-\paragraph{Heat Release Rate}
+\subsubsection{Heat Release Rate}
 
 Ten labs submitted measurements from a total of 30 cone calorimeter tests conducted at 25 kW/m$^2$; between $1\le j\le6$ repeated experiments were submitted by each institution. Figure ~\ref{Fig:Cone_25kWindivHRR} plots measured HRR from tests submitted by each lab. As seen here, measurements submitted by ‘Drummondville’ (dark green markers), can be identified as clear outliers (factor of 2x too high). Further analysis to determine an average heat release rate ($HRR_{mean}$) and related $\sigma_{mean,\ HRR}$ for cone calorimeter tests conducted at 25 kW/m$^2$ was thus conducted based on all measurement data shown in Fig. 15 except for that submitted by ‘Drummondville’. Data submitted by ‘Sherbrooke (light blue, delayed ignition) and Cape Breton (red, reduced HRR) measurements were still included in the calculation of  $HRR_{mean}$ and $\sigma_{mean,\ HRR}$.
 
@@ -829,7 +829,7 @@ Figure ~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone
 \end{figure}
 
 
-\paragraph{Back Surface Temperature}
+\subsubsection{Back Surface Temperature}
 
 If measured in cone calorimeter tests, back surface temperature, Tback, was recorded at up to three locations during each experiment. Eight labs submitted 30 temperature measurements from a total of 19 unique cone calorimeter tests conducted with an external heat flux of 25 kWm-2. Between $1\le j\le4$ repeated experiments were submitted by each institution.  Figure ~\ref{Fig:Cone_25kWindivTEMP} plots back surface temperature measurements from tests submitted by each lab. As seen here, measurements submitted by ‘Cape-Breton’ (red markers) can be identified as clear outliers (too low). Additionally, 4 out of 6 ‘Chicoutimi’ measurements (yellow markers), are also noted as outliers: these temperatures were not measured directly at the back surface of samples. Further analysis to determine $T_{back,mean}$ and related $\sigma_{mean,\ T_{back}}$ for cone calorimeter tests conducted at 25 kW/m$^2$ was thus conducted based on all measurement data shown in Fig. ~\ref{Fig:Cone_25kWindivTEMP} except for these datasets.
 
@@ -881,7 +881,7 @@ Figure~\ref{Cone-Calorimeter-all-fluxes_TEMP} plots average Tback curves from co
 \end{figure}
 
 
-\paragraph{Tabulated values of interest:}
+\subsubsection{Tabulated values of interest:}
 
 Time to ignition, $t_{\rm ign}$, in each cone calorimeter experiment was defined as the first time at which $HRR \ge 24$ kW/m$^2$ \cite{lyon2007criteria}. The arithmetic mean and standard deviation of this time to ignition is reported in Table 12 for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation, calculated as $Stdev=\sqrt{\frac{\sum\left(t_{ign}-\bar{t_{ign}}\right)^2}{(n-1)}}$, where n is the number of repeated tests conducted by an institution at a given heat flux and $\bar{t_{ign}}$ is the mean tign of each of these tests.
 
@@ -950,7 +950,7 @@ It should be noted that, although plotted together in this section, measured mas
 
 One institution conducted anaerobic gasification experiments using CAPA II. Tests were conducted at 25 and 60 kW/m$^2$; tests were repeated two times at each incident heat flux. Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5 Hz and presented here without any data processing. The mass data were collected at a frequency of 2 Hz. The mass loss rate was computed using a 5 s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5 s bins for which mean MLR and mean time values were computed. More information is available at [Fiola et al., submitted 2020]. For tests conducted with a Controlled Atmosphere Cone Calorimeter or a Fire Propagation Apparatus (FPA), experimental measurements are analyzed together as described below.
 
-\paragraph{Gasification Mass Flux}
+\subsubsection{Gasification Mass Flux}
 
 Mass flux, $dm''/dt$ (normalized by initial sample surface area, Asurf), in gasification experiments was calculated as the numerical derivative of measured sample mass using a time interval $\Delta t=5$~s as per equation 14.
 \begin{equation}
@@ -993,7 +993,7 @@ Figures ~\ref{Fig:Gasification_25kW_dmdt},~\ref{Fig:Gasification_50kW_dmdt}, and
 \end{figure}
 
 
-\paragraph{Sample Surface Temperature}
+\subsubsection{Sample Surface Temperature}
 
 Sample surface temperature measurements were taken at one or multiple locations during each experiment. Most laboratories measured temperature at the back surface of sample, Tback. One institution, ‘Charlottetown’, provided front surface measurements, Tfront. These results are analyzed using a similar approach and plotted together with Tback data, along with a note indicating measurement location in the figure caption. For repeated measurements (submitted by the same lab under the same incident heating conditions) average surface temperature (e.g., $T_{back,mean}$) was calculated at each timestep, $t_i$, as the average value reported from all repeated tests, j , at all locations k :
 \begin{equation}
@@ -1066,9 +1066,9 @@ PMMA 2    & 293             & 0.208                        & $2.60\times10^{-4}$
 \end{table}
 
 
-\subsection{Laser Flash Diffusivity}
+\subsubsection{Laser Flash Diffusivity}
 
-Measurements of thermal diffusivity reported in Table~\ref{Table_15} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) under the following test conditions:
+Measurements of thermal diffusivity reported in Table~\ref{Table_15} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) under the following test conditions: %these items get separated by subsequent figures. I do not understand LateX formating enough yet to fix it.
 \begin{itemize}
  \item Three flashes for each temperature
  \item Square sample 25.4~cm by 25.4~cm
