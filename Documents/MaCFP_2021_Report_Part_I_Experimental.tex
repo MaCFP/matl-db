@@ -5,6 +5,17 @@
 
 \usepackage{subcaption}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\rhead{}
+\lhead{}
+\chead{Page \thepage}
+\cfoot{Predecisional Draft Report}
+%\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
 \usepackage{color}
 \usepackage{amsmath}
@@ -30,28 +41,39 @@
 \setlength{\textheight}{9.0in}
 \setlength{\topmargin}{0.in}
 \setlength{\headheight}{0.in}
-\setlength{\headsep}{0.in}
+\setlength{\headsep}{0.1in}
 \setlength{\parindent}{0.25in}
 \setlength{\oddsidemargin}{0.0in}
 \setlength{\evensidemargin}{0.0in}
 
 
+
+
 \begin{document}
 
 \bibliographystyle{unsrt}
+\thispagestyle{empty}
 
-\pagestyle{empty}
 
-\vspace*{2in}
+\vspace*{0.75in}
 
 \begin{center}
+\begin{Large}
 {\bf Preliminary Summary of Experimental Measurements} \\
+\end{Large}
 \hspace{1in} \\
-Submitted to the 2021 MaCFP Condensed Phase Workshop \\
-August 26, 2020 \\
 \end{center}
 
-\begin{figure}
+\begin{center}
+\begin{large}
+Predecisional Draft Report\\
+Submitted to the 2021 MaCFP Condensed Phase Workshop \\
+August 26, 2020 \\
+\end{large}
+\hspace{2in} \\
+\end{center}
+
+\begin{figure}[h]
   \centering
   \includegraphics[width=6in]{FIGURES/MaCFP_Logo}
   \label{Cover_Image}
@@ -59,6 +81,12 @@ August 26, 2020 \\
 
 \vfill
 
+\begin{minipage}{0.25\textwidth}
+\begin{figure}[H]
+\includegraphics[width=2in]{FIGURES/IAFSSLogo}
+\end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.7\textwidth}
 \begin{flushright}
 {\bf The MaCFP Condensed Phase Working Group Organizing Committee:} \\
 Benjamin Batiot (University of Poitiers, France) \\
@@ -70,15 +98,20 @@ Pedro Reszka (Universidad Adolfo Ibáñez, Chile) \\
 Thomas Rogaume (University of Poitiers, France) \\
 Stanislav Stoliarov (University of Maryland, USA)
 \end{flushright}
+\end{minipage}
+
 
 \newpage
+\thispagestyle{empty}
 
 \frontmatter
 
 
 \chapter{Preface}
 
-Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
+This report has been prepared on behalf of the MaCFP Condensed Phase Working Group. It is a predecisional draft copy prepared for subject matter experts to provide critical review and to ensure the integrity of the measurement data and related analysis submitted to the 2021 MaCFP Condensed Phase Workshop.
+
+Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been throuh a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
 
 \newpage
 
@@ -86,7 +119,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 
 \mainmatter
 
-\pagestyle{plain}
+\pagestyle{fancy}
 
 \chapter{Introduction}
 
@@ -108,9 +141,9 @@ The specific material of interest is a 6~mm (0.236~in) thick, black, cast PMMA m
 
 \section{Participating Laboratories}
 
-As of July 2020, sixteen institutions from ten different countries have submitted experimental measurements as part of the 2021 Condensed Phase MaCFP Workshop. These institutions and their countries are listed in Table~\ref{Table_1} and the location of each institution is shown in Fig.~\ref{Fig:MaCFP_Map_20200831}. As this report is preliminary and further edits to experimental measurements may be required, in all figures and tables containing experimental measurements, institutions are referred to using a unique, anonymous city name. Participating labs should have received an email identifying their corresponding city names; please contact Isaac Leventon (isaac.leventon@nist.gov) if you have questions regarding this naming.
+As of July 2020, sixteen institutions from ten different countries have submitted experimental measurements as part of the 2021 Condensed Phase MaCFP Workshop. These institutions and their countries are listed in Table~\ref{Table:Institutions} and the location of each institution is shown in Fig.~\ref{Fig:MaCFP_Map_20200831}. As this report is preliminary and further edits to experimental measurements may be required, in all figures and tables containing experimental measurements, institutions are referred to using a unique, anonymous city name. Participating labs should have received an email identifying their corresponding city names; please contact Isaac Leventon (isaac.leventon@nist.gov) if you have questions regarding this naming.
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=6in]{FIGURES/MaCFP_Map}
   \caption{Locations of Institutions that provided experimental measurements for the 2021 Condensed Phase MaCFP Workshop.}
@@ -119,7 +152,7 @@ As of July 2020, sixteen institutions from ten different countries have submitte
 
 \begin{table}
 \caption{Institutions Participating in the 2021 Condensed Phase MaCFP Workshop}
-\label{Table_1}
+\label{Table:Institutions}
 \begin{center}
 \begin{tabular}{|ll|}
 \hline
@@ -149,17 +182,19 @@ University of Queensland                                            & Queensland
 
 Experimental measurements were submitted electronically by participating institutions and were organized and made publicly available in the MaCFP repository, which is hosted on GitHub \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. The repository was created and is managed by members of the MaCFP Organizing Committee. All measurement data submitted by each institution is organized in a single folder with the institution’s name. A consistent file naming convention is used for all test data (i.e., across all folders). File names indicate the institution name, experimental apparatus, and basic test conditions (e.g., incident heat flux or heating rate; gaseous environment). Measurement data from repeated experiments is saved in separate files, each numbered sequentially.
 
-Also included in each folder is a README.md file that provides a description of the test conditions of all experiments conducted and submitted. Participants were asked to provide a written description of test setup and procedure and to clearly define the conditions associated with the experiments conducted, as noted in Table 2.
+Also included in each folder is a README.md file that provides a description of the test conditions of all experiments conducted and submitted. Participants were asked to provide a written description of test setup and procedure and to clearly define the conditions associated with the experiments conducted, as noted in Table~\ref{Table:Tests_Performed}.
 
 \begin{table}[ht]
 \caption{Test conditions and output data requested from participants}
-\label{Table_2}
+\label{Table:Tests_Performed}
 \begin{center}
 \begin{tabular}{ll}
+\hline
 \multicolumn{2}{c}{Test Apparatus}                                                                       \\ \hline
  \textbf{Thermogravimetric Analysis (TGA)}         &  \textbf{Differential Scanning Calorimetry (DSC)}              \\
  \textbf{Microscale Combustion Calorimetry (MCC)} &  \textbf{Cone Calorimeter}                                     \\
  \textbf{Fire Propagation Apparatus (FPA)}                  &  \textbf{Controlled Atmosphere Pyrolysis Apparatus (CAPA)}     \\
+\hline
 \multicolumn{2}{c}{Test Conditions}                                                                      \\ \hline
 Heating Rate [K/min]                              & Radiant heat flux (kW/m$^2$)                         \\
 Temperature Program:                              & Heater Temperature                                   \\
@@ -171,11 +206,13 @@ Sample geometry (e.g., powdered)                  &                             
 Calibration type, materials used, and frequency   &                                                      \\
 Carrier gas and associated flow rate              &                                                      \\
 Crucible type and volume                          &                                                      \\
+\hline
 \multicolumn{2}{c}{Test Outputs}                                                                         \\ \hline
 Initial and Final Sample Mass [mg]                & Sample Surface Area [m$^2$]                             \\
 Time-resolved Sample Mass [mg]                    & Initial and Final Sample Mass [mg]                   \\
 Time-resolved Sample Temperature [K]              & Time-resolved Sample Mass [mg]                       \\
                                                   & Time-resolved Sample Back-Surface Temperature [K]    \\
+\hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -200,14 +237,15 @@ In TGA experiments, small samples (typically 3~mg to 10~mg) are heated at a cons
 
 The combination of small sample size and relatively low heating rate used in TGA experiments allows for the assumption of infinitely fast transport processes, decoupling thermal degradation reactions from heat and mass transfer effects. Analysis of TGA mass and mass loss rate data thus allows for the study of condensed-phase thermal decomposition reaction mechanisms and the determination of the kinetics of these reactions.
 
-Twelve unique institutions submitted TGA measurements from tests conducted in four different gaseous environments at nine different heating rates. For each of these experiments, powdered samples between 2~mg and 6~mg were loaded into crucibles, weighed, and then heated (from ambient temperature through complete thermal decomposition) at a constant rate between 1~K/min and 100~K/min. Prior to heating, some samples were loaded and kept under isothermal conditions for approximately 10~min to 20~min. More information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available on the MaCFP repository (https://github.com/MaCFP/matl-db). Tables~\ref{Table_3} and \ref{Table_4} show the number of TGA tests conducted under each combination of test conditions.
+Twelve unique institutions submitted TGA measurements from tests conducted in four different gaseous environments at nine different heating rates. For each of these experiments, powdered samples between 2~mg and 6~mg were loaded into crucibles, weighed, and then heated (from ambient temperature through complete thermal decomposition) at a constant rate between 1~K/min and 100~K/min. Prior to heating, some samples were loaded and kept under isothermal conditions for approximately 10~min to 20~min. More information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available on the MaCFP repository (https://github.com/MaCFP/matl-db). Tables~\ref{Table:Matrix_TGA_N2} and \ref{Table:Matrix_TGA_O2_Ar} show the number of TGA tests conducted under each combination of test conditions.
 
 \begin{table}[ht]
 \caption{Test Matrix of TGA Tests Conducted in Nitrogen; table values indicate number of tests conducted under listed test conditions}
-\label{Table_3}
+\label{Table:Matrix_TGA_N2}
 \begin{center}
 \begin{tabular}{lccccccccc}
-                        & \multicolumn{9}{c}{Heating Rate (K/min)}                     \\ \hline
+\hline
+                        & \multicolumn{9}{c}{Heating Rate (K/min)}                     \\ %\hline
 Institution             & 1     & 2   & 2.5 & 5   & 10    & 15  & 20  & 50  & 100      \\ \hline
 Blainville-Boisbriand   &   0   & 0   & 0   & 0   & 0     & 0   & 3   & 0   & 0        \\
 Chicoutimi              &   0   & 0   & 0   & 0   & 2     & 0   & 0   & 0   & 0        \\
@@ -223,16 +261,17 @@ Sherbrooke              &   0   & 0   & 0   & 0   & 3     & 0   & 0   & 0   & 0 
 Total                   &   1   & 1   & 3   & 4   & 19    & 3   & 7   & 1   & 1        \\ \hline
 \end{tabular}
 \end{center}
-$^*$Saint John submitted a single dataset, which represents average measurements from 7 repeated tests
+$^*$Saint John submitted a single TGA dataset, which represents average measurements from 7 repeated tests
 \end{table}
 
-\begin{table}
+\begin{table} [h]
 \caption{Test Matrix of TGA Tests Conducted in Oxygen (10 or 21 vol. \% in nitrogen) or in Argon; table values indicate number of tests conducted under listed test conditions}
-\label{Table_4}
+\label{Table:Matrix_TGA_O2_Ar}
 \begin{center}
 \begin{tabular}{lccccc}
+\hline
               & \multicolumn{5}{c}{Heating Rate (K/min)} \\ \hline
-              & 10 & 10 & 1 & 10 & 50  \\ \hline
+              & 10 & 10 & 1 & 10 & 50  \\ %\hline
 Institution   & $X_{\rm O_2}=0.1$ & $X_{\rm O_2}=0.21$ & \multicolumn{3}{c}{Pure Argon}  \\ \hline
 Chicoutimi    & 2 & 4   & 0 & 0 & 0 \\
 Drummondville & 0 & 2   & 0 & 0 & 0 \\
@@ -254,15 +293,17 @@ DSC can be used to quantify the heat capacities of materials as well as heats of
 
 Eight institutions submitted DSC measurements from tests conducted in three different gaseous environments at five different heating rates. For most of these experiments, powdered samples between 2~mg and 6~mg were loaded into metallic crucibles, weighed, and then heated (from ambient temperature through complete thermal decomposition) at a constant rate between 5~K/min and 20~K/min. Some institutions submitted both TGA and DSC data that was obtained using a simultaneous thermal analyzer (STA). In this report, these results are presented and analyzed separately. One institution, ‘Shawinigan’, provided DSC measurements for determination of heat capacity ``by comparison with sapphire and using modulation.'' In these tests, samples were heated and cooled (three times in each test) from 190~K to 430~K. Tests were repeated using heating rates of 3~K/min, 10~K/min or 20~K/min.
 
-More information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Table~\ref{Table_5} shows the number of tests conducted by each institution under each combination of test conditions.
+More information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Table~\ref{Table:Matrix_DSC} shows the number of DSC tests conducted by each institution under each combination of test conditions.
 
-\begin{table}
+\begin{table}[ht]
 \caption{Test Matrix of DSC Tests Conducted in Pure Nitrogen; table values indicate number of tests conducted under listed test conditions}
-\label{Table_5}
+\label{Table:Matrix_DSC}
 \begin{center}
 \begin{tabular}{lcccccccc}
-                      & \multicolumn{8}{c}{Heating Rate (K/min)} \\ \hline
-                      & 3 & 10 & 20 & 10 & 10 & 1  & 10 & 50 \\ \hline
+							\hline
+                      & \multicolumn{8}{c}{Heating Rate [K/min]} \\ 
+                      & 3 & 10 & 20 & 10 & 10 & 1  & 10 & 50 \\ 
+                      \hline
 Institution           & \multicolumn{3}{c}{Pure Nitrogen} & $X_{\rm O_2}=0.1$ & $X_{\rm O_2}=0.21$ & \multicolumn{3}{c}{Pure Argon}  \\ \hline
 Blainville-Boisbriand & 0 & 0     &     3 & 0 & 0 & 0 & 0 & 0 \\
 Chicoutimi            & 0 & 2     &     0 & 2 & 4 & 0 & 0 & 0 \\
@@ -275,7 +316,7 @@ Shawinigan            & 1 & 2     &     2 & 0 & 0 & 0 & 0 & 0 \\ \hline
 Total                 & 1 & 10    &     5 & 2 & 8 & 1 & 2 & 3 \\ \hline
 \end{tabular}
 \end{center}
-$^*$Saint John submitted a single dataset, which represents average measurements from 7 repeated tests
+$^*$Saint John submitted a single DSC dataset, which represents average measurements from 7 repeated tests
 \end{table}
 
 \subsection{Microscale Combustion Calorimetry (MCC)}
@@ -293,12 +334,13 @@ In cone calorimetry experiments, gram-scale samples (typically 10~cm square, 6~m
 
 Eleven labs submitted experimental measurements from 59 unique cone calorimeter tests conducted using an applied external heat flux of 25, 50, or 65~kW/m$^2$. For most of these tests, samples were 6~mm thick and 10~cm square. 'Blainville-Boisbriand' repeated experiments using smaller, circular samples, which has been reported to improve repeatability of experiments \cite{vermina2019experimental}. Tests were conducted both with and without frames (to keep samples in place within their holders) using a variety of backing insulation layers. Both of these features may impact the burning behavior of samples during experiments. Additional information, including apparatus specifications and calibration details, backing insulation thermal conductivity, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Table~\ref{Table_6} lists the number of cone calorimeter experiments conducted under each combination of test conditions.
 
-\begin{table}
+\begin{table}[ht]
 \caption{Test Matrix of Cone Calorimeter Experiments; table values indicate number of tests conducted under listed test conditions}
 \label{Table_6}
 \begin{center}
 \begin{tabular}{lccc}
-                        & \multicolumn{3}{c}{Incident Heat Flux (kW/m$^2$)} \\ \hline
+\hline
+                        & \multicolumn{3}{c}{Incident Heat Flux (kW/m$^2$)} \\ %\hline
 Institution             & 25 & 50 & 65       \\ \hline
 Baie-Comeau             & 0     & 0     & 3  \\
 Blainville-Boisbriand   & 6     & 3     & 3  \\
@@ -325,8 +367,9 @@ Six institutions conducted a total of 27 anaerobic gasification experiments usin
 \label{Table_7}
 \begin{center}
 \begin{tabular}{lcccccccc}
+\hline
                          & \multicolumn{3}{c}{Controlled Atmosphere Cone} & \multicolumn{2}{c}{CAPA} & \multicolumn{3}{c}{FPA}     \\ \hline
-                         & \multicolumn{8}{c}{Incident Heat Flux (kW/m$^2$)}                                                       \\ \hline
+                         & \multicolumn{8}{c}{Incident Heat Flux (kW/m$^2$)}                                                       \\ %\hline
 Institution              & 25 & 50 & 65 & 25 & 60 & 25 & 50 & 65                                                                   \\ \hline
 Baie-Comeau              & 0  & 0  & 3  & 0  & 0  & 0  & 0  & 0                                                                    \\
 Blainville-Boisbriand    & 3  & 2  & 0  & 0  & 0  & 0  & 0  & 0                                                                    \\
@@ -373,7 +416,7 @@ The measurement data presented here is provided with limited processing and shou
 
 \subsubsection{Heating Rate}
 
-All TGA experiments submitted to this workshop were performed at constant heating rates between 1~K/min and 100~K/min. In practice, actual heating rate may vary throughout the course of experiments (especially at their start, while the TGA furnace is heating up). Figures~\ref{Fig:dTdt_TGA_10K} and \ref{Fig:dTdt_TGA_20K} show actual time-resolved heating rates in tests conducted, nominally, at $\beta$ = 10 and 20 K/min, respectively. In either figure, each curve represents the mean instantaneous heating rate as calculated from repeated experiments conducted by the same institution, under the same gaseous environment and target heating rate. When multiple curves are shown for the same institution on Fig.~\ref{Fig:dTdt_TGA_10K}, they represent average heating rates measured in tests conducted under different gaseous environments (e.g., pure nitrogen, pure argon, or 10~\% to 21~\% oxygen in nitrogen).
+All TGA experiments submitted to this workshop were performed at constant heating rates between 1~K/min and 100~K/min. In practice, actual heating rate may vary throughout the course of experiments (especially at their start, while the TGA furnace is heating up). Figures~\ref{Fig:dTdt_TGA_10K} and \ref{Fig:dTdt_TGA_20K} show actual time-resolved heating rates in tests conducted, nominally, at $\beta$ = 10 and 20 K/min, respectively. In either figure, each curve represents the mean instantaneous heating rate as calculated from repeated experiments conducted by the same institution, under the same gaseous environment and target heating rate. When multiple curves are shown for the same institution on Fig.~\ref{Fig:dTdt_TGA_10K}, they represent average heating rates measured in tests conducted under different gaseous environments (e.g., pure nitrogen, pure argon, or 10 vol.~\% to 21 vol.~\% oxygen in nitrogen).
 
 As shown here, the actual heating rate can vary significantly during the early stages of testing (i.e., as samples are first heated from 50~K to 150~K above their initial temperature) before the heating rate, $\beta$, finally reaches its target value. For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments, no systematic differences in time-resolved heating rates were observed.
 
@@ -409,9 +452,9 @@ In this way, the time step, $\Delta t$, needed for this calculation could vary (
 
 Figure~\ref{Fig:TGA_N2_10K_1} shows the effect of applying this Savitzky-Golay filter to a particularly noisy set of TGA measurements. Here, filtered and unfiltered mass data is plotted (left axis; green and blue curves, respectively) along with filtered and unfiltered mass loss rate data (right axis; black and red curves, respectively). With this filter, random noise in the signal is cleanly removed but meaningful signal data remains; relevant mass loss events are not over-smoothed; no shift is observed in the onset or peak temperature of reactions, which could occur if a larger time interval, $\Delta t$, were used to smooth calculated mass loss rate; and the peak mass loss rate is well captured. Given the effectiveness that this filter has demonstrated, it has been applied to all TGA measurements submitted to this workshop, prior to further analysis.
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=5.5in]{SCRIPT_FIGURES/TGA_N2_10K_1}
+  \includegraphics[width=5in]{SCRIPT_FIGURES/TGA_N2_10K_1}
   \caption{Filtered and unfiltered mass data from a single TGA experiment conducted by ‘Halifax’ in pure nitrogen at 10~K/min as well as the resulting mass loss rate curves calculated from this mass data.}
   \label{Fig:TGA_N2_10K_1}
 \end{figure}
@@ -422,7 +465,7 @@ Based on these measurements, average TGA curves and an estimate of measurement u
 
 For brevity, this document supplies figures of TGA measurement data only when repeated measurements under those test conditions were supplied by multiple labs. Normalized mass and mass loss rate curves (individual test data, along with average curves) from all TGA experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information document.
 
-\begin{figure}
+\begin{figure} [p]
 \centering
 \begin{subfigure}[b]{0.85\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA_N2_5KMass}
@@ -440,7 +483,7 @@ For brevity, this document supplies figures of TGA measurement data only when re
   \label{Fig:TGA_N2_5K}
 \end{figure}
 
-\begin{figure}
+\begin{figure} [p]
 \centering
 \begin{subfigure}[b]{0.85\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA_N2_10KMass}
@@ -454,11 +497,11 @@ For brevity, this document supplies figures of TGA measurement data only when re
    \label{Fig:TGA_N2_10Kdmdt}
 \end{subfigure}
 
-  \caption{Normalized mass and mass loss rate of TGA tests conducted in pure nitrogen (or pure argon, ‘Moncton’) at a nominal heating rate of $\beta = 10$ K/min. The following datasets are identified as outliers and will not be used for the calculation of mean and standard deviation values: Gatineau (clearly too high, likely conducted at 20~K/min; see Fig. 2); Quebec (two peaks); Rouyn-Noranda (~20~K shift in temperature).}
+  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in pure nitrogen (or pure argon, ‘Moncton’) at a nominal heating rate of $\beta = 10$ K/min. The following datasets are identified as outliers and will not be used for the calculation of mean and standard deviation values: Gatineau (clearly too high, likely conducted at 20~K/min; see Fig. 2); Quebec (two peaks); Rouyn-Noranda (~20~K shift in temperature).}
   \label{Fig:TGA_N2_10K}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[p]
 \centering
 \begin{subfigure}[b]{0.85\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA_N2_20KMass}
@@ -472,7 +515,7 @@ For brevity, this document supplies figures of TGA measurement data only when re
    \label{Fig:TGA_N2_20Kdmdt}
 \end{subfigure}
 
-  \caption{Normalized mass and mass loss rate of TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta=20$~K/min.}
+  \caption{Normalized (a) mass and (b)mass loss rate of TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta=20$~K/min.}
   \label{Fig:TGA_N2_20K}
 \end{figure}
 
@@ -491,65 +534,65 @@ For brevity, this document supplies figures of TGA measurement data only when re
    \label{Fig:TGA_O2-21_10Kdmdt}
 \end{subfigure}
 
-  \caption{Normalized mass and mass loss rate of TGA tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min.}
+  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min.}
   \label{Fig:TGA_O2-21_10K}
 \end{figure}
 
 When repeated measurements were available (submitted by the same or different lab(s) and conducted under the same incident heating conditions and gaseous environment) average mass loss rate was calculated at each temperature, $T_i$, as the average value reported from all repeated tests, $j$:
 \begin{equation}
-\overline{\left(\frac{\dot{m}}{m_0}\right)_i} = \frac{1}{N_j} \frac{1}{N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \frac{\dot{m}_{i',j}}{m_{0,j}}
+\overline{\left(\frac{\dot{m}}{m_0}\right)_i} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \frac{\dot{m}_{i',j}}{m_{0,j}}
 \end{equation}
-where $N_i=2n+1$ and $n$ is chosen based on whether the data is from the same laboratory or not. $N_j$ is the number of replicate tests. The standard deviation was calculated:
+where $N_i=2n+1$ and $n$ is chosen based on whether the data is from the same laboratory or not. $N_j$ is the number of replicate tests. The standard deviation of the mean was calculated:
 \begin{equation}
-  \sigma_i^2 = \frac{1}{N_j N_i-1-1} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n}  \left( \frac{\dot{m}_{i',j}}{m_{0,j}} - \overline{\left(\frac{\dot{m}}{m_0}\right)_i} \right)^2
+  \sigma_i^2 = \frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n}  \left( \frac{\dot{m}_{i',j}}{m_{0,j}} - \overline{\left(\frac{\dot{m}}{m_0}\right)_i} \right)^2
 \end{equation}
-When the average and standard deviation were calculated using data provided by the same lab (except for ‘Chicoutimi’ and ‘Rimouski’), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval (these values are plotted in the Supplemental Information document). When the average and standard deviation were calculated across all labs (or for ‘Chicoutimi’ and ‘Rimouski’, due to coarser data reporting frequency), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
+When the average and standard deviation of the mean were calculated using data provided by the same lab (except for ‘Chicoutimi’ and ‘Rimouski’), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval (these values are plotted in the Supplemental Information document). When the average and standard deviation of the mean were calculated across all labs (or for ‘Chicoutimi’ and ‘Rimouski’, due to coarser data reporting frequency), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
 
-Figure~\ref{Fig:TGA-N2_5_10_20K} plots average mass and mass loss rate curves from anaerobic TGA tests conducted at 5, 10, and 20~K/min on a single set of axes. Figure~\ref{Fig:TGA_O2-21_10K_w_avg} plots average mass and mass loss rate curves along with measurements from 11 individual tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min; this allows for a qualitative representation of the ‘fit’ of this average curve to repeated measurements submitted by various institutions. In each plot (Figs.~\ref{Fig:TGA-N2_5_10_20K} and ~\ref{Fig:TGA_O2-21_10K_w_avg}) average mass and mass loss rate is plotted as a solid curve surrounded by a shaded area, which represents two standard deviations, $2 \sigma_i$.
+Figure~\ref{Fig:TGA-N2_5_10_20K} plots average mass and mass loss rate curves from anaerobic TGA tests conducted at 5, 10, and 20~K/min on a single set of axes. Figure~\ref{Fig:TGA_O2-21_10K_w_avg} plots average mass and mass loss rate curves along with measurements from 11 individual tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min; this allows for a qualitative representation of the ‘fit’ of this average curve to repeated measurements submitted by various institutions. In each plot (Figs.~\ref{Fig:TGA-N2_5_10_20K} and ~\ref{Fig:TGA_O2-21_10K_w_avg}) average mass and mass loss rate is plotted as a solid curve surrounded by a shaded area, which represents two standard deviations of the mean, $2 \sigma_i$.
 
-\begin{figure}
+\begin{figure}[p]
 \centering
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.9\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA-N2_5_10_20K_Mass}
    \caption{}
    \label{Fig:TGA-N2_5_10_20K_Mass}
 \end{subfigure}
 
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.9\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA-N2_5_10_20K_dmdt}
    \caption{}
    \label{Fig:TGA-N2_5_10_20K_dmdt}
 \end{subfigure}
 
-  \caption{Average normalized mass and mass loss rate of TGA tests conducted in pure nitrogen at $\beta$ = 5, 10, and 20~K/min. Average curves are calculated using all submitted data from tests conducted under the same conditions, excluding outliers, as noted above; shaded areas represent $2\sigma_i$. Note: the average measurements plotted at 10~K/min include data from two anaerobic tests conducted at 10~K/min in pure argon.}
+  \caption{Average normalized (a) mass and (b) mass loss rate of TGA tests conducted in pure nitrogen at $\beta$ = 5, 10, and 20~K/min. Average curves are calculated using all submitted data from tests conducted under the same conditions, excluding outliers, as noted above; shaded areas represent $2\sigma_i$. Note: the average measurements plotted at 10~K/min include data from two anaerobic tests conducted at 10~K/min in pure argon.}
   \label{Fig:TGA-N2_5_10_20K}
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[p]
 \centering
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.9\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA_O2-21_10KMass_w_avg}
    \caption{}
    \label{Fig:TGA_O2-21_10KMass_w_avg}
 \end{subfigure}
 
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.9\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/TGA_O2-21_10Kdmdt_w_avg}
    \caption{}
    \label{Fig:TGA_O2-21_10Kdmdt_w_avg}
 \end{subfigure}
 
-  \caption{Normalized mass and mass loss rate of TGA tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min; shaded grey areas represent $2\sigma_i$.}
+  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min; shaded grey areas represent $2\sigma_i$.}
   \label{Fig:TGA_O2-21_10K_w_avg}
 \end{figure}
 
-
+\newpage
 \subsubsection{Tabulated values of interest}
 
 The peak normalized mass loss rate and the temperature at which it was recorded was calculated for each TGA experiment. Additionally, an ``onset'' temperature, defined as the temperature at which the normalized mass loss rate exceeds 10~\% of its peak value, was calculated. The mean and standard deviation of each of these values are reported in Tables~\ref{Table_8}, \ref{Table_9}, and \ref{Table_10}, respectively, for TGA experiments conducted under the most commonly performed test conditions submitted by all institutions. Here, the reported uncertainty is one standard deviation of the average value of measurements made by one organization at one exposure level.
 
-\begin{table}[ht]
+\begin{table}[h!]
 \caption{Peak normalized mass loss rate (s$^{-1}$) in TGA Experiments}
 \label{Table_8}
 \begin{center}
@@ -574,12 +617,12 @@ Sherbrooke              & -           & -               & 2.8E-03        & 3.0E-
 \end{center}
 $^A$Calculated based on two values \\
 $^B$Standard deviation not calculated, only one experimental dataset provided \\
-$^C$Suspected error in submitted dataset, see mass loss rate in figures above\\
+$^C$Suspected error in submitted dataset, see mass loss rate in Fig. \ref{Fig:TGA_O2-21_10K}\\
 $^D$Moncton experiments were conducted in Argon
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[p]
 \caption{Temperature, $T_{\rm max}$ (K), at which the peak mass loss rate is observed in TGA Experiments}
 \label{Table_9}
 \begin{center}
@@ -604,12 +647,12 @@ Sherbrooke              & -           & -               & 639            & 1    
 \end{center}
 $^A$Calculated based on two values \\
 $^B$Standard deviation not calculated, only one experimental dataset provided \\
-$^C$Suspected error in submitted dataset, see figures \\
+$^C$Suspected error in submitted dataset, see Fig. \ref{Fig:TGA_O2-21_10K}\\
 $^D$Moncton experiments were conducted in Argon
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[p]
 \caption{Onset of Decomposition Temperature, $T_{\rm onset}$ (K), in TGA Experiments}
 \label{Table_10}
 \begin{center}
@@ -634,12 +677,12 @@ Sherbrooke              & -           & -               & 578            & 0    
 \end{center}
 $^A$Calculated based on two values \\
 $^B$Standard deviation not calculated, only one experimental dataset provided \\
-$^C$Suspected error in submitted dataset, see figures \\
+$^C$Suspected error in submitted dataset, see Fig. \ref{Fig:TGA_O2-21_10K} \\
 $^D$'Moncton' experiments were conducted in Argon
 \end{table}
 
 
-
+\newpage
 \subsection{Differential Scanning Calorimetry (DSC)}
 
 The key measurements recorded during DSC tests are heat flow to the sample, $\dot{q}/m_0$ (W/g), sample temperature, $T$~K, and the time, $t$~(s), at which these values were recorded.  Both $\dot{q}$ and $T$ were reported as time-resolved measurements. Prior to further analysis, submitted heat flow measurements were all adjusted such that endothermic events (e.g., heat flow to the sample during thermal decomposition at approximately 600~K to 650~K) would be recorded as positive (increasing) events, with respect to the baseline. Due to significant deviations in reported DSC data (potentially as a result of calibration, baseline correction, or instrumentation issues) negative and/or positive heat flow measurements do not necessarily indicate exothermic and/or endothermic events. Consequently, careful consideration should be made if attempting to use these measurements for determination of PMMA heat capacity or heat of decomposition. As described later in this section, an estimate of the heat of decomposition of PMMA is made based on a more detailed analysis of DSC measurements that were obtained simultaneously with TGA data in a Simultaneous Thermal Analysis apparatus (STA).
@@ -648,11 +691,12 @@ Most DSC tests were run at constant heating rates. Both heat flow to the sample 
 
 For all tests, heat flow signals were first processed using linear interpolation such that they were each reported at the same regular temperature intervals (i.e., every 0.5~K). For two experimental datasets (i.e., ‘Chicoutimi’ and ‘Rimouski’), the original reporting frequency of one or more of these signals was deemed too coarse for this linear interpolation, thus this processing was not applied. Integral heat flow, $q/m_0$~(J/g), was calculated using the trapezoidal rule:
 \begin{equation}
-\frac{q_{i,j}}{m_{0,j}} = \sum_{i'=0}^i \frac{1}{2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} + \frac{\dot{q}_{i'-1,j}}{m_{0,j}} \right) \left(t_{i'}-t_{i'-1} \right)
+\frac{q_{i,j}}{m_{0,j}} = \sum_{i'=1}^i \frac{1}{2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} + \frac{\dot{q}_{i'-1,j}}{m_{0,j}} \right) \left(t_{i'}-t_{i'-1} \right)
+%we have to start from i'=1 otherwise at i'-1, we have a conflict
 \end{equation}
 Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data from 8 repeated tests conducted in pure nitrogen or in oxygen and nitrogen ($X_{\rm O_2}=0.21$), respectively, at a nominal heating rate of $\beta=10$~K/min. Instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information document.
 
-\begin{figure}
+\begin{figure} [p]
 \centering
 \begin{subfigure}[b]{0.85\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/DSC_N2_10K_heatflow}
@@ -666,12 +710,12 @@ Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data 
    \label{Fig:DSC_N2_10K_int_heatflow}
 \end{subfigure}
 
-  \caption{Heat flow and integral heat flow data from DSC tests conducted in pure nitrogen at a nominal heating rate of $\beta=10$~K/min. Data provided by Saint-John was submitted as an average measurement of 7 repeated tests. Uncertainty values in these measurements, which are plotted in the top image as shaded error bars and represent two standard deviations of the mean, were provided by ‘Saint John’.}
+  \caption{Measured (a) heat flow and (b) integral heat flow data from DSC tests conducted in pure nitrogen at a nominal heating rate of $\beta=10$~K/min. Data provided by Saint-John was submitted as an average measurement of 7 repeated tests. Uncertainty values in these measurements, which are plotted in the top image as shaded error bars and represent two standard deviations of the mean, were provided by ‘Saint John’.}
   \label{Fig:DSC_N2_10K}
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[p]
 \centering
 \begin{subfigure}[b]{0.85\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/DSC_O2-21_10K_heatflow}
@@ -685,21 +729,24 @@ Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data 
    \label{Fig:DSC_O2-21_10K_int_heatflow}
 \end{subfigure}
 
-  \caption{Heat flow and integral heat flow data from DSC tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min.}
+  \caption{Measured (a) heat flow and (b) integral heat flow data from DSC tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min.}
   \label{Fig:DSC_O2-21_10K}
 \end{figure}
 
+\newpage
 Due to significant deviations  in heat flow measurements provided by each lab for tests conducted under the same set of heating and gaseous environment conditions, average DSC curves were not calculated based on measurements submitted by different institutions. However, when repeated measurements were available (submitted by the same institution and conducted under the same incident heating conditions and gaseous environment) average heat flow and integral heat flow were calculated at each temperature point, $T_i$, as the average value reported from all repeated tests:
 \begin{equation}
    \overline{ \left( \frac{\dot{q}}{m_0} \right)_i } = \frac{1}{5N_j} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \frac{\dot{q}_{i',j}}{m_{0,j}}
 \end{equation}
-The standard deviation at each temperature, $T_i$, is calculated:
+The standard deviation of the mean at each temperature, $T_i$, is calculated:
 \begin{equation}
    \sigma_i^2 = \frac{1}{5N_j-1} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)^2
 \end{equation}
+
+
 Average instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information document.
 
-As seen in Figs.~\ref{Fig:DSC_N2_10K} and \ref{Fig:DSC_O2-21_10K}, significant deviations exist between heat flow measurements provided by each lab; consequently, analysis of these measurements for the purposes of heat capacity or heat of reaction values may not be possible. However, when DSC measurements were obtained simultaneously with TGA data (in an STA test), an estimate of the heat of decomposition of PMMA can be calculated as follows. First, onset and endset temperatures of the primary mass loss reaction were defined (following the approach in Section~\ref{TGA_analysis}) as the lowest and highest temperatures, respectively, at which normalized mass loss rate exceeded 10~\% of the peak value. Normalized sample mass loss due to decomposition across this temperature range was calculated:
+Due to the deviations between DSC heat flow measurements provided by each lab, analysis of this data for the purposes of heat capacity or heat of reaction determination may not be possible. However, when DSC measurements were obtained simultaneously with TGA data (i.e., in an STA experiment), an estimate of the heat of decomposition of PMMA can be calculated as follows. First, onset and endset temperatures of the primary mass loss reaction were defined (following the approach in Section~\ref{TGA_analysis}) as the lowest and highest temperatures, respectively, at which normalized mass loss rate exceeded 10~\% of the peak value. Normalized sample mass loss due to decomposition across this temperature range was calculated:
 \begin{equation}
 \frac{\mathrm{\Delta m}}{m_0}=\frac{m_{\rm onset}}{m_0}-\frac{m_{\rm endset}}{m_0}
 \end{equation}
@@ -713,7 +760,8 @@ h_{\rm r} = \frac{\left(q_{\rm tot}-q_{\rm baseline}\right)}{\Delta m}
 \end{equation}
 Individual values of $h_{\rm r}$ are presented in Table~\ref{Table_11} for each individual test in which TGA and DSC measurements were obtained simultaneously in an anaerobic environment\footnote{‘Drummondville’ and ‘Rimouski’ heat flow data was not analyzed in this manner, even though experiments were conducted in an STA, as a meaningful heat flow reaction peak could not be discerned due to unstable heat flow baselines in measurements submitted by these two institutions.}.
 
-\begin{table}[ht]
+\newpage
+\begin{table}[h]
 \caption{Calculated heats of reaction, $h_{\rm r}$ (J/g), in anaerobic DSC tests}
 \label{Table_11}
 \begin{center}
@@ -735,33 +783,33 @@ $^A$'Saint John' submitted a single dataset, which represents average measuremen
 
 DSC measurements were also conducted by one institution (‘Shawinigan’) with a custom heating program in which unique tests at three separate heating rates (3, 10, and 20~K/min) samples were heated and cooled three times from 190~K to 430~K in a pure nitrogen environment. Heat flow measurements from the heating phases of these experiments are provided in Figure~\ref{Fig:UMET_DSC_heatflow}. Following the recommendations of ‘Shawinigan’, who indicated that a heating of 30~K to 50~K was needed to reach equilibrium, measurement data is only plotted between 240~K and 430~K.
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/UMET_DSC_heatflow}
   \caption{Measured heat flow during DSC experiments conducted at low temperatures.}
   \label{Fig:UMET_DSC_heatflow}
 \end{figure}
 
-
+\newpage
 \subsection{Microscale Combustion Calorimetry (MCC)}
 
-Two institutions conducted MCC experiments in nitrogen at 60~K/min; this data is shown in Fig.~\ref{Fig:MCC_N2_60K}. ‘Halifax’ submitted data from only two experiments; ‘Saint John’ submitted a single dataset that represents the average of four repeated experiments.  Due to the limited availability of measurement data, statistics are therefore not calculated or presented for MCC tests. Uncertainty measurements plotted in Fig.~\ref{Fig:MCC_N2_60K} were provided by ‘Saint John’; they represent two standard deviations of the mean~\cite{fiola2020comparison}. Final, steady state values of the integrated heat release rate (HRR) effectively, the heat of combustion\footnote{The heat of combustion, $\Delta H_{\rm c}$, is equal to the total energy released per gram of gaseous volatiles produced when the char yield, $\mu_{\rm char}=0$.}, averages 23.5~kJ/g and 24.5~kJ/g for ‘Halifax’ and ‘Saint John’ measurements, respectively.
+Two institutions conducted MCC experiments in nitrogen at 60~K/min; this data is shown in Fig.~\ref{Fig:MCC_N2_60K}. ‘Halifax’ submitted data from only two experiments; ‘Saint John’ submitted a single dataset that represents the average of four repeated experiments.  Due to the limited availability of measurement data, statistics are therefore not calculated or presented for MCC tests. Uncertainty measurements plotted in Fig.~\ref{Fig:MCC_N2_60K} were provided by ‘Saint John’; they represent two standard deviations of the mean~\cite{fiola2020comparison}. Final, steady state values of the integral heat release rate curve - effectively, the heat of combustion\footnote{The heat of combustion, $\Delta H_{\rm c}$, is equal to the total energy released per gram of gaseous volatiles produced when the char yield, $\mu_{\rm char}=0$.} - average 23.5~kJ/g and 24.5~kJ/g for ‘Halifax’ and ‘Saint John’ measurements, respectively.
 
-\begin{figure}
+\begin{figure}[h]
 \centering
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.75\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/MCC_N2_60K_HRR}
    \caption{}
    \label{Fig:MCC_N2_60K_HRR}
 \end{subfigure}
 
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.75\textwidth}
    \includegraphics[width=1\linewidth]{SCRIPT_FIGURES/MCC_N2_60K_int_HRR}
    \caption{}
    \label{Fig:MCC_N2_60K_int_HRR}
 \end{subfigure}
 
-  \caption{Measured HRR and integral HRR in MCC experiments conducted at 60 K/min. Data provided by Saint-John was submitted as an average measurement of 4 repeated tests.}
+  \caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min. Data provided by Saint-John was submitted as an average measurement of 4 repeated tests.}
   \label{Fig:MCC_N2_60K}
 \end{figure}
 
@@ -802,13 +850,15 @@ Ten labs submitted a total of 27 tests conducted at 65~kW/m$^{-2}$ ($1\le j\le4$
 
 When repeated measurements were available (submitted by the same or different lab(s) under the same incident heating conditions) average HRR was calculated at each time step, $t_i$, as the average value reported from all repeated tests, $N_j$:
 \begin{equation}
-  \overline{\dot{q}_i''} = \frac{1}{N_j} \frac{1}{N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \dot{q}_{i',j}''
+  \overline{\dot{Q}_i''} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \dot{Q}_{i',j}''
 \end{equation}
-where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or more than one lab. The standard deviation, $\sigma_i$, is calculated:
+where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or more than one lab. The standard deviation of the mean, $\sigma_i$, is calculated:
 \begin{equation}
-   \sigma_i^2 = \frac{1}{N_j N_i -1}  \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{q}_{i',j}'' - \overline{\dot{q}_i''} \right)^2
+   \sigma_i^2 = \frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)}   \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{Q}_{i',j}'' - \overline{\dot{Q}_i''} \right)^2
 \end{equation}
-for data provided by the same lab (except for ‘Gatineau’ and ‘Rimouski’ due to lower reporting frequencies), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. For data across all labs (or for ‘Gatineau’ and ‘Rimouski’, due to their coarser time resolution), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
+%Switched to Q instead of q, as it's standard notation for HRR
+
+For data provided by the same lab (except for ‘Gatineau’ and ‘Rimouski’ due to lower reporting frequencies), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. For data across all labs (or for ‘Gatineau’ and ‘Rimouski’, due to their coarser time resolution), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
 
 
 Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Heat release rate measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document.
@@ -816,14 +866,14 @@ Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone 
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/Cone-Calorimeter-all-fluxes}
-  \caption{Comparison of average measured HRR in cone calorimeter tests at incident heat fluxes,$\dot{q}_{\rm ext}''$, of 25, 50, and 65~kW/m$^2$. Average curves are calculated using all submitted data from tests conducted under the same conditions, excluding outliers, as noted above; shaded areas represent $2\sigma_i$.}
+  \caption{Comparison of average measured HRR in cone calorimeter tests at incident heat fluxes, $\dot{q}_{\rm ext}''$, of 25, 50, and 65~kW/m$^2$. Average curves are calculated using all submitted data from tests conducted under the same conditions, excluding outliers, as noted above; shaded areas represent $2\sigma_i$.}
   \label{Fig:Cone-Calorimeter-all-fluxes}
 \end{figure}
 
-
+\newpage
 \subsubsection{Back Surface Temperature}
 
-If measured in cone calorimeter tests, back surface temperature, $T_{\rm back}$, was recorded at up to three locations during each experiment. Eight labs submitted 30 temperature measurements from a total of 19 unique cone calorimeter tests conducted with an external heat flux of 25~kW/m$^{-2}$. Between $1\le j\le4$ repeated experiments were submitted by each institution.  Figure~\ref{Fig:Cone_25kWindivTEMP} plots back surface temperature measurements from tests submitted by each lab. As seen here, measurements submitted by ‘Cape-Breton’ (red markers) can be identified as clear outliers (too low). Additionally, 4 out of 6 ‘Chicoutimi’ measurements (yellow markers) are also noted as outliers: these temperatures were not measured directly at the back surface of samples. The average back surface temperature for cone calorimeter tests conducted at 25~kW/m$^2$ was calculated based on all measurement data shown in Fig.~\ref{Fig:Cone_25kWindivTEMP} except for these datasets.
+If measured in cone calorimeter tests, back surface temperature, $T_{\rm back}$, was recorded at up to three locations (k=3) during each experiment. Eight labs submitted 30 temperature measurements from a total of 19 unique cone calorimeter tests conducted with an external heat flux of 25~kW/m$^{-2}$. Between $1\le j\le4$ repeated experiments were submitted by each institution.  Figure~\ref{Fig:Cone_25kWindivTEMP} plots back surface temperature measurements from tests submitted by each lab. As seen here, measurements submitted by ‘Cape-Breton’ (red markers) can be identified as clear outliers (too low). Additionally, 4 out of 6 ‘Chicoutimi’ measurements (yellow markers) are also noted as outliers: these temperatures were not measured directly at the back surface of samples. The average back surface temperature for cone calorimeter tests conducted at 25~kW/m$^2$ was calculated based on all measurement data shown in Fig.~\ref{Fig:Cone_25kWindivTEMP} except for these datasets.
 
 Only one institution, ‘Blainville-Boisbriand’, conducted experiments at 50~kW/m$^2$. In one of these experiments, $T_{\rm back}$ was measured at one location; this data is plotted in Fig.~\ref{Fig:Cone_50kWindivTEMP} and no further statistical analysis is performed.
 
@@ -831,7 +881,7 @@ Nine labs submitted 33 temperature measurements from a total of 17 unique cone c
 
 
 
-\begin{figure}
+\begin{figure}[p]
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/Cone_25kWindivTEMP_noavg}
   \caption{Measured back surface temperature in cone calorimeter tests conducted at 25~kW/m$^2$. Each curve (except for 4 of 6 ‘Chicoutimi datasets’) represents measurements recorded by individual thermocouples in repeated experiments.}
@@ -855,16 +905,24 @@ Nine labs submitted 33 temperature measurements from a total of 17 unique cone c
 
 For repeated measurements, the average back surface temperature was calculated at each time step, $t_i$, as the average value reported from all $N_k$ locations in all $N_j$ repeated tests:
 \begin{equation}
-  \overline{ T_{{\rm back},i} } = \frac{1}{N_i} \frac{1}{N_j} \sum_{j=1}^{N_j}  \sum_{i'=i-n}^{i+n} \left( \frac{1}{N_{k_j}} \sum_{k=1}^{N_{k_j}} T_{{\rm back},i',j,k} \right)
+  \overline{ T_{{\rm back},i} } = \frac{1}{N_{\rm tot}} \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} T_{{\rm back},i',j,k} 
 \end{equation}
-where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or more than one lab. $N_{k_j}$ is the number of measurement locations for the $j$th test. The standard deviation, $\sigma_i$, is calculated at each time step as:
+where:
 \begin{equation}
-   \sigma_i = \frac{1}{N} \sum \sum \sum \left( T_{{\rm back},i,j,k} - \overline{ T_{{\rm back},i} }  \right)^2
+N_{\rm tot}={\sum_{j=1}^{N_j}\sum_{k=1}^{N_{k_j}}N_i}
 \end{equation}
+and where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or more than one lab. $N_{k_j}$ is the number of measurement locations for the $j$th test. The standard deviation of the mean, $\sigma_i$, is calculated at each time step as:
+\begin{equation}
+   \sigma_i = \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
+    \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right)^2
+\end{equation}
+
+
 For data provided by the same lab, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. For data provided by all the labs, $n=0$ because greater variability is expected.
 
-Figure~\ref{Cone-Calorimeter-all-fluxes_TEMP} plots average Tback curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Back surface temperature measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document. As seen in Figs.~\ref{Fig:Cone_25kWindivTEMP} through \ref{Fig:Cone_65kWindivTEMP}, the back surface temperature shows a distinct increase towards the end of each experiment. This occurs when sample burnout is observed; the time to burnout varies between repeated experiments conducted by each institution. Measurements of $T_{\rm back}$ reported after sample burnout do not offer useful information for further analysis, thus the curves are only calculated (and plotted in Fig.~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP}) prior to this event.
+Figure~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP} plots average $T_{\rm back}$ curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Back surface temperature measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document. As seen in Figs.~\ref{Fig:Cone_25kWindivTEMP} through \ref{Fig:Cone_65kWindivTEMP}, the back surface temperature shows a distinct increase towards the end of each experiment. This occurs when sample burnout is observed; the time to burnout varies between repeated experiments conducted by each institution. Measurements of $T_{\rm back}$ reported after sample burnout do not offer useful information for further analysis, thus the curves are only calculated (and plotted in Fig.~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP}) prior to this event.
 
+\newpage
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/Cone-Calorimeter-all-fluxes_TEMP}
@@ -899,7 +957,7 @@ Sherbrooke               & 148      & 4$^A$                  & -         & -    
 \end{tabular}
 \end{center}
 $^A$Calculated based on two values     \\
-$^B$Suspected error in submitted dataset, see Fig.~\ref{Fig:Cone_65kWindiv}
+$^B$Suspected error in submitted dataset, see Fig.~\ref{Fig:Cone_65kWindivHRR}
 \end{table}
 
 Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{q}'' \ge 240$~kW/m$^2$ (i.e., ten times the critical ignition HRR). The arithmetic mean and standard deviation of $\Delta H_{\rm c}$ is reported in Table~\ref{Table_13} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average at a given exposure condition.
@@ -933,7 +991,7 @@ NC – Not Calculated due to low data reporting resolution
 \end{table}
 
 
-
+\newpage
 \subsection{Anaerobic Gasification}
 
 Anaerobic gasification experiments were conducted by six institutions using three different experimental apparatus. Key measurement data from anaerobic gasification tests include: gasification mass flux, $\dot{m}''$ (g/(m$^2 \cdot$ s)), and back surface temperature, $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement.
@@ -1054,7 +1112,7 @@ PMMA 2    & 293             & 0.208                        & $2.60\times10^{-4}$
 \end{table}
 
 
-\subsection{Laser Flash Diffusivity}
+\subsubsection{Laser Flash Diffusivity}
 
 Measurements of thermal diffusivity reported in Table~\ref{Table_15} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) under the following test conditions:
 \begin{itemize}
