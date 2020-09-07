@@ -111,7 +111,9 @@ Stanislav Stoliarov (University of Maryland, USA)
 
 This report has been prepared on behalf of the MaCFP Condensed Phase Working Group. It is a predecisional draft copy prepared for subject matter experts to provide critical review and to ensure the integrity of the measurement data and related analysis submitted to the 2021 MaCFP Condensed Phase Workshop.
 
-Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been throuh a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
+Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been through a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
+
+ 
 
 \newpage
 
@@ -301,7 +303,7 @@ More information, including  apparatus specifications, calibration details, and 
 \begin{center}
 \begin{tabular}{lcccccccc}
 							\hline
-                      & \multicolumn{8}{c}{Heating Rate [K/min]} \\ 
+                      & \multicolumn{8}{c}{Heating Rate (K/min)} \\ 
                       & 3 & 10 & 20 & 10 & 10 & 1  & 10 & 50 \\ 
                       \hline
 Institution           & \multicolumn{3}{c}{Pure Nitrogen} & $X_{\rm O_2}=0.1$ & $X_{\rm O_2}=0.21$ & \multicolumn{3}{c}{Pure Argon}  \\ \hline
@@ -542,11 +544,11 @@ When repeated measurements were available (submitted by the same or different la
 \begin{equation}
 \overline{\left(\frac{\dot{m}}{m_0}\right)_i} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \frac{\dot{m}_{i',j}}{m_{0,j}}
 \end{equation}
-where $N_i=2n+1$ and $n$ is chosen based on whether the data is from the same laboratory or not. $N_j$ is the number of replicate tests. The standard deviation of the mean was calculated:
+where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n$ is chosen based on whether the data is from the same laboratory or not. $N_j$ is the number of replicate tests. The standard deviation of the mean was calculated:
 \begin{equation}
   \sigma_i^2 = \frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n}  \left( \frac{\dot{m}_{i',j}}{m_{0,j}} - \overline{\left(\frac{\dot{m}}{m_0}\right)_i} \right)^2
 \end{equation}
-When the average and standard deviation of the mean were calculated using data provided by the same lab (except for ‘Chicoutimi’ and ‘Rimouski’), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval (these values are plotted in the Supplemental Information document). When the average and standard deviation of the mean were calculated across all labs (or for ‘Chicoutimi’ and ‘Rimouski’, due to coarser data reporting frequency), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
+When the average and standard deviation of the mean were calculated using data provided by the same lab (except for ‘Chicoutimi’ and ‘Rimouski’), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval when tests are conducted by the same institution (these values are plotted in the Supplemental Information document). When the average and standard deviation of the mean were calculated across all labs (or for ‘Chicoutimi’ and ‘Rimouski’, due to coarser data reporting frequency), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
 
 Figure~\ref{Fig:TGA-N2_5_10_20K} plots average mass and mass loss rate curves from anaerobic TGA tests conducted at 5, 10, and 20~K/min on a single set of axes. Figure~\ref{Fig:TGA_O2-21_10K_w_avg} plots average mass and mass loss rate curves along with measurements from 11 individual tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min; this allows for a qualitative representation of the ‘fit’ of this average curve to repeated measurements submitted by various institutions. In each plot (Figs.~\ref{Fig:TGA-N2_5_10_20K} and ~\ref{Fig:TGA_O2-21_10K_w_avg}) average mass and mass loss rate is plotted as a solid curve surrounded by a shaded area, which represents two standard deviations of the mean, $2 \sigma_i$.
 
@@ -736,11 +738,11 @@ Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data 
 \newpage
 Due to significant deviations  in heat flow measurements provided by each lab for tests conducted under the same set of heating and gaseous environment conditions, average DSC curves were not calculated based on measurements submitted by different institutions. However, when repeated measurements were available (submitted by the same institution and conducted under the same incident heating conditions and gaseous environment) average heat flow and integral heat flow were calculated at each temperature point, $T_i$, as the average value reported from all repeated tests:
 \begin{equation}
-   \overline{ \left( \frac{\dot{q}}{m_0} \right)_i } = \frac{1}{5N_j} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \frac{\dot{q}_{i',j}}{m_{0,j}}
+   \overline{ \left( \frac{\dot{q}}{m_0} \right)_i } = \frac{1}{\sum_{j=1}^{N_j}{N_i}} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \frac{\dot{q}_{i',j}}{m_{0,j}}
 \end{equation}
-The standard deviation of the mean at each temperature, $T_i$, is calculated:
+where $N_i$ is equal to the number of DSC measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. Here, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval when tests are conducted by the same institution. The standard deviation of the mean at each temperature, $T_i$, is calculated:
 \begin{equation}
-   \sigma_i^2 = \frac{1}{5N_j-1} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)^2
+   \sigma_i^2 = \frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)^2
 \end{equation}
 
 
@@ -852,13 +854,13 @@ When repeated measurements were available (submitted by the same or different la
 \begin{equation}
   \overline{\dot{Q}_i''} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \dot{Q}_{i',j}''
 \end{equation}
-where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or more than one lab. The standard deviation of the mean, $\sigma_i$, is calculated:
+where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n$ depends on whether the data is from one lab or more than one lab. The standard deviation of the mean, $\sigma_i$, is calculated:
 \begin{equation}
    \sigma_i^2 = \frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)}   \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{Q}_{i',j}'' - \overline{\dot{Q}_i''} \right)^2
 \end{equation}
 %Switched to Q instead of q, as it's standard notation for HRR
 
-For data provided by the same lab (except for ‘Gatineau’ and ‘Rimouski’ due to lower reporting frequencies), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. For data across all labs (or for ‘Gatineau’ and ‘Rimouski’, due to their coarser time resolution), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
+For data provided by the same lab (except for ‘Gatineau’ and ‘Rimouski’ due to lower reporting frequencies), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. For data across all labs (or for ‘Gatineau’ and ‘Rimouski’, due to their coarser time resolution), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
 
 
 Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Heat release rate measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document.
@@ -911,14 +913,14 @@ where:
 \begin{equation}
 N_{\rm tot}={\sum_{j=1}^{N_j}\sum_{k=1}^{N_{k_j}}N_i}
 \end{equation}
-and where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or more than one lab. $N_{k_j}$ is the number of measurement locations for the $j$th test. The standard deviation of the mean, $\sigma_i$, is calculated at each time step as:
+and where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n$ depends on whether the data is from one lab or more than one lab. $N_{k_j}$ is the number of measurement locations for the $j$th test. The standard deviation of the mean, $\sigma_i$, is calculated at each time step as:
 \begin{equation}
    \sigma_i = \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
     \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right)^2
 \end{equation}
 
 
-For data provided by the same lab, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. For data provided by all the labs, $n=0$ because greater variability is expected.
+For data provided by the same lab, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. For data provided by all the labs, $n=0$ because greater variability is expected.
 
 Figure~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP} plots average $T_{\rm back}$ curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Back surface temperature measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document. As seen in Figs.~\ref{Fig:Cone_25kWindivTEMP} through \ref{Fig:Cone_65kWindivTEMP}, the back surface temperature shows a distinct increase towards the end of each experiment. This occurs when sample burnout is observed; the time to burnout varies between repeated experiments conducted by each institution. Measurements of $T_{\rm back}$ reported after sample burnout do not offer useful information for further analysis, thus the curves are only calculated (and plotted in Fig.~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP}) prior to this event.
 
@@ -1006,55 +1008,66 @@ Mass flux in gasification experiments was calculated as the numerical derivative
 \begin{equation}
    \dot{m}_{i,j}'' = \frac{1}{A} \frac{\dot{m}_{i-2,j}-\dot{m}_{i+2,j}}{t_{i+2}-t_{i-2}}
 \end{equation}
-where $A$ is the surface area of the sample. The subscript $j$ indicates a replicate measurement. Prior to further analysis, noise in individual mass loss curves (at 1~Hz) was reduced by applying a Savitzky-Golay filter (third order polynomial fit; 21 data point range). The average mass flux for a given exposure condition based on $N_j$ datasets from one institution is calculated:
+where $A$ is the initial surface area of the sample. The subscript $j$ indicates a replicate measurement. Prior to further analysis, noise in individual mass loss curves (at 1~Hz) was reduced by applying a Savitzky-Golay filter (third order polynomial fit; 21 data point range). The average mass flux for a given exposure condition based on $N_j$ datasets from one institution is calculated:
 \begin{equation}
-   \overline{\dot{m}_i''} = \frac{1}{N_j} \frac{1}{N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \dot{m}_{i',j}''
+   \overline{\dot{m}_i''} = \frac{1}{\sum_{j=1}^{N_j}{N_i}} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \dot{m}_{i',j}''
 \end{equation}
-where $N_i=2n+1$ and $n=2$. The standard deviation is calculated:
+where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. The standard deviation is calculated:
 \begin{equation}
-   \sigma_i^2 = \frac{1}{N_j} \frac{1}{N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{m}_{i',j}'' - \overline{\dot{m}_i''} \right)^2
+   \sigma_i^2 = \frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{m}_{i',j}'' - \overline{\dot{m}_i''} \right)^2
 \end{equation}
-The average and standard deviation were calculated with $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. `Chicoutimi' data was submitted at 0.2~Hz, so when mean and standard deviation of the mean of these measurements are calculated, only 1 data point is available in this interval from each test at each time step.
+
+
+
+The average and standard deviation were calculated with $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. `Chicoutimi' data was submitted at 0.2~Hz, so when mean and standard deviation of the mean of these measurements are calculated, only 1 data point is available in this interval from each test at each time step.
 
 Figures~\ref{Fig:Gasification_25kW_dmdt}, \ref{Fig:Gasification_50kW_dmdt}, and \ref{Fig:Gasification_65kW_dmdt} plot measured sample-area normalized mass loss rate during anaerobic gasification experiments conducted with an external heat flux of 25, 50, and 60 or 65 kW/m$^2$, respectively. Shaded areas represent $2\sigma_i$. Test type (i.e., apparatus) and external heat flux are noted in the legend of each figure. ``Gasification'' indicates that a given test was conducted in a controlled atmosphere cone calorimeter modified for gasification experiments.
 
 \begin{figure}
   \centering
-  \includegraphics[width=4in]{SCRIPT_FIGURES/Gasification_25kW_dmdt_smoothed}
+  \includegraphics[width=5.5in]{SCRIPT_FIGURES/Gasification_25kW_dmdt_smoothed}
   \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 25~kW/m$^2$. Shaded areas represent $2\sigma_i$.}
   \label{Fig:Gasification_25kW_dmdt}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=4in]{SCRIPT_FIGURES/Gasification_50kW_dmdt_smoothed}
+  \includegraphics[width=5.5in]{SCRIPT_FIGURES/Gasification_50kW_dmdt_smoothed}
   \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 50 kW/m$^2$. Shaded areas represent $2\sigma_i$.}
   \label{Fig:Gasification_50kW_dmdt}
 \end{figure}
 
 \begin{figure}
   \centering
-  \includegraphics[width=4in]{SCRIPT_FIGURES/Gasification_65kW_dmdt_smoothed}
+  \includegraphics[width=5.5in]{SCRIPT_FIGURES/Gasification_65kW_dmdt_smoothed}
   \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 60 or 65~kW/m$^2$. Shaded areas represent $2\sigma_i$.}
   \label{Fig:Gasification_65kW_dmdt}
 \end{figure}
 
-
-\paragraph{Sample Surface Temperature}
+\newpage
+\subsubsection{Sample Surface Temperature}
 
 Sample surface temperature measurements were taken at one or multiple locations during each experiment. Most laboratories measured temperature at the back surface, $T_{\rm back}$. One institution, ‘Charlottetown’, provided front surface measurements, $T_{\rm front}$. These results are analyzed using a similar approach and plotted together with the back surface data, along with a note indicating measurement location in the figure caption. For repeated measurements (submitted by the same lab under the same incident heating conditions) average surface temperature was calculated at each time step, $t_i$, as the average value reported from all repeated tests, $j$, at all locations $k$:
-\begin{equation}
-   \overline{ T_{{\rm back},i} } = \frac{1}{N_j} \frac{1}{N_i} \sum_{j=1}^{N_j}  \sum_{i'=i-n}^{i+n} \left( \frac{1}{N_{k_j}} \sum_{k=1}^{N_{k_j}} T_{{\rm back},i',j,k} \right)
-\end{equation}
-where $N_i=2n+1$ and $n$ depends on whether the data is from one lab or not. $N_{k_j}$ is the number of measurement locations of the $j$th test. The standard deviation is calculated as follows:
-\begin{equation}
-   \sigma_i^2 = \frac{1}{N} \sum_i' \sum_j \sum_k \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} } \right)^2
-\end{equation}
-These averages were calculated with $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval. ‘Chicoutimi’ data was submitted at 0.2~Hz, so when mean and standard deviation of the mean of these measurements are calculated, only 1 data point is available in this interval from each test at each time step.
 
-Figures~\ref{Fig:Gasification_25kW_Temperature}, \ref{Fig_Gasification_50kW_Temperature}, and \ref{Fig:Gasification_65kW_Temperature} plot measured sample surface temperature measurements obtained during anaerobic gasification experiments conducted with an external heat flux of 25, 50, and 60 or 65~kW/m$^2$, respectively. Shaded areas represent $2\sigma_i$. Test type (i.e., apparatus), external heat flux, and measurement location are noted in the legend and/or caption of each figure. ``Gasification'' indicates that a given test was conducted in a controlled atmosphere cone calorimeter modified for gasification experiments.
+\begin{equation}
+  \overline{ T_{{\rm back},i} } = \frac{1}{N_{\rm tot}} \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} T_{{\rm back},i',j,k} 
+\end{equation}
+where:
+\begin{equation}
+N_{\rm tot}={\sum_{j=1}^{N_j}\sum_{k=1}^{N_{k_j}}N_i}
+\end{equation}
+and where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. $N_{k_j}$ is the number of temperature measurement locations of the $j$th test. The standard deviation is calculated as follows:
+\begin{equation}
+   \sigma_i = \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
+    \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right)^2
+\end{equation}
 
-\begin{figure}
+
+These averages were calculated with $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. ‘Chicoutimi’ data was submitted at 0.2~Hz, so when mean and standard deviation of the mean of these measurements are calculated, only 1 data point is available in this interval from each test at each time step.
+
+Figures~\ref{Fig:Gasification_25kW_Temperature}, \ref{Fig:Gasification_50kW_Temperature}, and \ref{Fig:Gasification_65kW_Temperature} plot measured sample surface temperature measurements obtained during anaerobic gasification experiments conducted with an external heat flux of 25, 50, and 60 or 65~kW/m$^2$, respectively. Shaded areas represent $2\sigma_i$. Test type (i.e., apparatus), external heat flux, and measurement location are noted in the legend and/or caption of each figure. ``Gasification'' indicates that a given test was conducted in a controlled atmosphere cone calorimeter modified for gasification experiments.
+
+\begin{figure}[h!]
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/Gasification_25kW_Temperature}
   \caption{Measured front (‘Charlottetown’) or back (‘Chicoutimi’ and ‘Saint John’) surface temperature during anaerobic gasification experiments conducted at $\dot{q}_{\rm ext}'' = 25$ kW/m$^2$. Shaded areas represent $2\sigma_i$. \\
@@ -1064,14 +1077,14 @@ Figures~\ref{Fig:Gasification_25kW_Temperature}, \ref{Fig_Gasification_50kW_Temp
   \label{Fig:Gasification_25kW_Temperature}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/Gasification_50kW_Temperature}
   \caption{Measured front surface temperature during FPA experiments conducted at 50 kW/m$^2$. Shaded areas represent $2\sigma_i$.}
   \label{Fig:Gasification_50kW_Temperature}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[width=5.5in]{SCRIPT_FIGURES/Gasification_65kW_Temperature}
   \caption{Measured front (‘Charlottetown’) or back (‘Baie-Comeau’, ‘Chicoutimi’, and ‘Saint John’) surface temperature during anaerobic gasification experiments conducted at $\dot{q}_{\rm ext}'' = 60$ or 65~kW/m$^2$. Shaded areas represent $2\sigma_i$. \\
