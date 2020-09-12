@@ -1,7 +1,6 @@
 clear all
 close all
 clc
-
 load Exp_Data.mat% This uses the related script 'Import_Data.m'
 
 %% Information about the size of your datasets
@@ -743,7 +742,7 @@ end
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
-            fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
+            fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass']));
             print(fig_filename,'-dpdf')                                
         
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
