@@ -1,19 +1,10 @@
 clear all
-clc
+
 %%Get information about what's inside your Repo.
 % %Specify where all your data is saved
 Root_dir=[pwd,'/../Non-charring/PMMA/'];
 Script_Figs_dir=[pwd,'/../Documents/SCRIPT_FIGURES/'];
-PMMA_Repo = dir(fullfile(Root_dir,'**/*.*','*.csv'));   %get list of files and folders in any subfolder | fullfile gives you the full file location; **\*.* looks through all subfolders; '*.csv' only reads in .csv files
-
-% % same dir command using different OS-specific file separators (/ \ :)
-% if ismac
-%     PMMA_Repo = dir(fullfile(Root_dir,'**:*.*','*.csv'));
-% elseif ispc
-%     PMMA_Repo = dir(fullfile(Root_dir,'**\*.*','*.csv'));   %get list of files and folders in any subfolder | fullfile gives you the full file location; **\*.* looks through all subfolders; '*.csv' only reads in .csv files
-% elseif isunix
-%     PMMA_Repo = dir(fullfile(Root_dir,'**/*.*','*.csv'));
-% end
+PMMA_Repo = dir(fullfile(Root_dir,'*/*.csv'));
 
 PMMA_Repo = PMMA_Repo(~[PMMA_Repo.isdir]);      %remove folders from list
 %Get the filenames and folders of all files and folders inside your Root Directory

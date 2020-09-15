@@ -1,12 +1,12 @@
 clear all
 close all
-clc
-load Exp_Data.mat% This uses the related script 'Import_Data.m'
+
+load EXP_DATA.mat % This uses the related script 'Import_Data.m'
 
 %% Information about the size of your datasets
 N_files;    %total number of experiments
 N_Labs;     %total number of labs
-N_test_types;%number of different types of experiments
+N_test_types; %number of different types of experiments
 N_rows_i=zeros(184,1);
 N_rows_all=NaN*ones(N_Labs,max(max(Test_count(:,1:end-1))),N_test_types);    %Initialize a matrix to hold the number of rows (e.g., timesteps) in each dataset
 EVAL_DATA=cell(N_Labs,max(max(Test_count(:,1:(end-1)))),N_test_types);      %Initialize your cell array to hold (N_labs, N_repeat_exps
@@ -23,7 +23,7 @@ TAB_DATA=cell(N_test_types,5);                                              %Tab
 %             'TGA_O2-10_10K';'TGA_O2-21_10K'; 'TGA_Ar_1K'; 'TGA_Ar_10K'; 'TGA_Ar_50K'};
 
 %% CREATE EVAL_DATA, smooth Mass, calculate dm/dt
-%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}   
+%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}
 %Inside of each cell is a 2D array of indexing [timestep, data type]
 
 % Create EVAL_DATA= [ t | T | m/m0_smoothed | dm*/dt | dT/dt] (all values interpolated to 0.5 K intervals)
@@ -42,26 +42,26 @@ for i =1:N_files   % Loop through all of your data sets
         [T,sortidx_T]=unique(EXP_DATA{k,L,m}(:,2));    % Find all of your unique Temps
         T_idx=[T sortidx_T];
         T_idx=sortrows(T_idx,'ascend');
-        mass=EXP_DATA{k,L,m}(:,3);                                             
+        mass=EXP_DATA{k,L,m}(:,3);
         mass=mass(sortidx_T);                                          % Find all of the masses asssociated with these unique temperatures
-        time=EXP_DATA{k,L,m}(:,1);                                             
-        time=time(sortidx_T);             
+        time=EXP_DATA{k,L,m}(:,1);
+        time=time(sortidx_T);
         EVAL_DATA{k,L,m}(:,1)=interp1(T,time,EVAL_DATA{k,L,m}(:,2));        % interpolate time (to T)
         EVAL_DATA{k,L,m}(:,3)=(1/m0)*interp1(T,mass,EVAL_DATA{k,L,m}(:,2));        % interpolate masses (to T)
 %         x_eval=EVAL_DATA{k,L,m};
 %         x_exp=EXP_DATA{k,L,m};
          for p=1:size(EVAL_DATA{k,L,m},1)-1
             if p==1
-            EVAL_DATA{k,L,m}(p,4)=0; 
-            EVAL_DATA{k,L,m}(p,5)=0; 
+            EVAL_DATA{k,L,m}(p,4)=0;
+            EVAL_DATA{k,L,m}(p,5)=0;
             else
             EVAL_DATA{k,L,m}(p,4)=(EVAL_DATA{k,L,m}(p-1,3)-EVAL_DATA{k,L,m}(p+1,3))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));
             EVAL_DATA{k,L,m}(p,5)=60*(EVAL_DATA{k,L,m}(p+1,2)-EVAL_DATA{k,L,m}(p-1,2))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));
             end
         end
-       
+
         clear time mass sortidx_T T_idx T_start T_end
-        
+
 %         Intitial/test plots of your data
         clf
         hold on
@@ -69,14 +69,14 @@ for i =1:N_files   % Loop through all of your data sets
         ylabel('(m/m_0) [g/g]');
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,3),'+','MarkerSize',3);
         axis([300 900 -inf inf]);
-        
+
         yyaxis right
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,4),'r');
         axis([300 900 0 6e-3]);
         title(filenames{i}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         xlabel('Temperature [K]');
         ylabel('(1/m_0)dm/dt [s^{-1}]');
-% smooth dm*/dt with a svgolayfilter                
+% smooth dm*/dt with a svgolayfilter
         frames=31;
         order=3;
         EVAL_DATA{k,L,m}(:,3)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);
@@ -85,7 +85,7 @@ for i =1:N_files   % Loop through all of your data sets
 
         for p=1:size(EVAL_DATA{k,L,m},1)-1
             if p==1
-            EVAL_DATA{k,L,m}(p,4)=0;    
+            EVAL_DATA{k,L,m}(p,4)=0;
             else
             EVAL_DATA{k,L,m}(p,4)=(EVAL_DATA{k,L,m}(p-1,3)-EVAL_DATA{k,L,m}(p+1,3))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));
             end
@@ -95,9 +95,9 @@ for i =1:N_files   % Loop through all of your data sets
         axis([300 900 0 6e-3]);
         title(filenames{i}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         xlabel('Temperature [K]');
-        ylabel('(1/m_0)dm/dt [s^{-1}]'); 
+        ylabel('(1/m_0)dm/dt [s^{-1}]');
         legend({'m/m_0','m/m_0, filtered','d(m/m_0)/dt','d(m/m_0)/dt, filtered'},'Location','west')
-        
+
         h=4;                                  % height of plot in inches
         w=5;                                  % width of plot in inches
         set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -105,7 +105,7 @@ for i =1:N_files   % Loop through all of your data sets
         fig_filename=fullfile(char([Script_Figs_dir, filenames{i}(1:end-4)]));
         print(fig_filename,'-dpdf')
 
-        TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4));%            %Calculate dm/dt max maximum dm/dt [g/g-s] 
+        TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4))%            %Calculate dm/dt max maximum dm/dt [g/g-s]
         T_max=find((EVAL_DATA{k,L,m}(:,4))==max(EVAL_DATA{k,L,m}(:,4)));
         T_onset=find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4)),1);
         T_endset=find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4)),1,'last');
@@ -132,7 +132,7 @@ for i =1:N_files   % Loop through all of your data sets
         fig_filename=fullfile(char([Script_Figs_dir, char(filenames{i}(1:end-4)),'_dTdt']));
         print(fig_filename,'-dpdf')
     end
-    
+
 end
 close all
 
@@ -175,7 +175,7 @@ figure
         h = 4;                                  % height of plot in inches
         w = 5;                                  % width of plot in inches
         set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-        set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+        set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'TGA_N2_histogram_Tmax']));
         print(fig_filename,'-dpdf')
 close all
@@ -196,7 +196,7 @@ min_T=300;  %initialize minimum temperature reported in TGA datataunt
 % end
 % clear temp
 
-%% Analyze Temperature-Resolved TGA dTdt Data 
+%% Analyze Temperature-Resolved TGA dTdt Data
 TGA_dTdt=NaN*ones(1021,max(max(Test_count(24:37,1:15)))+4,N_Labs,37);
 TGA_Temperature=[295:0.5:805]';
 figure('Renderer', 'painters', 'Position', [100 100 400 300])
@@ -212,11 +212,11 @@ for i=1:N_files
 
         min_T=min(EVAL_DATA{k,L,m}(:,2));
         min_T_idx=(min_T-295)*2+1;
-        
+
 %         TGA_Mass//TGA_MLR(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,3); % pull in (up to) the first 1021 rows/timesteps of Mass and MLR data
-            
+
             TGA_dTdt(min_T_idx:max_T_idx,L,k,m)=EVAL_DATA{k,L,m}(1:(max_T_idx+1-min_T_idx),5);
-        
+
             if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             %Turn all 0 values into NaN so that you can ignore them in std , mean calculations
             temp_dTdt=TGA_dTdt(:,:,k,m);
@@ -238,7 +238,7 @@ for i=1:N_files
                 plot(TGA_Temperature(1:last),TGA_dTdt(1:last,ix,k,m),'.','MarkerSize',3);
             end
             shadedErrorBar(TGA_Temperature(1:last),TGA_dTdt(1:last,6,k,m),[2*TGA_dTdt(1:last,8,k,m) 2*TGA_dTdt(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-            
+
             if m==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
                 axis([300 800 0 100]);
             else
@@ -250,7 +250,7 @@ for i=1:N_files
             h = 4;                                  % height of plot in inches
             w = 5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner            
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, LabNames{k} Test_types{m}, '_dTdt_avg']));
             print(fig_filename,'-dpdf')
             clear ix
@@ -259,7 +259,7 @@ for i=1:N_files
     end
     clear min_T last
 end
-clear last 
+clear last
 close% Close figure
 
 %% All dT/dt curves at 10 K/min
@@ -287,13 +287,13 @@ end
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
             legend(QMJHL{legend_counter},'Location','eastoutside');
-            
+
             h=3.25;                                  % height of plot in inches
             w=6;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, 'TGA_10K_dTdt']));
-            print(fig_filename,'-dpdf')            
+            print(fig_filename,'-dpdf')
             clear last i_legend legend_counter
 close
         %% All dT/dt curves at 20 K/min
@@ -328,8 +328,8 @@ end
             fig_filename=fullfile(char([Script_Figs_dir, 'TGA_20K_dTdt']));
             print(fig_filename,'-dpdf')
             clear last i_legend legend_counter
-close 
-%% Analyze Temperature-Resolved TGA MLR Data 
+close
+%% Analyze Temperature-Resolved TGA MLR Data
 TGA_MLR=NaN*ones(1021,max(max(Test_count(24:37,1:15)))+4,N_Labs,37);
 TGA_Mass=NaN*ones(1021,max(max(Test_count(24:37,1:15)))+4,N_Labs,37);
 TGA_Temperature=[295:0.5:805]';
@@ -346,11 +346,11 @@ for i=1:N_files
 
         min_T=min(EVAL_DATA{k,L,m}(:,2));
         min_T_idx=(min_T-295)*2+1;
-        
+
 %         TGA_Mass//TGA_MLR(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,3); % pull in (up to) the first 1021 rows/timesteps of Mass and MLR data
             TGA_Mass(min_T_idx:max_T_idx,L,k,m)=EVAL_DATA{k,L,m}(1:(max_T_idx+1-min_T_idx),3);
             TGA_MLR(min_T_idx:max_T_idx,L,k,m)=EVAL_DATA{k,L,m}(1:(max_T_idx+1-min_T_idx),4);
-        
+
             if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             %Turn all 0 values into NaN so that you can ignore them in std , mean calculations
             temp_MLR=TGA_MLR(:,:,k,m);
@@ -359,7 +359,7 @@ for i=1:N_files
 
             temp_Mass=TGA_Mass(:,:,k,m);
             temp_Mass(temp_Mass==0)=NaN;
-            TGA_Mass(1:last,:,k,m)=temp_Mass;            
+            TGA_Mass(1:last,:,k,m)=temp_Mass;
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
@@ -382,18 +382,18 @@ for i=1:N_files
                 plot(TGA_Temperature(1:last),TGA_Mass(1:last,ix,k,m),'.','MarkerSize',3);
             end
             shadedErrorBar(TGA_Temperature(1:last),TGA_Mass(1:last,6,k,m),[2*TGA_Mass(1:last,8,k,m) 2*TGA_Mass(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-            
+
             axis([300 800 0 1.05]);
             ylabel('(m/m_0) [g/g]');
             clear ix
-    
-        
+
+
         yyaxis right
             for ix=1:L
                 plot(TGA_Temperature(1:last),TGA_MLR(1:last,ix,k,m),'.','MarkerSize',3);
             end
             shadedErrorBar(TGA_Temperature(1:last),TGA_MLR(1:last,6,k,m),[2*TGA_MLR(1:last,8,k,m) 2*TGA_MLR(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-            
+
             if m==30 || m==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
                 axis([300 800 0 inf]);
             else
@@ -414,7 +414,7 @@ for i=1:N_files
     end
     clear min_T last fig_filename
 end
-clear last 
+clear last
 close% Close figure
 
 %% Combine all of your TGA data from individual tests in N2 at 5K/min
@@ -444,21 +444,21 @@ for ix=1:1021
     TGA_N2_5K_all(ix,(Test_count(m,end)+2),1)=nanmean(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],1),'all');        % mean
     TGA_N2_5K_all(ix,(Test_count(m,end)+3),1)=nanstd(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],1),0,'all');         % stdmean (all data +/- 1 s
     TGA_N2_5K_all(ix,(Test_count(m,end)+4),1)=TGA_N2_5K_all(ix,(Test_count(m,end)+3),1)/sqrt(TGA_N2_5K_all(ix,Test_count(m,end)+1,1));  % stdev mean
-    
+
     TGA_N2_5K_all(ix,(Test_count(m,end)+1),2)=nnz(TGA_N2_5K_all((ix-0:ix+0),1:Test_count(m,end),2));          % Count, N
     TGA_N2_5K_all(ix,(Test_count(m,end)+2),2)=nanmean(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],2),'all');        % mean
     TGA_N2_5K_all(ix,(Test_count(m,end)+3),2)=nanstd(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],2),0,'all');         % stdmean (all data +/- 1 s
-    TGA_N2_5K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_5K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_5K_all(ix,Test_count(m,end)+1,2));  % stdev mean    
+    TGA_N2_5K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_5K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_5K_all(ix,Test_count(m,end)+1,2));  % stdev mean
 end
 
 
 %plot Average m/m0 with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
-for k=1:Test_count(m,end) 
+for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_5K_all(:,k,1),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
-        
+
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 1]);
         xlabel('Temperature [K]');
@@ -473,17 +473,17 @@ end
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_5K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_5K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter},'Average'},'Location','southwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
-            print(fig_filename,'-dpdf')        
+            print(fig_filename,'-dpdf')
 
-        
-        
+
+
 %plot Average d(m/m0)/dt with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
-for k=1:Test_count(m,end) 
+for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_5K_all(:,k,2),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
-        
+
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 0.002]);
         xlabel('Temperature [K]');
@@ -492,15 +492,15 @@ end
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt']));
-            print(fig_filename,'-dpdf')                
+            print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,Test_count(m,end)+2,2)),[2*(TGA_N2_5K_all(:,Test_count(m,end)+4,2)) 2*(TGA_N2_5K_all(:,Test_count(m,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter},'Average'},'Location','northwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
-            print(fig_filename,'-dpdf')                
+            print(fig_filename,'-dpdf')
 
-        
+
 clear m legend_counter fig_filename
 close all
 
@@ -546,18 +546,18 @@ for ix=1:1021
     TGA_N2_10K_all(ix,(Test_count_10K+2),1)=nanmean(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1),'all');        % mean
     TGA_N2_10K_all(ix,(Test_count_10K+3),1)=nanstd(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1),0,'all');         % stdmean (all data +/- 1 s
     TGA_N2_10K_all(ix,(Test_count_10K+4),1)=TGA_N2_10K_all(ix,(Test_count_10K+3),1)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,1));  % stdev mean
-    
+
     TGA_N2_10K_all(ix,(Test_count_10K+1),2)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));          % Count, N
     TGA_N2_10K_all(ix,(Test_count_10K+2),2)=nanmean(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2),'all');        % mean
     TGA_N2_10K_all(ix,(Test_count_10K+3),2)=nanstd(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2),0,'all');         % stdmean (all data +/- 1 s
-    TGA_N2_10K_all(ix,(Test_count_10K+4),2)=TGA_N2_10K_all(ix,(Test_count_10K+3),2)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,2));  % stdev mean    
+    TGA_N2_10K_all(ix,(Test_count_10K+4),2)=TGA_N2_10K_all(ix,(Test_count_10K+3),2)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,2));  % stdev mean
 end
 
 m=28;
 %plot Average m/m0 with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
-for k=1:Test_count_10K 
+for k=1:Test_count_10K
     plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,1),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
@@ -570,17 +570,17 @@ end
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass']));
-            print(fig_filename,'-dpdf')                
+            print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,Test_count_10K+2,1)),[2*(TGA_N2_10K_all(:,Test_count_10K+4,1)) 2*(TGA_N2_10K_all(:,Test_count_10K+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
-            print(fig_filename,'-dpdf')                        
-    
-        
+            print(fig_filename,'-dpdf')
+
+
 %plot Average d(m/m0)/dt with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
-for k=1:Test_count_10K 
+for k=1:Test_count_10K
     plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,2),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
 
@@ -594,12 +594,12 @@ end
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt']));
-            print(fig_filename,'-dpdf')                                
+            print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,Test_count_10K+2,2)),[2*(TGA_N2_10K_all(:,Test_count_10K+4,2)) 2*(TGA_N2_10K_all(:,Test_count_10K+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
-            print(fig_filename,'-dpdf')                                
-        
+            print(fig_filename,'-dpdf')
+
 clear m legend_counter
 close all
 
@@ -630,21 +630,21 @@ for ix=1:1021
     TGA_N2_20K_all(ix,(Test_count(m,end)+2),1)=nanmean(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1),'all');        % mean
     TGA_N2_20K_all(ix,(Test_count(m,end)+3),1)=nanstd(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1),0,'all');         % stdmean (all data +/- 1 s
     TGA_N2_20K_all(ix,(Test_count(m,end)+4),1)=TGA_N2_20K_all(ix,(Test_count(m,end)+3),1)/sqrt(TGA_N2_20K_all(ix,Test_count(m,end)+1,1));  % stdev mean
-    
+
     TGA_N2_20K_all(ix,(Test_count(m,end)+1),2)=nnz(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2));          % Count, N
     TGA_N2_20K_all(ix,(Test_count(m,end)+2),2)=nanmean(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2),'all');        % mean
     TGA_N2_20K_all(ix,(Test_count(m,end)+3),2)=nanstd(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2),0,'all');         % stdmean (all data +/- 1 s
-    TGA_N2_20K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_20K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_20K_all(ix,Test_count(m,end)+1,2));  % stdev mean    
+    TGA_N2_20K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_20K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_20K_all(ix,Test_count(m,end)+1,2));  % stdev mean
 end
 
 
 %plot Average m/m0 with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
-for k=1:Test_count(m,end) 
+for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_20K_all(:,k,1),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
-        
+
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 1]);
         xlabel('Temperature [K]');
@@ -655,20 +655,20 @@ end
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass']));
-            print(fig_filename,'-dpdf')                                
-        
+            print(fig_filename,'-dpdf')
+
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_20K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_20K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
-            print(fig_filename,'-dpdf')                                        
-        
+            print(fig_filename,'-dpdf')
+
 %plot Average d(m/m0)/dt with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
-for k=1:Test_count(m,end) 
+for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_20K_all(:,k,2),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
-        
+
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 0.0065]);
         xlabel('Temperature [K]');
@@ -679,13 +679,13 @@ end
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt']));
-            print(fig_filename,'-dpdf')                                
-        
+            print(fig_filename,'-dpdf')
+
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,Test_count(m,end)+2,2)),[2*(TGA_N2_20K_all(:,Test_count(m,end)+4,2)) 2*(TGA_N2_20K_all(:,Test_count(m,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
-            print(fig_filename,'-dpdf')                                
-        
+            print(fig_filename,'-dpdf')
+
 clear m legend_counter fig_filename
 close all
 %% Combine all of your TGA data from individual tests in N2/21%O2 at 10K/min
@@ -719,18 +719,18 @@ for ix=1:1021
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),1)=nanmean(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1),'all');        % mean
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),1)=nanstd(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1),0,'all');         % stdmean (all data +/- 1 s
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+4),1)=TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),1)/sqrt(TGA_N2_O2_21_10K_all(ix,Test_count(m,end)+1,1));  % stdev mean
-    
+
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+1),2)=nnz(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2));          % Count, N
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),2)=nanmean(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2),'all');        % mean
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),2)=nanstd(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2),0,'all');         % stdmean (all data +/- 1 s
-    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_O2_21_10K_all(ix,Test_count(m,end)+1,2));  % stdev mean    
+    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_O2_21_10K_all(ix,Test_count(m,end)+1,2));  % stdev mean
 end
 
 
 %plot Average m/m0 with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
-for k=1:Test_count(m,end) 
+for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_O2_21_10K_all(:,k,1),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
@@ -741,18 +741,18 @@ end
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass']));
-            print(fig_filename,'-dpdf')                                
-        
+            print(fig_filename,'-dpdf')
+
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
-            print(fig_filename,'-dpdf')                                
+            print(fig_filename,'-dpdf')
 %plot Average d(m/m0)/dt with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
-for k=1:Test_count(m,end) 
+for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_O2_21_10K_all(:,k,2),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
@@ -763,14 +763,14 @@ end
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt']));
-            print(fig_filename,'-dpdf')                                
+            print(fig_filename,'-dpdf')
 
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+2,2)),[2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,2)) 2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
-            print(fig_filename,'-dpdf')                                
+            print(fig_filename,'-dpdf')
 clear m legend_counter
 close all
 
@@ -781,7 +781,7 @@ hold on
 shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,end-2,1)),[2*(TGA_N2_20K_all(:,end,1)) 2*(TGA_N2_20K_all(:,end,1))],'lineprops', {'r','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,end-2,1)),[2*(TGA_N2_10K_all(:,end,1)) 2*(TGA_N2_10K_all(:,end,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,end-2,1)),[2*(TGA_N2_5K_all(:,end,1)) 2*(TGA_N2_5K_all(:,end,1))],'lineprops', {'b','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-title(char('TGA in Nitrogen'));    
+title(char('TGA in Nitrogen'));
 axis([300 800 0 1]);
 xlabel('Temperature [K]');
 ylabel('m/m_0 [g/g]');
@@ -791,7 +791,7 @@ legend('20 K/min','10 K/min','5 K/min','Location','southwest');
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, 'TGA-N2_5_10_20K_Mass']));
-            print(fig_filename,'-dpdf')                                
+            print(fig_filename,'-dpdf')
 
 
 
@@ -802,7 +802,7 @@ shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,end-2,2)),[2*(TGA_N2_5K_all(:
 % shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,Test_count(30,end)+2,2)),[2*(TGA_N2_20K_all(:,Test_count(30,end)+4,2)) 2*(TGA_N2_20K_all(:,Test_count(30,end)+4,2))],'lineprops', {'r','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 % shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,Test_count(28,end)+2,2)),[2*(TGA_N2_10K_all(:,Test_count(28,end)+4,2)) 2*(TGA_N2_10K_all(:,Test_count(28,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 % shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,Test_count(27,end)+2,2)),[2*(TGA_N2_5K_all(:,Test_count(27,end)+4,2)) 2*(TGA_N2_5K_all(:,Test_count(27,end)+4,2))],'lineprops', {'b','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-title(char('TGA in Nitrogen'));    
+title(char('TGA in Nitrogen'));
 axis([300 800 0 0.006]);
 xlabel('Temperature [K]');
 ylabel('d(m/m_0)/dt [s^{-1}]');
@@ -812,5 +812,5 @@ legend('20 K/min','10 K/min','5 K/min','Location','northwest');
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, 'TGA-N2_5_10_20K_dmdt']));
-            print(fig_filename,'-dpdf')                                
+            print(fig_filename,'-dpdf')
 close all

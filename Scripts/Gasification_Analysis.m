@@ -1,7 +1,7 @@
 clear all
 close all
-clc
-load Exp_Data.mat% This uses the related script 'Import_Data.m'
+
+load EXP_DATA.mat% This uses the related script 'Import_Data.m'
 
 %% Information about the size of your datasets
 N_files;    %total number of experiments
@@ -22,8 +22,8 @@ TAB_DATA=cell(N_test_types,5);                                              %Tab
 %             'TGA_N2_1K';'TGA_N2_2K';'TGA_N2_2.5K';'TGA_N2_5K';'TGA_N2_10K';'TGA_N2_15K';'TGA_N2_20K';'TGA_N2_50K';'TGA_N2_100K';...
 %             'TGA_O2-10_10K';'TGA_O2-21_10K'; 'TGA_Ar_1K'; 'TGA_Ar_10K'; 'TGA_Ar_50K'};
 
-%% 
-%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}   
+%%
+%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}
 %Inside of each cell is a 2D array of indexing [timestep, data type]
 
 % Create EVAL_DATA= [ t | mass | T1 | T2 | T3 | Tavg | dmdt*(1/(Asurf))| smooth dm/dt*(1/(m0*Asurf)] (all values interpolated to 1Hz)
@@ -54,11 +54,11 @@ for i = 1:N_files   % Loop through all of your data sets
             for j = 1:N_rows_all(k,L,m)-2%(t_end-t_start)                                               %Find out duration of Temp measurement data (!!this only works for indexing b/c we're at 1Hz!!)
                 EVAL_DATA{k,L,m}(j,6)=mean(nonzeros(EVAL_DATA{k,L,m}(j,3:Ncols)));  %Average all temp measurements at that timestep
             end
-        end        
+        end
         % Calculate dm/dt
         for j = 1:N_rows_all(k,L,m)-2%(t_end-t_start)                                               %Find out duration of Temp measurement data (!!this only works for indexing b/c we're at 1Hz!!)
             if j>2 && j<(N_rows_all(k,L,m)-2)
-                EVAL_DATA{k,L,m}(j,7)=(1/(1000*Asurf(k)))*(EVAL_DATA{k,L,m}(j-2,2)-EVAL_DATA{k,L,m}(j+2,2))/(EVAL_DATA{k,L,m}(j+2,1)-EVAL_DATA{k,L,m}(j-2,1));   % Calculate (1/(Asurf)(d(m)/dt) [kg/s/m2] (to find ignition time, duration of steady burning) 
+                EVAL_DATA{k,L,m}(j,7)=(1/(1000*Asurf(k)))*(EVAL_DATA{k,L,m}(j-2,2)-EVAL_DATA{k,L,m}(j+2,2))/(EVAL_DATA{k,L,m}(j+2,1)-EVAL_DATA{k,L,m}(j-2,1));   % Calculate (1/(Asurf)(d(m)/dt) [kg/s/m2] (to find ignition time, duration of steady burning)
             end
         end
 %         EVAL_DATA{k,L,m}(:,8)=movmean(EVAL_DATA{k,L,m}(:,7),5);            %Calculate running average of d(m*)/dt
@@ -82,7 +82,7 @@ for i = 1:N_files   % Loop through all of your data sets
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, filenames{i}(1:end-4)]));
         print(fig_filename,'-dpdf')
     end
@@ -98,7 +98,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==17 | m==20        % Just 25 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,1200));    
+        last = min(min(N_rows_all(k,:,m)-1,1200));
 %         MLR25(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,7); % pull in (up to) the first 1200 rows/timesteps of MLR data
         MLR25(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,8); % pull in (up to) the first 1200 rows/timesteps of smoothed MLR data
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
@@ -119,7 +119,7 @@ for i=1:N_files
                     MLR25(ix,L+3,k)=nanstd(MLR25((ix-0:ix+0),(1:L),k),0,'all');
                     MLR25(ix,L+4,k)=MLR25(ix,L+3,k)/sqrt(MLR25(ix,L+1,k));
                 end
-            
+
             end
 %             MLR25(1:last,L+2,k)=sgolayfilt(MLR25(1:last,L+2,k),3,15);,
             clear temp
@@ -165,7 +165,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==17 | m==20        % Just 25 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,1200));   
+        last = min(min(N_rows_all(k,:,m)-1,1200));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             shadedErrorBar(time25(1:last),MLR25(1:last,L+2,k),[2*MLR25(1:last,L+4,k) 2*MLR25(1:last,L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}); %plot with shaded error bards = 2stdevmean
             i_legend=i_legend+1;
@@ -191,7 +191,7 @@ legend(legend_final,'Location','northeast', 'Interpreter','none');
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_25kW_dmdt_smoothed']));
         print(fig_filename,'-dpdf')
-clear i_legend legend_counter legend_final str 
+clear i_legend legend_counter legend_final str
 close% Close figure
 
 
@@ -206,7 +206,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==18 | m==21        % Just 50 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,400));    
+        last = min(min(N_rows_all(k,:,m)-1,400));
         MLR50(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,8); % pull in (up to) the first 1200 rows/timesteps of MLR data
 %         MLR50(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,8); % pull in (up to) the first 1200 rows/timesteps of smoothed MLR data
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
@@ -227,7 +227,7 @@ for i=1:N_files
                     MLR50(ix,L+3,k)=nanstd(MLR50((ix-0:ix+0),(1:L),k),0,'all');
                     MLR50(ix,L+4,k)=MLR50(ix,L+3,k)/sqrt(MLR50(ix,L+1,k));
                 end
-            
+
             end
 %             MLR50(1:last,L+2,k)=sgolayfilt(MLR50(1:last,L+2,k),3,15);,
             clear temp
@@ -257,7 +257,7 @@ for i=1:N_files
         end
     end
 end
-clear last 
+clear last
 close
 
 % Plot average MLR curves together
@@ -273,7 +273,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==18 | m==21        % Just 50 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,400));   
+        last = min(min(N_rows_all(k,:,m)-1,400));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
              if  isnan(MLR50(10,L+2,k)) == 0
                 shadedErrorBar(time50(1:last),MLR50(1:last,L+2,k),[2*MLR50(1:last,L+4,k) 2*MLR50(1:last,L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}); %plot with shaded error bards = 2stdevmean
@@ -298,13 +298,13 @@ legend(legend_final,'Location','northwest', 'Interpreter','none');
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_50kW_dmdt_smoothed']));
         print(fig_filename,'-dpdf')
 
-clear i_legend legend_counter legend_final str 
+clear i_legend legend_counter legend_final str
 close% Close figure
 
 
 
 
-         
+
 %% Analyze Time Resolved Gasification dm/dt Data with q"=65kWm-2
 MLR65=NaN*ones(301,max(max(Test_count(3,1:15)))+3,N_Labs);
 time65=[0:300]';
@@ -314,7 +314,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==19 | m==22        % Just 65 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,300));    
+        last = min(min(N_rows_all(k,:,m)-1,300));
 %         MLR65(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,7); % pull in (up to) the first 1200 rows/timesteps of MLR data
         MLR65(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,8); % pull in (up to) the first 1200 rows/timesteps of smoothed MLR data
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
@@ -335,7 +335,7 @@ for i=1:N_files
                     MLR65(ix,L+3,k)=nanstd(MLR65((ix-0:ix+0),(1:L),k),0,'all');
                     MLR65(ix,L+4,k)=MLR65(ix,L+3,k)/sqrt(MLR65(ix,L+1,k));
                 end
-            
+
             end
 %             MLR65(1:last,L+2,k)=sgolayfilt(MLR65(1:last,L+2,k),3,15);,
             clear temp
@@ -365,7 +365,7 @@ for i=1:N_files
         end
     end
 end
-clear last 
+clear last
 close
 
 % Plot average MLR curves together
@@ -381,7 +381,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==19 | m==22        % Just 65 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,300));   
+        last = min(min(N_rows_all(k,:,m)-1,300));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             shadedErrorBar(time65(1:last),MLR65(1:last,L+2,k),[2*MLR65(1:last,L+4,k) 2*MLR65(1:last,L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}); %plot with shaded error bards = 2stdevmean
             i_legend=i_legend+1;
@@ -406,7 +406,7 @@ legend(legend_final,'Location','southeast', 'Interpreter','none');
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_65kW_dmdt_smoothed']));
         print(fig_filename,'-dpdf')
-clear i_legend legend_counter legend_final str 
+clear i_legend legend_counter legend_final str
 close% Close figure
 
 
@@ -419,7 +419,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==17 | m==20        % Just 25 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,1200));    
+        last = min(min(N_rows_all(k,:,m)-1,1200));
         for i_temp=1:3
             TEMP25(1:last,3*(L-1)+i_temp,k)=EVAL_DATA{k,L,m}(1:last,3+i_temp); % pull in (up to) the first 600 rows/timesteps of  TEMP data
         end
@@ -486,7 +486,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==17 | m==20        % Just 25 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,1200));   
+        last = min(min(N_rows_all(k,:,m)-1,1200));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             if  isnan(TEMP25(10,3*L+2,k)) == 0
                 shadedErrorBar(time25(1:last),TEMP25(1:last,3*L+2,k),[2*TEMP25(1:last,3*L+4,k) 2*TEMP25(1:last,3*L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1 }); %plot with shaded error bards = 2stdevmean
@@ -516,7 +516,7 @@ legend(legend_final,'Location','southeast', 'Interpreter','none');
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_25kW_Temperature']));
         print(fig_filename,'-dpdf')
-clear i_legend legend_counter legend_final str 
+clear i_legend legend_counter legend_final str
 close% Close figure
 
 
@@ -529,7 +529,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==18 | m==21        % Just 50 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,400));    
+        last = min(min(N_rows_all(k,:,m)-1,400));
         for i_temp=1:3
             TEMP50(1:last,3*(L-1)+i_temp,k)=EVAL_DATA{k,L,m}(1:last,3+i_temp); % pull in (up to) the first 600 rows/timesteps of  TEMP data
         end
@@ -548,7 +548,7 @@ for i=1:N_files
             TEMP50(ix,3*L+1,k)=nnz(TEMP50((ix-2:ix+2),(1:3*L),k));
             TEMP50(ix,3*L+2,k)=nanmean(TEMP50((ix-2:ix+2),(1:3*L),k),'all');
             TEMP50(ix,3*L+3,k)=nanstd(TEMP50((ix-2:ix+2),(1:3*L),k),0,'all');
-            TEMP50(ix,3*L+4,k)=TEMP50(ix,3*L+3,k)/sqrt(TEMP50(ix,3*L+1,k));                    
+            TEMP50(ix,3*L+4,k)=TEMP50(ix,3*L+3,k)/sqrt(TEMP50(ix,3*L+1,k));
             end
 %             TEMP50(1:last,L+2,k)=sgolayfilt(TEMP50(1:last,L+2,k),3,15);,
             clear temp
@@ -578,7 +578,7 @@ for i=1:N_files
         end
     end
 end
-clear last 
+clear last
 close
 
 % Plot average TEMP curves together
@@ -594,7 +594,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==18 | m==21        % Just 50 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,400));   
+        last = min(min(N_rows_all(k,:,m)-1,400));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             if isnan(TEMP50(10,3*L+2,k))==0
                 shadedErrorBar(time50(1:last),TEMP50(1:last,3*L+2,k),[2*TEMP50(1:last,3*L+4,k) 2*TEMP50(1:last,3*L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1 }); %plot with shaded error bards = 2stdevmean
@@ -607,7 +607,7 @@ for i=1:N_files
     end
 end
 
-                
+
 for i=1:length(legend_counter)
     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
@@ -620,9 +620,9 @@ legend(legend_final,'Location','southeast', 'Interpreter','none');
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_50kW_Temperature']));
         print(fig_filename,'-dpdf')
-clear i_legend legend_counter legend_final str 
+clear i_legend legend_counter legend_final str
 close% Close figure
-         
+
 %% Analyze Time Resolved Gasification Temperature Data with q"=65kWm-2
 TEMP65=NaN*ones(301,3*max(max(Test_count(3,1:15)))+3,N_Labs);
 time65=[0:300]';
@@ -632,7 +632,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==19 | m==22        % Just 65 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,300));    
+        last = min(min(N_rows_all(k,:,m)-1,300));
         for i_temp=1:3
             TEMP65(1:last,3*(L-1)+i_temp,k)=EVAL_DATA{k,L,m}(1:last,3+i_temp); % pull in (up to) the first 600 rows/timesteps of TEMP data
         end
@@ -650,7 +650,7 @@ for i=1:N_files
 %             TEMP65(ix,L+1,k)=nnz(TEMP65((ix-2:ix+2),(1:L),k));
 %             TEMP65(ix,L+2,k)=nanmean(TEMP65((ix-2:ix+2),(1:L),k),'all');
 %             TEMP65(ix,L+3,k)=nanstd(TEMP65((ix-2:ix+2),(1:L),k),0,'all');
-%             TEMP65(ix,L+4,k)=TEMP65(ix,L+3,k)/sqrt(TEMP65(ix,L+1,k));            
+%             TEMP65(ix,L+4,k)=TEMP65(ix,L+3,k)/sqrt(TEMP65(ix,L+1,k));
             end
 %             TEMP65(1:last,L+2,k)=sgolayfilt(TEMP65(1:last,L+2,k),3,15);,
             clear temp
@@ -680,7 +680,7 @@ for i=1:N_files
         end
     end
 end
-clear last 
+clear last
 close
 
 % Plot average TEMP curves together
@@ -696,7 +696,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m==19 | m==22        % Just 65 kW FPA and Gasification Tests
-        last = min(min(N_rows_all(k,:,m)-1,300));   
+        last = min(min(N_rows_all(k,:,m)-1,300));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
            if isnan(TEMP65(10,3*L+2,k))==0
                 shadedErrorBar(time65(1:last),TEMP65(1:last,3*L+2,k),[2*TEMP65(1:last,3*L+4,k) 2*TEMP65(1:last,3*L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1 }); %plot with shaded error bards = 2stdevmean
@@ -725,5 +725,5 @@ legend(legend_final,'Location','northeast', 'Interpreter','none');
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_65kW_Temperature']));
         print(fig_filename,'-dpdf')
-clear i_legend legend_counter legend_final str 
+clear i_legend legend_counter legend_final str
 close% Close figure
