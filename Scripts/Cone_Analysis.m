@@ -862,7 +862,7 @@ clear time50x
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner           
-            fig_filename=fullfile(char([Script_Figs_dir, Test_types{4},'_TEMP']));
+            fig_filename=fullfile(char([Script_Figs_dir, Test_types{4} '_Temp']));
             print(fig_filename,'-dpdf')        
         
 % close        
@@ -921,7 +921,8 @@ for i=1:N_files
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner   
-            fig_filename=fullfile(char([Script_Figs_dir, Test_types{5},'_TEMP']));
+            fig_filename=fullfile(char([Script_Figs_dir, LabNames{k}, '_', Test_types{5} '_Temp']));
+            i
             print(fig_filename,'-dpdf')        
             clear ix
             clf
