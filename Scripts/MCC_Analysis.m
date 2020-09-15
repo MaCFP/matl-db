@@ -1,8 +1,7 @@
 clear all
 close all
-clc
 
-load Exp_Data.mat% This uses the related script 'Import_Data.m'
+load EXP_DATA.mat% This uses the related script 'Import_Data.m'
 
 % QMJHL={'Baie-Comeau' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' 'Chicoutimi' 'Drummondville'...
 %     'Gatineau' 'Halifax' 'Moncton' 'Quebec' 'Rimouski' 'Rouyn-Noranda' 'Saint_John' 'Shawinigan'...
@@ -28,8 +27,8 @@ TAB_DATA=cell(N_test_types,5);                                              %Tab
 %             'TGA_N2_1K';'TGA_N2_2K';'TGA_N2_2.5K';'TGA_N2_5K';'TGA_N2_10K';'TGA_N2_15K';'TGA_N2_20K';'TGA_N2_50K';'TGA_N2_100K';...
 %             'TGA_O2-10_10K';'TGA_O2-21_10K'; 'TGA_Ar_1K'; 'TGA_Ar_10K'; 'TGA_Ar_50K'};
 
-%% CREATE EVAL_DATA, HRR, total heat released 
-%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}   
+%% CREATE EVAL_DATA, HRR, total heat released
+%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}
 %Inside of each cell is a 2D array of indexing [timestep, data type]
 
 % Create EVAL_DATA= [ t | T | HRR | Total Heat Released ] (all values interpolated to 0.5 K intervals)
@@ -48,15 +47,15 @@ for i =1:N_files   % Loop through all of your data sets
         [T,sortidx_T]=unique(EXP_DATA{k,L,m}(:,2));         % Find all of your unique Temps
         T_idx=[T sortidx_T];
         T_idx=sortrows(T_idx,'ascend');
-        HRR=EXP_DATA{k,L,m}(:,3);                                             
+        HRR=EXP_DATA{k,L,m}(:,3);
         HRR=HRR(sortidx_T);                       % Find all of the HRR values asssociated with these unique temperatures
-        time=EXP_DATA{k,L,m}(:,1);                                             
-        time=time(sortidx_T);             
+        time=EXP_DATA{k,L,m}(:,1);
+        time=time(sortidx_T);
         EVAL_DATA{k,L,m}(:,1)=interp1(T,time,EVAL_DATA{k,L,m}(:,2));         % interpolate time (to T)
         EVAL_DATA{k,L,m}(:,3)=interp1(T,HRR,EVAL_DATA{k,L,m}(:,2));     % interpolate masses (to T)
 %         x_eval=EVAL_DATA{k,L,m};
 %         x_exp=EXP_DATA{k,L,m};
-        p_end=size(EVAL_DATA{k,L,m},1); 
+        p_end=size(EVAL_DATA{k,L,m},1);
         for p=1:p_end                 %Calculate [4] total heat flow and [5] dT/dt (+/- one time step, delta_T=1k]
             if p==1
             EVAL_DATA{k,L,m}(p,5)=0;
@@ -65,20 +64,20 @@ for i =1:N_files   % Loop through all of your data sets
             EVAL_DATA{k,L,m}(p,5)=(EVAL_DATA{k,L,m}(p-1,2)-EVAL_DATA{k,L,m}(p+1,2))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));  %dT/dt
             EVAL_DATA{k,L,m}(p,4)=EVAL_DATA{k,L,m}(p-1,4)+0.5*(EVAL_DATA{k,L,m}(p-1,3)+EVAL_DATA{k,L,m}(p,3))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral HRR
             else
-            EVAL_DATA{k,L,m}(p,4)=EVAL_DATA{k,L,m}(p-1,4)+0.5*(EVAL_DATA{k,L,m}(p-1,3)+EVAL_DATA{k,L,m}(p,3))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral HRR    
+            EVAL_DATA{k,L,m}(p,4)=EVAL_DATA{k,L,m}(p-1,4)+0.5*(EVAL_DATA{k,L,m}(p-1,3)+EVAL_DATA{k,L,m}(p,3))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral HRR
             end
         end
-        clear p_end 
+        clear p_end
 
         clear time HRR sortidx_T T_idx T_start T_end
-        
+
         clf
         hold on
         yyaxis left
         ylabel('Normalized HRR [W g^{-1}]');
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,3),'-','MarkerSize',2);   %HRR
         axis([300 900 -inf inf]);
-        
+
         yyaxis right
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,4),'r');      %Integral HRR
         axis([300 900 -inf inf]);
@@ -88,7 +87,7 @@ for i =1:N_files   % Loop through all of your data sets
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner                
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, filenames{i}(1:end-4)]));
         print(fig_filename,'-dpdf')
     end
@@ -113,7 +112,7 @@ end
 % end
 % clear temp
 
-%% Analyze Temperature-Resolved MCC heat flow Data 
+%% Analyze Temperature-Resolved MCC heat flow Data
 MCC_HRR=NaN*ones(901,max(max(Test_count(6:15,1:15)))+4,N_Labs,37);
 MCC_int_HRR=NaN*ones(901,max(max(Test_count(6:15,1:15)))+4,N_Labs,37);
 MCC_Temperature=[350:0.5:800]';
@@ -146,7 +145,7 @@ for i=1:N_files
 
             temp_Mass=MCC_int_HRR(:,:,k,m);
             temp_Mass(temp_Mass==0)=NaN;
-            MCC_int_HRR(1:last,:,k,m)=temp_Mass;            
+            MCC_int_HRR(1:last,:,k,m)=temp_Mass;
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
@@ -170,7 +169,7 @@ for i=1:N_files
 %                 xlabel('Temperature [K]');
 %                 ylabel('Heat Flow [W g^{-1}]');
 %                 clear ix
-%                 print([LabNames{k} Test_types{m} '_HRR'],'-dpdf') 
+%                 print([LabNames{k} Test_types{m} '_HRR'],'-dpdf')
 %                 clf
 %             else    %plot everyone else's data with my errorbars
 %                 hold on
@@ -186,7 +185,7 @@ for i=1:N_files
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, LabNames{k}, '_', Test_types{m} '_HRR_avg']));
             print(fig_filename,'-dpdf')
                 clf
@@ -204,7 +203,7 @@ for i=1:N_files
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner                    
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, LabNames{k}, '_', Test_types{m} '_int_HRR_avg']));
             print(fig_filename,'-dpdf')
             clf
@@ -212,7 +211,7 @@ for i=1:N_files
     end
     clear min_T max_T last fig_filename
 end
-clear last 
+clear last
 close all % Close figure
 
 %% Combine all of your TGA data from individual tests in N2/21%O2 at 10K/min
@@ -223,7 +222,7 @@ col_old=0;
 i_legend=1;
 clear legend_counter
 for k=1:N_Labs
-    if Test_count(m,k)~=0 
+    if Test_count(m,k)~=0
         col_new=Test_count(m,k);
         legend_counter(i_legend:i_legend+Test_count(m,k)-1)=k;
         col_old=col_old+col_new;
@@ -252,7 +251,7 @@ for i=1:N_files
             figure(1)
             shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
         end
-        
+
     end
 end
 
@@ -267,7 +266,7 @@ legend(QMJHL{legend_counter},'Location','northwest');
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_HRR']));
             print(fig_filename,'-dpdf')
 
@@ -280,8 +279,8 @@ legend(QMJHL{legend_counter},'Location','northwest');
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_int_HRR']));
             print(fig_filename,'-dpdf')
-clear ix last 
+clear ix last
 close all % Close figure

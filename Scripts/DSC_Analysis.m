@@ -1,8 +1,7 @@
 clear all
 close all
-clc
 
-load Exp_Data.mat% This uses the related script 'Import_Data.m'
+load EXP_DATA.mat% This uses the related script 'Import_Data.m'
 
 % QMJHL={'Baie-Comeau' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' 'Chicoutimi' 'Drummondville'...
 %     'Gatineau' 'Halifax' 'Moncton' 'Quebec' 'Rimouski' 'Rouyn-Noranda' 'Saint_John' 'Shawinigan'...
@@ -29,7 +28,7 @@ TAB_DATA=cell(N_test_types,5);                                              %Tab
 %             'TGA_O2-10_10K';'TGA_O2-21_10K'; 'TGA_Ar_1K'; 'TGA_Ar_10K'; 'TGA_Ar_50K'};
 
 %% CREATE EVAL_DATA, smooth Mass, calculate dm/dt
-%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}   
+%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}
 %Inside of each cell is a 2D array of indexing [timestep, data type]
 
 % Create EVAL_DATA= [ t | T | heat flow | Total Heat flow | dT/dt] (all values interpolated to 0.5 K intervals)
@@ -48,15 +47,15 @@ for i =1:N_files   % Loop through all of your data sets
         [T,sortidx_T]=unique(EXP_DATA{k,L,m}(:,2));         % Find all of your unique Temps
         T_idx=[T sortidx_T];
         T_idx=sortrows(T_idx,'ascend');
-        heatflow=EXP_DATA{k,L,m}(:,3);                                             
+        heatflow=EXP_DATA{k,L,m}(:,3);
         heatflow=heatflow(sortidx_T);                       % Find all of the heatflow values asssociated with these unique temperatures
-        time=EXP_DATA{k,L,m}(:,1);                                             
-        time=time(sortidx_T);             
+        time=EXP_DATA{k,L,m}(:,1);
+        time=time(sortidx_T);
         EVAL_DATA{k,L,m}(:,1)=interp1(T,time,EVAL_DATA{k,L,m}(:,2));         % interpolate time (to T)
         EVAL_DATA{k,L,m}(:,3)=interp1(T,heatflow,EVAL_DATA{k,L,m}(:,2));     % interpolate masses (to T)
 %         x_eval=EVAL_DATA{k,L,m};
 %         x_exp=EXP_DATA{k,L,m};
-        p_end=size(EVAL_DATA{k,L,m},1); 
+        p_end=size(EVAL_DATA{k,L,m},1);
         for p=1:p_end                 %Calculate [4] total heat flow and [5] dT/dt (+/- one time step, delta_T=1k]
             if p==1
             EVAL_DATA{k,L,m}(p,5)=0;
@@ -65,20 +64,20 @@ for i =1:N_files   % Loop through all of your data sets
             EVAL_DATA{k,L,m}(p,5)=(EVAL_DATA{k,L,m}(p-1,2)-EVAL_DATA{k,L,m}(p+1,2))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));  %dT/dt
             EVAL_DATA{k,L,m}(p,4)=EVAL_DATA{k,L,m}(p-1,4)+0.5*(EVAL_DATA{k,L,m}(p-1,3)+EVAL_DATA{k,L,m}(p,3))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral heat flow
             else
-            EVAL_DATA{k,L,m}(p,4)=EVAL_DATA{k,L,m}(p-1,4)+0.5*(EVAL_DATA{k,L,m}(p-1,3)+EVAL_DATA{k,L,m}(p,3))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral heat flow    
+            EVAL_DATA{k,L,m}(p,4)=EVAL_DATA{k,L,m}(p-1,4)+0.5*(EVAL_DATA{k,L,m}(p-1,3)+EVAL_DATA{k,L,m}(p,3))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral heat flow
             end
         end
-        clear p_end 
+        clear p_end
 
         clear time heatflow sortidx_T T_idx T_start T_end
-        
+
         clf
         hold on
         yyaxis left
         ylabel('Normalized Heat Flow [W g^{-1}]');
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,3),'-','MarkerSize',2);   %Heat Flow
         axis([300 900 -inf inf]);
-        
+
         yyaxis right
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,4),'r');      %Integral heat flow
         axis([300 900 -inf inf]);
@@ -88,7 +87,7 @@ for i =1:N_files   % Loop through all of your data sets
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, filenames{i}(1:end-4)]));
         print(fig_filename,'-dpdf')
     end
@@ -113,7 +112,7 @@ for i=1:N_files
 end
 clear temp
 
-%% Analyze Temperature-Resolved DSC heat flow Data 
+%% Analyze Temperature-Resolved DSC heat flow Data
 DSC_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
 DSC_int_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
 DSC_Temperature=[295:0.5:805]';
@@ -146,7 +145,7 @@ for i=1:N_files
 
             temp_Mass=DSC_int_heatflow(:,:,k,m);
             temp_Mass(temp_Mass==0)=NaN;
-            DSC_int_heatflow(1:last,:,k,m)=temp_Mass;            
+            DSC_int_heatflow(1:last,:,k,m)=temp_Mass;
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
@@ -173,7 +172,7 @@ for i=1:N_files
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
-            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner                
+            set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, LabNames{k}, '_', Test_types{m} '_heatflow_avg']));
             print(fig_filename,'-dpdf')
                 clf
@@ -217,7 +216,7 @@ for i=1:N_files
     end
     clear min_T last fig_filename
 end
-clear last 
+clear last
 close all
 
 
@@ -225,7 +224,7 @@ close all
 
 % ----------- TGA DATA = Determine dm+rxn = Mass loss around peak reaction ---------
 
-%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}   
+%Read in all of your data  EXP_DATA is a 3D cell array of indexing {LabName,k | Test #, L | Test Type,m}
 %Inside of each cell is a 2D array of indexing [timestep, data type]
 % Create EVAL_DATA= [ t | T | m/m0_smoothed | dm*/dt | dT/dt] (all values interpolated to 0.5 K intervals)
 figure
@@ -243,40 +242,40 @@ for i =1:N_files   % Loop through all of your data sets
         [T,sortidx_T]=unique(EXP_DATA{k,L,m}(:,2));    % Find all of your unique Temps
         T_idx=[T sortidx_T];
         T_idx=sortrows(T_idx,'ascend');
-        mass=EXP_DATA{k,L,m}(:,3);                                             
+        mass=EXP_DATA{k,L,m}(:,3);
         mass=mass(sortidx_T);                                          % Find all of the masses asssociated with these unique temperatures
-        time=EXP_DATA{k,L,m}(:,1);                                             
-        time=time(sortidx_T);             
+        time=EXP_DATA{k,L,m}(:,1);
+        time=time(sortidx_T);
         EVAL_DATA{k,L,m}(:,1)=interp1(T,time,EVAL_DATA{k,L,m}(:,2));        % interpolate time (to T)
         EVAL_DATA{k,L,m}(:,3)=(1/m0)*interp1(T,mass,EVAL_DATA{k,L,m}(:,2));        % interpolate masses (to T)
 %         x_eval=EVAL_DATA{k,L,m};
 %         x_exp=EXP_DATA{k,L,m};
          for p=1:size(EVAL_DATA{k,L,m},1)-1
             if p==1
-            EVAL_DATA{k,L,m}(p,4)=0; 
-            EVAL_DATA{k,L,m}(p,5)=0; 
+            EVAL_DATA{k,L,m}(p,4)=0;
+            EVAL_DATA{k,L,m}(p,5)=0;
             else
             EVAL_DATA{k,L,m}(p,4)=(EVAL_DATA{k,L,m}(p-1,3)-EVAL_DATA{k,L,m}(p+1,3))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));
             EVAL_DATA{k,L,m}(p,5)=60*(EVAL_DATA{k,L,m}(p+1,2)-EVAL_DATA{k,L,m}(p-1,2))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));
             end
         end
-       
+
         clear time mass sortidx_T T_idx T_start T_end
 
-% smooth dm*/dt with a svgolayfilter                
+% smooth dm*/dt with a svgolayfilter
         frames=31;
         order=3;
-        EVAL_DATA{k,L,m}(:,3)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);                        
+        EVAL_DATA{k,L,m}(:,3)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);
 
         for p=1:size(EVAL_DATA{k,L,m},1)-1
             if p==1
-            EVAL_DATA{k,L,m}(p,4)=0;    
+            EVAL_DATA{k,L,m}(p,4)=0;
             else
             EVAL_DATA{k,L,m}(p,4)=(EVAL_DATA{k,L,m}(p-1,3)-EVAL_DATA{k,L,m}(p+1,3))/(EVAL_DATA{k,L,m}(p+1,1)-EVAL_DATA{k,L,m}(p-1,1));
             end
         end
 
-        TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4));%            %Calculate dm/dt max maximum dm/dt [g/g-s] 
+        TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4));%            %Calculate dm/dt max maximum dm/dt [g/g-s]
         T_max=find((EVAL_DATA{k,L,m}(:,4))==max(EVAL_DATA{k,L,m}(:,4)));
         T_onset=min(find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4))));
         T_endset=max(find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4))));
@@ -286,7 +285,7 @@ for i =1:N_files   % Loop through all of your data sets
         TAB_DATA{m,5}(k,L)=(EVAL_DATA{k,L,m}(T_onset,3)-EVAL_DATA{k,L,m}(T_endset,3));%         %Calculate dm_rxn [g/g]as the mass loss during between T_onset and T_endset
         clear T_max T_onset T_endset m0
     end
-    
+
 end
 
 for i =1:N_files   % Loop through all of your data sets
@@ -302,7 +301,7 @@ for i =1:N_files   % Loop through all of your data sets
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{28,5}(k,L);
         clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
-        
+
     elseif m== 11 && k==2   %N2_20K
         T_onset=TAB_DATA{30,3}(k,L);
         T_endset=TAB_DATA{30,4}(k,L);
@@ -312,7 +311,7 @@ for i =1:N_files   % Loop through all of your data sets
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{30,5}(k,L);
         clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
-        
+
     elseif m>=14 && m<=16 && k==9   %Ar_1,10,50K
         T_onset=TAB_DATA{m+21,3}(k,L);
         T_endset=TAB_DATA{m+21,4}(k,L);
@@ -325,9 +324,9 @@ for i =1:N_files   % Loop through all of your data sets
     end
 end
 
-close        
-        
-        
+close
+
+
 
 %% Combine all of your TGA data from individual tests in Nitrogen at 10K/min
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
@@ -451,7 +450,7 @@ legend(QMJHL{legend_counter},'Location','northwest');
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_int_heatflow']));
             print(fig_filename,'-dpdf')
-clear ix last 
+clear ix last
 close all % Close figure
 
 %% UMET data has a unique heating program, let's plot it separately
@@ -468,12 +467,12 @@ for i=1:N_files
     m=files{i,2};   % Find Test Type
     if m>=6 && m<=16 && k==14       % Just DSC Tests
         hold on
-        plot(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),col{ix}); 
+        plot(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),col{ix});
         legend_UMET_DSC{ix,1}=Test_types{m};
         ix=ix+1;
     end
 end
-clear ix 
+clear ix
 axis([240 430 0 0.75]);
 legend(legend_UMET_DSC,'Location','northwest', 'interpreter', 'none');
             h=3;                                  % height of plot in inches
