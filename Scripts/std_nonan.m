@@ -4,12 +4,8 @@
 
 function Y = std_nonan(X)
 
-n = size(X);
-length(n);
+X_1D=X(:);
 
-for dim=1:length(n)
-    X = std(X,'omitnan');
-end
-Y = X;
+Y = std(X_1D,'omitnan');
 
 return

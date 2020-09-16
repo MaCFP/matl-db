@@ -4,12 +4,8 @@
 
 function Y = mean_nonan(X)
 
-n = size(X);
-length(n);
+X_1D=X(:);
 
-for dim=1:length(n)
-    X = mean(X,'omitnan');
-end
-Y = X;
+Y=mean(X_1D,'omitnan');
 
 return

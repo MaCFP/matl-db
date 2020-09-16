@@ -111,6 +111,16 @@ for i=1:N_files
     end
 end
 clear temp
+%% Check: Why is min_T failing?
+for i=1:N_files
+    k=files{i,3};   % Find Lab Name
+    L=files{i,4};   % Find Test Count
+    m=files{i,2};   % Find Test Type
+    if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
+        min_T_check(i,1)=min(EVAL_DATA{k,L,m}(:,2));
+    end
+end
+save min_T_check
 
 %% Analyze Temperature-Resolved DSC heat flow Data
 DSC_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
@@ -121,9 +131,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-        clear xxx xxx_exp
-        xxx=EVAL_DATA{k,L,m};
-    if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data is messed up /\/\/\ temperature program
+    if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
 
         last = min(min(N_rows_all(k,:,m)-1,1021));
 
@@ -277,8 +285,8 @@ for i =1:N_files   % Loop through all of your data sets
 
         TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4));%            %Calculate dm/dt max maximum dm/dt [g/g-s]
         T_max=find((EVAL_DATA{k,L,m}(:,4))==max(EVAL_DATA{k,L,m}(:,4)));
-        T_onset=min(find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4))));
-        T_endset=max(find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4))));
+        T_onset=find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4)),1);
+        T_endset=find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4)),1,'last');
         TAB_DATA{m,2}(k,L)=EVAL_DATA{k,L,m}(T_max,2);   %         %Calculate T_Max as the first Temperature when dm/dt = dm/dt max
         TAB_DATA{m,3}(k,L)=EVAL_DATA{k,L,m}(T_onset,2); %         %Calculate T_onset as the first Temperature when dm/dt > 0.1*dm/dt max
         TAB_DATA{m,4}(k,L)=EVAL_DATA{k,L,m}(T_endset,2);%         %Calculate T_endset as the first Temperature when dm/dt > 0.1*dm/dt max
@@ -295,8 +303,8 @@ for i =1:N_files   % Loop through all of your data sets
     if m== 10 && (k==5 || k==10 || k==13)   %N2_10K
         T_onset=TAB_DATA{28,3}(k,L);
         T_endset=TAB_DATA{28,4}(k,L);
-        i_onset=min(find((EVAL_DATA{k,L,m}(:,2))==T_onset));
-        i_endset=max(find((EVAL_DATA{k,L,m}(:,2))==T_endset));
+        i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
+        i_endset=find((EVAL_DATA{k,L,m}(:,2))==T_endset,1,'last');
         baseline=0.5*(EVAL_DATA{k,L,m}(i_onset,3)+EVAL_DATA{k,L,m}(i_endset,3))*((EVAL_DATA{k,L,m}(i_endset,1)-EVAL_DATA{k,L,m}(i_onset,1)));
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{28,5}(k,L);
@@ -305,8 +313,8 @@ for i =1:N_files   % Loop through all of your data sets
     elseif m== 11 && k==2   %N2_20K
         T_onset=TAB_DATA{30,3}(k,L);
         T_endset=TAB_DATA{30,4}(k,L);
-        i_onset=min(find((EVAL_DATA{k,L,m}(:,2))==T_onset));
-        i_endset=max(find((EVAL_DATA{k,L,m}(:,2))==T_endset));
+        i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
+        i_endset=find((EVAL_DATA{k,L,m}(:,2))==T_endset,1,'last');
         baseline=0.5*(EVAL_DATA{k,L,m}(i_onset,3)+EVAL_DATA{k,L,m}(i_endset,3))*((EVAL_DATA{k,L,m}(i_endset,1)-EVAL_DATA{k,L,m}(i_onset,1)));
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{30,5}(k,L);
@@ -315,8 +323,8 @@ for i =1:N_files   % Loop through all of your data sets
     elseif m>=14 && m<=16 && k==9   %Ar_1,10,50K
         T_onset=TAB_DATA{m+21,3}(k,L);
         T_endset=TAB_DATA{m+21,4}(k,L);
-        i_onset=min(find((EVAL_DATA{k,L,m}(:,2))==T_onset));
-        i_endset=max(find((EVAL_DATA{k,L,m}(:,2))==T_endset));
+        i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
+        i_endset=find((EVAL_DATA{k,L,m}(:,2))==T_endset,1,'last');
         baseline=0.5*(EVAL_DATA{k,L,m}(i_onset,3)+EVAL_DATA{k,L,m}(i_endset,3))*((EVAL_DATA{k,L,m}(i_endset,1)-EVAL_DATA{k,L,m}(i_onset,1)));
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{m+21,5}(k,L);
@@ -460,7 +468,7 @@ axis([190 435 -inf inf]);
 xlabel('Temperature [K]');
 ylabel('Heat Flow [W g^{-1}]');
 ix=1;
-col={'ko', 'r*', 'bd', 'g+', 'm.'}
+col={'ko', 'r*', 'bd', 'g+', 'm.'};
 for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
