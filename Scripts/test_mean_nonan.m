@@ -5,7 +5,7 @@
 close all
 clear all
 
-X = magic(3);
+X = magic(4);
 X([1 6:9]) = NaN;
 
 Y = mean_nonan(X)
