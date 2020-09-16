@@ -117,10 +117,14 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
-        min_T_check(i,1)=min(EVAL_DATA{k,L,m}(:,2));
+        T_check(i,1)=min(EVAL_DATA{k,L,m}(:,2)); %min_T
+        T_check(i,2)=max(EVAL_DATA{k,L,m}(:,2)); %max_T
+        T_check(i,3)=k;
+        T_check(i,4)=l;
+        T_check(i,5)=m;
     end
 end
-save min_T_check
+save T_check
 
 %% Analyze Temperature-Resolved DSC heat flow Data
 DSC_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
