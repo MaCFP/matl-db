@@ -226,8 +226,8 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
                 TGA_dTdt(ix,5,k,m)=nnz(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
-                TGA_dTdt(ix,6,k,m)=nanmean(TGA_dTdt((ix-2:ix+2),(1:L),k,m),'all');
-                TGA_dTdt(ix,7,k,m)=nanstd(TGA_dTdt((ix-2:ix+2),(1:L),k,m),0,'all');
+                TGA_dTdt(ix,6,k,m)=mean_nonan(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
+                TGA_dTdt(ix,7,k,m)=std_nonan(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
                 TGA_dTdt(ix,8,k,m)=TGA_dTdt(ix,7,k,m)/sqrt(TGA_dTdt(ix,5,k,m));
             end
             clear temp_dTdt temp_Mass
@@ -364,13 +364,13 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
                 TGA_MLR(ix,5,k,m)=nnz(TGA_MLR((ix-2:ix+2),(1:L),k,m));
-                TGA_MLR(ix,6,k,m)=nanmean(TGA_MLR((ix-2:ix+2),(1:L),k,m),'all');
-                TGA_MLR(ix,7,k,m)=nanstd(TGA_MLR((ix-2:ix+2),(1:L),k,m),0,'all');
+                TGA_MLR(ix,6,k,m)=mean_nonan(TGA_MLR((ix-2:ix+2),(1:L),k,m));
+                TGA_MLR(ix,7,k,m)=std_nonan(TGA_MLR((ix-2:ix+2),(1:L),k,m));
                 TGA_MLR(ix,8,k,m)=TGA_MLR(ix,7,k,m)/sqrt(TGA_MLR(ix,5,k,m));
 
                 TGA_Mass(ix,5,k,m)=nnz(TGA_Mass((ix-2:ix+2),(1:L),k,m));
-                TGA_Mass(ix,6,k,m)=nanmean(TGA_Mass((ix-2:ix+2),(1:L),k,m),'all');
-                TGA_Mass(ix,7,k,m)=nanstd(TGA_Mass((ix-2:ix+2),(1:L),k,m),0,'all');
+                TGA_Mass(ix,6,k,m)=mean_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
+                TGA_Mass(ix,7,k,m)=std_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
                 TGA_Mass(ix,8,k,m)=TGA_Mass(ix,7,k,m)/sqrt(TGA_Mass(ix,5,k,m));
             end
 %             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,
@@ -441,13 +441,13 @@ TGA_N2_5K_all(TGA_N2_5K_all==0)=NaN;
 %Calculate mean and stdeviation +/- 0 timesteps
 for ix=1:1021
     TGA_N2_5K_all(ix,(Test_count(m,end)+1),1)=nnz(TGA_N2_5K_all((ix-0:ix+0),1:Test_count(m,end),1));          % Count, N
-    TGA_N2_5K_all(ix,(Test_count(m,end)+2),1)=nanmean(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],1),'all');        % mean
-    TGA_N2_5K_all(ix,(Test_count(m,end)+3),1)=nanstd(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],1),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_5K_all(ix,(Test_count(m,end)+2),1)=mean_nonan(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],1));        % mean
+    TGA_N2_5K_all(ix,(Test_count(m,end)+3),1)=std_nonan(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],1));         % stdmean (all data +/- 1 s
     TGA_N2_5K_all(ix,(Test_count(m,end)+4),1)=TGA_N2_5K_all(ix,(Test_count(m,end)+3),1)/sqrt(TGA_N2_5K_all(ix,Test_count(m,end)+1,1));  % stdev mean
 
     TGA_N2_5K_all(ix,(Test_count(m,end)+1),2)=nnz(TGA_N2_5K_all((ix-0:ix+0),1:Test_count(m,end),2));          % Count, N
-    TGA_N2_5K_all(ix,(Test_count(m,end)+2),2)=nanmean(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],2),'all');        % mean
-    TGA_N2_5K_all(ix,(Test_count(m,end)+3),2)=nanstd(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],2),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_5K_all(ix,(Test_count(m,end)+2),2)=mean_nonan(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],2));        % mean
+    TGA_N2_5K_all(ix,(Test_count(m,end)+3),2)=std_nonan(TGA_N2_5K_all((ix-0:ix+0),[1:Test_count(m,end)],2));         % stdmean (all data +/- 1 s
     TGA_N2_5K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_5K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_5K_all(ix,Test_count(m,end)+1,2));  % stdev mean
 end
 
@@ -543,13 +543,13 @@ TGA_N2_10K_all(TGA_N2_10K_all==0)=NaN;
 %statistics. Hence the indexing: [1:4 8  11 15:Test_count].
 for ix=1:1021
     TGA_N2_10K_all(ix,(Test_count_10K+1),1)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1));          % Count, N
-    TGA_N2_10K_all(ix,(Test_count_10K+2),1)=nanmean(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1),'all');        % mean
-    TGA_N2_10K_all(ix,(Test_count_10K+3),1)=nanstd(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_10K_all(ix,(Test_count_10K+2),1)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1));        % mean
+    TGA_N2_10K_all(ix,(Test_count_10K+3),1)=std_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1));         % stdmean (all data +/- 1 s
     TGA_N2_10K_all(ix,(Test_count_10K+4),1)=TGA_N2_10K_all(ix,(Test_count_10K+3),1)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,1));  % stdev mean
 
     TGA_N2_10K_all(ix,(Test_count_10K+1),2)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));          % Count, N
-    TGA_N2_10K_all(ix,(Test_count_10K+2),2)=nanmean(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2),'all');        % mean
-    TGA_N2_10K_all(ix,(Test_count_10K+3),2)=nanstd(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_10K_all(ix,(Test_count_10K+2),2)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));        % mean
+    TGA_N2_10K_all(ix,(Test_count_10K+3),2)=std_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));         % stdmean (all data +/- 1 s
     TGA_N2_10K_all(ix,(Test_count_10K+4),2)=TGA_N2_10K_all(ix,(Test_count_10K+3),2)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,2));  % stdev mean
 end
 
@@ -627,13 +627,13 @@ TGA_N2_20K_all(TGA_N2_20K_all==0)=NaN;
 %Calculate mean and stdeviation +/- 0 timesteps
 for ix=1:1021
     TGA_N2_20K_all(ix,(Test_count(m,end)+1),1)=nnz(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1));          % Count, N
-    TGA_N2_20K_all(ix,(Test_count(m,end)+2),1)=nanmean(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1),'all');        % mean
-    TGA_N2_20K_all(ix,(Test_count(m,end)+3),1)=nanstd(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_20K_all(ix,(Test_count(m,end)+2),1)=mean_nonan(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1));        % mean
+    TGA_N2_20K_all(ix,(Test_count(m,end)+3),1)=std_nonan(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],1));         % stdmean (all data +/- 1 s
     TGA_N2_20K_all(ix,(Test_count(m,end)+4),1)=TGA_N2_20K_all(ix,(Test_count(m,end)+3),1)/sqrt(TGA_N2_20K_all(ix,Test_count(m,end)+1,1));  % stdev mean
 
     TGA_N2_20K_all(ix,(Test_count(m,end)+1),2)=nnz(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2));          % Count, N
-    TGA_N2_20K_all(ix,(Test_count(m,end)+2),2)=nanmean(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2),'all');        % mean
-    TGA_N2_20K_all(ix,(Test_count(m,end)+3),2)=nanstd(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_20K_all(ix,(Test_count(m,end)+2),2)=mean_nonan(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2));        % mean
+    TGA_N2_20K_all(ix,(Test_count(m,end)+3),2)=std_nonan(TGA_N2_20K_all((ix-0:ix+0),[1:Test_count(m,end)],2));         % stdmean (all data +/- 1 s
     TGA_N2_20K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_20K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_20K_all(ix,Test_count(m,end)+1,2));  % stdev mean
 end
 
@@ -716,13 +716,13 @@ TGA_N2_O2_21_10K_all(TGA_N2_O2_21_10K_all==0)=NaN;
 %statistics. Hence the indexing: [1:4 8  11 15:Test_count].
 for ix=1:1021
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+1),1)=nnz(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1));          % Count, N
-    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),1)=nanmean(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1),'all');        % mean
-    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),1)=nanstd(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),1)=mean_nonan(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1));        % mean
+    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),1)=std_nonan(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1));         % stdmean (all data +/- 1 s
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+4),1)=TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),1)/sqrt(TGA_N2_O2_21_10K_all(ix,Test_count(m,end)+1,1));  % stdev mean
 
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+1),2)=nnz(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2));          % Count, N
-    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),2)=nanmean(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2),'all');        % mean
-    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),2)=nanstd(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2),0,'all');         % stdmean (all data +/- 1 s
+    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),2)=mean_nonan(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2));        % mean
+    TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),2)=std_nonan(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],2));         % stdmean (all data +/- 1 s
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+4),2)=TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+3),2)/sqrt(TGA_N2_O2_21_10K_all(ix,Test_count(m,end)+1,2));  % stdev mean
 end
 
