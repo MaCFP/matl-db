@@ -150,13 +150,13 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
                 DSC_heatflow(ix,5,k,m)=nnz(DSC_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_heatflow(ix,6,k,m)=nanmean(DSC_heatflow((ix-2:ix+2),(1:L),k,m),'all');
-                DSC_heatflow(ix,7,k,m)=nanstd(DSC_heatflow((ix-2:ix+2),(1:L),k,m),0,'all');
+                DSC_heatflow(ix,6,k,m)=mean_nonan(DSC_heatflow((ix-2:ix+2),(1:L),k,m));
+                DSC_heatflow(ix,7,k,m)=std_nonan(DSC_heatflow((ix-2:ix+2),(1:L),k,m));
                 DSC_heatflow(ix,8,k,m)=DSC_heatflow(ix,7,k,m)/sqrt(DSC_heatflow(ix,5,k,m));
 
                 DSC_int_heatflow(ix,5,k,m)=nnz(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_int_heatflow(ix,6,k,m)=nanmean(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m),'all');
-                DSC_int_heatflow(ix,7,k,m)=nanstd(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m),0,'all');
+                DSC_int_heatflow(ix,6,k,m)=mean_nonan(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
+                DSC_int_heatflow(ix,7,k,m)=std_nonan(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
                 DSC_int_heatflow(ix,8,k,m)=DSC_int_heatflow(ix,7,k,m)/sqrt(DSC_int_heatflow(ix,5,k,m));
             end
 %             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,
