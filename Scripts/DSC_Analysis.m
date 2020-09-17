@@ -277,7 +277,7 @@ for i =1:N_files   % Loop through all of your data sets
 % smooth dm*/dt with a svgolayfilter
         frames=31;
         order=3;
-        EVAL_DATA{k,L,m}(:,3)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);
+        EVAL_DATA{k,L,m}(:,3)=sgfilt(order, frames, EVAL_DATA{k,L,m}(:,3)); %sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);
 
         for p=1:size(EVAL_DATA{k,L,m},1)-1
             if p==1
