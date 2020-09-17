@@ -4,7 +4,7 @@ clear all
 % %Specify where all your data is saved
 Root_dir=[pwd,'/../Non-charring/PMMA/'];
 Script_Figs_dir=[pwd,'/../Documents/SCRIPT_FIGURES/'];
-PMMA_Repo = dir(fullfile(Root_dir,'*/*.csv'));
+PMMA_Repo = dir(fullfile(Root_dir,'*/*.csv'))
 
 PMMA_Repo = PMMA_Repo(~[PMMA_Repo.isdir]);      %remove folders from list
 %Get the filenames and folders of all files and folders inside your Root Directory
@@ -22,8 +22,11 @@ N_files=size(files,1);
 % files=fullfile(csvfolders,csvfiles);
 
 % Learn the names of each folder (lab institution) in your Repo
-temp=struct2table(dir(Root_dir));
-LabNames=table2array(temp(4:end,1));
+dirData=dir(Root_dir);
+dirIndex=[dirData.isdir];
+dirIndex(1:2)=0;
+LabNames={dirData(dirIndex).name}'
+
 % Create corresponding list of anonymous names for each institution
 QMJHL={'Baie-Comeau' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' 'Chicoutimi' 'Drummondville'...
     'Gatineau' 'Halifax' 'Moncton' 'Quebec' 'Rimouski' 'Rouyn-Noranda' 'Saint John' 'Shawinigan'...
@@ -31,7 +34,7 @@ QMJHL={'Baie-Comeau' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' 'Chic
 % Create corresponding list of colors for each dataset submitted by a given institution
 Colors={'Black' 'Gray' 'Red' 'OrangeRed' 'Gold' 'Green' 'Blue' 'DarkViolet' 'DeepSkyBlue' ...
     'Indigo' 'Lime' 'Navy' 'DeepPink' 'DarkRed' 'Cyan' 'Magenta' 'Khaki'}';
-clear temp
+
 N_Labs=size(LabNames,1);
 Asurf=csvread('Asurf.txt');  % Note: DBI/LUND (LabNames{2}) has two different sample areas for CONE data (here atleast, HRR data is already normalized as [kW/m2])
 
