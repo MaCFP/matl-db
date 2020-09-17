@@ -120,11 +120,11 @@ for i=1:N_files
         T_check(i,1)=min(EVAL_DATA{k,L,m}(:,2)); %min_T
         T_check(i,2)=max(EVAL_DATA{k,L,m}(:,2)); %max_T
         T_check(i,3)=k;
-        T_check(i,4)=l;
+        T_check(i,4)=L;
         T_check(i,5)=m;
     end
 end
-save T_check
+save('T_check.mat','T_check')
 
 %% Analyze Temperature-Resolved DSC heat flow Data
 DSC_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
