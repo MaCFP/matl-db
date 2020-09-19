@@ -105,7 +105,7 @@ for i =1:N_files   % Loop through all of your data sets
         fig_filename=fullfile(char([Script_Figs_dir, filenames{i}(1:end-4)]));
         print(fig_filename,'-dpdf')
 
-        TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4))%            %Calculate dm/dt max maximum dm/dt [g/g-s]
+        TAB_DATA{m,1}(k,L)=max(EVAL_DATA{k,L,m}(:,4));%            %Calculate dm/dt max maximum dm/dt [g/g-s]
         T_max=find((EVAL_DATA{k,L,m}(:,4))==max(EVAL_DATA{k,L,m}(:,4)));
         T_onset=find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4)),1);
         T_endset=find((EVAL_DATA{k,L,m}(:,4))>0.1*max(EVAL_DATA{k,L,m}(:,4)),1,'last');
@@ -162,6 +162,10 @@ figure
 %         axis([60 160 0 10]);
         xlabel('Temperature [K]');
         ylabel('Frequency');
+        h = 4;                                  % height of plot in inches
+        w = 5;                                  % width of plot in inches
+        set(gcf, 'PaperSize', [w h]);           % set size of PDF page
+        set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
         fig_filename=fullfile(char([Script_Figs_dir, 'TGA_N2_histogram_Tonset']));
         print(fig_filename,'-dpdf')
 
@@ -488,7 +492,7 @@ end
         axis([300 800 0 0.002]);
         xlabel('Temperature [K]');
         ylabel('d(m/m_0)/dt [s^{-1}]');
-        legend({QMJHL{legend_counter}},'Location','northwest');
+        legend(QMJHL{legend_counter},'Location','northwest');
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
