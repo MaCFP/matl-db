@@ -124,7 +124,6 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \pagestyle{fancy}
 
 \chapter{Introduction}
-
 In April 2016, it was proposed that the Measurement and Computation of Fire Phenomena (MaCFP) Working Group be expanded to include a subgroup dedicated to the predictive modeling of condensed phase phenomena. The MaCFP Condensed Phase Working Group was thus organized to enable the fire safety science research community to make significant progress towards establishing a common framework for the selection of experiments and the methodologies used to analyze these experiments when developing pyrolysis models. Ultimately, such a framework will support reliable computational predictions of how materials burn, how flames spread, and how fires grow in realistic fire scenarios. Key objectives of this effort include:
 \begin{itemize}
  \item Cataloguing current approaches used to parameterize pyrolysis models;
@@ -179,7 +178,7 @@ University of Queensland                                            & Queensland
 \end{center}
 \end{table}
 
-
+\newpage
 \section{Reporting of Results: The MaCFP Repository}
 
 Experimental measurements were submitted electronically by participating institutions and were organized and made publicly available in the MaCFP repository, which is hosted on GitHub \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. The repository was created and is managed by members of the MaCFP Organizing Committee. All measurement data submitted by each institution is organized in a single folder with the institution’s name. A consistent file naming convention is used for all test data (i.e., across all folders). File names indicate the institution name, experimental apparatus, and basic test conditions (e.g., incident heat flux or heating rate; gaseous environment). Measurement data from repeated experiments is saved in separate files, each numbered sequentially.
@@ -318,7 +317,7 @@ Shawinigan            & 1 & 2     &     2 & 0 & 0 & 0 & 0 & 0 \\ \hline
 Total                 & 1 & 10    &     5 & 2 & 8 & 1 & 2 & 3 \\ \hline
 \end{tabular}
 \end{center}
-$^*$Saint John submitted a single DSC dataset, which represents average measurements from 7 repeated tests
+$^*$'Saint John' submitted a single DSC dataset, which represents average measurements from 7 repeated tests
 \end{table}
 
 \subsection{Microscale Combustion Calorimetry (MCC)}
@@ -466,7 +465,7 @@ Figures~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_N2_20K} show measurement data f
 
 Based on these measurements, average TGA curves and an estimate of measurement uncertainty were calculated for each of these conditions. An effort was made to include as much data as possible in the generation of these average curves; however, clear outliers (full curves, not just individual data points) were not used for the calculation of mean and standard deviation values. These datasets are still plotted in Figs.~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_O2-21_10K} with a note identifying them as outliers in the captions below their respective figures. For TGA measurements, datasets were defined as outliers, for example, when additional mass loss events were observed (‘Quebec’ tests in N$_2$ at 10~K/min), peak mass loss rates were greater than $50$~\% of the average of all other data, or a temperature shift of approximately 20~K or greater was observed in measurement results.
 
-For brevity, this document supplies figures of TGA measurement data only when repeated measurements under those test conditions were supplied by multiple labs. Normalized mass and mass loss rate curves (individual test data, along with average curves) from all TGA experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information document.
+For brevity, this document supplies figures of TGA measurement data only when repeated measurements under those test conditions were supplied by multiple labs. Normalized mass and mass loss rate curves (individual test data, along with average curves) from all TGA experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
 
 \begin{figure} [p]
 \centering
@@ -500,7 +499,7 @@ For brevity, this document supplies figures of TGA measurement data only when re
    \label{Fig:TGA_N2_10Kdmdt}
 \end{subfigure}
 
-  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in pure nitrogen (or pure argon, ‘Moncton’) at a nominal heating rate of $\beta = 10$ K/min. The following datasets are identified as outliers and will not be used for the calculation of mean and standard deviation values: Gatineau (clearly too high, likely conducted at $\beta=20$~K/min; see Fig. 2); Quebec (two peaks); Rouyn-Noranda (~20~K shift in temperature).}
+  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in pure nitrogen (or pure argon, ‘Moncton’) at a nominal heating rate of $\beta = 10$ K/min. The following datasets are identified as outliers and will not be used for the calculation of mean and standard deviation values: `Gatineau' (clearly too high, likely conducted at $\beta=20$~K/min; see Fig. 2); `Quebec' (two peaks); `Rouyn-Noranda' (~20~K shift in temperature).}
   \label{Fig:TGA_N2_10K}
 \end{figure}
 
@@ -697,7 +696,7 @@ For all tests, heat flow signals were first processed using linear interpolation
 \frac{q_{i,j}}{m_{0,j}} = \sum_{i'=1}^i \frac{1}{2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} + \frac{\dot{q}_{i'-1,j}}{m_{0,j}} \right) \left(t_{i'}-t_{i'-1} \right)
 %we have to start from i'=1 otherwise at i'-1, we have a conflict
 \end{equation}
-Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data from 8 repeated tests conducted in pure nitrogen or in oxygen and nitrogen ($X_{\rm O_2}=0.21$), respectively, at a nominal heating rate of $\beta=10$~K/min. Instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information document.
+Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data from 8 repeated tests conducted in pure nitrogen or in oxygen and nitrogen ($X_{\rm O_2}=0.21$), respectively, at a nominal heating rate of $\beta=10$~K/min. Instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
 
 \begin{figure} [p]
 \centering
@@ -713,7 +712,7 @@ Figures~\ref{Fig:DSC_N2_10K} and ~\ref{Fig:DSC_O2-21_10K} show measurement data 
    \label{Fig:DSC_N2_10K_int_heatflow}
 \end{subfigure}
 
-  \caption{Measured (a) heat flow and (b) integral heat flow data from DSC tests conducted in pure nitrogen at a nominal heating rate of $\beta=10$~K/min. Data provided by `Saint-John' was submitted as an average measurement of 7 repeated tests. Uncertainty values in these measurements, which are plotted in the top image as shaded error bars and represent two standard deviations of the mean, were provided by ‘Saint John’; these uncertainties are small, thus appearing to only increase the thickness of the curve.}
+  \caption{Measured (a) heat flow and (b) integral heat flow data from DSC tests conducted in pure nitrogen at a nominal heating rate of $\beta=10$~K/min. Data provided by `Saint John' was submitted as an average measurement of 7 repeated tests. Uncertainty values in these measurements, which are plotted in the top image as shaded error bars and represent two standard deviations of the mean, were provided by ‘Saint John’; these uncertainties are small, thus they appear to only increase the thickness of the curve.}
   \label{Fig:DSC_N2_10K}
 \end{figure}
 
@@ -747,11 +746,11 @@ where $N_i$ is equal to the number of DSC measurements from an individual experi
 \end{equation}
 
 
-Average instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information document.
+Average instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
 
 Due to the deviations between DSC heat flow measurements provided by each lab, analysis of this data for the purposes of heat capacity or heat of reaction determination may not be possible. However, when DSC measurements were obtained simultaneously with TGA data (i.e., in an STA experiment), an estimate of the heat of decomposition of PMMA can be calculated as follows. First, onset and endset temperatures of the primary mass loss reaction were defined (following the approach in Section~\ref{TGA_analysis}) as the lowest and highest temperatures, respectively, at which normalized mass loss rate exceeded 10~\% of the peak value. Normalized sample mass loss due to decomposition across this temperature range was calculated:
 \begin{equation}
-\frac{\mathrm{\Delta m}}{m_0}=\frac{m_{\rm onset}}{m_0}-\frac{m_{\rm endset}}{m_0}
+\frac{\Delta m}{m_0}=\frac{m_{\rm onset}}{m_0}-\frac{m_{\rm endset}}{m_0}
 \end{equation}
 On average, approximately 90~\% of initial sample mass was lost as samples were heated through this temperature range. Next, a baseline of heat flow to the sample crucible (neglecting the energy needed for decomposition) during this time was calculated as follows:
 \begin{equation}
@@ -812,7 +811,7 @@ Two institutions conducted MCC experiments in nitrogen at 60~K/min; this data is
    \label{Fig:MCC_N2_60K_int_HRR}
 \end{subfigure}
 
-  \caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min. Data provided by Saint-John was submitted as an average measurement of 4 repeated tests.}
+  \caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min. Data provided by `Saint John' was submitted as an average measurement of 4 repeated tests.}
   \label{Fig:MCC_N2_60K}
 \end{figure}
 
@@ -825,11 +824,11 @@ Key measurement data from cone calorimeter tests include: initial sample-area-no
 
 \subsubsection{Heat Release Rate}
 
-Ten institutions submitted a total of 30 cone calorimeter tests conducted at 25~kW/m$^2$ ($1\le j\le6$ per institution). Figure~\ref{Fig:Cone_25kWindivHRR} plots measured heat release rate (HRR) from tests submitted by each lab. Measurements submitted by ‘Drummondville’ (dark green markers) can be identified as clear outliers. Further analysis to determine an average heat release rate for cone calorimeter tests conducted at 25~kW/m$^2$ was thus conducted based on all measurement data shown in Fig.~\ref{Fig:Cone_25kWindivHRR} except for that submitted by ‘Drummondville’. Data submitted by ‘Sherbrooke (light blue, delayed ignition) and Cape Breton (red, reduced HRR) measurements were still included in the average.
+Ten institutions submitted a total of 30 cone calorimeter tests conducted at 25~kW/m$^2$ ($1\le j\le6$ per institution). Figure~\ref{Fig:Cone_25kWindivHRR} plots measured heat release rate (HRR) from tests submitted by each lab. Measurements submitted by ‘Drummondville’ (dark green markers) can be identified as clear outliers. Further analysis to determine an average heat release rate for cone calorimeter tests conducted at 25~kW/m$^2$ was thus conducted based on all measurement data shown in Fig.~\ref{Fig:Cone_25kWindivHRR} except for that submitted by ‘Drummondville’. Data submitted by ‘Sherbrooke' (light blue, delayed ignition) and `Cape-Breton' (red, reduced HRR) measurements were still included in the average.
 
 Only one institution, ‘Blainville-Boisbriand’, conducted experiments at 50~kW/m$^2$ (three repeated experiments). Heat release rate measurements from these tests are plotted in Fig.~\ref{Fig:Cone_50kWindivHRR}.
 
-Ten institutions submitted a total of 27 tests conducted at 65~kW/m$^{-2}$ ($1\le j\le4$ repeats per lab). Figure~\ref{Fig:Cone_65kWindivHRR} plots measured HRR from each of these tests. Measurements submitted by ‘Drummondville’ (dark green markers) and two experiments submitted by ‘Gatineau’ (dark blue markers) are identified as outliers. The averages for tests at 65~kW/m$^2$ are based on all data shown in Fig.~\ref{Fig:Cone_65kWindivHRR} except for these two datasets. Data submitted by ‘Sherbrooke' (light blue, delayed rise in HRR) and Cape Breton (red, reduced HRR) measurements were still included.
+Ten institutions submitted a total of 27 tests conducted at 65~kW/m$^{-2}$ ($1\le j\le4$ repeats per lab). Figure~\ref{Fig:Cone_65kWindivHRR} plots measured HRR from each of these tests. Measurements submitted by ‘Drummondville’ (dark green markers) and two experiments submitted by ‘Gatineau’ (dark blue markers) are identified as outliers. The averages for tests at 65~kW/m$^2$ are based on all data shown in Fig.~\ref{Fig:Cone_65kWindivHRR} except for these two datasets. Data submitted by ‘Sherbrooke' (light blue, delayed rise in HRR) and `Cape-Breton' (red, reduced HRR) measurements were still included.
 
 \begin{figure}
   \centering
@@ -865,7 +864,7 @@ where $N_i$ is equal to the number of measurements from an individual experiment
 For data provided by the same lab (except for ‘Gatineau’ and ‘Rimouski’ due to lower reporting frequencies), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. For data across all labs (or for ‘Gatineau’ and ‘Rimouski’, due to their coarser time resolution), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
 
 
-Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Heat release rate measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document.
+Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Heat release rate measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information section.
 
 \begin{figure}
   \centering
@@ -924,7 +923,7 @@ and where $N_i$ is equal to the number of measurements from an individual experi
 
 For data provided by the same lab, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. For data provided by all the labs, $n=0$ because greater variability is expected.
 
-Figure~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP} plots average $T_{\rm back}$ curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Back surface temperature measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information document. As seen in Figs.~\ref{Fig:Cone_25kWindivTEMP} through \ref{Fig:Cone_65kWindivTEMP}, the back surface temperature shows a distinct increase towards the end of each experiment. This occurs when sample burnout is observed; the time to burnout varies between repeated experiments conducted by each institution. Measurements of $T_{\rm back}$ reported after sample burnout do not offer useful information for further analysis, thus the curves are only calculated (and plotted in Fig.~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP}) prior to this event.
+Figure~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP} plots average $T_{\rm back}$ curves from cone calorimeter tests conducted at 25, 50, and 65~kW/m$^2$. Back surface temperature measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information section. As seen in Figs.~\ref{Fig:Cone_25kWindivTEMP} through \ref{Fig:Cone_65kWindivTEMP}, the back surface temperature shows a distinct increase towards the end of each experiment. This occurs when sample burnout is observed; the time to burnout varies between repeated experiments conducted by each institution. Measurements of $T_{\rm back}$ reported after sample burnout do not offer useful information for further analysis, thus the curves are only calculated (and plotted in Fig.~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP}) prior to this event.
 
 \newpage
 \begin{figure}
@@ -937,7 +936,7 @@ Figure~\ref{Fig:Cone-Calorimeter-all-fluxes_TEMP} plots average $T_{\rm back}$ c
 
 \subsubsection{Tabulated values of interest}
 
-Time to ignition, $t_{\rm ign}$, in each cone calorimeter experiment is defined as the time at which $\dot{q}'' \ge 24$~kW/m$^2$~\cite{lyon2007criteria}. The arithmetic mean and standard deviation of this time to ignition is reported in Table~\ref{Table_12} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average value at a given exposure condition.
+Time to ignition, $t_{\rm ign}$, in each cone calorimeter experiment is defined as the time at which $\dot{Q}'' \ge 24$~kW/m$^2$~\cite{lyon2007criteria}. The arithmetic mean and standard deviation of this time to ignition is reported in Table~\ref{Table_12} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average value at a given exposure condition.
 
 \begin{table}[ht]
 \caption{Ignition times, $t_{\rm ign}$~(s), in Cone Calorimeter Tests}
@@ -964,7 +963,7 @@ $^A$Calculated based on two values     \\
 $^B$Suspected error in submitted dataset, see Fig.~\ref{Fig:Cone_65kWindivHRR}
 \end{table}
 
-Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{q}'' \ge 240$~kW/m$^2$ (i.e., ten times the critical ignition HRR). The arithmetic mean and standard deviation of $\Delta H_{\rm c}$ is reported in Table~\ref{Table_13} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average at a given exposure condition.
+Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{Q}'' \ge 240$~kW/m$^2$ (i.e., ten times the critical ignition HRR). The arithmetic mean and standard deviation of $\Delta H_{\rm c}$ is reported in Table~\ref{Table_13} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average at a given exposure condition.
 
 \begin{table}[h!]
 \caption{Heat of Combustion (kJ/g), Cone Calorimeter (energy released per gram of gaseous volatiles produced)}
@@ -1075,7 +1074,7 @@ Figures~\ref{Fig:Gasification_25kW_Temperature}, \ref{Fig:Gasification_50kW_Temp
   \caption{Measured front (‘Charlottetown’) or back (‘Chicoutimi’ and ‘Saint John’) surface temperature during anaerobic gasification experiments conducted at $\dot{q}_{\rm ext}'' = 25$ kW/m$^2$. Shaded areas represent $2\sigma_i$. \\
 ‘Charlottetown’:  FPA ($\dot{q}_{\rm ext}'' = 25$~kW/m$^2$); front surface temperature \\
 ‘Chicoutimi’:   FPA ($\dot{q}_{\rm ext}'' = 25$~kW/m$^2$); back surface temperature \\
-‘Saint-John’:   CAPA ($\dot{q}_{\rm ext}'' = 25$ kW/m$^2$); back surface temperature}
+‘Saint John’:   CAPA ($\dot{q}_{\rm ext}'' = 25$ kW/m$^2$); back surface temperature}
   \label{Fig:Gasification_25kW_Temperature}
 \end{figure}
 
@@ -1093,7 +1092,7 @@ Figures~\ref{Fig:Gasification_25kW_Temperature}, \ref{Fig:Gasification_50kW_Temp
  ‘Baie-Comeau’:  Controlled Atmosphere Cone Calorimeter ($\dot{q}_{\rm ext}'' = 65$ kW/m$^2$). back surface temperature \\
 ‘Charlottetown’:  FPA ($\dot{q}_{\rm ext}'' = 65$~kW/m$^2$); front surface temperature \\
 ‘Chicoutimi’:   FPA ($\dot{q}_{\rm ext}'' = 65$~kW/m$^2$); back surface temperature  \\
-‘Saint-John’:   CAPA ($\dot{q}_{\rm ext}'' = 60$~kW/m$^2$); back surface temperature}
+‘Saint John’:   CAPA ($\dot{q}_{\rm ext}'' = 60$~kW/m$^2$); back surface temperature}
   \label{Fig:Gasification_65kW_Temperature}
 \end{figure}
 
@@ -1153,26 +1152,73 @@ PMMA 2  & 0.112 & 0.112 & 0.110 & 0.108 & 0.107 & 0.106 & 0.104 & 0.103 & 0.101 
 
 \chapter{Summary}
 
-The measurement data and related analysis presented in this predecisional draft report should be considered as a preliminary summary of experimental work submitted to the 2021 MaCFP Condensed Phase Workshop. This summary is prepared for subject matter experts to provide critical review, for experimentalists to identify and correct minor errors in their submitted datasets (e.g., scaling or units issues; or mislabelling and/or submission of incorrect data), and to provide modelers who wish to use these measurements for pyrolysis model developmnt a suitable overview of the information available on the MaCFP Github Repository.
-For the purposes of model development, it may be desirable to have a 'community average' of a particular dataset under given conditions (e.g., representative, average mass and mass loss rate curves from TGA tests or heat release rate measurements from cone calorimeter tests). However, as presented in Section~\ref{exp_results} of this document, defining such an average is not necessarily straightforward. One of the valuable outcomes of this excercise is the demonstration that test conditions, procedure, and initial calibration may have a meaningful impact on measurement results. For now, individual datasets are presented and average curves are calculated excluding clear outliers; however, further analysis as to why exactly these differences exist - e.g., are they simply stochastic or if they were due to, for example, calibration differences or subtle variations and how exactly the tests were conducted - is needed. 
-Ultimately, average curves presented here represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted). A valuable outcome of this workshop Developing requirements for data set quality and establishing a data review committee
- may be to demonstrate that it may or may not be possible to simply cherry pick one type of experiment from this lab and another type from that lab, as modelers often do to develop their parameter sets. Simply averaging everything together may hide this. It shouldn't be up to just me to decide which tests do or do not belong in this averaging (excluding obvious outliers). This is something that the community, or at the very least the committee + all those who submitted data, should discuss and come to a conclusion on together. Such an analysis will come in the final version of this report months down the road.
+The measurement data and related analysis presented in this predecisional draft report should be considered as a preliminary summary of experimental work submitted to the 2021 MaCFP Condensed Phase Workshop. This summary is prepared for subject matter experts to provide critical review, for experimentalists to identify and correct minor errors in their submitted datasets (e.g., scaling or units issues; or mislabelling and/or accidental submission of incorrect data), and to provide modelers who wish to use these measurements for pyrolysis model development a suitable overview of the information available on the MaCFP Github Repository.
 
-As a result, formal conclusions are not presented here. 
+For the purposes of model development, it may be desirable to have a 'community average' of a particular dataset under given conditions (e.g., representative, average mass and mass loss rate curves from TGA tests or average heat release rate measurements from cone calorimeter tests). However, as presented in Section~\ref{exp_results} of this document, defining such an average is not necessarily straightforward. One of the valuable outcomes of this exercise is the demonstration that test conditions, procedure, and initial calibration may have a meaningful impact on measurement results. For now, in this preliminary report, individual datasets are presented and average curves are calculated excluding clear outliers; however, further analysis as to why exactly these differences exist - i.e., are they simply stochastic or are they due to, for example, calibration differences or subtle variations in how exactly the tests were conducted - is needed. 
 
-In the final version of this report, further detail will be providing regarding:  . Additionally, whether a single 'community average' exists..; 
-
-A second, related, report will then focus on: 
-(1) Cataloguing current approaches used to parameterize pyrolysis models 
-(2) what are these parameters and what are the key we're looking for, and 
-(3) Assessing the impact of the variability of model parameters on material burning behavior and fire growth predictions
+Ultimately, average curves presented here represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted). Valuable outcomes of this exercise include the development of requirements for dataset quality and quantification the inter-laboratory variability for comparable experimental datasets. These outcomes will be addressed with feedback from the pyrolysis modeling community: both those who submitted experimental data, and those who use these measurements to calibrate pyrolysis model parameter sets. This more detailed analysis will be included in the final version of this report. Additionally, a second, related, report will then prepared with a focus on: (1) cataloging the current, state of the art approaches used to parameterize pyrolysis models, (2) defining the key parameters of interest, and (3) assessing the impact of the variability of these parameters on material burning behavior and fire growth predictions.
 
 \backmatter
-
-
-
 \bibliography{MaCFP2021_Part1_exp}
 
+\chapter{Nomenclature}
+\label{nomenclature}
+
+\begin{tabbing}
+CAPA		\hspace{1in}\= controlled atmosphere cone calorimetry\\
+DSC					\>differential scanning calorimetry\\
+FPA		        		\> fire propagation apparatus\\
+MCC		        		\> mircroscale combustion calorimetry\\
+TGA		        		\> thermogravimetric analysis\\
+TPS		        		\> transient plane source\\
+
+\hspace{0.1in}            		\> \\
+{\bf  Parameters}       	\> \\
+\hspace{0.1in} 		       	\> \\
+$A$		        			\> initial sample surface area\\
+$h_{\rm r}$        	\> heat of decomposition\\
+$\Delta H_{\rm c}$		\> heat of combustion (energy released per gram of gaseous volatiles produced)\\
+$m$		        			\> mass\\
+$\dot{m}''$			\> mass loss rate (normalized by initial sample-area)\\
+$n$						\> interval, defines number of points across which  average or standard deviation are calculated\\
+$N$		        			\> number (of measurements, tests, or test locations)\\
+$\dot{q}$		     		\> heat flow\\
+$q$		        			\> integral heat flow\\
+$\dot{Q}''$			\> heat heat release rate (normalized by initial sample-area)\\
+$t$						\> time\\
+$T$						\> temperature \\
+$X$               				\> volume fraction \\
+
+\hspace{0.1in}            		\> \\
+{\bf Greek Letters}       	\> \\
+\hspace{0.1in}            		\> \\
+$\beta$                  		\> heating rate\\
+$\mu_{\rm char}$		\> char yield\\
+$\sigma$			   		\> standard deviation\\
+$\sigma_{\rm m}$   	 	\> standard deviation of the mean \\
+
+\hspace{0.1in}            		\> \\
+{\bf Subscripts}          	\> \\
+\hspace{0.1in}            		\> \\
+0     	                    			\> initial value \\
+back         				\> back surface\\
+endset         				\> endset (of reaction)\\
+front         				\> front surface\\
+i                          			\> time or temperature step\\
+j                          			\> test replicate\\
+k	                          		\> location replicate (e.g., multiple thermocouples used in same experiment)\\
+O$_2$                         		\> Oxygen \\
+onset                  			\> onset (of reaction)\\
+tot                  				\> total\\
+\end{tabbing}
+
+
+
+\newpage
+\chapter{Supplemental Information}
+\label{SI}
+
+%Will copy in supplemental info .tex [here] when rest of this document is complete.
 
 
 
