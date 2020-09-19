@@ -44,9 +44,9 @@ for i = 1:N_files   % Loop through all of your data sets
         elseif k==7
             EVAL_DATA{k,L,m}(:,8)=(EVAL_DATA{k,L,m}(:,3));                                                      % Keep raw data for LCPP b/c of 0.2 Hz output
         end
-        TAB_DATA{m,1}(k,L)=min(find((EVAL_DATA{k,L,m}(:,3))>24));              %Calculate t_ignition as the first time when HRR_smooth>24 kW/m2
-        TAB_DATA{m,2}(k,L)=min(find((EVAL_DATA{k,L,m}(:,3))>240));             %Calculate t_100_0 as the first time when HRR_smooth>100 kW/m2
-        TAB_DATA{m,3}(k,L)=max(find((EVAL_DATA{k,L,m}(:,3))>240));             %Calculate t_100_0 as the last time when HRR_smooth>100 kW/m2
+        TAB_DATA{m,1}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>24,1);              %Calculate t_ignition as the first time when HRR_smooth>24 kW/m2
+        TAB_DATA{m,2}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>240,1);             %Calculate t_100_0 as the first time when HRR_smooth>100 kW/m2
+        TAB_DATA{m,3}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>240,1,'last');             %Calculate t_100_0 as the last time when HRR_smooth>100 kW/m2
         TAB_DATA{m,4}(k,L)=m0;
         Ncols=size(EXP_DATA{k,L,m}(:,:),2);         % Find out how many TCs / temp measurements were provided in this test
         N_rows_i(i)=size(EXP_DATA{k,L,m}(:,:),1);
@@ -453,7 +453,7 @@ i_legend=0;
 
 %plot Average with shaded errorbars WITH individual data points from all tests
 for k=1:Test_count(4,end)
-    if k<= 11 | k>=18
+    if k<= 11 || k>=18
         plot(time50(:),HRR50_all(:,k),'.');
     end
 end
@@ -922,7 +922,6 @@ for i=1:N_files
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, LabNames{k}, '_', Test_types{5} '_Temp']));
-            i
             print(fig_filename,'-dpdf')
             clear ix
             clf
