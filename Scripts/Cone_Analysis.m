@@ -40,7 +40,10 @@ for i = 1:N_files   % Loop through all of your data sets
         EVAL_DATA{k,L,m}(:,2)=interp1(EXP_DATA{k,L,m}(:,1),EXP_DATA{k,L,m}(:,2), EVAL_DATA{k,L,m}(:,1))/m0;     % interpolate mass, normalize by m0
         EVAL_DATA{k,L,m}(:,3)=interp1(EXP_DATA{k,L,m}(:,1),EXP_DATA{k,L,m}(:,3), EVAL_DATA{k,L,m}(:,1));        % interpolate HRR
         if k~=7
-            EVAL_DATA{k,L,m}(:,8)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),2,5);                                        % Calculate smoothed HRR
+        frames=5;
+        order=2;            
+            EVAL_DATA{k,L,m}(:,8)=sgfilt(order,frames,EVAL_DATA{k,L,m}(:,3));                                   % Calculate smoothed HRR
+%             EVAL_DATA{k,L,m}(:,8)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),2,5);                                      % Calculate smoothed HRR (MATLAB fctn)
         elseif k==7
             EVAL_DATA{k,L,m}(:,8)=(EVAL_DATA{k,L,m}(:,3));                                                      % Keep raw data for LCPP b/c of 0.2 Hz output
         end
@@ -69,7 +72,7 @@ for i = 1:N_files   % Loop through all of your data sets
             end
         end
         EVAL_DATA{k,L,m}(:,9)=movmean(EVAL_DATA{k,L,m}(:,9),5);   % Calculate running average of d(HRR_smooth)/dt [5s interval, +/- 2 s]
-    %     EVAL_DATA{k,L,m}(:,9)=sgolayfilt(EVAL_DATA{k,L,m}(:,9),2,13);     %Savitzky Golay HRR, quadratic, 13s invtreval: smoothed d(HRR_smooth)/dt
+    %     EVAL_DATA{k,L,m}(:,9)=sgfilt(2,13,EVAL_DATA{k,L,m}(:,9));     %Savitzky Golay HRR, quadratic, 13s invtreval: smoothed d(HRR_smooth)/dt
 
             p_end=size(EVAL_DATA{k,L,m},1);
         for p=1:p_end                 %Calculate [4] total heat flow and [5] dT/dt (+/- one time step, delta_T=1k]
@@ -185,7 +188,7 @@ for i=1:N_files
             HRR25(ix,L+4,k)=HRR25(ix,L+3,k)/sqrt(HRR25(ix,L+1,k));
 
             end
-%             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,
+%             HRR25(1:last,L+2,k)=sgfilt(3,15,HRR25(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:L
@@ -308,7 +311,7 @@ end
         axis([0 600 0 800]);
         xlabel('time [s]');
         ylabel('HRR [kW m^{-2}]');
-        legend(h,'Location','eastoutside');
+        legend(h,'Location','northeastoutside');
             h=6;                                  % height of plot in inches
             w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -351,7 +354,7 @@ for i=1:N_files
             HRR50(ix,L+4,k)=HRR50(ix,L+3,k)/sqrt(HRR50(ix,L+1,k));
 
             end
-%             HRR50(1:last,L+2,k)=sgolayfilt(HRR50(1:last,L+2,k),3,15);,
+%             HRR50(1:last,L+2,k)=sgfilt(3,15,HRR50(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:L
@@ -422,7 +425,7 @@ for ix=3:398
 end
 
 
-figure('Renderer', 'painters', 'Position', [100 100 500 350])
+figure('Renderer', 'painters', 'Position', [100 100 800 550])
 hold on
 i_legend=0;
 %plot Average with shaded errorbars WITH avg HRR curves from all Labs
@@ -440,9 +443,9 @@ i_legend=0;
 %         axis([0 300 0 1300]);
 %         xlabel('time [s]');
 %         ylabel('HRR [kW m^{-2}]');
-%         legend(QMJHL{legend_counter},'Location','Northwest');
-%             h=3;                                  % height of plot in inches
-%             w=5;                                  % width of plot in inches
+%         legend(QMJHL{legend_counter},'Location','northeastoutside');
+%             h=6;                                  % height of plot in inches
+%             w=8;                                  % width of plot in inches
 %             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
 %             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
 
@@ -462,9 +465,9 @@ end
         axis([0 300 0 1300]);
         xlabel('time [s]');
         ylabel('HRR [kW m^{-2}]');
-        legend({'Test 1', 'Test 2', 'Test 3'}, 'Location','Northwest');
-            h=3;                                  % height of plot in inches
-            w=5;                                  % width of plot in inches
+        legend({'Test 1', 'Test 2', 'Test 3'}, 'Location','northeastoutside');
+            h=6;                                  % height of plot in inches
+            w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, Test_types{4}, '_indivHRR_noavg']));
@@ -507,7 +510,7 @@ for i=1:N_files
 
 
             end
-%             HRR65(1:last,L+2,k)=sgolayfilt(HRR65(1:last,L+2,k),3,15);,
+%             HRR65(1:last,L+2,k)=sgfilt(3,15,HRR65(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:L
@@ -699,7 +702,7 @@ for i=1:N_files
             TEMP25(ix,3*L+4,k)=TEMP25(ix,3*L+3,k)/sqrt(TEMP25(ix,3*L+1,k));
 
             end
-%             TEMP25(1:last,L+2,k)=sgolayfilt(TEMP25(1:last,L+2,k),3,15);,
+%             TEMP25(1:last,L+2,k)=sgfilt(3,15,TEMP25(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:3*L
@@ -772,7 +775,7 @@ end
 
 
 %plot Average with shaded errorbars WITH avg TEMP curves from all Labs
-figure('Renderer', 'painters', 'Position', [100 100 700 350])
+figure('Renderer', 'painters', 'Position', [100 100 800 550])
 hold on
 i_legend=0;
 for k=1:N_Labs %size(TEMP25_all_avg,2)
@@ -791,9 +794,9 @@ end
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
 %         legend(QMJHL{legend_counter},'Location','eastoutside');
-        legend(h,'Location','eastoutside');
-            h=4.5;                                  % height of plot in inches
-            w=6;                                  % width of plot in inches
+        legend(h,'Location','northeastoutside');
+            h=6;                                  % height of plot in inches
+            w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{3} '_avgTEMP']));
@@ -802,7 +805,7 @@ end
 
 
 % %plot Average with shaded errorbars WITH individual data points from all tests
-figure('Renderer', 'painters', 'Position', [100 100 700 550])
+figure('Renderer', 'painters', 'Position', [100 100 800 550])
 hold on
 i_legend=0;
 i_legend_old=0;
@@ -831,7 +834,7 @@ end
         axis([0 500 250 900]);
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
-        legend(h,'Location','eastoutside');
+        legend(h,'Location','northeastoutside');
             h=6;                                  % height of plot in inches
             w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -848,7 +851,7 @@ close all
 %% Analyze Time Resolved Temperature Data with q"=50kWm-2
 % You only have one set of temperature data this heat flux, DBI_Lund_Test1.
 % Let's just plot that.
-figure('Renderer', 'painters', 'Position', [100 100 500 350])
+figure('Renderer', 'painters', 'Position', [100 100 800 550])
 TEMP50=EVAL_DATA{2,1,4}(:,4); % pull in TEMP data from DBI_Lund_Cone_50kW_1
 time50x=[0:size(TEMP50,1)-1]';
 plot(time50x,TEMP50,'.');
@@ -858,8 +861,9 @@ clear time50x
         axis([0 300 250 1100]);
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
-            h=3;                                  % height of plot in inches
-            w=5;                                  % width of plot in inches
+        legend('Test 1', 'Location','northeastoutside');
+            h=6;                                  % height of plot in inches
+            w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{4} '_Temp']));
@@ -900,7 +904,7 @@ for i=1:N_files
             TEMP65(ix,3*L+4,k)=TEMP65(ix,3*L+3,k)/sqrt(TEMP65(ix,3*L+1,k));
 
             end
-%             TEMP65(1:last,L+2,k)=sgolayfilt(TEMP65(1:last,L+2,k),3,15);,
+%             TEMP65(1:last,L+2,k)=sgfilt(3,15,TEMP65(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:3*L
@@ -964,7 +968,7 @@ end
 
 %--------------new format, proper legend BELOW
 %plot Average with shaded errorbars WITH avg TEMP curves from all Labs
-figure('Renderer', 'painters', 'Position', [100 100 700 350])
+figure('Renderer', 'painters', 'Position', [100 100 800 550])
 hold on
 i_legend=0;
 for k=1:N_Labs %size(TEMP25_all_avg,2)
@@ -981,7 +985,7 @@ end
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
 %         legend(QMJHL{legend_counter},'Location','eastoutside');
-        legend(h,'Location','eastoutside');
+        legend(h,'Location','northeastoutside');
             h=6;                                  % height of plot in inches
             w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
