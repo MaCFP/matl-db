@@ -79,7 +79,8 @@ for i =1:N_files   % Loop through all of your data sets
 % smooth dm*/dt with a svgolayfilter
         frames=31;
         order=3;
-        EVAL_DATA{k,L,m}(:,3)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);
+        EVAL_DATA{k,L,m}(:,3)=sgfilt(order,frames,EVAL_DATA{k,L,m}(:,3));
+%         EVAL_DATA{k,L,m}(:,3)=sgolayfilt(EVAL_DATA{k,L,m}(:,3),order,frames);  %svgolay using MATLAB's filter 
         yyaxis left
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,3),'-','MarkerSize',1, 'Color', 'green');
 
@@ -290,7 +291,7 @@ end
             title('dT/dt in TGA tests at 10 K/min', 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
-            legend(QMJHL{legend_counter},'Location','eastoutside');
+            legend(QMJHL{legend_counter},'Location','northeastoutside');
 
             h=3.25;                                  % height of plot in inches
             w=6;                                  % width of plot in inches
@@ -301,7 +302,7 @@ end
             clear last i_legend legend_counter
 close
         %% All dT/dt curves at 20 K/min
-figure('Renderer', 'painters', 'Position', [100 100 525 350])
+figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
 i_legend=1;
 for i=1:N_files
@@ -324,9 +325,9 @@ end
             title('dT/dt in TGA tests at 20 K/min', 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
-            legend(QMJHL{legend_counter},'Location','southeast');
-            h=3;                                  % height of plot in inches
-            w=5;                                  % width of plot in inches
+            legend(QMJHL{legend_counter},'Location','northeastoutside');
+            h=3.25;                                  % height of plot in inches
+            w=6;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, 'TGA_20K_dTdt']));
@@ -377,7 +378,6 @@ for i=1:N_files
                 TGA_Mass(ix,7,k,m)=std_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
                 TGA_Mass(ix,8,k,m)=TGA_Mass(ix,7,k,m)/sqrt(TGA_Mass(ix,5,k,m));
             end
-%             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,
             clear temp_MLR temp_Mass
 
             hold on

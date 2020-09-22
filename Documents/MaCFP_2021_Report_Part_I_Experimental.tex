@@ -547,7 +547,7 @@ When repeated measurements were available (submitted by the same or different la
 \end{equation}
 where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n$ is chosen based on whether the data is from the same laboratory or not. $N_j$ is the number of replicate tests. The standard deviation of the mean,   $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
 \begin{equation}
-  \sigma_{mean,i}^2 = \frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n}  \left( \frac{\dot{m}_{i',j}}{m_{0,j}} - \overline{\left(\frac{\dot{m}}{m_0}\right)_i} \right)^2
+  \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n}  \left(\frac{\dot{m}_{i',j}}{m_{0,j}} - \overline{\left(\frac{\dot{m}}{m_0}\right)_i} \right)\right)}
 \end{equation}
 When the average and standard deviation of the mean were calculated using data provided by the same lab (except for ‘Chicoutimi’ and ‘Rimouski’), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval when tests are conducted by the same institution (these values are plotted in the Supplemental Information section). When the average and standard deviation of the mean were calculated across all labs (or for ‘Chicoutimi’ and ‘Rimouski’, due to coarser data reporting frequency), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
 
@@ -743,9 +743,8 @@ Due to significant deviations  in heat flow measurements provided by each lab fo
 \end{equation}
 where $N_i$ is equal to the number of DSC measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. Here, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval when tests are conducted by the same institution. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each temperature, $T_i$, as:
 \begin{equation}
-   \sigma_{mean,i}^2 = \frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)^2
+   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)\right)}
 \end{equation}
-
 
 Average instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
 
@@ -858,7 +857,7 @@ When repeated measurements were available (submitted by the same or different la
 \end{equation}
 where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n$ depends on whether the data is from one lab or more than one lab. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each time step, $t_i$, as:
 \begin{equation}
-   \sigma_{mean,i}^2 = \frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)}   \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{Q}_{i',j}'' - \overline{\dot{Q}_i''} \right)^2
+   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)}   \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{Q}_{i',j}'' - \overline{\dot{Q}_i''} \right)\right)}
 \end{equation}
 
 For data provided by the same lab (except for ‘Gatineau’ and ‘Rimouski’ due to lower reporting frequencies), $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~s interval when tests are conducted by the same institution. For data across all labs (or for ‘Gatineau’ and ‘Rimouski’, due to their coarser time resolution), $n=0$ because greater variability is expected between these individual tests (or data was simply not reported at a high enough frequency to allow for such calculations).
@@ -916,8 +915,8 @@ N_{\rm tot}={\sum_{j=1}^{N_j}\sum_{k=1}^{N_{k_j}}N_i}
 \end{equation}
 and where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n$ depends on whether the data is from one lab or more than one lab. $N_{k_j}$ is the number of measurement locations for the $j$th test. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each time step, $t_i$, as:
 \begin{equation}
-   \sigma_{mean,i}^2 = \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
-    \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right)^2
+   \sigma_{mean,i} = \sqrt[]{\left( \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
+    \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right) \right)}
 \end{equation}
 
 
@@ -1015,7 +1014,7 @@ where $A$ is the initial surface area of the sample. The subscript $j$ indicates
 \end{equation}
 where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each time step, $t_i$, as:
 \begin{equation}
-   \sigma_{mean,i}^2 = \frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{m}_{i',j}'' - \overline{\dot{m}_i''} \right)^2
+   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{m}_{i',j}'' - \overline{\dot{m}_i''} \right) \right)}
 \end{equation}
 
 
@@ -1059,8 +1058,8 @@ N_{\rm tot}={\sum_{j=1}^{N_j}\sum_{k=1}^{N_{k_j}}N_i}
 \end{equation}
 and where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. $N_{k_j}$ is the number of temperature measurement locations of the $j$th test. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each time step, $t_i$, as follows:
 \begin{equation}
-   \sigma_{mean,i}^2 = \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
-    \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right)^2
+   \sigma_{mean,i} = \sqrt[]{ \left( \frac{1}{N_{\rm tot}} \frac{1}{(N_{\rm tot}-1)}
+    \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} \left( T_{{\rm back},i',j,k} - \overline{ T_{{\rm back},i} }  \right) \right)}
 \end{equation}
 
 

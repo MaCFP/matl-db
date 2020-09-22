@@ -62,7 +62,9 @@ for i = 1:N_files   % Loop through all of your data sets
             end
         end
 %         EVAL_DATA{k,L,m}(:,8)=movmean(EVAL_DATA{k,L,m}(:,7),5);            %Calculate running average of d(m*)/dt
-        EVAL_DATA{k,L,m}(:,8)=sgolayfilt(EVAL_DATA{k,L,m}(:,7),3,21);     %Savitzky Golay HRR, quadratic, 13s invtreval: smoothed d(m*)/dt
+    frames=21;
+    order=3;
+    EVAL_DATA{k,L,m}(:,8)=sgfilt(order,frames,EVAL_DATA{k,L,m}(:,7));     %Savitzky Golay HRR, quadratic, 13s invtreval: smoothed d(m*)/dt
 
 %     TAB_DATA{m,1}(k,L)=find((EVAL_DATA{k,L,m}(:,5))>1,1);            %Calculate t_ignition as the first time when dm*dt_smooth>1 g/(s-m2)
 
@@ -121,7 +123,7 @@ for i=1:N_files
                 end
 
             end
-%             MLR25(1:last,L+2,k)=sgolayfilt(MLR25(1:last,L+2,k),3,15);,
+%             MLR25(1:last,L+2,k)=sgfilt(3,15,MLR25(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:L
@@ -229,7 +231,7 @@ for i=1:N_files
                 end
 
             end
-%             MLR50(1:last,L+2,k)=sgolayfilt(MLR50(1:last,L+2,k),3,15);,
+%             MLR50(1:last,L+2,k)=sgfilt(3,15,MLR50(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:L
@@ -337,7 +339,7 @@ for i=1:N_files
                 end
 
             end
-%             MLR65(1:last,L+2,k)=sgolayfilt(MLR65(1:last,L+2,k),3,15);,
+%             MLR65(1:last,L+2,k)=sgfilt(3,15,MLR65(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:L
@@ -442,7 +444,7 @@ for i=1:N_files
                 TEMP25(ix,3*L+3,k)=nanstd(TEMP25((ix-2:ix+2),(1:3*L),k),0,'all');
                 TEMP25(ix,3*L+4,k)=TEMP25(ix,3*L+3,k)/sqrt(TEMP25(ix,3*L+1,k));
             end
-%             TEMP25(1:last,L+2,k)=sgolayfilt(TEMP25(1:last,L+2,k),3,15);,
+%             TEMP25(1:last,L+2,k)=sgfilt(3,15,TEMP25(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:3*L
@@ -550,7 +552,7 @@ for i=1:N_files
             TEMP50(ix,3*L+3,k)=nanstd(TEMP50((ix-2:ix+2),(1:3*L),k),0,'all');
             TEMP50(ix,3*L+4,k)=TEMP50(ix,3*L+3,k)/sqrt(TEMP50(ix,3*L+1,k));
             end
-%             TEMP50(1:last,L+2,k)=sgolayfilt(TEMP50(1:last,L+2,k),3,15);,
+%             TEMP50(1:last,L+2,k)=sgfilt(3,15,TEMP50(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:3*L
@@ -652,7 +654,7 @@ for i=1:N_files
 %             TEMP65(ix,L+3,k)=nanstd(TEMP65((ix-2:ix+2),(1:L),k),0,'all');
 %             TEMP65(ix,L+4,k)=TEMP65(ix,L+3,k)/sqrt(TEMP65(ix,L+1,k));
             end
-%             TEMP65(1:last,L+2,k)=sgolayfilt(TEMP65(1:last,L+2,k),3,15);,
+%             TEMP65(1:last,L+2,k)=sgfilt(3,15,TEMP65(1:last,L+2,k));,
             clear temp
             hold on
             for ix=1:3*L
