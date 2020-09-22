@@ -1,137 +1,65 @@
-\documentclass{book}
+% !TEX root = MaCFP_2021_Report_Part_I_Experimental.tex
+\chapter{Nomenclature}
+\label{nomenclature}
 
-\usepackage{times,mathptmx}
-\usepackage[pdftex]{graphicx}
-\usepackage{pdflscape}
+\begin{tabbing}
+CAPA		\hspace{1in}\= controlled atmosphere cone calorimetry\\
+DSC					\>differential scanning calorimetry\\
+FPA		        		\> fire propagation apparatus\\
+MCC		        		\> mircroscale combustion calorimetry\\
+TGA		        		\> thermogravimetric analysis\\
+TPS		        		\> transient plane source\\
 
-\usepackage{subcaption}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage[section]{placeins}
-\usepackage{fancyhdr}
+\hspace{0.1in}            		\> \\
+{\bf  Parameters}       	\> \\
+$A$		        			\> initial sample surface area\\
+$h_{\rm r}$        	\> heat of decomposition reaction\\
+$\Delta H_{\rm c}$		\> heat of combustion (energy released per gram of gaseous volatiles produced)\\
+$m$		        			\> mass\\
+$\dot{m}''$			\> mass loss rate (normalized by initial sample-area)\\
+$n$						\> interval, defines number of points across which  average or standard deviation are calculated\\
+$N$		        			\> number (of measurements, tests, or test locations)\\
+$\dot{q}$		     		\> heat flow\\
+$q$		        			\> integral heat flow\\
+$\dot{Q}''$			\> heat release rate (normalized by initial sample-area)\\
+$t$						\> time\\
+$T$						\> temperature \\
+$X$               				\> volume fraction \\
 
-\pagestyle{fancy}
-\rhead{}
-\lhead{}
-\chead{Page \thepage}
-\cfoot{Supplemental Information to Predecisional Draft Report}
-%\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+\hspace{0.1in}            		\> \\
+{\bf Greek Letters}       	\> \\
+$\beta$               \> heating rate\\
+$\mu_{\rm char}$		\> char yield\\
+$\sigma_{\rm mean}$   	 	\> standard deviation of the mean \\
 
-\usepackage{color}
-\usepackage{amsmath}
-\usepackage{multirow}
-\definecolor{linknavy}{rgb}{0,0,0.50196}
-\definecolor{linkred}{rgb}{1,0,0}
-\definecolor{linkblue}{rgb}{0,0,1}
-
-\usepackage{xr-hyper}
-\usepackage[pdftex,
-        colorlinks=true,
-        urlcolor=linkblue,     % \href{...}{...} external (URL)
-        citecolor=linkred,     % citation number colors
-        linkcolor=linknavy,    % \ref{...} and \pageref{...}
-        pdfproducer={pdflatex},
-        pagebackref,
-        pdfpagemode=UseNone,
-        bookmarksopen=true,
-        plainpages=false,
-        verbose]{hyperref}
-
-\setlength{\textwidth}{6.5in}
-\setlength{\textheight}{9.0in}
-\setlength{\topmargin}{0.in}
-\setlength{\headheight}{0.in}
-\setlength{\headsep}{0.1in}
-\setlength{\parindent}{0.25in}
-\setlength{\oddsidemargin}{0.0in}
-\setlength{\evensidemargin}{0.0in}
-
-
+\hspace{0.1in}            		\> \\
+{\bf Subscripts}      	    	\> \\
+\hspace{0.1in}            		\> \\
+0     	                    			\> initial value \\
+back         				\> back surface\\
+endset         				\> endset (of reaction)\\
+front         				\> front surface\\
+i                          			\> time or temperature step\\
+j                          			\> test replicate\\
+k	                          		\> location replicate (e.g., multiple thermocouples used in same experiment)\\
+O$_2$                         		\> Oxygen \\
+onset                  			\> onset (of reaction)\\
+tot                  				\> total\\
+\end{tabbing}
 
 
-\begin{document}
-
-\bibliographystyle{unsrt}
-\thispagestyle{empty}
 
 
-\vspace*{0.75in}
-
-\begin{center}
-\begin{Large}
-{\bf Preliminary Summary of Experimental Measurements} \\
-{\bf Supplemental Information} \\
-\end{Large}
-\hspace{1in} \\
-\end{center}
-
-\begin{center}
-\begin{large}
-Predecisional Draft Report\\
-Submitted to the 2021 MaCFP Condensed Phase Workshop \\
-August 26, 2020 \\
-\end{large}
-\hspace{2in} \\
-\end{center}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=6in]{FIGURES/MaCFP_Logo}
-  \label{Cover_Image}
-\end{figure}
-
-\vfill
-
-\begin{minipage}{0.25\textwidth}
-\begin{figure}[H]
-\includegraphics[width=2in]{FIGURES/IAFSSLogo}
-\end{figure}
-\end{minipage} \hfill
-\begin{minipage}{0.7\textwidth}
-\begin{flushright}
-{\bf The MaCFP Condensed Phase Working Group Organizing Committee:} \\
-Benjamin Batiot (University of Poitiers, France) \\
-Morgan Bruns (Virginia Military Institute, USA) \\
-Simo Hostikka (Aalto University, Finland) \\
-Isaac Leventon (National Institute of Standards and Technology, USA) \\
-Yuji Nakamura (Toyohashi University of Technology, Japan) \\
-Pedro Reszka (Universidad Adolfo Ibáñez, Chile) \\
-Thomas Rogaume (University of Poitiers, France) \\
-Stanislav Stoliarov (University of Maryland, USA)
-\end{flushright}
-\end{minipage}
-
-
-\newpage
-\thispagestyle{empty}
-
-\frontmatter
-
-
-\chapter{Preface}
-
-This Supplemental Information document has been prepared on behalf of the MaCFP Condensed Phase Working Group. It is written to provide supporting information to a predecisional draft report titled, `Preliminary Summary of Experimental Measurements'. All figures in this document have been prepared as described in the main (predecisional draft) report. These documents have been prepared for subject matter experts to provide critical review and to ensure the integrity of the measurement data and related analysis submitted to the 2021 MaCFP Condensed Phase Workshop. 
-
-Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been through a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
-
- 
-
-\newpage
-
-\tableofcontents
-
-\mainmatter
-
-\pagestyle{fancy}
-
+\chapter{Supplemental Information}
+\label{SI}
+This Supplemental Information section has been prepared on behalf of the MaCFP Condensed Phase Working Group. It is written to provide supporting information to the main text of the predecisional draft report titled, `Preliminary Summary of Experimental Measurements'. All figures in this document have been prepared as described in the main text of this predecisional draft report. These figures have been prepared for subject matter experts to provide critical review and to ensure the integrity of the measurement data and related analysis submitted to the 2021 MaCFP Condensed Phase Workshop. 
 
 
 \begin{landscape}
-\chapter{Thermogravimetric Analysis (TGA)}
-\section{Nitrogen Environment}
+\section{Thermogravimetric Analysis (TGA)}
+\subsection{Nitrogen Environment}
 \label{TGA_N2}
-\subsection{$\beta$ = 1~K/min}
+\subsubsection{$\beta$ = 1~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/UMET_TGA_N2_1K_avg}}\\
@@ -139,7 +67,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 \vfill
 \newpage
-\subsection{$\beta$ = 2~K/min}
+\subsubsection{$\beta$ = 2~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/UMET_TGA_N2_2K_avg}}\\
@@ -147,7 +75,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 
 \newpage
-\subsection{$\beta$ = 5~K/min}
+\subsubsection{$\beta$ = 5~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/LCPP_TGA_N2_5K_avg}}\\
@@ -160,7 +88,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 
 \newpage
-\subsection{$\beta$ = 10~K/min}
+\subsubsection{$\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_TGA_N2_10K_avg}}\\
@@ -213,7 +141,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}\\
 
 \newpage
-\subsection{$\beta$ = 15~K/min}
+\subsubsection{$\beta$ = 15~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/LCPP_TGA_N2_15K_avg}}\\
@@ -221,7 +149,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 
 \newpage
-\subsection{$\beta$ = 20~K/min}
+\subsubsection{$\beta$ = 20~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_TGA_N2_20K_avg}}\\
@@ -239,7 +167,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 
 \newpage
-\subsection{$\beta$ = 50~K/min}
+\subsubsection{$\beta$ = 50~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/UMET_TGA_N2_50K_avg}}\\
@@ -247,7 +175,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 
 \newpage
-\subsection{$\beta$ = 100~K/min}
+\subsubsection{$\beta$ = 100~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/UMET_TGA_N2_100K_avg}}\\
@@ -255,9 +183,9 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 \vfill
 
-\section{Argon Environment}
+\subsection{Argon Environment}
 \label{TGA_Ar}
-\subsection{$\beta$ = 1~K/min}
+\subsubsection{$\beta$ = 1~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Sandia_TGA_Ar_1K_avg}}\\
@@ -265,7 +193,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 \vfill
 
-\subsection{$\beta$ = 10~K/min}
+\subsubsection{$\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Sandia_TGA_Ar_10K_avg}}\\
@@ -273,7 +201,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 \vfill
 
-\subsection{$\beta$ = 50~K/min}
+\subsubsection{$\beta$ = 50~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Sandia_TGA_Ar_50K_avg}}\\
@@ -281,9 +209,9 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 \vfill
 
-\section{Oxygen Environment}
+\subsection{Oxygen Environment}
 \label{TGA_O2}
-\subsection{$X_{\rm O_2}=0.10$ $\beta$ = 10~K/min}
+\subsubsection{$X_{\rm O_2}=0.10$ $\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_TGA_O2-10_10K_avg}}\\
@@ -291,7 +219,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage} 
 \vfill
 
-\subsection{$X_{\rm O_2}=0.21$ $\beta$ = 10~K/min}
+\subsubsection{$X_{\rm O_2}=0.21$ $\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_TGA_O2-21_10K_avg}}\\
@@ -314,10 +242,10 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 
 
-\chapter{Differential Scanning Calorimetry (DSC)}
-\section{Nitrogen Environment}
+\section{Differential Scanning Calorimetry (DSC)}
+\subsection{Nitrogen Environment}
 \label{DSC_N2}
-\subsection{$\beta$ = 10~K/min}
+\subsubsection{$\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_DSC_N2_10K_heatflow_avg}}\\
@@ -377,7 +305,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\subsection{$\beta$ = 20~K/min}
+\subsubsection{$\beta$ = 20~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_DSC_N2_20K_heatflow_avg}}\\
@@ -391,9 +319,9 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\section{Argon Environment}
+\subsection{Argon Environment}
 \label{DSC_Ar}
-\subsection{$\beta$ = 1~K/min}
+\subsubsection{$\beta$ = 1~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Sandia_DSC_Ar_1K_heatflow_avg}}\\
@@ -406,7 +334,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 \vfill
 
-\subsection{$\beta$ = 10~K/min}
+\subsubsection{$\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Sandia_DSC_Ar_10K_heatflow_avg}}\\
@@ -419,7 +347,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 
 \newpage
-\subsection{$\beta$ = 50~K/min}
+\subsubsection{$\beta$ = 50~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Sandia_DSC_Ar_50K_heatflow_avg}}\\
@@ -433,9 +361,9 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\section{Oxygen Environment}
+\subsection{Oxygen Environment}
 \label{DSC_O2}
-\subsection{$X_{\rm O_2}=0.10$ $\beta$ = 10~K/min}
+\subsubsection{$X_{\rm O_2}=0.10$ $\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_DSC_O2-10_10K_heatflow_avg}}\\
@@ -448,7 +376,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}\\
 \vfill
 
-\subsection{$X_{\rm O_2}=0.21$ $\beta$ = 10~K/min}
+\subsubsection{$X_{\rm O_2}=0.21$ $\beta$ = 10~K/min}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_DSC_O2-21_10K_heatflow_avg}}\\
@@ -482,10 +410,10 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 
 
-\chapter{Cone Calorimeter}
-\section{Heat Release Rate (HRR)}
+\section{Cone Calorimeter}
+\subsection{Heat Release Rate (HRR)}
 \label{Cone_HRR}
-\subsection{External heat flux: 25 kW/m$^2$}
+\subsubsection{External heat flux: 25 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_Cone_25kW_HRR}}\\
@@ -545,7 +473,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 
 
 \newpage
-\subsection{External heat flux: 50 kW/m$^2$}
+\subsubsection{External heat flux: 50 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_Cone_50kW_HRR}}\\
@@ -554,7 +482,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\subsection{External heat flux: 65 kW/m$^2$}
+\subsubsection{External heat flux: 65 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Aalto_Cone_65kW_HRR}}\\
@@ -612,9 +540,9 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill 
 
 \newpage
-\section{Surface Temperature}
+\subsection{Surface Temperature}
 \label{Cone_Temp}
-\subsection{External heat flux: 25 kW/m$^2$}
+\subsubsection{External heat flux: 25 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_Cone_25kW_Temp}}\\
@@ -661,7 +589,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\subsection{External heat flux: 50 kW/m$^2$}
+\subsubsection{External heat flux: 50 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Cone_50kW_TEMP}}\\
@@ -670,7 +598,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\subsection{External heat flux: 65 kW/m$^2$}
+\subsubsection{External heat flux: 65 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Aalto_Cone_65kW_Temp}}\\
@@ -718,10 +646,10 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}
 \vfill
 
-\chapter{Anaerobic Gasification}
-\section{Gasification Mass Flux}
+\section{Anaerobic Gasification}
+\subsection{Gasification Mass Flux}
 \label{Gas_Mass}
-\subsection{External heat flux: 25 kW/m$^2$}
+\subsubsection{External heat flux: 25 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_Gasification_25kW_smoothed}}\\
@@ -740,7 +668,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \vfill
 
 \newpage
-\subsection{External heat flux: 50 kW/m$^2$}
+\subsubsection{External heat flux: 50 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/DBI_Lund_Gasification_50kW_smoothed}}\\
@@ -753,7 +681,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}\\
 \vfill
 \newpage
-\subsection{External heat flux: 65 kW/m$^2$}
+\subsubsection{External heat flux: 65 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Aalto_Gasification_65kW_smoothed}}\\
@@ -776,9 +704,9 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 \end{minipage}\\
 
 \newpage
-\section{Surface Temperature}
+\subsection{Surface Temperature}
 \label{Gas_Temp}
-\subsection{External heat flux: 25 kW/m$^2$}
+\subsubsection{External heat flux: 25 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/GIDAZE+_FPA_25kW_Temp}}\\
@@ -796,7 +724,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 
 
 \newpage
-\subsection{External heat flux: 50 kW/m$^2$}
+\subsubsection{External heat flux: 50 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/FM_FPA_50kW_Temp}}\\
@@ -805,7 +733,7 @@ Parts of this work were prepared by the National Institute of Standards and Tech
 Measured front surface temperature during FPA experiments conducted at 50 kW/m$^2$. 
 \vfill
 \newpage
-\subsection{External heat flux: 65 kW/m$^2$}
+\subsubsection{External heat flux: 65 kW/m$^2$}
 \begin{minipage}{0.65\textwidth}
 \begin{figure}[H]
 {\includegraphics[width=3.7in]{SCRIPT_FIGURES/Aalto_Gasification_65kW_Temp}}\\
@@ -826,4 +754,3 @@ Measured front surface temperature during FPA experiments conducted at 50 kW/m$^
 ‘Chicoutimi’:   FPA ($\dot{q}_{\rm ext}'' = 65$~kW/m$^2$); back surface temperature  \\
 
 \end{landscape}
-\end{document}
