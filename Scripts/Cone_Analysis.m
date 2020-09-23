@@ -183,8 +183,8 @@ for i=1:N_files
 
 %             Calculate mean and stdeviation +/- 2 timesteps
             HRR25(ix,L+1,k)=nnz(HRR25((ix-2:ix+2),(1:L),k));
-            HRR25(ix,L+2,k)=nanmean(HRR25((ix-2:ix+2),(1:L),k),'all');
-            HRR25(ix,L+3,k)=nanstd(HRR25((ix-2:ix+2),(1:L),k),0,'all');
+            HRR25(ix,L+2,k)=mean_nonan(HRR25((ix-2:ix+2),(1:L),k));
+            HRR25(ix,L+3,k)=std_nonan(HRR25((ix-2:ix+2),(1:L),k));
             HRR25(ix,L+4,k)=HRR25(ix,L+3,k)/sqrt(HRR25(ix,L+1,k));
 
             end
@@ -252,8 +252,8 @@ HRR25_all(HRR25_all==0)=NaN;
 %Calculate mean and stdeviation +/- 0 timesteps
 for ix=1:900
     HRR25_all(ix,(Test_count(3,end)+1))=nnz(HRR25_all((ix-0:ix+0),[1:11 14:Test_count(3,end)]));          % Count, N
-    HRR25_all(ix,(Test_count(3,end)+2))=nanmean(HRR25_all((ix-0:ix+0),[1:11 14:Test_count(3,end)]),'all');        % mean
-    HRR25_all(ix,(Test_count(3,end)+3))=nanstd(HRR25_all((ix-0:ix+0),[1:11 14:Test_count(3,end)]),0,'all');         % stdmean (all data +/- 1 s
+    HRR25_all(ix,(Test_count(3,end)+2))=mean_nonan(HRR25_all((ix-0:ix+0),[1:11 14:Test_count(3,end)]));        % mean
+    HRR25_all(ix,(Test_count(3,end)+3))=std_nonan(HRR25_all((ix-0:ix+0),[1:11 14:Test_count(3,end)]));         % stdmean (all data +/- 1 s
     HRR25_all(ix,(Test_count(3,end)+4))=HRR25_all(ix,(Test_count(3,end)+3))/sqrt(HRR25_all(ix,Test_count(3,end)+1));  % stdev mean
 end
 
@@ -349,8 +349,8 @@ for i=1:N_files
 
 %             Calculate mean and stdeviation +/- 2 timesteps
             HRR50(ix,L+1,k)=nnz(HRR50((ix-2:ix+2),(1:L),k));
-            HRR50(ix,L+2,k)=nanmean(HRR50((ix-2:ix+2),(1:L),k),'all');
-            HRR50(ix,L+3,k)=nanstd(HRR50((ix-2:ix+2),(1:L),k),0,'all');
+            HRR50(ix,L+2,k)=mean_nonan(HRR50((ix-2:ix+2),(1:L),k));
+            HRR50(ix,L+3,k)=std_nonan(HRR50((ix-2:ix+2),(1:L),k));
             HRR50(ix,L+4,k)=HRR50(ix,L+3,k)/sqrt(HRR50(ix,L+1,k));
 
             end
@@ -419,8 +419,8 @@ HRR50_all(HRR50_all==0)=NaN;
 %Calculate mean and stdeviation +/- 0 timesteps [HERE, you actually do +/- 2 timesteps because we have data from only one lab; for most across-lab-averages, use +/-0]
 for ix=3:398
     HRR50_all(ix,(Test_count(4,end)+1))=nnz(HRR50_all((ix-2:ix+2),[1:Test_count(4,end)]));          % Count, N
-    HRR50_all(ix,(Test_count(4,end)+2))=nanmean(HRR50_all((ix-2:ix+2),[1:Test_count(4,end)]),'all');        % mean
-    HRR50_all(ix,(Test_count(4,end)+3))=nanstd(HRR50_all((ix-2:ix+2),[1:Test_count(4,end)]),0,'all');         % stdmean (all data +/- 1 s
+    HRR50_all(ix,(Test_count(4,end)+2))=mean_nonan(HRR50_all((ix-2:ix+2),[1:Test_count(4,end)]));        % mean
+    HRR50_all(ix,(Test_count(4,end)+3))=std_nonan(HRR50_all((ix-2:ix+2),[1:Test_count(4,end)]));         % stdmean (all data +/- 1 s
     HRR50_all(ix,(Test_count(4,end)+4))=HRR50_all(ix,(Test_count(4,end)+3))/sqrt(HRR50_all(ix,Test_count(4,end)+1));  % stdev mean
 end
 
@@ -504,8 +504,8 @@ for i=1:N_files
 
 %             Calculate mean and stdeviation +/- 2 timesteps
             HRR65(ix,L+1,k)=nnz(HRR65((ix-2:ix+2),(1:L),k));
-            HRR65(ix,L+2,k)=nanmean(HRR65((ix-2:ix+2),(1:L),k),'all');
-            HRR65(ix,L+3,k)=nanstd(HRR65((ix-2:ix+2),(1:L),k),0,'all');
+            HRR65(ix,L+2,k)=mean_nonan(HRR65((ix-2:ix+2),(1:L),k));
+            HRR65(ix,L+3,k)=std_nonan(HRR65((ix-2:ix+2),(1:L),k));
             HRR65(ix,L+4,k)=HRR65(ix,L+3,k)/sqrt(HRR65(ix,L+1,k));
 
 
@@ -576,8 +576,8 @@ HRR65_all(HRR65_all==0)=NaN;
 %Calculate mean and stdeviation +/- 2 timesteps
 for ix=1:600
     HRR65_all(ix,(Test_count(5,end)+1))=nnz(HRR65_all((ix-0:ix+0),[1:11 18:Test_count(5,end)]));          % Count, N
-    HRR65_all(ix,(Test_count(5,end)+2))=nanmean(HRR65_all((ix-0:ix+0),[1:11 18:Test_count(5,end)]),'all');        % mean
-    HRR65_all(ix,(Test_count(5,end)+3))=nanstd(HRR65_all((ix-0:ix+0),[1:11 18:Test_count(5,end)]),0,'all');         % stdmean (all data +/- 1 s
+    HRR65_all(ix,(Test_count(5,end)+2))=mean_nonan(HRR65_all((ix-0:ix+0),[1:11 18:Test_count(5,end)]));        % mean
+    HRR65_all(ix,(Test_count(5,end)+3))=std_nonan(HRR65_all((ix-0:ix+0),[1:11 18:Test_count(5,end)]));         % stdmean (all data +/- 1 s
     HRR65_all(ix,(Test_count(5,end)+4))=HRR65_all(ix,(Test_count(5,end)+3))/sqrt(HRR65_all(ix,Test_count(5,end)+1));  % stdev mean
 end
 
@@ -697,8 +697,8 @@ for i=1:N_files
 
 %             Calculate mean and stdeviation +/- 2 timesteps
             TEMP25(ix,3*L+1,k)=nnz(TEMP25((ix-2:ix+2),(1:L),k));
-            TEMP25(ix,3*L+2,k)=nanmean(TEMP25((ix-2:ix+2),(1:3*L),k),'all');
-            TEMP25(ix,3*L+3,k)=nanstd(TEMP25((ix-2:ix+2),(1:3*L),k),0,'all');
+            TEMP25(ix,3*L+2,k)=mean_nonan(TEMP25((ix-2:ix+2),(1:3*L),k));
+            TEMP25(ix,3*L+3,k)=std_nonan(TEMP25((ix-2:ix+2),(1:3*L),k));
             TEMP25(ix,3*L+4,k)=TEMP25(ix,3*L+3,k)/sqrt(TEMP25(ix,3*L+1,k));
 
             end
@@ -767,8 +767,8 @@ TEMP25_all(TEMP25_all==0)=NaN;
 %Calculate mean and stdeviation +/- 0 timesteps
 for ix=1:900
     TEMP25_all(ix,(3*Test_count(3,end)+1))=nnz(TEMP25_all((ix-0:ix+0),[1:18 29 32 34:3*Test_count(3,end)]));          % Count, N | THIS WEIRD INDEXING: |1:18 29 32 34:3*Test_count(3,end)] skips Edinburgh (too low) and GIDAZE (not taken at the back surface)Temperature data
-    TEMP25_all(ix,(3*Test_count(3,end)+2))=nanmean(TEMP25_all((ix-0:ix+0),[1:18 29 32 34:3*Test_count(3,end)]),'all');        % mean
-    TEMP25_all(ix,(3*Test_count(3,end)+3))=nanstd(TEMP25_all((ix-0:ix+0),[1:18 29 32 34:3*Test_count(3,end)]),0,'all');         % stdmean (all data +/- 1 s
+    TEMP25_all(ix,(3*Test_count(3,end)+2))=mean_nonan(TEMP25_all((ix-0:ix+0),[1:18 29 32 34:3*Test_count(3,end)]));        % mean
+    TEMP25_all(ix,(3*Test_count(3,end)+3))=std_nonan(TEMP25_all((ix-0:ix+0),[1:18 29 32 34:3*Test_count(3,end)]));         % stdmean (all data +/- 1 s
     TEMP25_all(ix,(3*Test_count(3,end)+4))=TEMP25_all(ix,(3*Test_count(3,end)+3))/sqrt(TEMP25_all(ix,3*Test_count(3,end)+1));  % stdev mean
 end
 
@@ -899,8 +899,8 @@ for i=1:N_files
 
 %             Calculate mean and stdeviation +/- 2 timesteps
             TEMP65(ix,3*L+1,k)=nnz(TEMP65((ix-2:ix+2),(1:L),k));
-            TEMP65(ix,3*L+2,k)=nanmean(TEMP65((ix-2:ix+2),(1:3*L),k),'all');
-            TEMP65(ix,3*L+3,k)=nanstd(TEMP65((ix-2:ix+2),(1:3*L),k),0,'all');
+            TEMP65(ix,3*L+2,k)=mean_nonan(TEMP65((ix-2:ix+2),(1:3*L),k));
+            TEMP65(ix,3*L+3,k)=std_nonan(TEMP65((ix-2:ix+2),(1:3*L),k));
             TEMP65(ix,3*L+4,k)=TEMP65(ix,3*L+3,k)/sqrt(TEMP65(ix,3*L+1,k));
 
             end
@@ -960,8 +960,8 @@ TEMP65_all(TEMP65_all==0)=NaN;
 %Avoid [12,13 (HK Poly data is wrong] and [14-17 (LCPP is underresolved)]
 for ix=1:900
     TEMP65_all(ix,(3*Test_count(5,end)+1))=nnz(TEMP65_all((ix-0:ix+0),[1:18 34:42 47:3*Test_count(5,end)]));          % Count, N | THIS WEIRD INDEXING: |1:18 29 32 34:3*Test_count(3,end)] skips Edinburgh (too low) and GIDAZE (not taken at the back surface)Temperature data
-    TEMP65_all(ix,(3*Test_count(5,end)+2))=nanmean(TEMP65_all((ix-0:ix+0),[1:18 29 32 34:42 47:3*Test_count(5,end)]),'all');        % mean
-    TEMP65_all(ix,(3*Test_count(5,end)+3))=nanstd(TEMP65_all((ix-0:ix+0),[1:18 29 32 34:42 47:3*Test_count(5,end)]),0,'all');         % stdmean (all data +/- 1 s
+    TEMP65_all(ix,(3*Test_count(5,end)+2))=mean_nonan(TEMP65_all((ix-0:ix+0),[1:18 29 32 34:42 47:3*Test_count(5,end)]));        % mean
+    TEMP65_all(ix,(3*Test_count(5,end)+3))=std_nonan(TEMP65_all((ix-0:ix+0),[1:18 29 32 34:42 47:3*Test_count(5,end)]));         % stdmean (all data +/- 1 s
     TEMP65_all(ix,(3*Test_count(5,end)+4))=TEMP65_all(ix,(3*Test_count(5,end)+3))/sqrt(TEMP65_all(ix,3*Test_count(5,end)+1));  % stdev mean
 end
 
