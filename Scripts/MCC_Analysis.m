@@ -150,13 +150,13 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
                 MCC_HRR(ix,5,k,m)=nnz(MCC_HRR((ix-2:ix+2),(1:L),k,m));
-                MCC_HRR(ix,6,k,m)=nanmean(MCC_HRR((ix-2:ix+2),(1:L),k,m),'all');
-                MCC_HRR(ix,7,k,m)=nanstd(MCC_HRR((ix-2:ix+2),(1:L),k,m),0,'all');
+                MCC_HRR(ix,6,k,m)=mean_nonan(MCC_HRR((ix-2:ix+2),(1:L),k,m));
+                MCC_HRR(ix,7,k,m)=std_nonan(MCC_HRR((ix-2:ix+2),(1:L),k,m));
                 MCC_HRR(ix,8,k,m)=MCC_HRR(ix,7,k,m)/sqrt(MCC_HRR(ix,5,k,m));
 
                 MCC_int_HRR(ix,5,k,m)=nnz(MCC_int_HRR((ix-2:ix+2),(1:L),k,m));
-                MCC_int_HRR(ix,6,k,m)=nanmean(MCC_int_HRR((ix-2:ix+2),(1:L),k,m),'all');
-                MCC_int_HRR(ix,7,k,m)=nanstd(MCC_int_HRR((ix-2:ix+2),(1:L),k,m),0,'all');
+                MCC_int_HRR(ix,6,k,m)=mean_nonan(MCC_int_HRR((ix-2:ix+2),(1:L),k,m));
+                MCC_int_HRR(ix,7,k,m)=std_nonan(MCC_int_HRR((ix-2:ix+2),(1:L),k,m));
                 MCC_int_HRR(ix,8,k,m)=MCC_int_HRR(ix,7,k,m)/sqrt(MCC_int_HRR(ix,5,k,m));
             end
 %             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,

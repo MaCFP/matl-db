@@ -112,13 +112,13 @@ for i=1:N_files
 %             Calculate mean and stdeviation +/- 2 timesteps
                 if k~=5
                     MLR25(ix,L+1,k)=nnz(MLR25((ix-2:ix+2),(1:L),k));
-                    MLR25(ix,L+2,k)=nanmean(MLR25((ix-2:ix+2),(1:L),k),'all');
-                    MLR25(ix,L+3,k)=nanstd(MLR25((ix-2:ix+2),(1:L),k),0,'all');
+                    MLR25(ix,L+2,k)=mean_nonan(MLR25((ix-2:ix+2),(1:L),k));
+                    MLR25(ix,L+3,k)=std_nonan(MLR25((ix-2:ix+2),(1:L),k));
                     MLR25(ix,L+4,k)=MLR25(ix,L+3,k)/sqrt(MLR25(ix,L+1,k));
                 elseif k==5 % GIDAZE data is reported at ~(1/5 Hz) so we shouldn't average +/-2s
                     MLR25(ix,L+1,k)=nnz(MLR25((ix-0:ix+0),(1:L),k));
-                    MLR25(ix,L+2,k)=nanmean(MLR25((ix-0:ix+0),(1:L),k),'all');
-                    MLR25(ix,L+3,k)=nanstd(MLR25((ix-0:ix+0),(1:L),k),0,'all');
+                    MLR25(ix,L+2,k)=mean_nonan(MLR25((ix-0:ix+0),(1:L),k));
+                    MLR25(ix,L+3,k)=std_nonan(MLR25((ix-0:ix+0),(1:L),k));
                     MLR25(ix,L+4,k)=MLR25(ix,L+3,k)/sqrt(MLR25(ix,L+1,k));
                 end
 
@@ -220,13 +220,13 @@ for i=1:N_files
 %             Calculate mean and stdeviation +/- 2 timesteps
                 if k~=5
                     MLR50(ix,L+1,k)=nnz(MLR50((ix-2:ix+2),(1:L),k));
-                    MLR50(ix,L+2,k)=nanmean(MLR50((ix-2:ix+2),(1:L),k),'all');
-                    MLR50(ix,L+3,k)=nanstd(MLR50((ix-2:ix+2),(1:L),k),0,'all');
+                    MLR50(ix,L+2,k)=mean_nonan(MLR50((ix-2:ix+2),(1:L),k));
+                    MLR50(ix,L+3,k)=std_nonan(MLR50((ix-2:ix+2),(1:L),k));
                     MLR50(ix,L+4,k)=MLR50(ix,L+3,k)/sqrt(MLR50(ix,L+1,k));
                 elseif k==5 % GIDAZE data is reported at ~(1/5 Hz) so we shouldn't average +/-2s
                     MLR50(ix,L+1,k)=nnz(MLR50((ix-0:ix+0),(1:L),k));
-                    MLR50(ix,L+2,k)=nanmean(MLR50((ix-0:ix+0),(1:L),k),'all');
-                    MLR50(ix,L+3,k)=nanstd(MLR50((ix-0:ix+0),(1:L),k),0,'all');
+                    MLR50(ix,L+2,k)=mean_nonan(MLR50((ix-0:ix+0),(1:L),k));
+                    MLR50(ix,L+3,k)=std_nonan(MLR50((ix-0:ix+0),(1:L),k));
                     MLR50(ix,L+4,k)=MLR50(ix,L+3,k)/sqrt(MLR50(ix,L+1,k));
                 end
 
@@ -328,13 +328,13 @@ for i=1:N_files
 %             Calculate mean and stdeviation +/- 2 timesteps
                 if k~=5
                     MLR65(ix,L+1,k)=nnz(MLR65((ix-2:ix+2),(1:L),k));
-                    MLR65(ix,L+2,k)=nanmean(MLR65((ix-2:ix+2),(1:L),k),'all');
-                    MLR65(ix,L+3,k)=nanstd(MLR65((ix-2:ix+2),(1:L),k),0,'all');
+                    MLR65(ix,L+2,k)=mean_nonan(MLR65((ix-2:ix+2),(1:L),k));
+                    MLR65(ix,L+3,k)=std_nonan(MLR65((ix-2:ix+2),(1:L),k));
                     MLR65(ix,L+4,k)=MLR65(ix,L+3,k)/sqrt(MLR65(ix,L+1,k));
                 elseif k==5 % GIDAZE data is reported at ~(1/5 Hz) so we shouldn't average +/-2s
                     MLR65(ix,L+1,k)=nnz(MLR65((ix-0:ix+0),(1:L),k));
-                    MLR65(ix,L+2,k)=nanmean(MLR65((ix-0:ix+0),(1:L),k),'all');
-                    MLR65(ix,L+3,k)=nanstd(MLR65((ix-0:ix+0),(1:L),k),0,'all');
+                    MLR65(ix,L+2,k)=mean_nonan(MLR65((ix-0:ix+0),(1:L),k));
+                    MLR65(ix,L+3,k)=std_nonan(MLR65((ix-0:ix+0),(1:L),k));
                     MLR65(ix,L+4,k)=MLR65(ix,L+3,k)/sqrt(MLR65(ix,L+1,k));
                 end
 
@@ -436,12 +436,12 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
 %                 TEMP25(ix,L+1,k)=nnz(TEMP25((ix-2:ix+2),(1:L),k));
-%                 TEMP25(ix,L+2,k)=nanmean(TEMP25((ix-2:ix+2),(1:L),k),'all');
-%                 TEMP25(ix,L+3,k)=nanstd(TEMP25((ix-2:ix+2),(1:L),k),0,'all');
+%                 TEMP25(ix,L+2,k)=mean_nonan(TEMP25((ix-2:ix+2),(1:L),k));
+%                 TEMP25(ix,L+3,k)=std_nonan(TEMP25((ix-2:ix+2),(1:L),k));
 %                 TEMP25(ix,L+4,k)=TEMP25(ix,L+3,k)/sqrt(TEMP25(ix,L+1,k));
                 TEMP25(ix,3*L+1,k)=nnz(TEMP25((ix-2:ix+2),(1:3*L),k));
-                TEMP25(ix,3*L+2,k)=nanmean(TEMP25((ix-2:ix+2),(1:3*L),k),'all');
-                TEMP25(ix,3*L+3,k)=nanstd(TEMP25((ix-2:ix+2),(1:3*L),k),0,'all');
+                TEMP25(ix,3*L+2,k)=mean_nonan(TEMP25((ix-2:ix+2),(1:3*L),k));
+                TEMP25(ix,3*L+3,k)=std_nonan(TEMP25((ix-2:ix+2),(1:3*L),k));
                 TEMP25(ix,3*L+4,k)=TEMP25(ix,3*L+3,k)/sqrt(TEMP25(ix,3*L+1,k));
             end
 %             TEMP25(1:last,L+2,k)=sgfilt(3,15,TEMP25(1:last,L+2,k));,
@@ -544,12 +544,12 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
 %             TEMP50(ix,L+1,k)=nnz(TEMP50((ix-2:ix+2),(1:L),k));
-%             TEMP50(ix,L+2,k)=nanmean(TEMP50((ix-2:ix+2),(1:L),k),'all');
-%             TEMP50(ix,L+3,k)=nanstd(TEMP50((ix-2:ix+2),(1:L),k),0,'all');
+%             TEMP50(ix,L+2,k)=mean_nonan(TEMP50((ix-2:ix+2),(1:L),k));
+%             TEMP50(ix,L+3,k)=std_nonan(TEMP50((ix-2:ix+2),(1:L),k));
 %             TEMP50(ix,L+4,k)=TEMP50(ix,L+3,k)/sqrt(TEMP50(ix,L+1,k));
             TEMP50(ix,3*L+1,k)=nnz(TEMP50((ix-2:ix+2),(1:3*L),k));
-            TEMP50(ix,3*L+2,k)=nanmean(TEMP50((ix-2:ix+2),(1:3*L),k),'all');
-            TEMP50(ix,3*L+3,k)=nanstd(TEMP50((ix-2:ix+2),(1:3*L),k),0,'all');
+            TEMP50(ix,3*L+2,k)=mean_nonan(TEMP50((ix-2:ix+2),(1:3*L),k));
+            TEMP50(ix,3*L+3,k)=std_nonan(TEMP50((ix-2:ix+2),(1:3*L),k));
             TEMP50(ix,3*L+4,k)=TEMP50(ix,3*L+3,k)/sqrt(TEMP50(ix,3*L+1,k));
             end
 %             TEMP50(1:last,L+2,k)=sgfilt(3,15,TEMP50(1:last,L+2,k));,
@@ -646,12 +646,12 @@ for i=1:N_files
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
             TEMP65(ix,3*L+1,k)=nnz(TEMP65((ix-2:ix+2),(1:3*L),k));
-            TEMP65(ix,3*L+2,k)=nanmean(TEMP65((ix-2:ix+2),(1:3*L),k),'all');
-            TEMP65(ix,3*L+3,k)=nanstd(TEMP65((ix-2:ix+2),(1:3*L),k),0,'all');
+            TEMP65(ix,3*L+2,k)=mean_nonan(TEMP65((ix-2:ix+2),(1:3*L),k));
+            TEMP65(ix,3*L+3,k)=std_nonan(TEMP65((ix-2:ix+2),(1:3*L),k));
             TEMP65(ix,3*L+4,k)=TEMP65(ix,3*L+3,k)/sqrt(TEMP65(ix,3*L+1,k));
 %             TEMP65(ix,L+1,k)=nnz(TEMP65((ix-2:ix+2),(1:L),k));
-%             TEMP65(ix,L+2,k)=nanmean(TEMP65((ix-2:ix+2),(1:L),k),'all');
-%             TEMP65(ix,L+3,k)=nanstd(TEMP65((ix-2:ix+2),(1:L),k),0,'all');
+%             TEMP65(ix,L+2,k)=mean_nonan(TEMP65((ix-2:ix+2),(1:L),k));
+%             TEMP65(ix,L+3,k)=std_nonan(TEMP65((ix-2:ix+2),(1:L),k));
 %             TEMP65(ix,L+4,k)=TEMP65(ix,L+3,k)/sqrt(TEMP65(ix,L+1,k));
             end
 %             TEMP65(1:last,L+2,k)=sgfilt(3,15,TEMP65(1:last,L+2,k));,
