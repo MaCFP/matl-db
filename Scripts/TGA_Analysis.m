@@ -94,7 +94,11 @@ for i =1:N_files   % Loop through all of your data sets
                yyaxis right
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,4),'k');
         axis([300 900 0 6e-3]);
+        if i~= 113
         title(filenames{i}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+        else
+            title('Halifax_TGA_N2_10K_1');     %Example NIST/Halifax data anonymously for Prelim. Exp. Report
+        end
         xlabel('Temperature [K]');
         ylabel('(1/m_0)dm/dt [s^{-1}]');
         legend({'m/m_0','m/m_0, filtered','d(m/m_0)/dt','d(m/m_0)/dt, filtered'},'Location','west')
