@@ -508,7 +508,7 @@ for i=1:length(legend_counter)
 end
 % Add in CAPA Data (custom error bars)
 shadedErrorBar(EXP_DATA{13,2,1}(:,1),EXP_DATA{13,2,1}(:,3),[EXP_DATA{13,2,1}(:,5) EXP_DATA{13,2,1}(:,5)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-str{end+1,1}={QMJHL{13},Test_types{2}};
+str{end+1,1}={QMJHL{13},Test_types{1}};
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
 legend(legend_final,'Location','southeast', 'Interpreter','none');
@@ -616,8 +616,8 @@ for i=1:length(legend_counter)
 end
 
 legend(legend_final,'Location','southeast', 'Interpreter','none');
-            h=3;                                  % height of plot in inches
-            w=5;                                  % width of plot in inches
+            h=3.75;                                  % height of plot in inches
+            w=6.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'Gasification_50kW_Temperature']));

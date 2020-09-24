@@ -263,7 +263,7 @@ Sherbrooke              &   0   & 0   & 0   & 0   & 3     & 0   & 0   & 0   & 0 
 Total                   &   1   & 1   & 3   & 4   & 19    & 3   & 7   & 1   & 1        \\ \hline
 \end{tabular}
 \end{center}
-$^*$'Saint John' submitted a single TGA dataset, which represents average measurements from 7 repeated tests
+$^*$ `Saint John' submitted a single TGA dataset, which represents average measurements from 7 repeated tests
 \end{table}
 
 \begin{table} [h]
@@ -318,7 +318,7 @@ Shawinigan            & 1 & 2     &     2 & 0 & 0 & 0 & 0 & 0 \\ \hline
 Total                 & 1 & 10    &     5 & 2 & 8 & 1 & 2 & 3 \\ \hline
 \end{tabular}
 \end{center}
-$^*$'Saint John' submitted a single DSC dataset, which represents average measurements from 7 repeated tests
+$^*$ `Saint John' submitted a single DSC dataset, which represents average measurements from 7 repeated tests
 \end{table}
 
 \subsection{Microscale Combustion Calorimetry (MCC)}
@@ -399,7 +399,7 @@ In the FPA, for ignition, pyrolysis, and combustion tests (i.e., not for flame s
 
 \subsection{Thermal Conductivity and Diffusivity}
 
-``Direct measurements'' of thermal conductivity and diffusivity were provided by one institution, using two separate apparatus: TPS hot disk \cite{gustafsson1991transient} and Laser Flash \cite{NeztschLFA}. The reader is referred to the technical reference guide and/or user’s manuals of each of these instruments for further information regarding their operating principles and related test procedures.
+``Direct measurements'' of thermal conductivity and diffusivity were provided by one institution, using two separate apparatus: TPS hot disk \cite{gustafsson1991transient} and Laser Flash \cite{NeztschLFA}. The reader is referred to the technical reference guides and/or user’s manuals of each of these instruments for further information regarding their operating principles and related test procedures.
 
 
 
@@ -410,7 +410,7 @@ In this section, experimental measurements from both mg- and g-scale tests are p
 
 It should be noted that some variations between datasets are simply stochastic (i.e., random, unavoidable noise in repeated tests); however, others may result from systematic causes such as calibration differences in mg-scale experiments or sample holder and/or insulation type in g-scale experiments. Consequently, although clear outliers are not considered when calculating average curves (see further discussion throughout this section on how outliers are identified), care should be taken to understand if/how underlying differences in test conditions or procedure may have impacted the response of samples during experiments and thus how this may affect the final averaged dataset. Ultimately, average curves represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted).
 
-The measurement data presented here is provided with limited processing and should be considered as a preliminary summary to highlight the information that is available in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db} as of August 26, 2020. Further analysis of these results, including determination if correlation or causation of similarities or differences in datasets submitted by different institutions can be found (e.g., due to variations in instrument design, calibration or test procedure, and/or sample holder), will be provided in a future report.
+The measurement data presented here is provided with limited processing and should be considered as a preliminary summary to highlight the information that is available in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db} as of September 21, 2020. Further analysis of these results, including determination if correlation or causation of similarities or differences in datasets submitted by different institutions can be found (e.g., due to variations in instrument design, calibration or test procedure, and/or sample holder), will be provided in a future report.
 
 \section{Milligram-Scale Tests}
 
@@ -440,7 +440,7 @@ As shown here, the actual heating rate can vary significantly during the early s
 
 \subsubsection{Mass Fraction and Mass Loss Rate}
 
-The key measurements recorded during TGA tests are sample mass, $m$~(mg), and temperature, $T$~(K) (and the time, $t$~(s), at which these two values are recorded).  Both $m$ and $T$ were reported as time-resolved measurements. Prior to further analysis, sample mass was normalized by initial mass, $m_0$, which was calculated as the mean value recorded during the first 5~s of the experiment.
+The key measurements recorded during TGA tests are sample mass, $m$~(mg); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded.  Both $m$ and $T$ were reported as time-resolved measurements. Prior to further analysis, sample mass was normalized by initial mass, $m_0$, which was calculated as the mean value recorded during the first 5~s of the experiment.
 
 Tests were run, nominally, at constant heating rates and both sample mass and temperature were reported at regular time or temperature intervals; effectively this meant that sample mass was reported, in most experiments, every 0.5~K (the full range of reporting frequencies in datasets submitted by different institutions varied between 0.1~K and 1~K per mass measurement, with two institutions submitting data with 5~K or 6.7~K resolutions). Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next.
 
@@ -681,7 +681,7 @@ Sherbrooke              & -           & -               & 578            & 0    
 $^A$Calculated based on two values \\
 $^B$Standard deviation not calculated, only one experimental dataset provided \\
 $^C$Suspected error in submitted dataset, see Fig. \ref{Fig:TGA_N2_10K} \\
-$^D$ Moncton' experiments were conducted in Argon
+$^D$`Moncton' experiments were conducted in Argon
 \end{table}
 
 
@@ -743,7 +743,7 @@ Due to significant deviations  in heat flow measurements provided by each lab fo
 \end{equation}
 where $N_i$ is equal to the number of DSC measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. Here, $n=2$ because it is assumed that variations in these repeated measurements should be minimal within a 4~K interval when tests are conducted by the same institution. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each temperature, $T_i$, as:
 \begin{equation}
-   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)\right)}
+   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{({\sum_{j=1}^{N_j}{N_i}})(({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-2}^{i+2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} - \overline{ \left( \frac{\dot{q}}{m_0} \right)_i }   \right)\right)}
 \end{equation}
 
 Average instantaneous and integral heat flow curves from DSC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
@@ -780,7 +780,7 @@ Quebec                & Nitrogen    & 10                   & 1142    & 970     &
 Saint John            & Nitrogen    & 10                   & 695$^A$ & -       & -                      \\ \hline
 \end{tabular}
 \end{center}
-$^A$'Saint John' submitted a single dataset, which represents average measurements from 7 repeated tests
+$^A$ `Saint John' submitted a single dataset, which represents average measurements from 7 repeated tests
 \end{table}
 
 DSC measurements were also conducted by one institution (‘Shawinigan’) with a custom heating program in which unique tests at three separate heating rates (3, 10, and 20~K/min) samples were heated and cooled three times from 190~K to 430~K in a pure nitrogen environment. Heat flow measurements from the heating phases of these experiments are provided in Figure~\ref{Fig:UMET_DSC_heatflow}. Following the recommendations of ‘Shawinigan’, who indicated that a heating of 30~K to 50~K was needed to reach equilibrium, measurement data is only plotted between 240~K and 430~K.
@@ -828,7 +828,7 @@ Ten institutions submitted a total of 30 cone calorimeter tests conducted at 25~
 
 Only one institution, ‘Blainville-Boisbriand’, conducted experiments at 50~kW/m$^2$ (three repeated experiments). Heat release rate measurements from these tests are plotted in Fig.~\ref{Fig:Cone_50kWindivHRR}.
 
-Ten institutions submitted a total of 27 tests conducted at 65~kW/m$^{-2}$ ($1\le j\le4$ repeats per lab). Figure~\ref{Fig:Cone_65kWindivHRR} plots measured HRR from each of these tests. Measurements submitted by ‘Drummondville’ (dark green markers) and two experiments submitted by ‘Gatineau’ (dark blue markers) are identified as outliers. The averages for tests at 65~kW/m$^2$ are based on all data shown in Fig.~\ref{Fig:Cone_65kWindivHRR} except for these two datasets. Data submitted by ‘Sherbrooke' (light blue, delayed rise in HRR) and `Cape-Breton' (red, reduced HRR) measurements were still included.
+Ten institutions submitted a total of 27 tests conducted at 65~kW/m$^{-2}$ ($1\le j\le4$ repeats per institution). Figure~\ref{Fig:Cone_65kWindivHRR} plots measured HRR from each of these tests. Measurements submitted by ‘Drummondville’ (dark green markers) and two experiments submitted by ‘Gatineau’ (dark blue markers) are identified as outliers. The averages for tests at 65~kW/m$^2$ are based on all data shown in Fig.~\ref{Fig:Cone_65kWindivHRR} except for these two datasets. Data submitted by ‘Sherbrooke' (light blue, delayed rise in HRR) and `Cape-Breton' (red, reduced HRR) measurements were still included.
 
 \begin{figure}
   \centering
@@ -962,7 +962,7 @@ $^A$Calculated based on two values     \\
 $^B$Suspected error in submitted dataset, see Fig.~\ref{Fig:Cone_65kWindivHRR}
 \end{table}
 
-Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{Q}'' \ge 240$~kW/m$^2$ (i.e., ten times the critical ignition HRR). The arithmetic mean and standard deviation (`Std Dev') of $\Delta H_{\rm c}$ is reported in Table~\ref{Table_13} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average at a given exposure condition.
+Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{Q}'' \ge 240$~kW/m$^2$ (i.e., ten times the critical ignition HRR). The arithmetic mean and standard deviation (`Std Dev') of $\Delta H_{\rm c}$ is reported in Table~\ref{Table_13} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average value at a given exposure condition.
 
 \begin{table}[h!]
 \caption{Heat of Combustion (kJ/g), Cone Calorimeter (energy released per gram of gaseous volatiles produced)}
@@ -998,9 +998,9 @@ NC – Not Calculated due to low data reporting resolution
 
 Anaerobic gasification experiments were conducted by six institutions using three different experimental apparatus. Key measurement data from anaerobic gasification tests include: gasification mass flux, $\dot{m}''$ (g/(m$^2 \cdot$ s)), and back surface temperature, $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement.
 
-Although plotted together in this section, measured mass loss rates and back surface temperatures may not be identical between different gasification tests, even at the same nominal incident heat flux due to differences in (a) heating element and (b) back surface boundary conditions. Specifically, the FPA heating element operates at a higher temperature and thus emits IR radiation at a lower wavelength than that of the cone calorimeter heater, which is also used in the CAPA~II experiments. CAPA~II tests, however, are unique in that samples are not insulated at their back surface and, thus, this surface is subject of convective and radiative losses defined elsewhere~\cite{swann2017controlled}.
+Although plotted together in this section, measured mass loss rates and back surface temperatures may not be identical between different gasification tests, even at the same nominal incident heat flux due to differences in (a) heating element and (b) back surface boundary conditions. Specifically, the FPA heating element operates at a higher temperature and thus emits IR radiation at a lower wavelength than that of the cone calorimeter heater, which is also used in the CAPA~II experiments. CAPA~II tests, however, are unique in that samples are not insulated at their back surface and, thus, this surface is subject to convective and radiative losses, which are defined elsewhere~\cite{swann2017controlled}.
 
-One institution conducted anaerobic gasification experiments using CAPA~II. Tests were conducted at 25~kW/m$^2$ and 60~kW/m$^2$, repeated twice at each incident heat flux. Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5~Hz and presented here without any data processing. The mass data were collected at a frequency of 2~Hz. The mass loss rate was computed using a 5~s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5~s bins for which mean mass loss rate and mean time values were computed. More information is available in Ref~\cite{fiola2020comparison}. For tests conducted with a Controlled Atmosphere Cone Calorimeter or a Fire Propagation Apparatus (FPA), experimental measurements are analyzed together as described below.
+One institution conducted anaerobic gasification experiments using CAPA~II. Tests were conducted at 25~kW/m$^2$ and 60~kW/m$^2$, repeated twice at each incident heat flux. Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5~Hz and presented here without any data processing. The mass data were collected at a frequency of 2~Hz. The mass loss rate was computed using a 5~s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5~s bins for which mean mass loss rate and mean time values were computed. More information is available in Ref~\cite{fiola2020comparison}. For tests conducted with a Controlled Atmosphere Cone Calorimeter or a Fire Propagation Apparatus (FPA), experimental measurements are analyzed as described below.
 
 \subsubsection{Gasification Mass Flux}
 
@@ -1014,7 +1014,7 @@ where $A$ is the initial surface area of the sample. The subscript $j$ indicates
 \end{equation}
 where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each time step, $t_i$, as:
 \begin{equation}
-   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(({\sum_{j=1}^{N_j}{N_i}})({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{m}_{i',j}'' - \overline{\dot{m}_i''} \right) \right)}
+   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{({\sum_{j=1}^{N_j}{N_i}})(({\sum_{j=1}^{N_j}{N_i}})-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{m}_{i',j}'' - \overline{\dot{m}_i''} \right) \right)}
 \end{equation}
 
 
@@ -1155,7 +1155,7 @@ The measurement data and related analysis presented in this predecisional draft 
 
 For the purposes of model development, it may be desirable to have a 'community average' of a particular dataset under given conditions (e.g., representative, average mass and mass loss rate curves from TGA tests or average heat release rate measurements from cone calorimeter tests). However, as presented in Section~\ref{exp_results} of this document, defining such an average is not necessarily straightforward. One of the valuable outcomes of this exercise is the demonstration that test conditions, procedure, and initial calibration may have a meaningful impact on measurement results. For now, in this preliminary report, individual datasets are presented and average curves are calculated (excluding clear outliers); however, further analysis as to why exactly these differences exist - i.e., are they simply stochastic or are they due to, for example, calibration differences or subtle variations in how exactly the tests were conducted - is needed. 
 
-Ultimately, average curves presented here represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted). Valuable outcomes of the 2021 MaCFP Condensed Phase Workshop include the development of requirements for dataset quality and quantification of the inter-laboratory variability for comparable experimental datasets. These outcomes will be addressed with feedback from the pyrolysis modeling community: both those who submitted experimental data and those who use these measurements to calibrate pyrolysis model parameter sets. This more detailed analysis will be included in the final version of this report. Additionally, a second, related, report will prepared afterwards with a focus on: (1) cataloging the current, state of the art approaches used to parameterize pyrolysis models, (2) defining the key parameters of interest, and (3) assessing the impact of the variability of these parameters on predictions of material burning behavior and fire growth.
+Ultimately, average curves presented here represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted). Valuable outcomes of the 2021 MaCFP Condensed Phase Workshop include the development of requirements for dataset quality and quantification of the inter-laboratory variability for comparable experimental datasets. These outcomes will be addressed with feedback from the pyrolysis modeling community: both those who submitted experimental data and those who use these measurements to calibrate pyrolysis model parameter sets. This more detailed analysis will be included in the final version of this report. Additionally, a second, related, report will prepared afterwards with a focus on: (1) cataloging the current, state of the art approaches used to parameterize pyrolysis models, (2) defining the key pyrolysis model parameters of interest, and (3) assessing the impact of the variability of these parameters on predictions of material burning behavior and fire growth.
 
 %\backmatter
 \addcontentsline{toc}{chapter}{Bibliography}
