@@ -10,6 +10,9 @@
 \usepackage[section]{placeins}
 \usepackage{fancyhdr}
 
+\usepackage{tocloft}
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography and index in the ToC
+
 \pagestyle{fancy}
 \rhead{}
 \lhead{}
@@ -114,7 +117,7 @@ This report has been prepared on behalf of the MaCFP Condensed Phase Working Gro
 
 Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been through a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
 
- 
+
 
 \newpage
 
@@ -303,8 +306,8 @@ More information, including  apparatus specifications, calibration details, and 
 \begin{center}
 \begin{tabular}{lcccccccc}
 							\hline
-                      & \multicolumn{8}{c}{Heating Rate (K/min)} \\ 
-                      & 3 & 10 & 20 & 10 & 10 & 1  & 10 & 50 \\ 
+                      & \multicolumn{8}{c}{Heating Rate (K/min)} \\
+                      & 3 & 10 & 20 & 10 & 10 & 1  & 10 & 50 \\
                       \hline
 Institution           & \multicolumn{3}{c}{Pure Nitrogen} & $X_{\rm O_2}=0.1$ & $X_{\rm O_2}=0.21$ & \multicolumn{3}{c}{Pure Argon}  \\ \hline
 Blainville-Boisbriand & 0 & 0     &     3 & 0 & 0 & 0 & 0 & 0 \\
@@ -447,7 +450,7 @@ Tests were run, nominally, at constant heating rates and both sample mass and te
 For all tests, normalized mass, $m/m_0$, and time, $t$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). For two experimental datasets, ‘Chicoutimi’ and ‘Rimouski', the original reporting frequency of one or more of these signals was deemed too coarse (every 5~K or 6.7~K) for this linear interpolation, thus this processing was not applied.
 Prior to further analysis, noise in all individual $m/m_0$ curves was reduced by applying a Savitzky-Golay filter (third order polynomial fit; 31 data point range). These fitting parameters were determined by trial and error, and future work will examine optimizing the choice of these parameters. Figure~\ref{Fig:TGA_N2_10K_1} shows the effect of this filter on a representative TGA dataset (data submitted by ‘Halifax’ from a test in pure nitrogen at 10~K/min).
 
-Normalized mass loss rate was then calculated for each replicate $j$ at each temperature, $T_i$, as the numerical derivative of filtered sample mass curves across a 1~K interval, as follows: 
+Normalized mass loss rate was then calculated for each replicate $j$ at each temperature, $T_i$, as the numerical derivative of filtered sample mass curves across a 1~K interval, as follows:
 \begin{equation}
    \frac{\dot{m}_{i,j}}{m_{0,j}} = \frac{1}{m_{0,j}}\frac{\left(m_{i-1,j}-m_{i+1,j}\right)}{\left(t_{i+1}-t_{i-1}\right)}
 \end{equation}
@@ -907,7 +910,7 @@ Nine labs submitted 33 temperature measurements from a total of 17 unique cone c
 
 For repeated measurements, the average back surface temperature was calculated at each time step, $t_i$, as the mean value reported from all $N_{k_j}$ locations in all $N_j$ repeated tests:
 \begin{equation}
-  \overline{ T_{{\rm back},i} } = \frac{1}{N_{\rm tot}} \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} T_{{\rm back},i',j,k} 
+  \overline{ T_{{\rm back},i} } = \frac{1}{N_{\rm tot}} \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} T_{{\rm back},i',j,k}
 \end{equation}
 where:
 \begin{equation}
@@ -1050,7 +1053,7 @@ Figures~\ref{Fig:Gasification_25kW_dmdt}, \ref{Fig:Gasification_50kW_dmdt}, and 
 Sample surface temperature measurements were taken at one or multiple locations during each experiment. Most laboratories measured temperature at the back surface, $T_{\rm back}$. One institution, ‘Charlottetown’, provided front surface measurements, $T_{\rm front}$. These results are analyzed using a similar approach and plotted together with the back surface data, along with a note indicating measurement location in the figure caption. For repeated measurements (submitted by the same lab under the same incident heating conditions) average surface temperature was calculated at each time step, $t_i$, as the average value reported from all repeated tests, $j$, at all locations $k$:
 
 \begin{equation}
-  \overline{ T_{{\rm back},i} } = \frac{1}{N_{\rm tot}} \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} T_{{\rm back},i',j,k} 
+  \overline{ T_{{\rm back},i} } = \frac{1}{N_{\rm tot}} \sum_{j=1}^{N_j} \sum_{k=1}^{N_{k_j}} \sum_{i'=i-n}^{i+n} T_{{\rm back},i',j,k}
 \end{equation}
 where:
 \begin{equation}
@@ -1153,12 +1156,10 @@ PMMA 2  & 0.112 & 0.112 & 0.110 & 0.108 & 0.107 & 0.106 & 0.104 & 0.103 & 0.101 
 \label{Summary}
 The measurement data and related analysis presented in this predecisional draft report should be considered as a preliminary summary of experimental work submitted to the 2021 MaCFP Condensed Phase Workshop. This summary is prepared for subject matter experts to provide critical review, for experimentalists to identify and correct minor errors in their submitted datasets (e.g., scaling or units issues; or mislabelling and/or accidental submission of incorrect data), and to provide modelers who wish to use these measurements for pyrolysis model development a suitable overview of the information available on the MaCFP Github Repository.
 
-For the purposes of model development, it may be desirable to have a 'community average' of a particular dataset under given conditions (e.g., representative, average mass and mass loss rate curves from TGA tests or average heat release rate measurements from cone calorimeter tests). However, as presented in Section~\ref{exp_results} of this document, defining such an average is not necessarily straightforward. One of the valuable outcomes of this exercise is the demonstration that test conditions, procedure, and initial calibration may have a meaningful impact on measurement results. For now, in this preliminary report, individual datasets are presented and average curves are calculated (excluding clear outliers); however, further analysis as to why exactly these differences exist - i.e., are they simply stochastic or are they due to, for example, calibration differences or subtle variations in how exactly the tests were conducted - is needed. 
+For the purposes of model development, it may be desirable to have a 'community average' of a particular dataset under given conditions (e.g., representative, average mass and mass loss rate curves from TGA tests or average heat release rate measurements from cone calorimeter tests). However, as presented in Section~\ref{exp_results} of this document, defining such an average is not necessarily straightforward. One of the valuable outcomes of this exercise is the demonstration that test conditions, procedure, and initial calibration may have a meaningful impact on measurement results. For now, in this preliminary report, individual datasets are presented and average curves are calculated (excluding clear outliers); however, further analysis as to why exactly these differences exist - i.e., are they simply stochastic or are they due to, for example, calibration differences or subtle variations in how exactly the tests were conducted - is needed.
 
 Ultimately, average curves presented here represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted). Valuable outcomes of the 2021 MaCFP Condensed Phase Workshop include the development of requirements for dataset quality and quantification of the inter-laboratory variability for comparable experimental datasets. These outcomes will be addressed with feedback from the pyrolysis modeling community: both those who submitted experimental data and those who use these measurements to calibrate pyrolysis model parameter sets. This more detailed analysis will be included in the final version of this report. Additionally, a second, related, report will prepared afterwards with a focus on: (1) cataloging the current, state of the art approaches used to parameterize pyrolysis models, (2) defining the key pyrolysis model parameters of interest, and (3) assessing the impact of the variability of these parameters on predictions of material burning behavior and fire growth.
 
-%\backmatter
-\addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{MaCFP2021_Part1_exp}
 
 \appendix
