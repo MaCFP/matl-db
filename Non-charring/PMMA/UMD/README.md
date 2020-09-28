@@ -51,9 +51,7 @@ An FAA microscale combustion calorimeter was used to conduct MCC experiments.  A
 ### Experimental Conditions: Gasification Tests (CAPA II)
 A custom-built [Controlled Atmosphere Pyrolysis Apparatus II (CAPA II)](https://www.sciencedirect.com/science/article/abs/pii/S0379711217300541) was used to perform anaerobic (02 concentration < 1 vol. %) gasification experiments of PMMA slabs in response to well-characterized radiant heating. 
 
-Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5 Hz and presented here without any data processing. The mass data were collected at a frequency of 2 Hz. The mass loss rate (MLR) was computed using a 5 s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5 s bins for which mean MLR and mean time values were computed. The data is synchronized from the time when the sample is exposed to specific external heat flux. [2 repeat tests]
-
-ore information is available at: [G.J. Fiola, et al., Fire Safety Journal 2020]
+Reported errors represent two standard deviations of the mean of the respective quantity. The temperature data were collected at 7.5 Hz and presented here without any data processing. The mass data were collected at a frequency of 2 Hz. The mass loss rate (MLR) was computed using a 5 s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5 s bins for which mean MLR and mean time values were computed. The data is synchronized from the time when the sample is exposed to specific external heat flux. [2 repeat tests]. More information is available at: [G.J. Fiola, et al., Fire Safety Journal 2020]
 
 * Extraction flow rate (exhaust): 175L/s
 * Nitrogen flow rate: 185 SLPM.
