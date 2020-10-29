@@ -49,9 +49,9 @@ In oxygenated environments (21 vol. % O2) for tests conducted at dT/dt = 10 K/mi
 1. Heat Release Rate Measurements (HRR)
 Heat of combustion, Hc=23.5 kJ/g +/- 2.5 kJ/g 
 2. Back Surface Temperature Measurements 
- Prior to sample burnout (which occurs at approximately 400 s, 250s, and 200 s with incident heat fluxes of 25, 50, and 65 kW/m^2, respectively), temperature, T, should increase monotonically. That is, mean dT/dt > 0 (across any 10 s interval).
+ Prior to sample burnout (which occurs at approximately 400 s, 250s, and 200 s with incident heat fluxes of 25, 50, and 65 kW/m^2, respectively), temperature, T, should increase monotonically. That is, mean dT/dt > 0 (across any 20 s interval).
 ##### Gasification Experiments (CAPA, FPA, Controlled Atmosphere Cone )
 1. Back Surface Temperature Measurements 
- Prior to sample burnout, back surface temperature should increase monotonically. That is, mean dT/dt > 0 (across any 10 s interval).
+ Prior to sample burnout, back surface temperature should increase monotonically. That is, mean dT/dt > 0 (across any 20 s interval).
 2. Front Surface Temperature Measurements 
  Prior to sample burnout, front surface temperature should increase rapidly before reaching a relatively constant value equal to the pyrolysis temperature of this PMMA (~650 K +/- 10K)
