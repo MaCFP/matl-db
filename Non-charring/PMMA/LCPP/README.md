@@ -62,14 +62,14 @@ For three out of four samples for each heat flux, no mass information is availab
 ###### Test Heating Conditions  
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
 |----------|:------:| :---: |
-|LCCP\_Cone\_25kW\_1 | 25| 310?  |
-|LCCP\_Cone\_25kW\_2 | 25| 310?|
-|LCCP\_Cone\_25kW\_3 | 25| 310?|
-|LCCP\_Cone\_25kW\_4 | 25| 310?|
-|LCCP\_Cone\_65kW\_1 | 65| 559? | 
-|LCCP\_Cone\_65kW\_2 | 65| 559?|
-|LCCP\_Cone\_65kW\_3 | 65| 558? | 
-|LCCP\_Cone\_65kW\_4 | 65| 558?|
+|LCPP\_Cone\_25kW\_1 | 25| 310?  |
+|LCPP\_Cone\_25kW\_2 | 25| 310?|
+|LCPP\_Cone\_25kW\_3 | 25| 310?|
+|LCPP\_Cone\_25kW\_4 | 25| 310?|
+|LCPP\_Cone\_65kW\_1 | 65| 559? | 
+|LCPP\_Cone\_65kW\_2 | 65| 559?|
+|LCPP\_Cone\_65kW\_3 | 65| 558? | 
+|LCPP\_Cone\_65kW\_4 | 65| 558?|
 
 
 
