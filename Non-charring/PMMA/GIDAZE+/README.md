@@ -1,5 +1,5 @@
-# GIHAZE+ 
-GIHAZE+ is made of three groups working together: Imperial College London, Universidad de Cantabria and Reax Engineering.
+# GIDAZE+ 
+GIDAZE+ is made of three groups working together: Imperial College London, Universidad de Cantabria and Reax Engineering.
 
 ### Experimental Conditions: TGA, DSC
 A Netzsch F3 Jupiter was used to conduct Simultaneous Thermal Analysis (TGA + DSC) experiments. Although tests were conducted simultaneously, TGA and DSC measurement data presented here are separated into two files, for consistency with other datasets.
@@ -64,7 +64,7 @@ Cone calorimeter tests were conducted using a configuration similar to the Torer
 |GIDAZE+_Cone_65kW_2| 65 | 844 |
 
 ### Experimental Conditions: Fire Propagation Apparatus (FPA)
-Although Mass and Temperature were measured simultaneously during experiments, measurement data presented here are separated into two files because they were recorded at different frequencies.
+Although Mass and Temperature were measured simultaneously during experiments, measurement data presented here are separated into two files because they were recorded at different frequencies. These tests were conducted in air, not in an anaerobic environment.
 
 * Extraction flow rate: 150L/s
 * Inlet Air Supply 3.3 l/s
