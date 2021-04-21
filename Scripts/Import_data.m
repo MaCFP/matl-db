@@ -4,7 +4,7 @@ clear all
 % %Specify where all your data is saved
 Root_dir=[pwd,'/../Non-charring/PMMA/'];
 Script_Figs_dir=[pwd,'/../Documents/SCRIPT_FIGURES/'];
-PMMA_Repo = dir(fullfile(Root_dir,'*/*.csv'))
+PMMA_Repo = dir(fullfile(Root_dir,'*/*.csv'));
 
 PMMA_Repo = PMMA_Repo(~[PMMA_Repo.isdir]);      %remove folders from list
 %Get the filenames and folders of all files and folders inside your Root Directory
@@ -25,14 +25,14 @@ N_files=size(files,1);
 dirData=dir(Root_dir);
 dirIndex=[dirData.isdir];
 dirIndex(1:2)=0;
-LabNames={dirData(dirIndex).name}'
+LabNames={dirData(dirIndex).name}';
 
 % Create corresponding list of anonymous names for each institution
 QMJHL={'Baie-Comeau' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' 'Chicoutimi' 'Drummondville'...
     'Gatineau' 'Halifax' 'Moncton' 'Quebec' 'Rimouski' 'Rouyn-Noranda' 'Saint John' 'Shawinigan'...
     'Sherbrooke'  'Val dOr' 'Victoriaville'}';
 % Create corresponding list of colors for each dataset submitted by a given institution
-Colors={'Black' 'Gray' 'Red' 'OrangeRed' 'Gold' 'Green' 'Blue' 'DarkViolet' 'DeepSkyBlue' ...
+Colors={'DarkViolet' 'Gray' 'Red' 'OrangeRed' 'Gold' 'Green' 'Blue' 'Black' 'DeepSkyBlue' ...
     'Indigo' 'Lime' 'Navy' 'DeepPink' 'DarkRed' 'Cyan' 'Magenta' 'Khaki'}';
 
 N_Labs=size(LabNames,1);

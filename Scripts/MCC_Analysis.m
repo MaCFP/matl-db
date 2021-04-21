@@ -178,7 +178,8 @@ for i=1:N_files
                 end
                 shadedErrorBar(MCC_Temperature(1:last),MCC_HRR(1:last,6,k,m),[2*MCC_HRR(1:last,8,k,m) 2*MCC_HRR(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
                 axis([350 800 -inf inf]);
-                title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%                 title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Lab Names
+                title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; REAL Lab Names
                 xlabel('Temperature [K]');
                 ylabel('HRR [W g^{-1}]');
                 clear ix
@@ -197,7 +198,8 @@ for i=1:N_files
             end
             shadedErrorBar(MCC_Temperature(1:last),MCC_int_HRR(1:last,6,k,m),[2*MCC_int_HRR(1:last,8,k,m) 2*MCC_int_HRR(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
             axis([350 800 -inf inf]);
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Lab Names
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Lab Names
             ylabel('Integral HRR [J g^{-1}]');
             clear ix
             h=3;                                  % height of plot in inches
@@ -262,7 +264,8 @@ axis([350 800 0 350]);
 % title([Test_types{m} '_HRR'], 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 xlabel('Temperature [K]');
 ylabel('HRR [W g^{-1}]');
-legend(QMJHL{legend_counter},'Location','northwest');
+% legend(QMJHL{legend_counter},'Location','northwest');   %; QMJHL Lab Names
+legend(LabNames{legend_counter},'Location','northwest');   %; Real Lab Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -275,7 +278,8 @@ set(gcf, 'Position', [100 100 600 350])
 axis([350 800 0 inf]);
 xlabel('Temperature [K]');
 ylabel('Integral HRR [J g^{-1}]');
-legend(QMJHL{legend_counter},'Location','northwest');
+% legend(QMJHL{legend_counter},'Location','northwest');   %; QMJHL Lab Names
+legend(LabNames{legend_counter},'Location','northwest');   %; Real Lab Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
