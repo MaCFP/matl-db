@@ -9,7 +9,7 @@ A Netzsch F1 Jupiter was used to conduct Thermogravimetric Analysis (TGA) experi
   - Initial Isotherm: 1500 s (hold at 300 K for 1500 s)  
   - Maximum Temperature: 1000 K
   - Final Isotherm: None
-* Sample mass: 4.2 mg
+* Sample mass: 5 to 6.5 mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 6 months using a set of 5 [6?] reference materials with melting temperatures between 60-820 C
 * Crucible
@@ -26,6 +26,14 @@ A Netzsch F1 Jupiter was used to conduct Thermogravimetric Analysis (TGA) experi
 * Instrument
   - Type: Netzsch F1 Jupiter
   - Note: None
+| Test Name | O2 volume % |  Initial Sample Mass (mg) | 
+| --------- | :---------: | :------------------------: |
+|NIST\_STA\_N2\_10K\_1 | 0 | 4.990|  
+|NIST\_STA\_N2\_10K\_2 | 0 | 5.863|  
+|NIST\_STA\_N2\_10K\_3 | 0 | 6.099|  
+|NIST\_STA\_N2\_10K\_4 | 0 | 6.334|  
+|NIST\_STA\_N2\_10K\_5 | 0 | 5.560|  
+
 
 ### Experimental Conditions: MCC
 An FAA microscale combustion calorimeter was used to conduct MCC experiments.  At the end of each test, the residual solid yield was measured and found to be consistent with the TGA results. 
