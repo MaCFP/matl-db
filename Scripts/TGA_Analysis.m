@@ -203,11 +203,11 @@ end
 
 
 %         title("Onset Temperature of Decomposition (TGA in N_2)");     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-        axis([620 655 2.5e-3 3.25e-3]);
+        axis([620 655 0 3.25e-3]);
         box on
         xlabel('T_{max} [K]');
         ylabel('Peak Mass Loss Rate (s^{-1})');
-        legend(LabNames{legend_counter},'Location','northwest'); %; Real Names
+        legend(LabNames{legend_counter},'Location','southwest'); %; Real Names
         h = 4;                                  % height of plot in inches
         w = 5;                                  % width of plot in inches
         set(gcf, 'PaperSize', [w h]);           % set size of PDF page
