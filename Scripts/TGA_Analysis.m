@@ -7,7 +7,7 @@ load EXP_DATA.mat % This uses the related script 'Import_Data.m'
 N_files;    %total number of experiments
 N_Labs;     %total number of labs
 N_test_types; %number of different types of experiments
-N_rows_i=zeros(184,1);
+N_rows_i=zeros(N_files,1);
 N_rows_all=NaN*ones(N_Labs,max(max(Test_count(:,1:end-1))),N_test_types);    %Initialize a matrix to hold the number of rows (e.g., timesteps) in each dataset
 EVAL_DATA=cell(N_Labs,max(max(Test_count(:,1:(end-1)))),N_test_types);      %Initialize your cell array to hold (N_labs, N_repeat_exps
 TAB_DATA=cell(N_test_types,5);                                              %Tabulated data of discrete values (e.g., t_ignition, heat of combustion, Peak HRR) # discrete values =5 (i.e., we can define up to 5 Tab values for each test type
@@ -187,6 +187,34 @@ figure
         set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
         fig_filename=fullfile(char([Script_Figs_dir, 'TGA_N2_histogram_Tmax']));
         print(fig_filename,'-dpdf')
+        
+% Scatter Plot showing MLR peak vs. T peak for each TGA test at 10K/min in N2
+figure
+hold on
+i_legend=0;
+all_marks = {'o','+','*','h','x','s','d','^','v','>','<','p','.'};
+for k=1:N_Labs
+        if Test_count(28,k)~=0    %If this dataset is the last one for this lab, do some statistics
+            i_legend=i_legend+1;
+            legend_counter(i_legend)=k;
+            plot(TAB_DATA{28,2}(k,1:8),TAB_DATA{28,1}(k,1:8),'LineStyle','none','Marker',all_marks{i_legend},'LineWidth', 2,'color',rgb(Colors{k}));
+        end
+end
+
+
+%         title("Onset Temperature of Decomposition (TGA in N_2)");     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+        axis([620 655 2.5e-3 3.25e-3]);
+        box on
+        xlabel('T_{max} [K]');
+        ylabel('Peak Mass Loss Rate (s^{-1})');
+        legend(LabNames{legend_counter},'Location','northwest'); %; Real Names
+        h = 4;                                  % height of plot in inches
+        w = 5;                                  % width of plot in inches
+        set(gcf, 'PaperSize', [w h]);           % set size of PDF page
+        set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
+        fig_filename=fullfile(char([Script_Figs_dir, 'TGA_N2_PeakMLR_vs_Tpeak']));
+        print(fig_filename,'-dpdf')
+        clear legend_counter i_legend
 close all
 
 
@@ -234,10 +262,10 @@ for i=1:N_files
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
-                TGA_dTdt(ix,5,k,m)=nnz(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
-                TGA_dTdt(ix,6,k,m)=mean_nonan(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
-                TGA_dTdt(ix,7,k,m)=std_nonan(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
-                TGA_dTdt(ix,8,k,m)=TGA_dTdt(ix,7,k,m)/sqrt(TGA_dTdt(ix,5,k,m));
+                TGA_dTdt(ix,L+1,k,m)=nnz(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
+                TGA_dTdt(ix,L+2,k,m)=mean_nonan(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
+                TGA_dTdt(ix,L+3,k,m)=std_nonan(TGA_dTdt((ix-2:ix+2),(1:L),k,m));
+                TGA_dTdt(ix,L+4,k,m)=TGA_dTdt(ix,L+3,k,m)/sqrt(TGA_dTdt(ix,L+1,k,m));
             end
             clear temp_dTdt temp_Mass
 
@@ -246,14 +274,15 @@ for i=1:N_files
             for ix=1:L
                 plot(TGA_Temperature(1:last),TGA_dTdt(1:last,ix,k,m),'.','MarkerSize',3);
             end
-            shadedErrorBar(TGA_Temperature(1:last),TGA_dTdt(1:last,6,k,m),[2*TGA_dTdt(1:last,8,k,m) 2*TGA_dTdt(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            shadedErrorBar(TGA_Temperature(1:last),TGA_dTdt(1:last,L+2,k,m),[2*TGA_dTdt(1:last,L+4,k,m) 2*TGA_dTdt(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
 
             if m==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
                 axis([300 800 0 100]);
             else
                 axis([300 800 0 25]);
             end
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
             xlabel('Temperature [K]');
             ylabel('dT/dt [K/min]]');
             h = 4;                                  % height of plot in inches
@@ -287,7 +316,7 @@ for i=1:N_files
 %             for ix=1:L
 %                 plot(TGA_Temperature(1:last),TGA_dTdt(1:last,ix,k,m),'.','MarkerSize',2,'color',rgb(Colors{legend_counter(k)}));
 %             end
-                plot(TGA_Temperature(1:last),TGA_dTdt(1:last,6,k,m),'.','MarkerSize',5,'color',rgb(Colors{k}));
+                plot(TGA_Temperature(1:last),TGA_dTdt(1:last,L+2,k,m),'.','MarkerSize',6,'color',rgb(Colors{k}));
         end
     end
 end
@@ -295,7 +324,8 @@ end
             title('dT/dt in TGA tests at 10 K/min', 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
-            legend(QMJHL{legend_counter},'Location','northeastoutside');
+%             legend(QMJHL{legend_counter},'Location','northeastoutside'); %; QMJHL Names
+            legend(LabNames{legend_counter},'Location','northeastoutside'); %; Real Names
 
             h=3.25;                                  % height of plot in inches
             w=6;                                  % width of plot in inches
@@ -321,7 +351,7 @@ for i=1:N_files
 %             for ix=1:L
 %                 plot(TGA_Temperature(1:last),TGA_dTdt(1:last,ix,k,m),'.','MarkerSize',2,'color',rgb(Colors{legend_counter(k)}));
 %             end
-                plot(TGA_Temperature(1:last),TGA_dTdt(1:last,6,k,m),'.','MarkerSize',6,'color',rgb(Colors{k}));
+                plot(TGA_Temperature(1:last),TGA_dTdt(1:last,L+2,k,m),'.','MarkerSize',6,'color',rgb(Colors{k}));
         end
     end
 end
@@ -329,7 +359,8 @@ end
             title('dT/dt in TGA tests at 20 K/min', 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
-            legend(QMJHL{legend_counter},'Location','northeastoutside');
+%             legend(QMJHL{legend_counter},'Location','northeastoutside');    % QMJHL Names
+            legend(LabNames{legend_counter},'Location','northeastoutside');    % Real Names
             h=3.25;                                  % height of plot in inches
             w=6;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -372,15 +403,28 @@ for i=1:N_files
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
-                TGA_MLR(ix,5,k,m)=nnz(TGA_MLR((ix-2:ix+2),(1:L),k,m));
-                TGA_MLR(ix,6,k,m)=mean_nonan(TGA_MLR((ix-2:ix+2),(1:L),k,m));
-                TGA_MLR(ix,7,k,m)=std_nonan(TGA_MLR((ix-2:ix+2),(1:L),k,m));
-                TGA_MLR(ix,8,k,m)=TGA_MLR(ix,7,k,m)/sqrt(TGA_MLR(ix,5,k,m));
+            if k==10     % TIFP TGA DATA: Tests 1 and 2 did not have a full N2 purge prior too measurement--> these should be plotted but not averaged (oxidation)
+                TGA_MLR(ix,L+1,k,m)=nnz(TGA_MLR((ix-2:ix+2),(3:L),k,m));
+                TGA_MLR(ix,L+2,k,m)=mean_nonan(TGA_MLR((ix-2:ix+2),(3:L),k,m));
+                TGA_MLR(ix,L+3,k,m)=std_nonan(TGA_MLR((ix-2:ix+2),(3:L),k,m));
+                TGA_MLR(ix,L+4,k,m)=TGA_MLR(ix,L+3,k,m)/sqrt(TGA_MLR(ix,L+1,k,m));
 
-                TGA_Mass(ix,5,k,m)=nnz(TGA_Mass((ix-2:ix+2),(1:L),k,m));
-                TGA_Mass(ix,6,k,m)=mean_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
-                TGA_Mass(ix,7,k,m)=std_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
-                TGA_Mass(ix,8,k,m)=TGA_Mass(ix,7,k,m)/sqrt(TGA_Mass(ix,5,k,m));
+                TGA_Mass(ix,L+1,k,m)=nnz(TGA_Mass((ix-2:ix+2),(3:L),k,m));
+                TGA_Mass(ix,L+2,k,m)=mean_nonan(TGA_Mass((ix-2:ix+2),(3:L),k,m));
+                TGA_Mass(ix,L+3,k,m)=std_nonan(TGA_Mass((ix-2:ix+2),(3:L),k,m));
+                TGA_Mass(ix,L+4,k,m)=TGA_Mass(ix,L+3,k,m)/sqrt(TGA_Mass(ix,L+1,k,m));
+                
+            else
+                TGA_MLR(ix,L+1,k,m)=nnz(TGA_MLR((ix-2:ix+2),(1:L),k,m));
+                TGA_MLR(ix,L+2,k,m)=mean_nonan(TGA_MLR((ix-2:ix+2),(1:L),k,m));
+                TGA_MLR(ix,L+3,k,m)=std_nonan(TGA_MLR((ix-2:ix+2),(1:L),k,m));
+                TGA_MLR(ix,L+4,k,m)=TGA_MLR(ix,L+3,k,m)/sqrt(TGA_MLR(ix,L+1,k,m));
+
+                TGA_Mass(ix,L+1,k,m)=nnz(TGA_Mass((ix-2:ix+2),(1:L),k,m));
+                TGA_Mass(ix,L+2,k,m)=mean_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
+                TGA_Mass(ix,L+3,k,m)=std_nonan(TGA_Mass((ix-2:ix+2),(1:L),k,m));
+                TGA_Mass(ix,L+4,k,m)=TGA_Mass(ix,L+3,k,m)/sqrt(TGA_Mass(ix,L+1,k,m));
+            end
             end
             clear temp_MLR temp_Mass
 
@@ -389,7 +433,7 @@ for i=1:N_files
             for ix=1:L
                 plot(TGA_Temperature(1:last),TGA_Mass(1:last,ix,k,m),'.','MarkerSize',3);
             end
-            shadedErrorBar(TGA_Temperature(1:last),TGA_Mass(1:last,6,k,m),[2*TGA_Mass(1:last,8,k,m) 2*TGA_Mass(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            shadedErrorBar(TGA_Temperature(1:last),TGA_Mass(1:last,L+2,k,m),[2*TGA_Mass(1:last,L+4,k,m) 2*TGA_Mass(1:last,L+4,k,m)],'lineprops', {'-k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
 
             axis([300 800 0 1.05]);
             ylabel('(m/m_0) [g/g]');
@@ -400,14 +444,15 @@ for i=1:N_files
             for ix=1:L
                 plot(TGA_Temperature(1:last),TGA_MLR(1:last,ix,k,m),'.','MarkerSize',3);
             end
-            shadedErrorBar(TGA_Temperature(1:last),TGA_MLR(1:last,6,k,m),[2*TGA_MLR(1:last,8,k,m) 2*TGA_MLR(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            shadedErrorBar(TGA_Temperature(1:last),TGA_MLR(1:last,L+2,k,m),[2*TGA_MLR(1:last,L+4,k,m) 2*TGA_MLR(1:last,L+4,k,m)],'lineprops', {'-k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
 
             if m==30 || m==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
                 axis([300 800 0 inf]);
             else
                 axis([300 800 0 0.003]);
             end
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
             xlabel('Temperature [K]');
             ylabel('dm*/dt [s^{-1}]');
             h=3;                                  % height of plot in inches
@@ -471,7 +516,8 @@ end
         axis([300 800 0 1]);
         xlabel('Temperature [K]');
         ylabel('m/m_0 [g/g]');
-        legend({QMJHL{legend_counter}},'Location','southwest');
+%         legend({QMJHL{legend_counter}},'Location','southwest'); % QMJHL Names
+        legend({LabNames{legend_counter}},'Location','southwest'); % Real Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -479,7 +525,8 @@ end
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass']));
             print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_5K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_5K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter},'Average'},'Location','southwest');
+%         legend({QMJHL{legend_counter}},'Location','southwest'); % QMJHL Names
+        legend({LabNames{legend_counter}},'Location','southwest'); % Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
             print(fig_filename,'-dpdf')
 
@@ -496,7 +543,8 @@ end
         axis([300 800 0 0.002]);
         xlabel('Temperature [K]');
         ylabel('d(m/m_0)/dt [s^{-1}]');
-        legend(QMJHL{legend_counter},'Location','northwest');
+%         legend({QMJHL{legend_counter}},'Location','southwest'); % QMJHL Names
+        legend({LabNames{legend_counter}},'Location','southwest'); % Real Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -504,7 +552,8 @@ end
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt']));
             print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,Test_count(m,end)+2,2)),[2*(TGA_N2_5K_all(:,Test_count(m,end)+4,2)) 2*(TGA_N2_5K_all(:,Test_count(m,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter},'Average'},'Location','northwest');
+%         legend({QMJHL{legend_counter},'Average'},'Location','northwest');   % QMJHL Names
+        legend({LabNames{legend_counter},'Average'},'Location','northwest');   % Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
             print(fig_filename,'-dpdf')
 
@@ -548,16 +597,16 @@ TGA_N2_10K_all(TGA_N2_10K_all==0)=NaN;
 
 %NOTE: For these statistics [LCPP(wayyy too high), UDRI (30K temp shift),
 %TIFP (two peaks)] data is clesarly incorrect, so it will not be used for
-%statistics. Hence the indexing: [1:4 8  11 15:Test_count].
+%statistics. Hence the indexing: [1:4 8:12  15:21 23:Test_countTest_count].
 for ix=1:1021
-    TGA_N2_10K_all(ix,(Test_count_10K+1),1)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1));          % Count, N
-    TGA_N2_10K_all(ix,(Test_count_10K+2),1)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1));        % mean
-    TGA_N2_10K_all(ix,(Test_count_10K+3),1)=std_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],1));         % stdmean (all data +/- 1 s
+    TGA_N2_10K_all(ix,(Test_count_10K+1),1)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],1));          % Count, N
+    TGA_N2_10K_all(ix,(Test_count_10K+2),1)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],1));        % mean
+    TGA_N2_10K_all(ix,(Test_count_10K+3),1)=std_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],1));         % stdmean (all data +/- 1 s
     TGA_N2_10K_all(ix,(Test_count_10K+4),1)=TGA_N2_10K_all(ix,(Test_count_10K+3),1)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,1));  % stdev mean
 
-    TGA_N2_10K_all(ix,(Test_count_10K+1),2)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));          % Count, N
-    TGA_N2_10K_all(ix,(Test_count_10K+2),2)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));        % mean
-    TGA_N2_10K_all(ix,(Test_count_10K+3),2)=std_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8 11 15:Test_count_10K],2));         % stdmean (all data +/- 1 s
+    TGA_N2_10K_all(ix,(Test_count_10K+1),2)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],2));          % Count, N
+    TGA_N2_10K_all(ix,(Test_count_10K+2),2)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],2));        % mean
+    TGA_N2_10K_all(ix,(Test_count_10K+3),2)=std_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],2));         % stdmean (all data +/- 1 s
     TGA_N2_10K_all(ix,(Test_count_10K+4),2)=TGA_N2_10K_all(ix,(Test_count_10K+3),2)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,2));  % stdev mean
 end
 
@@ -566,13 +615,14 @@ m=28;
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
 for k=1:Test_count_10K
-    plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,1),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
+    plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,1),'-','MarkerSize',5,'color',rgb(Colors{legend_counter(k)})) ;
 end
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 1]);
         xlabel('Temperature [K]');
         ylabel('m/m_0 [g/g]');
-        legend(QMJHL{legend_counter},'Location','southwest');
+%         legend(QMJHL{legend_counter},'Location','southwest');   % QMJHL Names
+        legend(LabNames{legend_counter},'Location','eastoutside','FontSize',7);   % Real Names
             h=5;                                  % height of plot in inches
             w=7;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -580,7 +630,8 @@ end
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass']));
             print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,Test_count_10K+2,1)),[2*(TGA_N2_10K_all(:,Test_count_10K+4,1)) 2*(TGA_N2_10K_all(:,Test_count_10K+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');
+%         legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');  % QMJHL Names
+        legend({LabNames{legend_counter}, 'Average'},'Location','eastoutside','FontSize',7);  % Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
             print(fig_filename,'-dpdf')
 
@@ -589,14 +640,15 @@ end
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
 for k=1:Test_count_10K
-    plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,2),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
+    plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,2),'-','MarkerSize',5,'color',rgb(Colors{legend_counter(k)})) ;
 end
 
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 0.004]);
         xlabel('Temperature [K]');
         ylabel('d(m/m_0)/dt [s^{-1}]');
-        legend(QMJHL{legend_counter},'Location','northwest');
+%         legend(QMJHL{legend_counter},'Location','northwest');   % QMJHL Names
+        legend(LabNames{legend_counter},'Location','eastoutside','FontSize',7);   % Real Names
             h=5;                                  % height of plot in inches
             w=7;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -604,7 +656,8 @@ end
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt']));
             print(fig_filename,'-dpdf')
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,Test_count_10K+2,2)),[2*(TGA_N2_10K_all(:,Test_count_10K+4,2)) 2*(TGA_N2_10K_all(:,Test_count_10K+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');
+%         legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');  % QMJHL Names
+        legend({LabNames{legend_counter}, 'Average'},'Location','eastoutside','FontSize',7);  % Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
             print(fig_filename,'-dpdf')
 
@@ -657,7 +710,8 @@ end
         axis([300 800 0 1]);
         xlabel('Temperature [K]');
         ylabel('m/m_0 [g/g]');
-        legend(QMJHL{legend_counter},'Location','southwest');
+%         legend(QMJHL{legend_counter},'Location','southwest');   % QMJHL Names
+        legend(LabNames{legend_counter},'Location','southwest');   % QMJHL Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -666,7 +720,8 @@ end
             print(fig_filename,'-dpdf')
 
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_20K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_20K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');
+%         legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');  % QMJHL Names
+        legend({LabNames{legend_counter}, 'Average'},'Location','southwest');  % QMJHL Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
             print(fig_filename,'-dpdf')
 
@@ -681,7 +736,8 @@ end
         axis([300 800 0 0.0065]);
         xlabel('Temperature [K]');
         ylabel('d(m/m_0)/dt [s^{-1}]');
-        legend(QMJHL{legend_counter},'Location','northwest');
+%         legend(QMJHL{legend_counter},'Location','northwest');   % QMJHL Names
+        legend(LabNames{legend_counter},'Location','northwest');   % Real Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -690,7 +746,8 @@ end
             print(fig_filename,'-dpdf')
 
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,Test_count(m,end)+2,2)),[2*(TGA_N2_20K_all(:,Test_count(m,end)+4,2)) 2*(TGA_N2_20K_all(:,Test_count(m,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');
+%         legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');  % QMJHL Names
+        legend({LabNames{legend_counter}, 'Average'},'Location','northwest');  % Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
             print(fig_filename,'-dpdf')
 
@@ -745,7 +802,8 @@ end
         axis([300 800 0 1]);
         xlabel('Temperature [K]');
         ylabel('m/m_0 [g/g]');
-        legend(QMJHL{legend_counter},'Location','southwest');
+%         legend(QMJHL{legend_counter},'Location','southwest');   %QMJHL Names
+        legend(LabNames{legend_counter},'Location','southwest');   %Real Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -754,7 +812,8 @@ end
             print(fig_filename,'-dpdf')
 
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+2,1)),[2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,1)) 2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');
+%         legend({QMJHL{legend_counter}, 'Average'},'Location','southwest');  %QMJHL Names
+        legend({LabNames{legend_counter}, 'Average'},'Location','southwest');  %Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_Mass_w_avg']));
             print(fig_filename,'-dpdf')
 %plot Average d(m/m0)/dt with shaded errorbars WITH individual data points from all tests
@@ -767,7 +826,8 @@ end
         axis([300 800 0 0.004]);
         xlabel('Temperature [K]');
         ylabel('d(m/m_0)/dt [s^{-1}]');
-        legend(QMJHL{legend_counter},'Location','northwest');
+%         legend(QMJHL{legend_counter},'Location','northwest');   %QMJHL Names
+        legend(LabNames{legend_counter},'Location','northwest');   %Real Names
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -776,7 +836,8 @@ end
             print(fig_filename,'-dpdf')
 
         shadedErrorBar(TGA_Temperature(:),(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+2,2)),[2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,2)) 2*(TGA_N2_O2_21_10K_all(:,Test_count(m,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
-        legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');
+%         legend({QMJHL{legend_counter}, 'Average'},'Location','northwest');  %QMJHL Names
+        legend({LabNames{legend_counter}, 'Average'},'Location','northwest');  %Real Names
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
             print(fig_filename,'-dpdf')
 clear m legend_counter
@@ -789,6 +850,7 @@ hold on
 shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,end-2,1)),[2*(TGA_N2_20K_all(:,end,1)) 2*(TGA_N2_20K_all(:,end,1))],'lineprops', {'r','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,end-2,1)),[2*(TGA_N2_10K_all(:,end,1)) 2*(TGA_N2_10K_all(:,end,1))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,end-2,1)),[2*(TGA_N2_5K_all(:,end,1)) 2*(TGA_N2_5K_all(:,end,1))],'lineprops', {'b','LineWidth',2}); %plot with shaded error bards = 2stdevmean
+box on
 title(char('TGA in Nitrogen'));
 axis([300 800 0 1]);
 xlabel('Temperature [K]');
@@ -810,6 +872,7 @@ shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,end-2,2)),[2*(TGA_N2_5K_all(:
 % shadedErrorBar(TGA_Temperature(:),(TGA_N2_20K_all(:,Test_count(30,end)+2,2)),[2*(TGA_N2_20K_all(:,Test_count(30,end)+4,2)) 2*(TGA_N2_20K_all(:,Test_count(30,end)+4,2))],'lineprops', {'r','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 % shadedErrorBar(TGA_Temperature(:),(TGA_N2_10K_all(:,Test_count(28,end)+2,2)),[2*(TGA_N2_10K_all(:,Test_count(28,end)+4,2)) 2*(TGA_N2_10K_all(:,Test_count(28,end)+4,2))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 % shadedErrorBar(TGA_Temperature(:),(TGA_N2_5K_all(:,Test_count(27,end)+2,2)),[2*(TGA_N2_5K_all(:,Test_count(27,end)+4,2)) 2*(TGA_N2_5K_all(:,Test_count(27,end)+4,2))],'lineprops', {'b','LineWidth',2}); %plot with shaded error bards = 2stdevmean
+box on
 title(char('TGA in Nitrogen'));
 axis([300 800 0 0.006]);
 xlabel('Temperature [K]');
