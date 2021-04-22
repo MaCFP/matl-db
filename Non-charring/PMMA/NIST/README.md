@@ -63,7 +63,7 @@ An FAA microscale combustion calorimeter was used to conduct MCC experiments.  A
     - Square pan: 106mm x 106mm x 25mm
     - Retainer frame: None
     - Retaining grid: None
-* Backing Insulation: [?]
+* Backing Insulation: One inch thick (2.54 cm) layer of Kaowool Blanket. Density = 128 kg/m3. Thermal Conductivity 0.06, 0.012, 0.21, 0.3 W/m-K (at 260, 538, 816, 1093 C, respectively)
 * Thermocouple location: None
 
 ###### Test Heating Conditions  
