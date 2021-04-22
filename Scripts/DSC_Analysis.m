@@ -41,7 +41,7 @@ for i =1:N_files   % Loop through all of your data sets
 
         T_start=ceil(min(EXP_DATA{k,L,m}(:,2)));            %find first timestep (rounded to nearest integer)
         T_end=floor(max(EXP_DATA{k,L,m}(:,2)));             %find last timestep (rounded to nearest integer)
-        delta_T=0.5;
+        delta_T=1.0;
         EVAL_DATA{k,L,m}(:,2)=[T_start:delta_T:T_end-1]';   % generate uniform T from Tmin to Tmin at 0.5K intervals
 %Thursday AM
         [T,sortidx_T]=unique(EXP_DATA{k,L,m}(:,2));         % Find all of your unique Temps
@@ -127,9 +127,9 @@ clear temp
 % save('T_check.mat','T_check')
 
 %% Analyze Temperature-Resolved DSC heat flow Data
-DSC_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
-DSC_int_heatflow=NaN*ones(1021,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
-DSC_Temperature=[295:0.5:805]';
+DSC_heatflow=NaN*ones(511,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
+DSC_int_heatflow=NaN*ones(511,max(max(Test_count(6:16,1:15)))+4,N_Labs,37);
+DSC_Temperature=[295:1:805]';
 figure('Renderer', 'painters', 'Position', [100 100 400 300])
 for i=1:N_files
     k=files{i,3};   % Find Lab Name
@@ -137,39 +137,39 @@ for i=1:N_files
     m=files{i,2};   % Find Test Type
     if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
 
-        last = min(min(N_rows_all(k,:,m)-1,1021));
+        last = min(min(N_rows_all(k,:,m)-1,511));
 
         max_T =max(EVAL_DATA{k,L,m}(:,2));
-        max_T_idx=min((max_T-295)*2+1,1021);    %we pull in all data up to 1021 rows of data (~up to 800K)
+        max_T_idx=min((max_T-295)+1,511);    %we pull in all data up to 511 rows of data (~up to 800K)
 
         min_T=min(EVAL_DATA{k,L,m}(:,2));
-        min_T_idx=(min_T-295)*2+1;
+        min_T_idx=(min_T-295)+1;
 
-%         DSC_Mass//DSC_MLR(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,3); % pull in (up to) the first 1021 rows/timesteps of Mass and MLR data
+%         DSC_ihf//DSC_hf(1:last,L,k)=EVAL_DATA{k,L,m}(1:last,3); % pull in (up to) the first 511 rows/timesteps of Mass and MLR data
             DSC_int_heatflow(min_T_idx:max_T_idx,L,k,m)=EVAL_DATA{k,L,m}(1:(max_T_idx+1-min_T_idx),4);
             DSC_heatflow(min_T_idx:max_T_idx,L,k,m)=EVAL_DATA{k,L,m}(1:(max_T_idx+1-min_T_idx),3);
 
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             %Turn all 0 values into NaN so that you can ignore them in std , mean calculations
-            temp_MLR=DSC_heatflow(:,:,k,m);
-            temp_MLR(temp_MLR==0)=NaN;
-            DSC_heatflow(1:last,:,k,m)=temp_MLR;
+            temp_hf=DSC_heatflow(:,:,k,m);
+            temp_hf(temp_hf==0)=NaN;
+            DSC_heatflow(1:last,:,k,m)=temp_hf;
 
-            temp_Mass=DSC_int_heatflow(:,:,k,m);
-            temp_Mass(temp_Mass==0)=NaN;
-            DSC_int_heatflow(1:last,:,k,m)=temp_Mass;
+            temp_ihf=DSC_int_heatflow(:,:,k,m);
+            temp_ihf(temp_ihf==0)=NaN;
+            DSC_int_heatflow(1:last,:,k,m)=temp_ihf;
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
-                DSC_heatflow(ix,5,k,m)=nnz(DSC_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_heatflow(ix,6,k,m)=mean_nonan(DSC_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_heatflow(ix,7,k,m)=std_nonan(DSC_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_heatflow(ix,8,k,m)=DSC_heatflow(ix,7,k,m)/sqrt(DSC_heatflow(ix,5,k,m));
+                DSC_heatflow(ix,L+1,k,m)=nnz(DSC_heatflow((ix-2:ix+2),(1:L),k,m));              % N
+                DSC_heatflow(ix,L+2,k,m)=mean_nonan(DSC_heatflow((ix-2:ix+2),(1:L),k,m));       % mean
+                DSC_heatflow(ix,L+3,k,m)=std_nonan(DSC_heatflow((ix-2:ix+2),(1:L),k,m));        % stdev
+                DSC_heatflow(ix,L+4,k,m)=DSC_heatflow(ix,L+3,k,m)/sqrt(DSC_heatflow(ix,L+1,k,m)); % stdev_mean
 
-                DSC_int_heatflow(ix,5,k,m)=nnz(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_int_heatflow(ix,6,k,m)=mean_nonan(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_int_heatflow(ix,7,k,m)=std_nonan(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
-                DSC_int_heatflow(ix,8,k,m)=DSC_int_heatflow(ix,7,k,m)/sqrt(DSC_int_heatflow(ix,5,k,m));
+                DSC_int_heatflow(ix,L+1,k,m)=nnz(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
+                DSC_int_heatflow(ix,L+2,k,m)=mean_nonan(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
+                DSC_int_heatflow(ix,L+3,k,m)=std_nonan(DSC_int_heatflow((ix-2:ix+2),(1:L),k,m));
+                DSC_int_heatflow(ix,L+4,k,m)=DSC_int_heatflow(ix,L+3,k,m)/sqrt(DSC_int_heatflow(ix,L+1,k,m));
             end
 %             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,
             clear temp_MLR temp_Mass
@@ -177,7 +177,8 @@ for i=1:N_files
             if k==13    % plot UMD with their own error bars
                 shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
                 axis([300 800 -inf inf]);
-                title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%                 title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+                title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
                 xlabel('Temperature [K]');
                 ylabel('Heat Flow [W g^{-1}]');
                 clear ix
@@ -190,12 +191,14 @@ for i=1:N_files
                 clf
             else    %plot everyone else's data with my errorbars
                 hold on
+                box on
                 for ix=1:L
                     plot(DSC_Temperature(1:last),DSC_heatflow(1:last,ix,k,m),'.','MarkerSize',3);
                 end
-                shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,6,k,m),[2*DSC_heatflow(1:last,8,k,m) 2*DSC_heatflow(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+                shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,L+2,k,m),[2*DSC_heatflow(1:last,L+4,k,m) 2*DSC_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
                 axis([300 800 -inf inf]);
-                title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%                 title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; qMJHL Names
+                title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
                 xlabel('Temperature [K]');
                 ylabel('Heat Flow [W g^{-1}]');
                 clear ix
@@ -209,12 +212,15 @@ for i=1:N_files
             end
 
             hold on
+            box on
             for ix=1:L
                 plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,ix,k,m),'.','MarkerSize',3);
             end
-            shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,6,k,m),[2*DSC_int_heatflow(1:last,8,k,m) 2*DSC_int_heatflow(1:last,8,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
             axis([300 800 -inf inf]);
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');
+%             %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real names
             ylabel('Integral Heat Flow [J g^{-1}]');
             clear ix
             h=3;                                  % height of plot in inches
@@ -248,8 +254,8 @@ for i =1:N_files   % Loop through all of your data sets
         T_start=ceil(min(EXP_DATA{k,L,m}(:,2)));   %find first timestep (rounded to nearest integer)
         T_end=floor(max(EXP_DATA{k,L,m}(:,2)));     %find last timestep (rounded to nearest integer)
         m0=mean(EXP_DATA{k,L,m}(1:5,3));            % define m0 as average m from first five timesteps
-        delta_T=0.5;
-        EVAL_DATA{k,L,m}(:,2)=[T_start:delta_T:T_end-1]';                   % generate uniform T from Tmin to Tmin at 0.5K intervals
+        delta_T=1.0;
+        EVAL_DATA{k,L,m}(:,2)=[T_start:delta_T:T_end-1]';                   % generate uniform T from Tmin to Tmin at 1.0K intervals
 %Thursday AM
         [T,sortidx_T]=unique(EXP_DATA{k,L,m}(:,2));    % Find all of your unique Temps
         T_idx=[T sortidx_T];
@@ -304,7 +310,7 @@ for i =1:N_files   % Loop through all of your data sets
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m== 10 && (k==5 || k==10 || k==13)   %N2_10K
+    if m== 10 && (k==5 || k==8 || k== 10 || k==13)   %N2_10K
         T_onset=TAB_DATA{28,3}(k,L);
         T_endset=TAB_DATA{28,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
@@ -340,18 +346,20 @@ close
 
 
 
-%% Combine all of your TGA data from individual tests in Nitrogen at 10K/min
+%% Combine all of your DSC data from individual tests in Nitrogen at 10K/min
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
 m=10;
-col_old=0;
 i_legend=1;
 for k=1:N_Labs
     if Test_count(m,k)~=0 && k~=14  %(14 is UMET, that data is /\/\/\)
-        col_new=Test_count(m,k);
-        legend_counter(i_legend:i_legend+Test_count(m,k)-1)=k;
-        col_old=col_old+col_new;
-        i_legend=i_legend+Test_count(m,k);
+        if k==8   % because you're averaging together your NIST data and only showing that combined curve, this needed to be updated accordingly
+            legend_counter(i_legend)=k;
+            i_legend=i_legend+1;           
+        else 
+            legend_counter(i_legend:i_legend+Test_count(m,k)-1)=k;
+            i_legend=i_legend+Test_count(m,k);
+        end
     end
 end
 
@@ -359,56 +367,82 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    last = min(min(N_rows_all(k,:,m)-1,1021));
+    last = min(min(N_rows_all(k,:,m)-1,511));
     if m==10 && k~=14  && L==Test_count(m,k)  % Just DSC Tests // UMET data is messed up /\/\/\ temperature program
         hold on
-        for ix=1:L
+        figure(1)    
+        if k==13
             figure(1)
-            if k==13
-                shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,6,k,m),[2*DSC_heatflow(1:last,8,k,m) 2*DSC_heatflow(1:last,8,k,m)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-            else
-                plot(DSC_Temperature(1:last),DSC_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
-            end
+            shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
             figure(2)
             hold on
-            plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%             plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,1,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
+            plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,1,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',LabNames{k});
+%             shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+        elseif k==8         
+            figure(1)
+            shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,L+2,k,m),[2*DSC_heatflow(1:last,L+4,k,m) 2*DSC_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            figure(2)
+            shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+        end        
+        if k~=8
+            for ix=1:L
+                hold on
+                figure(1)        
+%                 plot(DSC_Temperature(1:last),DSC_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
+                plot(DSC_Temperature(1:last),DSC_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',LabNames{k});
+                figure(2)
+%                 plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
+                plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',LabNames{k});
+                
+            end
         end
     end
 end
+
+        
+
+
 m=10;
 figure(1)
+box on
 axis([300 800 -1 5]);
 % title([Test_types{m} '_heatflow'], 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 xlabel('Temperature [K]');
 ylabel('Heat Flow [W g^{-1}]');
-legend(QMJHL{legend_counter},'Location','northwest');
+% legend(QMJHL{legend_counter},'Location','northwest');
+legend(LabNames{legend_counter},'Location','eastoutside','FontSize',8);
             h=3;                                  % height of plot in inches
-            w=5;                                  % width of plot in inches
+            w=5.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_heatflow']));
             print(fig_filename,'-dpdf')
 
 figure(2)
+box on
 set(gcf, 'Position', [900 100 800 450])
 axis([300 800 -200 2500]);
 xlabel('Temperature [K]');
 ylabel('Integral Heat Flow [J g^{-1}]');
-legend(QMJHL{legend_counter},'Location','northwest');
+% legend(QMJHL{legend_counter},'Location','northwest');
+legend(LabNames{legend_counter},'Location','eastoutside','FontSize',8);
             h=3;                                  % height of plot in inches
-            w=5;                                  % width of plot in inches
+            w=5.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_int_heatflow']));
             print(fig_filename,'-dpdf')
 close all
 
-%% Combine all of your TGA data from individual tests in N2/21%O2 at 10K/min
+%% Combine all of your DSC data from individual tests in N2/21%O2 at 10K/min
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
+box on
 hold on
 m=13;
 col_old=0;
 i_legend=1;
+clear legend_counter
 for k=1:N_Labs
     if Test_count(m,k)~=0 && k~=14 %(14 is UMET, that data is /\/\/\)
         col_new=Test_count(m,k);
@@ -422,7 +456,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    last = min(min(N_rows_all(k,:,m)-1,1021));
+    last = min(min(N_rows_all(k,:,m)-1,511));
     if m==13 && k~=14  && L==Test_count(m,k)     % Just DSC Tests // UMET data is messed up /\/\/\ temperature program
         hold on
         for ix=1:L
@@ -438,11 +472,13 @@ end
 
 m=13;
 figure(1)
+box on
 axis([300 800 -3 6.5]);
 % title([Test_types{m} '_heatflow'], 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 xlabel('Temperature [K]');
 ylabel('Heat Flow [W g^{-1}]');
-legend(QMJHL{legend_counter},'Location','northwest');
+% legend(QMJHL{legend_counter},'Location','northwest');
+legend(LabNames{legend_counter},'Location','eastoutside');
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -451,11 +487,13 @@ legend(QMJHL{legend_counter},'Location','northwest');
             print(fig_filename,'-dpdf')
 
 figure(2)
+box on
 set(gcf, 'Position', [900 100 800 450])
 axis([300 800 -500 2500]);
 xlabel('Temperature [K]');
 ylabel('Integral Heat Flow [J g^{-1}]');
-legend(QMJHL{legend_counter},'Location','northwest');
+% legend(QMJHL{legend_counter},'Location','northwest');
+legend(LabNames{legend_counter},'Location','eastoutside');
             h=3;                                  % height of plot in inches
             w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -467,6 +505,7 @@ close all % Close figure
 
 %% UMET data has a unique heating program, let's plot it separately
 figure
+box on
 set(gcf, 'Position', [900 100 700 400])
 axis([190 435 -inf inf]);
 xlabel('Temperature [K]');
