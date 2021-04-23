@@ -48,8 +48,8 @@ for i = 1:N_files   % Loop through all of your data sets
             EVAL_DATA{k,L,m}(:,8)=(EVAL_DATA{k,L,m}(:,3));                                                      % Keep raw data for LCPP b/c of 0.2 Hz output
         end
         TAB_DATA{m,1}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>24,1);              %Calculate t_ignition as the first time when HRR_smooth>24 kW/m2
-        TAB_DATA{m,2}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>240,1);             %Calculate t_100_0 as the first time when HRR_smooth>100 kW/m2
-        TAB_DATA{m,3}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>240,1,'last');             %Calculate t_100_0 as the last time when HRR_smooth>100 kW/m2
+        TAB_DATA{m,2}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>240,1);             %Calculate the first time when HRR_smooth>240 kW/m2
+        TAB_DATA{m,3}(k,L)=find((EVAL_DATA{k,L,m}(:,3))>240,1,'last');             %Calculate the last time when HRR_smooth>240 kW/m2
         TAB_DATA{m,4}(k,L)=m0;
         Ncols=size(EXP_DATA{k,L,m}(:,:),2);         % Find out how many TCs / temp measurements were provided in this test
         N_rows_i(i)=size(EXP_DATA{k,L,m}(:,:),1);
@@ -201,7 +201,9 @@ for i=1:N_files
             end
 %                 plot(time25(1:last),HRR25(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{3}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{3}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+            box on
+            title({LabNames{k} Test_types{3}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
             axis([0 600 0 800]);
             xlabel('time [s]');
             ylabel('HRR [kW m^{-2}]');
@@ -296,7 +298,8 @@ for k=1:N_Labs
         if  isnan(HRR25(20,L,k))==0 && (HRR25_all_avg(20,k))~=0
         i_legend=i_legend+1;
         legend_counter(i_legend,1)=k;
-        h(i_legend)=plot(time25(:),HRR25(1:size(time25(:),1),L,k),'.','MarkerSize',7.5,'Color',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%         h(i_legend)=plot(time25(:),HRR25(1:size(time25(:),1),L,k),'.','MarkerSize',7.5,'Color',rgb(Colors{k}),'DisplayName',QMJHL{k});  %QMJHL Names
+        h(i_legend)=plot(time25(:),HRR25(1:size(time25(:),1),L,k),'.','MarkerSize',7.5,'Color',rgb(Colors{k}),'DisplayName',LabNames{k});  % Real Names
         end
     end
 end
@@ -306,12 +309,12 @@ end
 %         plot(time25(:),HRR25_all(:,k),'.');
 %     end
 % end
-
+        box on
         title(char(Test_types{3}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 600 0 800]);
         xlabel('time [s]');
         ylabel('HRR [kW m^{-2}]');
-        legend(h,'Location','northeastoutside');
+        legend(h,'interpreter', 'none','Location','northeastoutside');
             h=6;                                  % height of plot in inches
             w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -367,7 +370,9 @@ for i=1:N_files
             end
 %                 plot(time50(1:last),HRR50(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{4}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{4}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+            box on
+            title({LabNames{k} Test_types{4}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
             axis([0 300 0 1300]);
             xlabel('time [s]');
             ylabel('HRR [kW m^{-2}]');
@@ -460,7 +465,7 @@ for k=1:Test_count(4,end)
         plot(time50(:),HRR50_all(:,k),'.');
     end
 end
-
+        box on
         title(char(Test_types{4}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 300 0 1300]);
         xlabel('time [s]');
@@ -516,14 +521,16 @@ for i=1:N_files
             for ix=1:L
                 plot(time65(1:last),HRR65(1:last,ix,k),'.');
             end
-            if L>=1     %So long as you can calculate stdev, plot with errorbars
-                shadedErrorBar(time65(1:last),HRR65(1:last,L+2,k),[2*HRR65(1:last,L+4,k) 2*HRR65(1:last,L+4,k)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-            else        %If you have 2 or fewer test repeats, don't show errorbars, just plot avg curve
-                plot(time65(1:last),HRR65(1:last,L+2,k),'k','LineWidth',2);
-            end
+%             if L>=1     %So long as you can calculate stdev, plot with errorbars
+%                 shadedErrorBar(time65(1:last),HRR65(1:last,L+2,k),[2*HRR65(1:last,L+4,k) 2*HRR65(1:last,L+4,k)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+%             else        %If you have 2 or fewer test repeats, don't show errorbars, just plot avg curve
 %                 plot(time65(1:last),HRR65(1:last,L+2,k),'k','LineWidth',2);
-%             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             end
+%                 plot(time65(1:last),HRR65(1:last,L+2,k),'k','LineWidth',2);
+%             title({QMJHL{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
+            
+            box on
+            title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
             axis([0 300 0 1500]);
             xlabel('time [s]');
             ylabel('HRR [kW m^{-2}]');
@@ -622,19 +629,20 @@ for k=1:N_Labs
         if  isnan(HRR65(20,L,k))==0 && (HRR65_all_avg(20,k))~=0
         i_legend=i_legend+1;
         legend_counter(i_legend,1)=k;
-        h(i_legend)=plot(time65(:),HRR65(1:size(time65(:),1),L,k),'.','MarkerSize',7.5,'Color',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%         h(i_legend)=plot(time65(:),HRR65(1:size(time65(:),1),L,k),'.','MarkerSize',7.5,'Color',rgb(Colors{k}),'DisplayName',QMJHL{k});  %QMJHL Names
+        h(i_legend)=plot(time65(:),HRR65(1:size(time65(:),1),L,k),'.','MarkerSize',7.5,'Color',rgb(Colors{k}),'DisplayName',LabNames{k});  % Real Names
         end
     end
 end
 
 
 
-
+        box on
         title(char(Test_types{5}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 300 0 1500]);
         xlabel('time [s]');
         ylabel('HRR [kW m^{-2}]');
-        legend(h,'Location','eastoutside');
+        legend(h,'interpreter', 'none','Location','eastoutside');
             h=6;                                  % height of plot in inches
             w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -655,6 +663,7 @@ shadedErrorBar(time65,(HRR65_all(:,Test_count(5,end)+2)),[2*(HRR65_all(:,Test_co
 shadedErrorBar(time50,(HRR50_all(:,Test_count(4,end)+2)),[2*(HRR50_all(:,Test_count(4,end)+4)) 2*(HRR50_all(:,Test_count(4,end)+4))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 shadedErrorBar(time25,(HRR25_all(:,Test_count(3,end)+2)),[2*(HRR25_all(:,Test_count(3,end)+4)) 2*(HRR25_all(:,Test_count(3,end)+4))],'lineprops', {'b','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 
+box on
 title(char('Cone Calorimeter'));     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 axis([0 500 0 1300]);
 legend('65 kW m^{-2}','50 kW m^{-2}','25 kW m^{-2}');
@@ -714,8 +723,8 @@ for i=1:N_files
                 plot(time25(1:last),TEMP25(1:last,3*L+2,k),'k','LineWidth',2);
             end
 %                 plot(time25(1:last),TEMP25(1:last,L+2,k),'k','LineWidth',2);
-%             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{3}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{3}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Real Names
+            title({LabNames{k} Test_types{3}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; Lab names
             axis([0 500 250 900]);
             xlabel('time [s]');
             ylabel('Back Surface Temperature [K]');
@@ -784,11 +793,13 @@ for k=1:N_Labs %size(TEMP25_all_avg,2)
        if  isnan(TEMP25_all_avg(10,k)) == 0
             i_legend=i_legend+1;
             legend_counter(i_legend)=k;
-            h(i_legend)=plot(time25(:),TEMP25_all_avg(:,k),'.','MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%             h(i_legend)=plot(time25(:),TEMP25_all_avg(:,k),'.','MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});    
+            h(i_legend)=plot(time25(:),TEMP25_all_avg(:,k),'.','MarkerEdgeColor',rgb(Colors{k}),'DisplayName',LabNames{k});
         end
     end
 end
         shadedErrorBar(time25,(TEMP25_all(:,3*Test_count(3,end)+2)),[2*(TEMP25_all(:,3*Test_count(3,end)+4)) 2*(TEMP25_all(:,3*Test_count(3,end)+4))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
+        box on
         title(char(Test_types{3}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 500 250 900]);
         xlabel('time [s]');
@@ -817,7 +828,8 @@ for k=1:N_Labs
             if  isnan(TEMP25_all(10,i))==0
                 ix=ix+1;
                 legend_counter(ix)=k;
-                h(ix)=plot(time25(:),TEMP25_all(:,i),'.','MarkerSize',7.5,'MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%                 h(ix)=plot(time25(:),TEMP25_all(:,i),'.','MarkerSize',7.5,'MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+                h(ix)=plot(time25(:),TEMP25_all(:,i),'.','MarkerSize',7.5,'MarkerEdgeColor',rgb(Colors{k}),'DisplayName',LabNames{k});
             end
         end
 
@@ -829,12 +841,12 @@ end
 %         plot(time25(:),TEMP25_all(:,k),'.');
 % %     end
 % end
-
+        box on
         title(char(Test_types{3}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 500 250 900]);
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
-        legend(h,'Location','northeastoutside');
+        legend(h, 'interpreter', 'none','Location','northeastoutside');
             h=6;                                  % height of plot in inches
             w=8;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -856,8 +868,10 @@ TEMP50=EVAL_DATA{2,1,4}(:,4); % pull in TEMP data from DBI_Lund_Cone_50kW_1
 time50x=[0:size(TEMP50,1)-1]';
 plot(time50x,TEMP50,'.');
 clear time50x
-
-        title({QMJHL{2} char(Test_types{4})}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+        
+%         title({QMJHL{2} char(Test_types{4})}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+        box on
+        title({LabNames{2} char(Test_types{4})}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 300 250 1100]);
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
@@ -916,8 +930,8 @@ for i=1:N_files
                 plot(time65(1:last),TEMP65(1:last,3*L+2,k),'k','LineWidth',2);
             end
 %                 plot(time65(1:last),TEMP65(1:last,L+2,k),'k','LineWidth',2);
-%             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
             axis([0 400 250 1200]);
             xlabel('time [s]');
             ylabel('Back Surface Temperature [K]');
@@ -975,11 +989,13 @@ for k=1:N_Labs %size(TEMP25_all_avg,2)
    if  isnan(TEMP65_all_avg(10,k))==0
         i_legend=i_legend+1;
         legend_counter(i_legend)=k;
-        h(i_legend)=plot(time65(:),TEMP65_all_avg(1:size(time65(:),1),k),'.','MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%         h(i_legend)=plot(time65(:),TEMP65_all_avg(1:size(time65(:),1),k),'.','MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+        h(i_legend)=plot(time65(:),TEMP65_all_avg(1:size(time65(:),1),k),'.','MarkerEdgeColor',rgb(Colors{k}),'DisplayName',LabNames{k});
     end
 end
 %         shadedErrorBar(time65,(TEMP65_all(:,3*Test_count(5,end)+2)),[2*(TEMP65_all(:,3*Test_count(5,end)+4)) 2*(TEMP65_all(:,3*Test_count(5,end)+4))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
         shadedErrorBar(time65,(TEMP65_all(1:size(time65(:),1),end-2)),[2*(TEMP65_all(1:size(time65(:),1),end)) 2*(TEMP65_all(1:size(time65(:),1),end))],'lineprops', {'k','LineWidth',2}); %plot with shaded error bards = 2stdevmean
+        box on
         title(char(Test_types{5}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 350 250 1120]);
         xlabel('time [s]');
@@ -1008,7 +1024,8 @@ for k=1:N_Labs
             if  isnan(TEMP65_all(10,i))==0
                 ix=ix+1;
                 legend_counter(ix)=k;
-                h(ix)=plot(time65(:),TEMP65_all(1:size(time65(:),1),i),'.','MarkerSize',7.5,'MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+%                 h(ix)=plot(time65(:),TEMP65_all(1:size(time65(:),1),i),'.','MarkerSize',7.5,'MarkerEdgeColor',rgb(Colors{k}),'DisplayName',QMJHL{k});
+                h(ix)=plot(time65(:),TEMP65_all(1:size(time65(:),1),i),'.','MarkerSize',7.5,'MarkerEdgeColor',rgb(Colors{k}),'DisplayName',LabNames{k});
             end
         end
 
@@ -1021,12 +1038,12 @@ end
 %         plot(time25(:),TEMP25_all(:,k),'.');
 % %     end
 % end
-
+        box on
         title(char(Test_types{5}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([0 350 250 1100]);
         xlabel('time [s]');
         ylabel('Back Surface Temperature [K]');
-        legend(h,'Location','eastoutside');
+        legend(h, 'interpreter', 'none','Location','eastoutside');
             h=6.5;                                  % height of plot in inches
             w=8.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -1049,6 +1066,7 @@ plot(time50x(1:241),TEMP50(1:241),'k.');
 clear time50x
 shadedErrorBar(time25(1:401),(TEMP25_all(1:401,3*Test_count(3,end)+2)),[2*(TEMP25_all(1:401,3*Test_count(3,end)+4)) 2*(TEMP25_all(1:401,3*Test_count(3,end)+4))],'lineprops', {'b','LineWidth',2}); %plot with shaded error bards = 2stdevmean
 
+box on
 title(char('Cone Calorimeter'));     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 axis([0 400 250 650]);
 legend('65 kW m^{-2}','50 kW m^{-2}','25 kW m^{-2}','Location','southeast');

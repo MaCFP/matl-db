@@ -28,13 +28,18 @@ Note: DSC heat flow data was rescaled (multiplied by -1)such that endothermic he
   - Note: Pure Nitrogen (0% O2), purge flow 50 ml/min + protective 20 ml/min
 * Instrument
   - Type: STA apparatus
-  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files
+  - Note: Simultaneous Thermal Analysis (TGA + DSC), measurement data presented as two separated files. 8 runs were performed - five with 1 evacuation and fill cycle before measurement (tests 1,2,4,5,6), three with 4 evacuation and fill cycles before measurement (tests 7,8,9). Tests 4-9 were conducted in Fall 2020 following the identification of two 'peaks' in TGA mass loss data when just one evacuation cycle prior to measurement was performed.
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
 |TIFP\_STA\_N2\_10K\_1 | 0 | 5.4338|  
 |TIFP\_STA\_N2\_10K\_2 | 0 | 5.3668|  
-
+|TIFP\_STA\_N2\_10K\_4| 0 | 5.1046|  
+|TIFP\_STA\_N2\_10K\_5| 0 | 5.7616|  
+|TIFP\_STA\_N2\_10K\_6| 0 | 5.4602|  
+|TIFP\_STA\_N2\_10K\_7| 0 | 5.6086|  
+|TIFP\_STA\_N2\_10K\_8| 0 | 5.0804|  
+|TIFP\_STA\_N2\_10K\_9| 0 | 5.7491|  
 
 ##### STA Tests in Air
 * Heating Rate: 10 K/min
