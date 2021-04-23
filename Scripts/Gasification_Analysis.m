@@ -66,14 +66,35 @@ for i = 1:N_files   % Loop through all of your data sets
     order=3;
     EVAL_DATA{k,L,m}(:,8)=sgfilt(order,frames,EVAL_DATA{k,L,m}(:,7));     %Savitzky Golay HRR, quadratic, 13s invtreval: smoothed d(m*)/dt
 
+%     %Check for convergence of integral Mass loss rate and total mass lost
+%             p_end=size(EVAL_DATA{k,L,m},1);
+%         for p=1:p_end                 %Calculate [4] total heat flow and [5] dT/dt (+/- one time step, delta_T=1k]
+%             if p==1
+%             EVAL_DATA{k,L,m}(p,9)=0;
+%             elseif p<p_end
+%             EVAL_DATA{k,L,m}(p,9)=EVAL_DATA{k,L,m}(p-1,9)+0.5*(EVAL_DATA{k,L,m}(p-1,8)+EVAL_DATA{k,L,m}(p,8))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral MLR
+%             else
+%             EVAL_DATA{k,L,m}(p,9)=EVAL_DATA{k,L,m}(p-1,9)+0.5*(EVAL_DATA{k,L,m}(p-1,8)+EVAL_DATA{k,L,m}(p,8))*(EVAL_DATA{k,L,m}(p,1)-EVAL_DATA{k,L,m}(p-1,1));  %Integral MLR
+%             end
+%         end
+%         MASS=(1/(1000*Asurf(k)))*(EVAL_DATA{k,L,m}(1,2)-EVAL_DATA{k,L,m}(end,2));
+%         INT_MLR=EVAL_DATA{k,L,m}(p_end,9);
+%         if abs(MASS-INT_MLR) > 0.01*MASS
+%             k
+%             L
+%             m
+%         end
+        clear p_end
 %     TAB_DATA{m,1}(k,L)=find((EVAL_DATA{k,L,m}(:,5))>1,1);            %Calculate t_ignition as the first time when dm*dt_smooth>1 g/(s-m2)
 
 %--------------Intitial/test plots of your data---------------------------
         clf
         hold on
+        box on
         plot(EVAL_DATA{k,L,m}(:,1),EVAL_DATA{k,L,m}(:,7),'.b');
         plot(EVAL_DATA{k,L,m}(:,1),EVAL_DATA{k,L,m}(:,8),'k');
         title(filenames{i}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+        box on
         axis([0 inf 0 inf]);
         xlabel('time [s]');
         ylabel('(dm"/dt) [kg s^{-1} m^{-2}]');
@@ -126,6 +147,7 @@ for i=1:N_files
 %             MLR25(1:last,L+2,k)=sgfilt(3,15,MLR25(1:last,L+2,k));,
             clear temp
             hold on
+            box on
             for ix=1:L
                 plot(time25(1:last),MLR25(1:last,ix,k),'.');
             end
@@ -136,7 +158,8 @@ for i=1:N_files
             end
 %                 plot(time25(1:last),MLR25(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
             axis([0 1000 0 0.025]);
             xlabel('time [s]');
             ylabel('dm"/dt [kg s^{-1}m^{-2}]');
@@ -157,8 +180,9 @@ close
 % Plot average MLR curves together
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
+box on
 title('Gasification Experiments, q^"_{ext}=25kW m^{-2}');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-axis([0 1000 0 0.0325]);
+axis([0 1000 0 0.02]);
 xlabel('time [s]');
 ylabel('dm"/dt [kg s^{-1}m^{-2}]');
 i_legend=0;
@@ -166,7 +190,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m==17 | m==20        % Just 25 kW FPA and Gasification Tests
+    if m==17 | m==20 && k~=5        % Just 25 kW FPA and Gasification Tests, not GIDAZE FPA because that was in Air
         last = min(min(N_rows_all(k,:,m)-1,1200));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             shadedErrorBar(time25(1:last),MLR25(1:last,L+2,k),[2*MLR25(1:last,L+4,k) 2*MLR25(1:last,L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}); %plot with shaded error bards = 2stdevmean
@@ -178,15 +202,17 @@ for i=1:N_files
 end
 
 for i=1:length(legend_counter)
-    str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+%     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+    str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 %manually add legen entry for CAPA Data
 shadedErrorBar(EXP_DATA{13,1,1}(:,1),EXP_DATA{13,1,1}(:,2),[EXP_DATA{13,1,1}(:,4) EXP_DATA{13,1,1}(:,4)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-str{end+1,1}={QMJHL{13},Test_types{1}};
+% str{end+1,1}={QMJHL{13},Test_types{1}};
+str{end+1,1}={LabNames{13},Test_types{1}};
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
-legend(legend_final,'Location','northeast', 'Interpreter','none');
+legend(legend_final,'Location','northwest', 'Interpreter','none');
             h=3.75;                                  % height of plot in inches
             w=6.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -244,7 +270,10 @@ for i=1:N_files
             end
 %                 plot(time50(1:last),MLR50(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            box on            
             axis([0 400 0 0.05]);
             xlabel('time [s]');
             ylabel('dm"/dt [kg s^{-1}m^{-2}]');
@@ -266,6 +295,7 @@ close
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
 title('Gasification Experiments, q^"_{ext}=50kW m^{-2}');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+box on
 axis([0 400 0 0.05]);
 xlabel('time [s]');
 ylabel('dm"/dt [kg s^{-1}m^{-2}]');
@@ -288,7 +318,8 @@ for i=1:N_files
 end
 
 for i=1:length(legend_counter)
-    str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+%     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+    str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 
@@ -352,7 +383,9 @@ for i=1:N_files
             end
 %                 plot(time65(1:last),MLR65(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            box on
             axis([0 300 0 0.06]);
             xlabel('time [s]');
             ylabel('dm"/dt [kg s^{-1}m^{-2}]');
@@ -374,6 +407,7 @@ close
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
 title('Gasification Experiments, q^"_{ext}=65kW m^{-2}');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+box on
 axis([0 300 0 0.06]);
 xlabel('time [s]');
 ylabel('dm"/dt [kg s^{-1}m^{-2}]');
@@ -382,7 +416,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m==19 | m==22        % Just 65 kW FPA and Gasification Tests
+    if m==19 | m==22 && k~=5       % Just 65 kW FPA and Gasification Tests, not GIDAZE FPA because that was in Air
         last = min(min(N_rows_all(k,:,m)-1,300));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             shadedErrorBar(time65(1:last),MLR65(1:last,L+2,k),[2*MLR65(1:last,L+4,k) 2*MLR65(1:last,L+4,k)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}); %plot with shaded error bards = 2stdevmean
@@ -396,12 +430,14 @@ end
 shadedErrorBar(EXP_DATA{13,1,2}(:,1),EXP_DATA{13,1,2}(:,2),[EXP_DATA{13,1,2}(:,4) EXP_DATA{13,1,2}(:,4)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
 for i=1:length(legend_counter)
     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+    str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
-str{end+1,1}={QMJHL{13},Test_types{2}};
+str{end+1,1}={LabNames{13},Test_types{2}};
+% str{end+1,1}={QMJHL{13},Test_types{2}};
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
-legend(legend_final,'Location','southeast', 'Interpreter','none');
+legend(legend_final,'Location','northwest', 'Interpreter','none');
             h=3.75;                                  % height of plot in inches
             w=6.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
@@ -457,7 +493,9 @@ for i=1:N_files
             end
 %                 plot(time25(1:last),TEMP25(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            box on
             axis([0 750 300 800]);
             xlabel('time [s]');
             ylabel('Back Surface Temperature [K]');
@@ -479,6 +517,7 @@ close
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
 title('Gasification Experiments, q^"_{ext}=25kW m^{-2}');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+box on
 axis([0 650 300 700]);
 xlabel('time [s]');
 ylabel('Surface Temperature [K]');
@@ -487,7 +526,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m==17 | m==20        % Just 25 kW FPA and Gasification Tests
+    if m==17 | m==20      && k~=5       % Just 25 kW FPA and Gasification Tests, not GIDAZE FPA because that was in Air
         last = min(min(N_rows_all(k,:,m)-1,1200));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             if  isnan(TEMP25(10,3*L+2,k)) == 0
@@ -503,12 +542,14 @@ end
 
 
 for i=1:length(legend_counter)
-    str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+    str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
+%     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 % Add in CAPA Data (custom error bars)
 shadedErrorBar(EXP_DATA{13,2,1}(:,1),EXP_DATA{13,2,1}(:,3),[EXP_DATA{13,2,1}(:,5) EXP_DATA{13,2,1}(:,5)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-str{end+1,1}={QMJHL{13},Test_types{1}};
+str{end+1,1}={LabNames{13},Test_types{1}};
+% str{end+1,1}={QMJHL{13},Test_types{1}};
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
 legend(legend_final,'Location','southeast', 'Interpreter','none');
@@ -565,7 +606,9 @@ for i=1:N_files
             end
 %                 plot(time50(1:last),TEMP50(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            box on
             axis([0 300 0 900]);
             xlabel('time [s]');
             ylabel('Back Surface Temperature [K]');
@@ -587,6 +630,7 @@ close
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
 title('Gasification Experiments, q^"_{ext}=50kW m^{-2}');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+box on
 axis([0 250 300 700]);
 xlabel('time [s]');
 ylabel('Front Surface Temperature [K]');
@@ -611,7 +655,8 @@ end
 
 
 for i=1:length(legend_counter)
-    str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+%     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+    str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 
@@ -667,7 +712,9 @@ for i=1:N_files
             end
 %                 plot(time65(1:last),TEMP65(1:last,L+2,k),'k','LineWidth',2);
 %             title({LabNames{k} Test_types{5}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-            title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            title({LabNames{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%             title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+            box on
             axis([0 300 300 1000]);
             xlabel('time [s]');
             ylabel('Back Surface Temperature [K]');
@@ -688,6 +735,7 @@ close
 % Plot average TEMP curves together
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
+box on
 title('Gasification Experiments, q^"_{ext}=65kW m^{-2}');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 axis([0 250 300 700]);
 xlabel('time [s]');
@@ -697,7 +745,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m==19 | m==22        % Just 65 kW FPA and Gasification Tests
+    if m==19 | m==22   && k~=5       % Just 65 kW FPA and Gasification Tests, not GIDAZE FPA because that was in Air
         last = min(min(N_rows_all(k,:,m)-1,300));
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
            if isnan(TEMP65(10,3*L+2,k))==0
@@ -713,14 +761,16 @@ end
 
 for i=1:length(legend_counter)
     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
+    str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 % Add in CAPA Data (custom error bars)
 shadedErrorBar(EXP_DATA{13,2,2}(:,1),EXP_DATA{13,2,2}(:,3),[EXP_DATA{13,2,2}(:,5) EXP_DATA{13,2,2}(:,5)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-str{end+1,1}={QMJHL{13},Test_types{2}};
+% str{end+1,1}={QMJHL{13},Test_types{2}};
+str{end+1,1}={LabNames{13},Test_types{2}};
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
-legend(legend_final,'Location','northeast', 'Interpreter','none');
+legend(legend_final,'Location','southeast', 'Interpreter','none');
             h=3.75;                                  % height of plot in inches
             w=6.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
