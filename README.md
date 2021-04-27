@@ -1,7 +1,7 @@
  For information on how to participate, please read the [Guidelines for Participation in the 2021 MaCFP Condensed Phase Workshop](https://iafss.org/wp-content/uploads/GuidelinesforParticipation_v1.2.pdf).
 
 #### Virtual Discusion Forum
-A Google Discussion Group for the Condensed Phase subgroup of the MaCFP Working Group can be accessed here: [MaCFP Virtual Discussion Forum](https://groups.google.com/forum/?oldui=1#!forum/macfp-condensed-phase-discussions). The purpose of this forum is to facilitate data sharing and model development to improve computational predictions of thermal degradation and pyrolysis in fire
+A Google Discussion Group for the MaCFP Working Group can be accessed here: [MaCFP Virtual Discussion Forum](https://groups.google.com/g/macfp-discussions/). The purpose of this forum is to facilitate data sharing and model development to improve computational predictions of thermal degradation and pyrolysis in fire
 
 #### How to Submit Experimental Data
 
