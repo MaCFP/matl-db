@@ -1,6 +1,6 @@
 # MaCFP Discussion Group Policy Statement
 
-The [MaCFP Discussion Group](https://groups.google.com/g/macfp-discussions) has been created to enable open scientific and technical communication within the fire modeling community. While this group was established and is managed by the [Organizing Committee of the MaCFP Working group](https://iafss.org/macfp/), we intend for this to be an open forum for multi-directional communication between *all individuals* involved in the pyrolysis modeling community, both experimentalists and modelers. Thus, MaCFP Committee Memebers will reply when it is appropriate for them to do so, and may limit their participation in some topics when it is not.  
+The [MaCFP Discussion Group](https://groups.google.com/g/macfp-discussions) has been created to enable open scientific and technical communication within the fire modeling community. While this group was established and is managed by the [Organizing Committee of the MaCFP Working group](https://iafss.org/macfp/), we intend for this to be an open forum for multi-directional communication between *all individuals* involved in the fire modeling community, both experimentalists and modelers. Thus, MaCFP Committee Memebers will reply when it is appropriate for them to do so, and may limit their participation in some topics when it is not.  
 
 To further these objectives, the Discussion Group operates according to the following policies:
 
@@ -20,7 +20,7 @@ The Membership list is only accessible to Discussion Group Managers. This precau
 ## Discussion Group Posts
 
 ##### Posts from registered members are unmoderated and published directly to the public forum
-Posts are immediately emailed to all members who elect the email delivery option.  However, all posts are reviewed by MaCFP Condensed Phase Committee Members and any post that violates the policies herein may be taken down without notice.  Participants must also comply with applicable policies, regulations, and laws of their own locality. 
+Posts are immediately emailed to all members who elect the email delivery option.  However, all posts are reviewed by MaCFP Committee Members and any post that violates the policies herein may be taken down without notice.  Participants must also comply with applicable policies, regulations, and laws of their own locality. 
 
 ##### Posts are expected to show respect and consideration to others
 The Group Owners and Managers will delete posts which obviously infringe upon copyrights or which are clearly off-topic or not relevant to technical discussions such as Spam, personal attacks, political statements, religious statements, cursing or other foul language, pornographic information or statements based on race, age, creed, color, sex, handicap, or sexual orientation.  Information provided by a NIST employee is subject to applicable laws and policies.
