@@ -10,7 +10,7 @@ Three repeated pyrolysis tests were conducted to measure the mass loss and front
 * Sample Surface Area: 0.00712 m2 (nominal)
 * Sample holder dimensions:
     - at least 9.5 cm... [??]
-* Backing Insulation: [thickness? / type?]
+* Backing Insulation:  Four layers of 3 mm (1/8 in.) thick Cotronics ceramic paper thermal insulation are placed on the bottom and a spiral of the same material is wound around the sides. The thermal conductivity of the Contronics paper (0.028 W/mK).
 * Thermocouple locations 
     - Sample front surface temperature was measured with [TC, radiometer, IR camera?] at [location; center?]
 
