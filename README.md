@@ -6,6 +6,7 @@ A Google Discussion Group for the MaCFP Working Group can be accessed here: [MaC
 
 ##### Information presented at the MaCFP-2 Workshop can be found on the [**GitHub Releases**](https://github.com/MaCFP/matl-db/releases) page:
 [**MaCFP-2 Presentations (Waterloo, 2021)**](https://github.com/MaCFP/matl-db/releases/tag/v1.1.0)
+
 [**Preliminary Summary of Experimental Measurements submitted to MaCFP-2**](https://github.com/MaCFP/matl-db/releases/tag/v1.0.0)
 
 #### How to Submit Experimental Data
