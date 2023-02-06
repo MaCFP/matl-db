@@ -1,4 +1,4 @@
-Time,Temperature,Mass fraction
+Time,Temperature,Mass
 [s],[K],[mg]
 0,300.13,5.6086
 3,300.131,5.6101

@@ -1,5 +1,5 @@
-Time,Temperature,Heat flux
-s,K,W/g
+Time,Temperature,Heat Flow
+[s],[K],[mW/mg]
 0,300.105,8.82E-03
 1.2,300.107,8.93E-03
 2.4,300.105,8.61E-03

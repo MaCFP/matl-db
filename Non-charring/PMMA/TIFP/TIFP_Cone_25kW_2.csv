@@ -1,5 +1,5 @@
-Time,mass,HRR,Back surface temperature 1,Back surface temperature 2
-s,g,kW/m2,K,K
+Time,Mass,HRR,Back Surface Temperature 1,Back Surface Temperature 2
+[s],[g],[kW/m2],[K],[K]
 0,71.72,2.912818929,298.15,299.25
 1,71.717341,2.734787262,298.15,299.25
 2,71.66126,2.09727369,298.15,299.25

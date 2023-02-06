@@ -1,4 +1,4 @@
-Time,Mass,HRR,Back Surface Temperature
+Time,Mass,HRR,Back Surface Temperature 1
 [s],[g],[kW/m2],[K]
 0,0,0.137030421,302.632
 1,0,,302.65

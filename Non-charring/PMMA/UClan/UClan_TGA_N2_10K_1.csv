@@ -1,4 +1,4 @@
-Time,Temp,Mass
+Time,Temperature,Mass
 [s],[K],[mg]
 0,309.042,5.28382
 40,314.009,5.2825
