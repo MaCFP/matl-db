@@ -1,4 +1,4 @@
-Time,Mass,HRR,Back Surface Temperature 1,Back Surface Temperature 3,Back Surface Temperature 4
+Time,Mass,HRR,Temperature 1 Sample Front,Temperature 3 Inside,Temperature 4 Sample Back
 [s],[g],[kW/m2],[K],[K],[K]
 0,71.3,-0.787433642,338.453,305.852,303.711
 1,71.299634,-0.791660192,361.891,305.966,303.705

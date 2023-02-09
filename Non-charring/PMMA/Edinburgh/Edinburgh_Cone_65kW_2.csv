@@ -1,4 +1,4 @@
-Time,Mass,HRR,Back Temp
+Time,Mass,HRR,Temperature Backing Centre
 [s],[g],[kW/m2],[K]
 0,70.406,2.3,293.45
 1,70.436,2.2,293.45
