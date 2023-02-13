@@ -642,7 +642,7 @@ hold on
 for k=1:Test_count_10K
     plot(TGA_Temperature(:),TGA_N2_10K_all(:,k,2),'-','MarkerSize',5,'color',rgb(Colors{legend_counter(k)})) ;
 end
-
+        box on
         title(char(Test_types{m}), 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
         axis([300 800 0 0.004]);
         xlabel('Temperature [K]');
