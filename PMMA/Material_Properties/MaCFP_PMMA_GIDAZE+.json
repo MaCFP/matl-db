@@ -1,0 +1,77 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "GIDAZE+",
+    
+    "Calibration": [
+        {
+            "Model": "Gpyro",
+            "Method": "Trial and Error",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [5,10,30],
+                "Source": ["Lille","UMET","LCCP","UMD","GIDAZE+","Literature"]
+            }
+        },
+        {
+            "Method": "Literature",
+            "Scope": [
+                "Heat Capacity", 
+                "Heat of Pyrolysis",
+                "Density",
+                "Conductivity",
+                "Absorption",
+                "Emissivity"
+            ]
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 1,
+        "Reaction Network": "None",
+        "Pre-exponential": 2.00e8,
+        "Activation Energy": 1.3e5,
+        "Reaction Order": 1,
+        "Initial Mass Fraction": 1,
+        "Solid Yield": 0
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Gpyro Power Law",
+            "Base Value": 1200,
+            "Exponent": 1.2,
+            "Reference Temperature": 300
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Single Value", 
+            "Value": 5.4e5
+        },
+        "Density": {
+            "Form": "Single Value",
+            "Value": 1210 
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Gpyro Power Law",
+            "Base Value": 0.2,
+            "Exponent": -1.2,
+            "Reference Temperature": 300
+        },
+        "Mass Diffusivity": {
+            "Form": "None"
+        },
+        "Absorption": {
+            "Form": "Single Value",
+            "Value": 2.87e3 
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.96
+        }
+    }
+
+}

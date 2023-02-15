@@ -1,0 +1,96 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "UMET",
+    
+    "Calibration": [
+        {
+            "Model": "Netzsch",
+            "Method": "Gauss-Newton or Marquardt",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [1,2,5,10,20,50,100],
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Heat Capcity", 
+            "Data": {
+                "Type": "DSC",
+                "Heating Rate": 10,
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Direct Analysis",
+            "Scope": "Heat of Reaction", 
+            "Data": {
+                "Type": "STA",
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Conductivity",
+            "Data": {
+                "Type": "TPS",
+                "Power": 35,
+                "Time": 20,
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Literature",
+            "Scope": ["Density","Absorption","Emissivity"]
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 2,
+        "Reaction Network": "Series",
+        "Pre-exponential": [3.16e6, 2e14],
+        "Activation Energy": [83000, 200400],
+        "Reaction Order": [1, 1],
+        "Initial Mass Fraction": [1, 0],
+        "Solid Yield": [0.962, 0]
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Linear",
+            "Slope": 3.7,
+            "Intercept": 7.5 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [2.71e4, 1.0406e6] 
+        },
+        "Density": {
+            "Form": "Linear",
+            "Slope": -0.6,
+            "Intercept": 1380 
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Single Value",
+            "Value": 0.209 
+        },
+        "Mass Diffusivity": {
+            "Form": "Single Value",
+            "Value": 2e-5
+        },
+        "Absorption": {
+            "Form": "Single Value",
+            "Value": 2700 
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.85
+        }
+    }
+
+}

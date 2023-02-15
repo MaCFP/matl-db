@@ -1,0 +1,99 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "UMD",
+    
+    "Calibration": [
+        {
+            "Model": "ThermaKin",
+            "Method": "Hill Climbing Optimization",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "UMD"
+            }
+        },
+        {
+            "Model": "ThermaKin",
+            "Method": "Direct Analysis",
+            "Scope": [
+                "Heat Capcity", 
+                "Heat of Pyrolysis"
+            ],
+            "Data": {
+                "Type": "DSC",
+                "Heating Rate": 10,
+                "Source": "UMD"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Absorption",
+            "Data": {
+                "Type": "CAPA",
+                "Heat Flux": 25,
+                "Source": "UMD"
+            }
+        },
+        {
+            "Model": "ThermaKin",
+            "Method": "Hill Climbing Optimization",
+            "Scope": "Conductivity",
+            "Data": {
+                "Type": "CAPA",
+                "Heat Flux": 25,
+                "Source": "UMD"
+            }
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 2,
+        "Reaction Network": "Series",
+        "Pre-exponential": [4.95e16, 1.35e11],
+        "Activation Energy": [1.64e5, 1.64e5],
+        "Reaction Order": [1, 1],
+        "Initial Mass Fraction": [1, 0],
+        "Solid Yield": [0.98, 0.002]
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Piecewise Linear",
+            "Boundary": 395,
+            "Slope": [8.33, 3.07],
+            "Intercept": [-1390, 851]
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [5e3, 817e3] 
+        },
+        "Density": {
+            "Form": "Single Value",
+            "Value": 1210 
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Piecewise Linear",
+            "Boundary": 395,
+            "Slope": [0, -4.2e-4],
+            "Intercept": [0.16, 0.34]
+        },
+        "Mass Diffusivity": {
+            "Form": "Single Value",
+            "Value": 2e-5
+        },
+        "Absorption": {
+            "Form": "Single Value",
+            "Value": 2870 
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.96
+        }
+    }
+
+}
