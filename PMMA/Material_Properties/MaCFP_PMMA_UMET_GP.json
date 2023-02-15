@@ -1,0 +1,98 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "UMD",
+    
+    "Calibration": [
+        {
+            "Model": "Netzsch",
+            "Method": "Gauss-Newton or Marquardt",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [1,2,5,10,20,50,100],
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Heat Capcity", 
+            "Data": {
+                "Type": "DSC",
+                "Heating Rate": 10,
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Direct Analysis",
+            "Scope": "Heat of Reaction", 
+            "Data": {
+                "Type": "STA",
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Conductivity",
+            "Data": {
+                "Type": "TPS",
+                "Power": 35,
+                "Time": 20,
+                "Source": "UMET"
+            }
+        },
+        {
+            "Method": "Literature",
+            "Scope": ["Density","Absorption","Emissivity"]
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 2,
+        "Reaction Network": "Series",
+        "Pre-exponential": [1e12, 2.51e17],
+        "Activation Energy": [1.24e5, 2.35e5],
+        "Reaction Order": [3, 1.8],
+        "Initial Mass Fraction": [1, 0],
+        "Solid Yield": [0.962, 0]
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Gpyro Power Law",
+            "Base Value": 1140,
+            "Exponent": 0.987,
+            "Reference Temperature": 300
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [2.71e4, 1.0406e6] 
+        },
+        "Density": {
+            "Form": "Gpyro Power Law",
+            "Base Value": 1200,
+            "Exponent": -0.236,
+            "Reference Temperature": 300
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Single Value",
+            "Value": 0.209 
+        },
+        "Mass Diffusivity": {
+            "Form": "Single Value",
+            "Value": 2e-5
+        },
+        "Absorption": {
+            "Form": "Single Value",
+            "Value": 2700 
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.85
+        }
+    }
+
+}

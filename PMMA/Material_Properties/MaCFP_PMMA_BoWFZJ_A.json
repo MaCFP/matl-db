@@ -1,0 +1,77 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "BoWFZJ",
+    
+    "Calibration": [
+        {
+            "Model": "FDS",
+            "Method": "PROPTI",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [2.5,5,15,20],
+                "Source": "LCCP"
+            }
+        },
+        {
+            "Model": "FDS",
+            "Method": "PROPTI",
+            "Scope": [
+                "Heat Capcity", 
+                "Heat of Pyrolysis",
+                "Density",
+                "Conductivity",
+                "Emissivity"
+            ],
+            "Data": {
+                "Type": "Gasification",
+                "Heat Flux": 60,
+                "Source": "UMD" 
+            }
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 2,
+        "Reaction Network": "Parallel",
+        "Pre-exponential": [99996.5, 1.67093e11],
+        "Activation Energy": [64117.2, 162715],
+        "Reaction Order": [1, 1],
+        "Initial Mass Fraction": [0.025, 0.975],
+        "Solid Yield": [0.001, 0.001]
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Component Specific",
+            "Value": [1956.52, 1214.9] 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Single Value", 
+            "Value": 403.302e3 
+        },
+        "Density": {
+            "Form": "Component Specific",
+            "Value": [1168.49, 1085.97] 
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Component Specific",
+            "Value": [0.116978, 0.2629418] 
+        },
+        "Mass Diffusivity": {
+            "Form": "None"
+        },
+        "Absorption": {
+            "Form": "None"
+        },
+        "Emissivity": {
+            "Form": "Component Specific",
+            "Value": [0.768990, 0.407040] 
+        }
+    }
+
+}

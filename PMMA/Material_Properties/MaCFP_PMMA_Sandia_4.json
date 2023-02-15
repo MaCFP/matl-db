@@ -1,0 +1,29 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "Sandia",
+    
+    "Calibration": [
+        {
+            "Model": "Sierra",
+            "Method": "Gradient Based Optimization",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [1, 2, 5, 20, 50],
+                "Source": "UMET"
+            }
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 2,
+        "Reaction Network": "Series",
+        "Pre-exponential": [1340225, 2.42e19],
+        "Activation Energy": [82390, 256782],
+        "Reaction Order": [1.0, 1.91],
+        "Initial Mass Fraction": [1,0],
+        "Solid Yield": [0.95, 1.91] 
+    }
+
+}

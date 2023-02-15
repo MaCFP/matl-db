@@ -1,0 +1,29 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "Sandia",
+    
+    "Calibration": [
+        {
+            "Model": "ThermaKin",
+            "Method": "Trial and Error",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "UCLAN"
+            }
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 1,
+        "Reaction Network": "None",
+        "Pre-exponential": 6.73e10,
+        "Activation Energy": 1.6e5,
+        "Reaction Order": 1,
+        "Initial Mass Fraction": 1,
+        "Solid Yield": 0
+    }
+
+}

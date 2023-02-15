@@ -1,0 +1,86 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "DBI",
+    
+    "Calibration": [
+        {
+            "Method": "Monte Carlo",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 20,
+                "Source": "DBI_Lund",
+                "Filename": "DBILund_TGA_20Kpm_1.csv"
+            },
+            "Smoothing": "Savitzky-Golay"
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Conductivity",
+            "Data": "Heat Flow Meter",
+            "Device": "HFM 446 Medium, Netzsch"
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": ["Heat Capacity","Heat of Pyrolysis"],
+            "Data": "STA",
+            "Heating Rate": 20,
+            "Device": "STA 449 F3 Jupiter, Netzsch"
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Density"
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 1,
+        "Reaction Network": "None",
+        "Pre-exponential": 6.662e8,
+        "Activation Energy": 1.34e5,
+        "Reaction Order": 0.96,
+        "Solid Yield": 0
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Table",
+            "Temperatures": [35, 40, 100, 140],
+            "Values": [1800, 1700, 1600, 1400] 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Single Value", 
+            "Value": 6.3167e5
+        },
+        "Density": {
+            "Form": "Single Value",
+            "Value": 1181.5 
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Table",
+            "Temperatures": [19.9, 24.9, 29.8, 
+                             34.7, 39.6, 44.6, 
+                             49.5, 54.4, 59.3, 
+                             64.2],
+            "Values": [0.17331, 0.17384, 0.17402,
+                      0.17448, 0.17609, 0.17784,
+                      0.17862, 0.17821, 0.17775,
+                      0.17770]
+        },
+        "Mass Diffusivity": {
+            "Form": "None"
+        },
+        "Absorption": {
+            "Form": "None"
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 1.0
+        }
+    }
+
+}
