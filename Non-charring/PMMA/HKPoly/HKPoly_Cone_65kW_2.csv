@@ -1,4 +1,4 @@
-Time,Mass,HRR,Back Surface Temperature 1
+Time,Mass,Heat release,Back surface temperature
 [s],[g],[kW/m2],[K]
 1,79.79,0.93,296.3
 2,79.75,0.73,296.4
