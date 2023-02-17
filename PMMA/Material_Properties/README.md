@@ -2,6 +2,10 @@
 
 This folder holds calibrated pyrolysis models (i.e., material property datasets) and relevant metadata that identifies how these models were developed.
 
+# Kinetic Parameters
+
+Testing math: $y = x^2$.
+
 | Name      | Reaction Mechanism | Pre-Exponential, s$$^{-1}$$ | Activation Energy, J mol$^{-1}$ |
 |---------- |--------------------|---------------------------|---------------------------------|
 | Aalto     |  A  | $1600 |
