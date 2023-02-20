@@ -121,7 +121,7 @@ Time-resolved measurements of PMMA sample mass and back surface temperature rise
 
 Figure 4 plots time-resolved measurements of PMMA Mass and Mass Loss Rate when exposed to an incident radiant heat flux of 50 kW m-2. In this figure (and in the associated .csv files) initial mass equals initial sample mass; negative masses recorded toward the end of each experiment (see Fig. 4a) correspond to mass loss of the epoxy layer at the back surface of the sample (relevant sample and epoxy mass information is provided in Table 3, above). As seen in Fig. 4, strong agreement is observed between the onset of decomposition time, initial, rate of rise, and peak MLR, and test duration. Slight differences in measured MLR behavior can be observed between [Tests q50\_Mass\_R3 and q50\_Mass\_R4] and [q50\_Test Mass\_R5]: specifically, the sample in Test R5 (which was approximately 7.5% thicker and heavier) supported a slightly lower MLR and longer test duration (Fig. 4b).
 
-|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_Mass.png" width="300"> |  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_MLR.pdf" width="300">| 
+|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_Mass.png" width="300"> |  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_MLR.png" width="300">| 
 |-----|-----|
 |(a)|(b)|
 
