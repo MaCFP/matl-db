@@ -86,6 +86,7 @@ Table 2b. Target heat flux: 50 kW m-2. Steady state heat flux (i.e., mean(q"(240
 | 2.5 | 8 | 49.5 +/- 0.1 |
 | 5.0 | 8 | 47.6 +/- 0.3 |
 | 7.1 | 4 | 44.6 +/- 0.9 |
+
 In Tables 2a and 2b, tabulated values of q"{240s-300s} represent the mean of repeated measurements (4 to 8 measurements) recorded at the same radial distance, r; reported uncertainties represent two standard deviations of the mean of each of these measurements.
 
 Convection heat transfer at the top and bottom surfaces of the sample can be estimated as per empirical correlations for convection heat transfer (e.g., Nusselt number correlations] or based on recent DNS simulations of heat flow in a similar configuration [4]. To support model validation of these boundary conditions, measurement data is provided in the [Experimental Data Section](https://github.com/MaCFP/matl-db/tree/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/) (Black-Copper\_Temp.csv and Black-Insulation\_Temp.csv) that describes in depth-temperature rise (inert samples, with known thermophsyical properties) in response to this heater application. Each of these files presents mean temperature measurements (i.e., average temperature recorded at the same location(s) in three repeated experiments); at each time step, reported uncertainties represent two standard deviations of the mean of values recorded across repeat experiments in a +/- 1 s time interval.
