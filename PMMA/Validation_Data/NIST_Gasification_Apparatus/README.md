@@ -33,7 +33,7 @@ A steady supply of nitrogen (20 SCFM; 566 L/min) is introduced into the chamber 
 
 The base of the chamber is connected to a hydraulic lifting mechanism that allows it to be raised (thus sealing the chamber) or lowered at the start or completion of each test. A Sartorius WZA8202-N load cell (protected by its own water-cooled plate) rests atop this moveable platform (i.e., the chamber base). An elevated support structure connects at its base to the load cell weighing platform; at the top of this sample stand rests a circular platform (7.5 cm diameter, 6.35 mm thick aluminum disc) that is used to hold prepared samples (i.e., PMMA discs resting on layers of Kaowool PM Insulation) at the correct height for testing. A terminal strip at the base of the chamber, near the load cell, provides connections for up to five thermocouples (for sample temperature measurements). Sample temperature and mass loss rate measurements are obtained in separate experiments. 
 
-<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/Gasification_Apparatus_Schematic_w-sample.png" width="450">
+<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/Gasification_Apparatus_Schematic_w-sample.png" width="500">
 Figure 1. Schematic of the NIST gasification apparatus. The insert at the bottom right of this figure highlights sample / insulation assembly.
 
 ### System Calibration (i.e., Measured Boundary Conditions)
@@ -46,7 +46,7 @@ Incident heat flux from the cone heater was measured (using a water-cooled Gardo
 
 At all 21 locations, and at both target incident heat fluxes (nominally, 25 kW m-2 and 50 kW m-2), measured heat flux was found to increase quickly (and repeatably) after shutter removal, following the time response curves shown in Fig. 2. In this figure, heat fluxes are plotted as time-averaged values (60 s intervals) that are normalized by the local 'steady state' value of heat flux measured between 240s to 300s (i.e., q\*=q”/q"{240s-300s}).  The mean value of q\*=q"/q"{240s-300s} measured at each of the 21 locations of interest is reported at each time interval of interest in Table 1. Here, error bars represent one standard deviation of all 21 values of q\* calculated at that time interval. 
 
-|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q25_normalized.png" width="300">|  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q50_normalized.png" width="300">| 
+|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q25_normalized.png" width="400">|  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q50_normalized.png" width="400">| 
 |-----|-----|
 |(a)|(b)|
 
@@ -65,7 +65,7 @@ Table 1. Measured mean normalized heat flux, q*=q"/q"{240s-300s}, at 21 location
 
 Figure 3 plots a representative image of q"{240s-300s}, as measured across the sample's surface (to obtain the smooth shading shown here, plotted values are linearly interpolated between each measurement location reported in Table 2). As seen here, incident heat flux across the top of the sample's surface is highly uniform. Specifically, with a target heat flux of 25 kW m-2, average q"{240s-300s} within  r < 3.5 cm (i.e., inside the black ring in Fig. 3, which corresponds to the sample’s perimeter) measures 24.7 kW m-2 and, at this time interval, 90% of the sample's surface is exposed to an incident heat flux >97.25% of the target value of 25. kW m-2 (at r=0). With a target heat flux of 50 kW m-w, average q"{240s-300s} within  r < 3.5 cm measures 49.3 kW m-2 and, at this time interval, 90% of the sample's surface is exposed to an incident heat flux >97.5% of the target value of 50 kW m-2 (at r=0). Absolute values of q"{240s-300s} measured at r = 0cm, 2.5cm, 5.0cm and 7.1cm are reported (at both target heat fluxes) in Tables 2a and 2b.
 
-|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q25_hfmap.png" width="300"> |  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q50_hfmap.png" width="300">| 
+|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q25_hfmap.png" width="400"> |  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/q50_hfmap.png" width="400">| 
 |-----|-----|
 |(a)|(b)|
 
@@ -121,7 +121,7 @@ Time-resolved measurements of PMMA sample mass and back surface temperature rise
 
 Figure 4 plots time-resolved measurements of PMMA Mass and Mass Loss Rate when exposed to an incident radiant heat flux of 50 kW m-2. In this figure (and in the associated .csv files) initial mass equals initial sample mass; negative masses recorded toward the end of each experiment (see Fig. 4a) correspond to mass loss of the epoxy layer at the back surface of the sample (relevant sample and epoxy mass information is provided in Table 3, above). As seen in Fig. 4, strong agreement is observed between the onset of decomposition time, initial, rate of rise, and peak MLR, and test duration. Slight differences in measured MLR behavior can be observed between [Tests q50\_Mass\_R3 and q50\_Mass\_R4] and [q50\_Test Mass\_R5]: specifically, the sample in Test R5 (which was approximately 7.5% thicker and heavier) supported a slightly lower MLR and longer test duration (Fig. 4b).
 
-|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_Mass.png" width="300"> |  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_MLR.pdf" width="300">| 
+|<img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_Mass.png" width="400"> |  <img src="https://github.com/MaCFP/matl-db/blob/master/PMMA/Validation_Data/NIST_Gasification_Apparatus/MaCFP-PMMA_q50_MLR.png" width="400">| 
 |-----|-----|
 |(a)|(b)|
 
