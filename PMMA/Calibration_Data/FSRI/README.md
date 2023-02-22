@@ -11,7 +11,7 @@ A Netzsch STA 449 F3 Jupiter was used to conduct Thermogravimetric Analysis (TGA
   - Final Isotherm: 300 s (hold at 823 K for 300 s)
 * Sample mass: 4.0 +/- 0.1 mg
 * Sample geometry: Powdered (Supplied by NIST)
-* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 200 temperature cycles using a set of 6 reference materials with melting temperatures between 60-820 C (biphenyl, benzoic acid, )
+* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 200 temperature cycles using a set of 6 reference materials with melting temperatures between 60-820 C (biphenyl, benzoic acid, KClO4, Ag2SO4, CsCl, BaCO3)
 * Crucible
   - Type: Pt-Rh
   - Volume: 85 µL
@@ -25,7 +25,7 @@ A Netzsch STA 449 F3 Jupiter was used to conduct Thermogravimetric Analysis (TGA
   - Note: Ultra High Purity (UHP) Nitrogen
 * Instrument
   - Type: Netzsch F3 Jupiter
-  - Note: None
+  - Note: Heat flow rate data provided on an initial mass basis
 | Test Name		| O2 volume %	|  Initial Sample Mass (mg)	| 
 | ---------		| :---------:	| :------------------------:	|
 |FSRI\_STA\_N2\_3K\_1 	| 0 		| 3.98				|  
@@ -61,11 +61,10 @@ A Netzsch STA 449 F3 Jupiter was used to conduct Differential Scanning Calorimet
   - Note: Ultra High Purity (UHP) Nitrogen
 * Instrument
   - Type: Netzsch F3 Jupiter
-  - Note: Calculated heat capacity data is displayed for all temperatures, although only heat capacity in temperature ranges where no mass loss occurs are accurate
+  - Note: Heat flow rate data on an initial mass basis are provided. To determine heat capacity, the heat flow rate must be divided by the instantaneous heating rate. Heat capacities determined through this method are only accurate in temperature ranges where no mass loss occurs. 
 | Test Name			| O2 volume %	|  Initial Sample Mass (mg)	| 
 | ---------			| :---------:	| :------------------------:	|
 |FSRI\_STA\_N2\_20K\_1 		| 0 		| 3.99				|  
 |FSRI\_STA\_N2\_20K\_2 		| 0 		| 3.96				|  
-|FSRI\_STA\_N2\_20K\_3 		| 0 		| 4.00				| 
-|FSRI\_STA\_N2\_Sapphire_20K\_1 | 0 		| 20.56				|
+|FSRI\_STA\_N2\_20K\_3 		| 0 		| 4.00				|
 
