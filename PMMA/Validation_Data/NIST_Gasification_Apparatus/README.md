@@ -150,7 +150,7 @@ Table 4. Thermophysical Properties of Kaowool PM Insulation Board [5]
 |816  	| 0.125|
 |1093		| 0.183|
 
-Density:		256 kg/m3 [5,7]
+Density:		256 kg/m3 [5,7]  
 Heat Capacity:	1070 J/kg-K (at 980 C) [6 via 7]
 
 
