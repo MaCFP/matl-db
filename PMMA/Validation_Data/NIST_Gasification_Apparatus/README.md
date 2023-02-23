@@ -37,10 +37,11 @@ The base of the chamber is connected to a hydraulic lifting mechanism that allow
 Figure 1. Schematic of the NIST gasification apparatus. The insert at the bottom right of this figure highlights sample / insulation assembly.
 
 ### System Calibration (i.e., Measured Boundary Conditions)
-Chamber wall and gas temperature was continously measured throughout the duration of experiments. After an initial rise (from 9 C to between 14 C to 18 C) when the heater shutter was removed, measured temperatures at each location maintained steady values throuhgout the duration of experiments.
-Chamber Wall Temperature: 14 C to 18 C (test/location/day dependent)
-Chamber Gas Tempeature (at sample height): 20 C to 30 C
-Heater Set Point Temperature: 807 C to 808 C
+Chamber wall and gas temperature was continously measured throughout the duration of experiments. After an initial rise (from 9 C to between 14 C to 18 C) when the heater shutter was removed, measured temperatures at each location maintained steady values throuhgout the duration of experiments.  
+Chamber Wall Temperature: 14 C to 18 C (test/location/day dependent)  
+Chamber Gas Tempeature (at sample height): 20 C to 30 C  
+Heater Set Point Temperature (25 kW m<sup>-2</sup>): 711 C to 713 C  
+Heater Set Point Temperature (50 kW m<sup>-2</sup>): 807 C to 808 C  
 
 Incident heat flux from the cone heater was measured (using a water-cooled Gardon-type heat flux gauge) at 21 locations at a height corresponding to the original height of the top of the sample's surface. Immediately prior to this heat flux mapping excercise, the gasification apparatus heat flux gauge was calibrated against a secondary standard gauge that was calibrated by NIST Radiation Physics in December 2022. The report of calibration indicated a relative combined standard uncertainty for the calibration of this secondary standard gauge as 1.5%; calibration of the gasification apparatus heat flux gauge in comaprison to this secondary standard incorporates (root sum of squares) an additional uncertaintly component of 0.5% (repeatability of calibration). Thus, the relative expanded uncertainty (coverage factor = 2; 95 % confidence interval) for the calibration of the gasification apparatus heat flux gauge is reported as 3.2%
 
