@@ -206,10 +206,12 @@ for i=1:length(legend_counter)
     str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
-%manually add legen entry for CAPA Data
-shadedErrorBar(EXP_DATA{13,1,1}(:,1),EXP_DATA{13,1,1}(:,2),[EXP_DATA{13,1,1}(:,4) EXP_DATA{13,1,1}(:,4)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-% str{end+1,1}={QMJHL{13},Test_types{1}};
-str{end+1,1}={LabNames{13},Test_types{1}};
+%manually add legend entry for CAPA Data
+k=find(LabNames=="UMD");
+shadedErrorBar(EXP_DATA{k,1,1}(:,1),EXP_DATA{k,1,1}(:,2),[EXP_DATA{k,1,1}(:,4) EXP_DATA{k,1,1}(:,4)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}) % ADD in UMD CAPA DATA
+% str{end+1,1}={QMJHL{k},Test_types{1}};
+str{end+1,1}={LabNames{k},Test_types{1}};
+clear k
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
 legend(legend_final,'Location','northwest', 'Interpreter','none');
@@ -426,15 +428,16 @@ for i=1:N_files
         end
     end
 end
-
-shadedErrorBar(EXP_DATA{13,1,2}(:,1),EXP_DATA{13,1,2}(:,2),[EXP_DATA{13,1,2}(:,4) EXP_DATA{13,1,2}(:,4)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
+k=find(LabNames=="UMD");
+shadedErrorBar(EXP_DATA{k,1,2}(:,1),EXP_DATA{k,1,2}(:,2),[EXP_DATA{k,1,2}(:,4) EXP_DATA{k,1,2}(:,4)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}) % ADD in UMD CAPA DATA
 for i=1:length(legend_counter)
     str{i,1}={QMJHL{legend_counter(i)},Test_types{legend_counter_test(i)}};
     str{i,1}={LabNames{legend_counter(i)},Test_types{legend_counter_test(i)}};
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
-str{end+1,1}={LabNames{13},Test_types{2}};
-% str{end+1,1}={QMJHL{13},Test_types{2}};
+str{end+1,1}={LabNames{k},Test_types{2}};
+clear k
+% str{end+1,1}={QMJHL{k},Test_types{2}};
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
 legend(legend_final,'Location','northwest', 'Interpreter','none');
@@ -547,9 +550,11 @@ for i=1:length(legend_counter)
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 % Add in CAPA Data (custom error bars)
-shadedErrorBar(EXP_DATA{13,2,1}(:,1),EXP_DATA{13,2,1}(:,3),[EXP_DATA{13,2,1}(:,5) EXP_DATA{13,2,1}(:,5)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-str{end+1,1}={LabNames{13},Test_types{1}};
-% str{end+1,1}={QMJHL{13},Test_types{1}};
+k=find(LabNames=="UMD");
+shadedErrorBar(EXP_DATA{k,2,1}(:,1),EXP_DATA{k,2,1}(:,3),[EXP_DATA{k,2,1}(:,5) EXP_DATA{k,2,1}(:,5)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}) % ADD in UMD CAPA DATA
+str{end+1,1}={LabNames{k},Test_types{1}};
+% str{end+1,1}={QMJHL{k},Test_types{1}};
+k=find(LabNames=="UMD");
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
 legend(legend_final,'Location','southeast', 'Interpreter','none');
@@ -765,9 +770,11 @@ for i=1:length(legend_counter)
     legend_final{i,1}=strjoin(str{i}, ', ');
 end
 % Add in CAPA Data (custom error bars)
-shadedErrorBar(EXP_DATA{13,2,2}(:,1),EXP_DATA{13,2,2}(:,3),[EXP_DATA{13,2,2}(:,5) EXP_DATA{13,2,2}(:,5)],'lineprops', {'color', rgb(Colors{13}),'LineWidth',1}) % ADD in UMD CAPA DATA
-% str{end+1,1}={QMJHL{13},Test_types{2}};
-str{end+1,1}={LabNames{13},Test_types{2}};
+k=find(LabNames=="UMD");
+shadedErrorBar(EXP_DATA{k,2,2}(:,1),EXP_DATA{k,2,2}(:,3),[EXP_DATA{k,2,2}(:,5) EXP_DATA{k,2,2}(:,5)],'lineprops', {'color', rgb(Colors{k}),'LineWidth',1}) % ADD in UMD CAPA DATA
+% str{end+1,1}={QMJHL{k},Test_types{2}};
+str{end+1,1}={LabNames{k},Test_types{2}};
+clear k
 legend_final{end+1}=strjoin(str{end}, ', ');
 % legend(QMJHL{[legend_counter 13]},'Location','eastoutside');
 legend(legend_final,'Location','southeast', 'Interpreter','none');
