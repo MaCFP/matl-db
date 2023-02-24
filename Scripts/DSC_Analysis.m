@@ -37,7 +37,7 @@ for i =1:N_files   % Loop through all of your data sets
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=6 && m<=16        % Just DSC Tests
+    if contains(filenames{i},"DSC")==1        % Just DSC Tests
 
         T_start=ceil(min(EXP_DATA{k,L,m}(:,2)));            %find first timestep (rounded to nearest integer)
         T_end=floor(max(EXP_DATA{k,L,m}(:,2)));             %find last timestep (rounded to nearest integer)
@@ -100,7 +100,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=6 && m<=16        % Just DSC Tests
+    if contains(filenames{i},"DSC")==1          % Just DSC Tests
     temp=min(EVAL_DATA{k,L,m}(:,2));
     if temp>min_T
         min_T=temp;
@@ -116,7 +116,7 @@ clear temp
 %     k=files{i,3};   % Find Lab Name
 %     L=files{i,4};   % Find Test Count
 %     m=files{i,2};   % Find Test Type
-%     if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
+%     if contains(filenames{i},"DSC")==1   && contains(filenames{i},"UMET")==1        % Just DSC Tests // UMET data has unique /\/\/\ temperature program
 %         T_check(i,1)=min(EVAL_DATA{k,L,m}(:,2)); %min_T
 %         T_check(i,2)=max(EVAL_DATA{k,L,m}(:,2)); %max_T
 %         T_check(i,3)=k;
@@ -135,7 +135,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=6 && m<=16 && k~=14       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
+    if contains(filenames{i},"DSC")==1 && contains(filenames{i},"UMET")==0       % Just DSC Tests // UMET data has unique /\/\/\ temperature program
 
         last = min(min(N_rows_all(k,:,m)-1,511));
 
@@ -174,7 +174,7 @@ for i=1:N_files
 %             HRR25(1:last,L+2,k)=sgolayfilt(HRR25(1:last,L+2,k),3,15);,
             clear temp_MLR temp_Mass
 
-            if k==13    % plot UMD with their own error bars
+            if contains(filenames{i},"UMD")==1       % plot UMD with their own error bars
                 shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
                 axis([300 800 -inf inf]);
 %                 title({QMJHL{k} Test_types{m}}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed; QMJHL Names
@@ -250,7 +250,7 @@ for i =1:N_files   % Loop through all of your data sets
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m== 28 | m== 30| m>=35
+    if contains(filenames{i},["TGA_N2_10K","TGA_N2_20K","TGA_Ar_1K","TGA_Ar_10K","TGA_Ar_50K"])==1
         T_start=ceil(min(EXP_DATA{k,L,m}(:,2)));   %find first timestep (rounded to nearest integer)
         T_end=floor(max(EXP_DATA{k,L,m}(:,2)));     %find last timestep (rounded to nearest integer)
         m0=mean(EXP_DATA{k,L,m}(1:5,3));            % define m0 as average m from first five timesteps
@@ -310,7 +310,7 @@ for i =1:N_files   % Loop through all of your data sets
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m== 10 && (k==5 || k==8 || k== 10 || k==13)   %N2_10K
+    if contains(filenames{i},"DSC_N2_10K")==1 && contains(filenames{i},["TGA_N2_10K","TGA_N2_20K","TGA_Ar_1K","TGA_Ar_10K","TGA_Ar_50K"])==1 (k==5 || k==8 || k== 10 || k==13)   %N2_10K
         T_onset=TAB_DATA{28,3}(k,L);
         T_endset=TAB_DATA{28,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
@@ -320,7 +320,7 @@ for i =1:N_files   % Loop through all of your data sets
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{28,5}(k,L);
         clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
 
-    elseif m== 11 && k==2   %N2_20K
+    elseif contains(filenames{i},"DSC_N2_20K")==1 && k==2   %N2_20K
         T_onset=TAB_DATA{30,3}(k,L);
         T_endset=TAB_DATA{30,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
@@ -330,7 +330,7 @@ for i =1:N_files   % Loop through all of your data sets
         TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{30,5}(k,L);
         clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
 
-    elseif m>=14 && m<=16 && k==9   %Ar_1,10,50K
+    elseif contains(filenames{i},["DSC_Ar_1K","DSC_Ar_10K","DSC_Ar_50K"])==1 && k==9   %Ar_1,10,50K
         T_onset=TAB_DATA{m+21,3}(k,L);
         T_endset=TAB_DATA{m+21,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
@@ -352,8 +352,8 @@ hold on
 m=10;
 i_legend=1;
 for k=1:N_Labs
-    if Test_count(m,k)~=0 && k~=14  %(14 is UMET, that data is /\/\/\)
-        if k==8   % because you're averaging together your NIST data and only showing that combined curve, this needed to be updated accordingly
+    if Test_count(m,k)~=0 && contains(filenames{i},'UMET')==0    %(UMET data is /\/\/\)
+        if contains(filenames{i},"NIST")==1   % because you're averaging together your NIST data and only showing that combined curve, this needed to be updated accordingly
             legend_counter(i_legend)=k;
             i_legend=i_legend+1;           
         else 
@@ -368,10 +368,10 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     last = min(min(N_rows_all(k,:,m)-1,511));
-    if m==10 && k~=14  && L==Test_count(m,k)  % Just DSC Tests // UMET data is messed up /\/\/\ temperature program
+    if contains(filenames{i},"DSC_N2_10K")==1 && contains(filenames{i},"UMET")==0  && L==Test_count(m,k)  % Just DSC Tests // UMET data is different, /\/\/\ // temperature program
         hold on
         figure(1)    
-        if k==13
+        if contains(filenames{i},"UMD")==1
             figure(1)
             shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
             figure(2)
@@ -379,13 +379,13 @@ for i=1:N_files
 %             plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,1,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
             plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,1,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',LabNames{k});
 %             shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-        elseif k==8         
+        elseif contains(filenames{i},"NIST")==1         
             figure(1)
             shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,L+2,k,m),[2*DSC_heatflow(1:last,L+4,k,m) 2*DSC_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
             figure(2)
             shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
         end        
-        if k~=8
+        if contains(filenames{i},"NIST")==0
             for ix=1:L
                 hold on
                 figure(1)        
@@ -444,7 +444,7 @@ col_old=0;
 i_legend=1;
 clear legend_counter
 for k=1:N_Labs
-    if Test_count(m,k)~=0 && k~=14 %(14 is UMET, that data is /\/\/\)
+    if Test_count(m,k)~=0 && contains(filenames{i},"UMET")==0 %(UMET DSC data is /\/\/\)
         col_new=Test_count(m,k);
         legend_counter(i_legend:i_legend+Test_count(m,k)-1)=k;
         col_old=col_old+col_new;
@@ -457,7 +457,7 @@ for i=1:N_files
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     last = min(min(N_rows_all(k,:,m)-1,511));
-    if m==13 && k~=14  && L==Test_count(m,k)     % Just DSC Tests // UMET data is messed up /\/\/\ temperature program
+    if contains(filenames{i},"DSC_O2-21_10K")==1 && contains(filenames{i},"UMET")==0  && L==Test_count(m,k)     % Just DSC Tests // UMET DSC data is /\/\/\ temperature program
         hold on
         for ix=1:L
             figure(1)
@@ -516,7 +516,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=6 && m<=16 && k==14       % Just DSC Tests
+    if contains(filenames{i},"DSC")==1 && contains(filenames{i},"UMET")==1       % Just UMET DSC Tests
         hold on
         plot(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),col{ix});
         legend_UMET_DSC{ix,1}=Test_types{m};
