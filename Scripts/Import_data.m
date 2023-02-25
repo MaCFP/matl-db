@@ -2,7 +2,7 @@ clear all
 
 %%Get information about what's inside your Repo.
 % %Specify where all your data is saved
-Root_dir=[pwd,'/../Non-charring/PMMA/'];
+Root_dir=[pwd,'/../PMMA/Calibration_Data'];
 Script_Figs_dir=[pwd,'/../Documents/SCRIPT_FIGURES/'];
 PMMA_Repo = dir(fullfile(Root_dir,'*/*.csv'));
 
@@ -28,12 +28,12 @@ dirIndex(1:2)=0;
 LabNames={dirData(dirIndex).name}';
 
 % Create corresponding list of anonymous names for each institution
-QMJHL={'Baie-Comeau' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' 'Chicoutimi' 'Drummondville'...
-    'Gatineau' 'Halifax' 'Moncton' 'Quebec' 'Rimouski' 'Rouyn-Noranda' 'Saint John' 'Shawinigan'...
-    'Sherbrooke'  'Val dOr' 'Victoriaville'}';
+QMJHL={'Acadie-Bathurst' 'Baie-Comeau' 'Belleville' 'Blainville-Boisbriand' 'Cape-Breton' 'Charlottetown' ...
+    'Chicoutimi' 'Drummondville' 'Gatineau' 'Halifax' 'Kitchner' 'Moncton' 'Quebec' 'Rimouski' 'Rouyn-Noranda' 'Saginaw' ...
+    'Saint John' 'Shawinigan' 'Sherbrooke'  'Sudbury' 'Val dOr' 'Victoriaville'}';
 % Create corresponding list of colors for each dataset submitted by a given institution
 Colors={'DarkViolet' 'Gray' 'Red' 'OrangeRed' 'Gold' 'Green' 'Blue' 'Black' 'DeepSkyBlue' ...
-    'Indigo' 'Lime' 'Navy' 'DeepPink' 'DarkRed' 'Cyan' 'Magenta' 'Khaki'}';
+    'Indigo' 'Lime' 'Navy' 'DeepPink' 'DarkRed' 'Cyan' 'Magenta' 'Khaki' 'DarkGreen' 'darkorange' 'tea' 'goldenrod'}';
 
 N_Labs=size(LabNames,1);
 Asurf=csvread('Asurf.txt');  % Note: DBI/LUND (LabNames{2}) has two different sample areas for CONE data (here atleast, HRR data is already normalized as [kW/m2])

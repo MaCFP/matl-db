@@ -32,7 +32,7 @@ for i =1:N_files   % Loop through all of your data sets
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=24        % TGA Tests
+    if contains(filenames{i},"TGA")==1        % TGA Tests
         T_start=ceil(min(EXP_DATA{k,L,m}(:,2)));   %find first timestep (rounded to nearest integer)
         T_end=floor(max(EXP_DATA{k,L,m}(:,2)));     %find last timestep (rounded to nearest integer)
         m0=mean(EXP_DATA{k,L,m}(1:5,3));            % define m0 as average m from first five timesteps
@@ -94,11 +94,11 @@ for i =1:N_files   % Loop through all of your data sets
                yyaxis right
         plot(EVAL_DATA{k,L,m}(:,2),EVAL_DATA{k,L,m}(:,4),'k');
         axis([300 900 0 6e-3]);
-        if i~= 113
-        title(filenames{i}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-        else
-            title('Halifax_TGA_N2_10K_1');     %Example NIST/Halifax data anonymously for Prelim. Exp. Report
-        end
+%         if i~= 113
+%         title(filenames{i}, 'interpreter', 'none');     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
+%         else
+%             title('Halifax_TGA_N2_10K_1');     %Example NIST/Halifax data anonymously for Prelim. Exp. Report
+%         end
         xlabel('Temperature [K]');
         ylabel('(1/m_0)dm/dt [s^{-1}]');
         legend({'m/m_0','m/m_0, filtered','d(m/m_0)/dt','d(m/m_0)/dt, filtered'},'Location','west')
@@ -146,15 +146,17 @@ close all
 %p=1 --> max(dm*/dt)
 %p=2 --> T_max(dm*/dt)
 %p=3 --> T_onset (10% of max dm*/dt)
-for m=24:37
-    for p=1:3
-        N_Labs_TGA=size(TAB_DATA{m,p},1);
-        temp=TAB_DATA{m,p}(:,:);
-        temp(temp==0)=NaN;
-        TAB_DATA{m,p}(:,:)=temp;
-        for k=1:N_Labs_TGA
-            TAB_DATA{m,p}(k,max(max(Test_count(m,p:N_Labs_TGA)))+1)=mean(TAB_DATA{m,p}(k,1:max(max(Test_count(m,p:N_Labs_TGA)))),'omitnan');       %Calculate mean of t_ignition for this lab
-            TAB_DATA{m,p}(k,max(max(Test_count(m,p:N_Labs_TGA)))+2)=std(TAB_DATA{m,p}(k,1:max(max(Test_count(m,p:N_Labs_TGA)))),'omitnan');       %Calculate stdev of t_ignition for this lab
+for m=1:N_test_types    
+    if contains(Test_types{m},"TGA")==1
+        for p=1:3
+            N_Labs_TGA=size(TAB_DATA{m,p},1);
+            temp=TAB_DATA{m,p}(:,:);
+            temp(temp==0)=NaN;
+            TAB_DATA{m,p}(:,:)=temp;
+            for k=1:N_Labs_TGA
+                TAB_DATA{m,p}(k,max(max(Test_count(m,p:N_Labs_TGA)))+1)=mean(TAB_DATA{m,p}(k,1:max(max(Test_count(m,p:N_Labs_TGA)))),'omitnan');       %Calculate mean of t_ignition for this lab
+                TAB_DATA{m,p}(k,max(max(Test_count(m,p:N_Labs_TGA)))+2)=std(TAB_DATA{m,p}(k,1:max(max(Test_count(m,p:N_Labs_TGA)))),'omitnan');       %Calculate stdev of t_ignition for this lab
+            end
         end
     end
 end
@@ -162,7 +164,7 @@ clear temp N_Labs_cone
 
 %p=3 --> T_onset (10% of max dm*/dt)
 figure
-    histogram(TAB_DATA{28,3}([1:9,11,13:15],1:3),10) % Remove TIFP, UDRI
+    histogram(TAB_DATA{28,3}([1:11,13,15:end],1:3),10) % Remove TIFP, UDRI
         title("Onset Temperature of Decomposition (TGA in N_2)");     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 %         axis([60 160 0 10]);
         xlabel('Temperature [K]');
@@ -176,7 +178,7 @@ figure
 
 %p=2 --> T_max(dm*/dt)
         figure
-    histogram(TAB_DATA{28,2}([1:9,11,12:end],1:3),12)             % Remove TIFP, UDRI
+    histogram(TAB_DATA{28,2}([1:11,13,15:end],1:3),12)             % Remove TIFP, UDRI
         title("Temperature of peak MLR (TGA in N_2)");     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
 %         axis([60 160 0 10]);
         xlabel('Temperature [K]');
@@ -192,7 +194,7 @@ figure
 figure
 hold on
 i_legend=0;
-all_marks = {'o','+','*','h','x','s','d','^','v','>','<','p','.'};
+all_marks = {'o','+','*','h','x','s','d','^','v','>','<','p','.','o','+','*','h','x','s','d','^','v','>','<','p','.'};
 for k=1:N_Labs
         if Test_count(28,k)~=0    %If this dataset is the last one for this lab, do some statistics
             i_legend=i_legend+1;
@@ -203,13 +205,13 @@ end
 
 
 %         title("Onset Temperature of Decomposition (TGA in N_2)");     %title the figure based on the name of dataset i; turn off interpreter so _ is explicitly displayed
-        axis([620 655 0 3.25e-3]);
+        axis([620 655 0 3.5e-3]);
         box on
         xlabel('T_{max} [K]');
         ylabel('Peak Mass Loss Rate (s^{-1})');
-        legend(LabNames{legend_counter},'Location','southwest'); %; Real Names
+        legend(LabNames{legend_counter},'Location','eastoutside'); %; Real Names
         h = 4;                                  % height of plot in inches
-        w = 5;                                  % width of plot in inches
+        w = 6;                                  % width of plot in inches
         set(gcf, 'PaperSize', [w h]);           % set size of PDF page
         set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner        
         fig_filename=fullfile(char([Script_Figs_dir, 'TGA_N2_PeakMLR_vs_Tpeak']));
@@ -224,7 +226,7 @@ min_T=300;  %initialize minimum temperature reported in TGA datataunt
 %     k=files{i,3};   % Find Lab Name
 %     L=files{i,4};   % Find Test Count
 %     m=files{i,2};   % Find Test Type
-%     if m>=24
+% if contains(filenames{i},"TGA")==1        % TGA Tests
 %     temp=min(EVAL_DATA{k,L,m}(:,2));
 %     if temp>min_T
 %         min_T=temp;
@@ -241,7 +243,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=24        % Just TGA Tests
+        if contains(filenames{i},"TGA")==1        % TGA Tests
         last = min(min(N_rows_all(k,:,m)-1,1021));
 
         max_T =max(EVAL_DATA{k,L,m}(:,2));
@@ -276,7 +278,7 @@ for i=1:N_files
             end
             shadedErrorBar(TGA_Temperature(1:last),TGA_dTdt(1:last,L+2,k,m),[2*TGA_dTdt(1:last,L+4,k,m) 2*TGA_dTdt(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
 
-            if m==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
+            if contains(filenames{i},["50K","100K"])==1        % TGA Testsm==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
                 axis([300 800 0 100]);
             else
                 axis([300 800 0 25]);
@@ -302,13 +304,14 @@ close% Close figure
 
 %% All dT/dt curves at 10 K/min
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
+box on 
 hold on
 i_legend=1;
 for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m==28 || m==33 || m==34 || m==36        % Just 10K/min TGA Tests
+    if contains(filenames{i},"TGA")==1 && contains(filenames{i},"10K")==1  % Just 10K/min TGA Tests
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             last = min(min(N_rows_all(k,:,m)-1,1021));
             legend_counter(i_legend)=k;
@@ -325,7 +328,7 @@ end
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
 %             legend(QMJHL{legend_counter},'Location','northeastoutside'); %; QMJHL Names
-            legend(LabNames{legend_counter},'Location','northeastoutside'); %; Real Names
+            legend(LabNames{legend_counter},'Location','eastoutside' ,'FontSize', 7); %; Real Names
 
             h=3.25;                                  % height of plot in inches
             w=6;                                  % width of plot in inches
@@ -337,13 +340,14 @@ end
 close
         %% All dT/dt curves at 20 K/min
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
+box on 
 hold on
 i_legend=1;
 for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m==30        % Just 10K/min TGA Tests
+    if contains(filenames{i},"TGA")==1 && contains(filenames{i},"20K")==1  % Just 20K/min TGA Tests
         if L==Test_count(m,k)    %If this dataset is the last one for this lab, do some statistics
             last = min(min(N_rows_all(k,:,m)-1,1021));
             legend_counter(i_legend)=k;
@@ -360,9 +364,9 @@ end
             xlabel('Temperature [K]');
             ylabel('Heating Rate, dT/dt  [K min^{-1}]');
 %             legend(QMJHL{legend_counter},'Location','northeastoutside');    % QMJHL Names
-            legend(LabNames{legend_counter},'Location','northeastoutside');    % Real Names
+            legend(LabNames{legend_counter},'Location','southeast');    % Real Names
             h=3.25;                                  % height of plot in inches
-            w=6;                                  % width of plot in inches
+            w=5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, 'TGA_20K_dTdt']));
@@ -378,7 +382,7 @@ for i=1:N_files
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
-    if m>=24        % Just TGA Tests
+    if contains(filenames{i},"TGA")==1  % Just TGA Tests
         last = min(min(N_rows_all(k,:,m)-1,1021));
 
         max_T =max(EVAL_DATA{k,L,m}(:,2));
@@ -403,7 +407,7 @@ for i=1:N_files
 
             for ix = 3:last-2 %1:last
 %             Calculate mean and stdeviation +/- 2 timesteps
-            if k==10     % TIFP TGA DATA: Tests 1 and 2 did not have a full N2 purge prior too measurement--> these should be plotted but not averaged (oxidation)
+            if contains(filenames{i},"TIFP")==1    % TIFP TGA DATA: Tests 1 and 2 did not have a full N2 purge prior too measurement--> these should be plotted but not averaged (oxidation)
                 TGA_MLR(ix,L+1,k,m)=nnz(TGA_MLR((ix-2:ix+2),(3:L),k,m));
                 TGA_MLR(ix,L+2,k,m)=mean_nonan(TGA_MLR((ix-2:ix+2),(3:L),k,m));
                 TGA_MLR(ix,L+3,k,m)=std_nonan(TGA_MLR((ix-2:ix+2),(3:L),k,m));
@@ -446,7 +450,7 @@ for i=1:N_files
             end
             shadedErrorBar(TGA_Temperature(1:last),TGA_MLR(1:last,L+2,k,m),[2*TGA_MLR(1:last,L+4,k,m) 2*TGA_MLR(1:last,L+4,k,m)],'lineprops', {'-k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
 
-            if m==30 || m==31 || m==32 || m==37  %higher heating rates, zoom out on the axes
+            if contains(filenames{i},["20K","50K","100K"])==1  %higher heating rates, zoom out on the axes
                 axis([300 800 0 inf]);
             else
                 axis([300 800 0 0.003]);
@@ -471,10 +475,10 @@ clear last
 close% Close figure
 
 %% Combine all of your TGA data from individual tests in N2 at 5K/min
-m=27;
-TGA_N2_5K_all=zeros(1021, Test_count(m,end)+4,2);
 col_old=0;
 i_legend=1;
+m=find(Test_types=="TGA_N2_5K");
+        TGA_N2_5K_all=zeros(1021, Test_count(m,end)+4,2);
 for k=1:N_Labs
     if Test_count(m,k)~=0
         col_new=Test_count(m,k);
@@ -508,6 +512,7 @@ end
 %plot Average m/m0 with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
+box on
 for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_5K_all(:,k,1),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
@@ -535,6 +540,7 @@ end
 %plot Average d(m/m0)/dt with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 650 350])
 hold on
+box on
 for k=1:Test_count(m,end)
     plot(TGA_Temperature(:),TGA_N2_5K_all(:,k,2),'-','MarkerSize',2,'color',rgb(Colors{legend_counter(k)})) ;
 end
@@ -557,13 +563,12 @@ end
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_dmdt_w_avg']));
             print(fig_filename,'-dpdf')
 
-
 clear m legend_counter fig_filename
 close all
 
 %% Combine all of your TGA data from individual tests in N2 at 10K/min (ALSO 10K/min in Argon)
-m=28;
-Test_count_10K=Test_count(28,end)+Test_count(36,end);       %N2 + Argon
+Test_count_10K=Test_count(find(Test_types=="TGA_N2_10K"),end)+Test_count(find(Test_types=="TGA_Ar_10K"),end);       %N2 + Argon()
+m=find(Test_types=="TGA_N2_10K");
 TGA_N2_10K_all=zeros(1021, Test_count_10K+4,2);
 col_old=0;
 i_legend=1;
@@ -577,7 +582,8 @@ for k=1:N_Labs
         i_legend=i_legend+Test_count(m,k);
     end
 end
-m=36;       % Include (10K/min in Argon)
+
+m = find(Test_types=="TGA_Ar_10K");
 for k=1:N_Labs
     if Test_count(m,k)~=0
         col_new=Test_count(m,k);
@@ -595,9 +601,22 @@ TGA_N2_10K_all(TGA_N2_10K_all==0)=NaN;
 % Do some Statistics now that you have all of your data together
 %Calculate mean and stdeviation +/- 0 timesteps
 
-%NOTE: For these statistics [LCPP(wayyy too high), UDRI (30K temp shift),
-%TIFP (two peaks)] data is clesarly incorrect, so it will not be used for
-%statistics. Hence the indexing: [1:4 8:12  15:21 23:Test_countTest_count].
+%NOTE: Some datasets have been neglected when calculating these statistics...
+% because they have been identified as outliers [LCPP(dT/dt is too high), UDRI (20K temp shift), TIFP (two peaks), Ulster (50K-60K temp shift)] 
+% Hence the special indexing: [1:4 8:12  15:21 23:Test_count]. 
+%Feb. 24, 2023 - identify this indexing issue, create short loop and [TGA_N2_10K_indexing] to address it but solution remains incomplete, keep previous indexing for now  
+m=find(Test_types=="TGA_N2_10K");
+temp_counter=0;
+for k=1:N_Labs
+    if contains(LabNames(k),["LCPP" "TIFP" "UDRI" "ULSTER"])==0
+%         temp_counter=temp_counter+1;
+        TGA_N2_10K_indexing(1,k)=Test_count(m,k);
+    elseif contains(LabNames(k),["LCPP" "TIFP" "UDRI" "ULSTER"])==1
+        TGA_N2_10K_indexing(2,k)=Test_count(m,k);
+    end
+end
+clear temp_counter m
+
 for ix=1:1021
     TGA_N2_10K_all(ix,(Test_count_10K+1),1)=nnz(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],1));          % Count, N
     TGA_N2_10K_all(ix,(Test_count_10K+2),1)=mean_nonan(TGA_N2_10K_all((ix-0:ix+0),[1:4 8:12  15:21 23:Test_count_10K],1));        % mean
@@ -610,7 +629,7 @@ for ix=1:1021
     TGA_N2_10K_all(ix,(Test_count_10K+4),2)=TGA_N2_10K_all(ix,(Test_count_10K+3),2)/sqrt(TGA_N2_10K_all(ix,Test_count_10K+1,2));  % stdev mean
 end
 
-m=28;
+m=find(Test_types=="TGA_N2_10K");
 %plot Average m/m0 with shaded errorbars WITH individual data points from all tests
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 hold on
@@ -665,7 +684,7 @@ clear m legend_counter
 close all
 
 %% Combine all of your TGA data from individual tests in N2 at 20K/min
-m=30;
+m=find(Test_types=="TGA_N2_20K");
 TGA_N2_20K_all=zeros(1021, Test_count(m,end)+4,2);
 col_old=0;
 i_legend=1;
@@ -754,7 +773,7 @@ end
 clear m legend_counter fig_filename
 close all
 %% Combine all of your TGA data from individual tests in N2/21%O2 at 10K/min
-m=34;
+m=find(Test_types=="TGA_O2-21_10K");
 TGA_N2_O2_21_10K_all=zeros(1021, Test_count(m,end)+4,2);
 col_old=0;
 i_legend=1;
@@ -776,9 +795,6 @@ TGA_N2_O2_21_10K_all(TGA_N2_O2_21_10K_all==0)=NaN;
 % Do some Statistics now that you have all of your data together
 %Calculate mean and stdeviation +/- 0 timesteps
 
-%NOTE: For these statistics [LCPP(wayyy too high), UDRI (30K temp shift),
-%TIFP (two peaks)] data is clesarly incorrect, so it will not be used for
-%statistics. Hence the indexing: [1:4 8  11 15:Test_count].
 for ix=1:1021
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+1),1)=nnz(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1));          % Count, N
     TGA_N2_O2_21_10K_all(ix,(Test_count(m,end)+2),1)=mean_nonan(TGA_N2_O2_21_10K_all((ix-0:ix+0),[1:Test_count(m,end)],1));        % mean
