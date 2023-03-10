@@ -45,7 +45,6 @@ t = 0
 mt = 1
  
 def logging(mt,t):
-#    while t < seconds:
 # while mt >= 1e-8 stops while condition when mt is very close to 0
     while mt >= .01:
         # Input Temperature function here
@@ -54,7 +53,7 @@ def logging(mt,t):
         mt = m0 * np.exp(-A * np.exp(-E / (R * T)) * t)
         mtlist.append(mt)
         tlist.append(t)
-        #print(mt,t)
+        
         t += 1
  
  
