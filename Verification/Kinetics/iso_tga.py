@@ -7,7 +7,7 @@ import csv
 #3.  Creates CSV file
 
 
-# Variables = 1/2/3 refers to different sets of variables
+# Variables = (1/2/3) refers to different sets of variables
 variables = 3
 seconds = 60
 mtlist = []
