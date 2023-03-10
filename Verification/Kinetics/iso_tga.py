@@ -5,7 +5,9 @@ import csv
 #1.  Stops while condition when mass gets sufficiently close to 0
 #2.  Temperature function allows dynamic temperature
 #3.  Creates CSV file
- 
+
+
+# Variables = 1/2/3 refers to different sets of variables
 variables = 3
 seconds = 60
 mtlist = []
