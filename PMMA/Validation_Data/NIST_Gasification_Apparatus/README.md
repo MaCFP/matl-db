@@ -39,7 +39,7 @@ Figure 1. Schematic of the NIST gasification apparatus. The insert at the bottom
 ### System Calibration (i.e., Measured Boundary Conditions)
 Chamber wall and gas temperature was continously measured throughout the duration of experiments. After an initial rise (from 9 C to between 14 C to 18 C) when the heater shutter was removed, measured temperatures at each location maintained steady values throuhgout the duration of experiments.  
 Chamber Wall Temperature: 14 C to 18 C (test/location/day dependent)  
-Chamber Gas Tempeature (at sample height): 20 C to 30 C  
+Chamber Gas Temperature (at sample height): 20 C to 30 C  
 Heater Set Point Temperature (25 kW m<sup>-2</sup>): 711 C to 713 C  
 Heater Set Point Temperature (50 kW m<sup>-2</sup>): 807 C to 808 C  
 
