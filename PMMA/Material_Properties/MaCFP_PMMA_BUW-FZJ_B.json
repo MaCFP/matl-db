@@ -29,21 +29,26 @@
             ]
         }
     ],
-            
-    "Kinetics": {
-        "Number of Reactions": 2,
-        "Reaction Network": "Parallel",
-        "Pre-exponential": [56864.9,6.71256e12],
-        "Activation Energy": [56864.9,180974.37],
-        "Reaction Order": [1, 1],
+        
+    "Composition": {
+        "Initial Components": [1, 2],
         "Initial Mass Fraction": [0.025, 0.975],
+        "Final Components": [3]
+    },
+
+    "Kinetics": {
+        "Reactants": [ [1], [2] ],
+        "Products": [ [3], [3] ],
+        "Pre-exponential": [56864.9,6.71256e12],
+        "Activation Energy": [610756.0,180974.37],
+        "Reaction Order": [1, 1],
         "Solid Yield": [0.001, 0.001]
     },
     
     "Thermodynamics": {
         "Heat Capacity": {
             "Form": "Component Specific",
-            "Value": [2201.18,1295.17] 
+            "Value": [2201.18,2201.18,1295.17] 
         },
         "Heat of Pyrolysis": {
             "Form": "Single Value", 
@@ -51,14 +56,14 @@
         },
         "Density": {
             "Form": "Component Specific",
-            "Value": [1207.84,842.116] 
+            "Value": [1207.84,1207.84,842.116] 
         }
     },
     
     "Transport": {
         "Conductivity": {
             "Form": "Component Specific",
-            "Value": [0.166161,0.369026] 
+            "Value": [0.166161,0.166161,0.369026] 
         },
         "Mass Diffusivity": {
             "Form": "None"
@@ -68,7 +73,7 @@
         },
         "Emissivity": {
             "Form": "Component Specific",
-            "Value": [0.989735,0.98859] 
+            "Value": [0.989735,0.989735,0.98859] 
         }
     }
 
