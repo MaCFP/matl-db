@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.special import expi
 import csv
 
-# contstant
+# constant
 R       = 8.314             # gas constant, J/mol-K
 
 # kinetic parameters

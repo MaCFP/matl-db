@@ -1,78 +1,67 @@
+"""
+
+Script to generate exact solution for mass decomposition TGA
+
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
- 
-#1.  Stops while condition when mass gets sufficiently close to 0
-#2.  Temperature function allows dynamic temperature
-#3.  Creates CSV file
+
+# constant
+R       = 8.134					# gas constant, J/mol-K
+
+#Kinetic parameters
+A       = 1e12					# pre-exponential, 1/s 
+E       = 3e5					# activation energy, J/mol	
 
 
-# Variables = (1/2/3) refers to different sets of variables
-variables = 3
-seconds = 60
-mtlist = []
-tlist = []
- 
- 
-if variables == 1:
-    m0 = 1
-    A = 1e12
-    E = 3e5
-    R = 8.314
-    T0 = 600
-   
-if variables == 2:
-    m0 = 1e-6
-    A = 1e3
-    E = 3e4
-    R = 8.314
-    T0 = 600
- 
- 
-#Double T
-if variables == 3:
-    m0 = 5
-    A = 1e12
-    E = 3e5
-    R = 8.314
-    T0 = 1200
- 
-int(seconds)
- 
- 
+#scenario parameters
+m_0      = 5					# initial mass
+T_0      = 1200					# initial temperature, K
+beta     = 10					# heating rate, K/min
+t_f      = 60					# final time, s
 
-t = 0
-mt = 1
- 
-def logging(mt,t):
-# while mt >= 1e-8 stops while condition when mt is very close to 0
-    while mt >= .01:
-        # Input Temperature function here
-        T = T0 + (t * 1)
-       
-        mt = m0 * np.exp(-A * np.exp(-E / (R * T)) * t)
-        mtlist.append(mt)
-        tlist.append(t)
-        
-        t += 1
- 
- 
- 
- 
-logging(mt,t)
- 
-#Graph
-plt.plot(tlist, mtlist)
-plt.grid()
-plt.xlabel('Time (s)')
-plt.ylabel('Mass (kg)')
-plt.title('Mass vs Time')
+# numerical parameters
+N       = 500					# number of data points
+
+# create solution arrays
+t    = np.linspace(0, t_f, N)
+T  = T_0 + beta*t
+m = np.zeros(N)
+
+
+# calculate the mass at all times
+for i in range(0, N):
+    
+    
+    m[i] = m_0 * np.exp(-A * np.exp(-E / (R * T[i])) * t[i])
+
+# plotting parameters
+# If receiving tex/latex error try removing plotting parameters
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rc('lines', linewidth=1.5)
+plt.rc('xtick', labelsize=18)
+plt.rc('ytick', labelsize=18)
+
+# Plot the results
+plt.plot(t, m)
+plt.xlabel(r'Time (-)', fontsize=20)
+plt.ylabel(r'Mass (s)', fontsize=20)
+plt.tight_layout()
+plt.title('M vs T')
 plt.show()
- 
+
+
 #Save as CSV
-with open('iso_tga.csv', mode='w', newline='') as file:
-    writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    writer.writerow(['Time', 'Mass'])
-    writer.writerow(['[s]','[-]'])
-    for i in range(len(mtlist)):
-        writer.writerow([tlist[i], mtlist[i]])
+#with open('iso_tga_data.csv', mode='w', newline='') as file:
+#    writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+#    writer.writerow(['Time', 'Mass', 'Temperature'])
+#    writer.writerow(['[s]', '[-]', 'K'])
+#    for i in range(N):
+#        writer.writerow([t[i], m[i], T[i]])
+
+ 
+
+
