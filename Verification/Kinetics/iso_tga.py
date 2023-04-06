@@ -1,6 +1,6 @@
 """
 
-Script to generate exact solution for mass decomposition TGA
+Script to generate exact solution for isothermal TGA
 
 """
 
@@ -9,33 +9,31 @@ import matplotlib.pyplot as plt
 import csv
 
 # constant
-R       = 8.134					# gas constant, J/mol-K
+R       = 8.134			    # gas constant, J/mol-K
 
 #Kinetic parameters
-A       = 1e12					# pre-exponential, 1/s 
-E       = 3e5					# activation energy, J/mol	
-
+A       = 4e12				# pre-exponential, 1/s 
+E       = 2e5		        # activation energy, J/mol	
 
 #scenario parameters
-m_0      = 5					# initial mass
-T_0      = 1200					# initial temperature, K
-beta     = 10					# heating rate, K/min
-t_f      = 60					# final time, s
+m_0     = 1					# initial mass
+T       = 700				# constant temperature, K
+t_f     = 1800				# final time, s
 
 # numerical parameters
-N       = 500					# number of data points
+N       = 500				# number of data points
 
 # create solution arrays
-t    = np.linspace(0, t_f, N)
-T  = T_0 + beta*t
-m = np.zeros(N)
-
+t       = np.linspace(0, t_f, N)
+m       = np.zeros(N)
 
 # calculate the mass at all times
 for i in range(0, N):
     
-    
-    m[i] = m_0 * np.exp(-A * np.exp(-E / (R * T[i])) * t[i])
+    m[i] = m_0*np.exp( -A*np.exp( -E/(R*T) )*t[i])
+
+# array of temperatures
+T       = T*np.ones( N )
 
 # plotting parameters
 # If receiving tex/latex error try removing plotting parameters
@@ -47,10 +45,9 @@ plt.rc('ytick', labelsize=18)
 
 # Plot the results
 plt.plot(t, m)
-plt.xlabel(r'Time (-)', fontsize=20)
-plt.ylabel(r'Mass (s)', fontsize=20)
+plt.xlabel(r'Time (s)', fontsize=20)
+plt.ylabel(r'Mass (-)', fontsize=20)
 plt.tight_layout()
-plt.title('M vs T')
 plt.show()
 
 
