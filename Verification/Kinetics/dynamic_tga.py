@@ -1,8 +1,6 @@
 """
-
 Script to generate exact solution for constant heating rate TGA
 using the solution from Coheur et al., J Mater Sci, 2021
-
 """
 
 import numpy as np
