@@ -100,6 +100,9 @@ All PMMA samples (discs) studied in this test series were weighed, measured, and
 Table 3. Sample size, mass, and [name] information
 |Experimental Data File Name |  Sample Mass (g)| Epoxy Mass (g)| Sample Diameter (cm)| Sample Thickness (mm)|
 |-----|-----|-----|-----|-----|
+|MaCFP-PMMA\_q25\_Temp\_R1|28.093|1.671|6.99|6.26|
+|MaCFP-PMMA\_q25\_Temp\_R2|27.750|2.389|6.98|6.15|
+|MaCFP-PMMA\_q25\_Temp\_R3|26.077|2.100|6.99|5.80|
 |MaCFP-PMMA\_q50\_Mass\_R3|26.689|1.565|NR|5.9|
 |MaCFP-PMMA\_q50\_Mass\_R4|25.643|2.549|NR|5.65|
 |MaCFP-PMMA\_q50\_Mass\_R5|28.113|2.176|6.99|6.20|
