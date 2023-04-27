@@ -7,26 +7,20 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 
+# ***replace with command line file specification
 csv_file_path = 'iso_tga_data.csv'
 
 # constant
 R = 8.134  # gas constant, J/mol-K
 
 # Kinetic parameters
-A = 4e12  # pre-exponential, 1/s
-E = 2e5  # activation energy, J/mol
+A = 4e12    # pre-exponential, 1/s
+E = 2e5     # activation energy, J/mol
 
 # scenario parameters
 m_0 = 1  # initial mass
 T = 700  # constant temperature, K
-t_f = 1800  # final time, s
-
-# numerical parameters
-N = 500  # number of data points
-
-# create solution arrays
-t = np.linspace(0, t_f, N)
-m = np.zeros(N)
+#t_f = 1800  # final time, s
 
 # Read the CSV file
 data = pd.read_csv(csv_file_path)
@@ -39,14 +33,24 @@ data['Temperature'] = pd.to_numeric(data['Temperature'], errors='coerce')
 # Drop NaN values
 data = data.dropna()
 
-# imported values
-t_imported = data['Time'].values
-m_imported = data['Mass'].values
-T_imported = data['Temperature'].values
+# model predictions
+t_m = data['Time'].values
+m_m = data['Mass'].values
+T_m = data['Temperature'].values
+
+# numerical parameters
+N = len(t_m)
+#N = 500  # number of data points
+
+# create solution arrays
+#t = np.linspace(0, t_f, N)
+m_e = np.zeros(N)
+
+
 
 # calculate the mass at all times
 for i in range(0, N):
-    m[i] = m_0 * np.exp(-A * np.exp(-E / (R * T)) * t[i])
+    m_e[i] = m_0 * np.exp(-A * np.exp(-E / (R * T)) * t_m[i])
 
 # plotting parameters
 # If receiving tex/latex error try removing plotting parameters
@@ -57,10 +61,10 @@ plt.rc('xtick', labelsize=18)
 plt.rc('ytick', labelsize=18)
 
 # Plot the Imported data
-plt.plot(t_imported, m_imported, label='Imported data', color='red', marker='.')
+plt.plot(t_m, m_m, label='Model Predictions', color='red', marker='.')
 
 # Plot the results
-plt.plot(t, m, label='Calculated data')
+plt.plot(t_m, m_e, label='Exact Solution')
 
 plt.xlabel(r'Time (s)', fontsize=20)
 plt.ylabel(r'Mass (-)', fontsize=20)
@@ -76,25 +80,8 @@ plt.show()
 #    for i in range(N):
 #        writer.writerow([t[i], m[i], T[i]])
 
-# Checks if number of rows (and therefore data points) are equal
-if len(data) == m.shape[0]:
-
-    # Sum of square errors are calculated directly
-    sse_mass = np.sum((m_imported - m) ** 2)
-    print('Sum of squared errors for mass:', sse_mass)
-
-    sse_Temperature = np.sum((T_imported - T) ** 2)
-    print('Sum of squared errors for Temperature:', sse_mass)
-
-
-else:
-
-    # values are interpolated before calculating sum of square errors
-    m_interp = np.interp(t_imported, t, m)
-    sse = np.sum((m_imported - m_interp) ** 2)
-    print('Sum of square errors for mass:', sse)
-
-    T_interp = np.interp(t_imported, t, T)
-    sse = np.sum((T_imported - T_interp) ** 2)
-    print('Sum of square errors:', sse)
-
+# Sum of square errors are calculated directly
+#sse_mass = np.sum((m_m - m_e) ** 2)
+rms_err = np.sqrt(np.sum((m_m - m_e) ** 2)/N)
+#print('Sum of squared errors for mass:', sse_mass)
+print('Root Mean Square Error:', rms_err)
