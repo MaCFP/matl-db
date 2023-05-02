@@ -33,7 +33,7 @@ data['Temperature'] = pd.to_numeric(data['Temperature'], errors='coerce')
 # Drop NaN values
 data = data.dropna()
 
-# model predictions 
+# model predictions
 t_m = data['Time'].values
 m_m = data['Mass'].values
 T_m = data['Temperature'].values
@@ -85,4 +85,3 @@ plt.show()
 rms_err = np.sqrt(np.sum((m_m - m_e) ** 2)/N)
 #print('Sum of squared errors for mass:', sse_mass)
 print('Root Mean Square Error:', rms_err)
-
