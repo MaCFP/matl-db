@@ -1,0 +1,118 @@
+&HEAD CHID='AALTO_Gasification_50kW_h=10',TITLE='N2 cone calorimeter' /
+
+&MESH IJK=3,3,3,
+XB=0,0.186,0,0.186,0,0.186 /
+
+&TIME T_END=600.0, DT = 0.1, WALL_INCREMENT = 1 / 
+
+&MISC TMPA=20,
+Y_O2_INFTY=0.01,
+SOLID_PHASE_ONLY = .TRUE. /
+
+&DUMP DT_DEVC=1. /
+&DUMP DT_HRR=1. /
+&DUMP DT_PROF=1. /
+
+&VENT XB = 0.062,0.124,0.062,0.124,0.0,0.0, SURF_ID = 'PMMA' /
+
+&REAC FUEL='MMA', FORMULA=C5H8O2, HEAT_OF_COMBUSTION=24400.0, CO_YIELD=0.01, SOOT_YIELD=0.022 /
+	  
+&MATL ID                    = 'COMPONENT_A'
+      T_SOURCE               = 1073
+      KAPPA_COEF             = 0.1067 -0.004942 0.03362 0.0001037 1560 -0.4218 -968.0
+      EMISSIVITY             = 0.914
+      DENSITY 	            = 1210.0
+      CONDUCTIVITY_RAMP     = 'k_inc'
+      SPECIFIC_HEAT_RAMP   	= 'c_inc'
+      HEAT_OF_REACTION      = 2260
+      N_REACTIONS           = 1
+      A						= 5.06E-3
+	  E						= 5.66E3
+	  N_S					= 1.0
+	  NU_SPEC 	            = 1.0
+      SPEC_ID               = 'MMA' /
+
+&MATL ID                    = 'COMPONENT_B'
+      T_SOURCE               = 1073
+      KAPPA_COEF             = 0.1067 -0.004942 0.03362 0.0001037 1560 -0.4218 -968.0
+      EMISSIVITY             = 0.914
+      DENSITY 	            = 1210.0
+      CONDUCTIVITY_RAMP     = 'k_inc'
+      SPECIFIC_HEAT_RAMP   	= 'c_inc'
+      HEAT_OF_REACTION      = 500
+      N_REACTIONS           = 1
+      A						= 9.24E7
+      E						= 9.11E4
+      N_S					= 1.0
+	  NU_SPEC 	            = 1.0
+      SPEC_ID               = 'MMA' /
+ 
+&MATL ID                    = 'COMPONENT_C'
+      T_SOURCE               = 1073
+      KAPPA_COEF             = 0.1067 -0.004942 0.03362 0.0001037 1560 -0.4218 -968.0
+      EMISSIVITY             = 0.914
+      DENSITY 	            = 1210.0
+      CONDUCTIVITY_RAMP     = 'k_inc'
+      SPECIFIC_HEAT_RAMP  	= 'c_inc'
+      HEAT_OF_REACTION      = 833
+      N_REACTIONS           = 1
+      A						= 9.59E11
+      E						= 1.72E5
+      N_S					= 1.0
+	  NU_SPEC 	            = 1.0
+      SPEC_ID               = 'MMA' /
+
+&RAMP ID='k_inc', T= 26.85, F=0.169 /
+&RAMP ID='k_inc', T=226.85, F=0.155 /
+&RAMP ID='k_inc', T=500., F=0.135 /
+
+&RAMP ID='c_inc', T= 26.85., F=1.361 /
+&RAMP ID='c_inc', T=226.85, F=2.081 /
+&RAMP ID='c_inc', T=500., F=3.06434 /
+
+&MATL ID                     = 'WOOL'
+      EMISSIVITY             = 0.01
+      CONDUCTIVITY_RAMP      = 'k_w'
+      SPECIFIC_HEAT          = 1.0
+      DENSITY                = 128.0/
+
+&RAMP ID='k_w', T= 17, F=0.0472 /
+&RAMP ID='k_w', T= 67, F=0.0478 /
+&RAMP ID='k_w', T= 117, F=0.0495 /
+&RAMP ID='k_w', T= 167, F=0.0522 /
+&RAMP ID='k_w', T= 217, F=0.0560 /
+&RAMP ID='k_w', T= 267, F=0.0608 /
+&RAMP ID='k_w', T= 317, F=0.0666 /
+&RAMP ID='k_w', T= 367, F=0.0735 /
+&RAMP ID='k_w', T= 417, F=0.0815 /
+&RAMP ID='k_w', T= 467, F=0.0905 /
+
+&SURF ID='PMMA'
+    CELL_SIZE_FACTOR = 0.00000000001
+	N_LAYER_CELLS_MAX(1) = 1000
+    STRETCH_FACTOR = 1.
+    EXTERNAL_FLUX = 50
+	HEAT_TRANSFER_COEFFICIENT = 10.
+	MINIMUM_LAYER_THICKNESS = 1E-10
+	BACKING='EXPOSED'
+	MATL_ID(1,1) = 'COMPONENT_A'
+	MATL_ID(1,2) = 'COMPONENT_B'
+	MATL_ID(1,3) = 'COMPONENT_C'
+	MATL_ID(2,1) = 'WOOL'
+	MATL_MASS_FRACTION(1,:) = 0.013,0.027,0.96
+    THICKNESS  =  0.0058,0.0285 /
+
+&VENT MB='XMIN', SURF_ID='OPEN' /
+&VENT MB='XMAX', SURF_ID='OPEN' /
+&VENT MB='YMIN', SURF_ID='OPEN' /
+&VENT MB='YMAX', SURF_ID='OPEN' /
+&VENT MB='ZMAX', SURF_ID='OPEN' /
+
+&DEVC XB = -0.05,0.05,-0.05,0.05,0,0, IOR = 3
+      QUANTITY = 'SURFACE DENSITY', STATISTICS = 'SURFACE INTEGRAL', CONVERSION_FACTOR=100., ID='SurfRHO'  /
+&DEVC XYZ = 0.093,0.093,0, IOR = 3, QUANTITY = 'INSIDE WALL TEMPERATURE', DEPTH = -0.0285, ID = 'back_temp' /
+&DEVC XB = 0.062,0.124,0.062,0.124,0.0,0.0, IOR = 3,
+      QUANTITY = 'SURFACE DENSITY', STATISTICS = 'SURFACE INTEGRAL', CONVERSION_FACTOR = 100., ID = 'surf_density' /
+&DEVC XYZ = 0.093,0.093,0, IOR = 3, QUANTITY = 'WALL THICKNESS', ID = 'thickness' /
+
+&TAIL /
