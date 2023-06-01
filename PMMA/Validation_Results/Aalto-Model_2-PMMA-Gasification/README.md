@@ -17,7 +17,7 @@ NIST gasification apparatus
 ### CFD package
 Code: FDS
 
-Version: 6.8.0-0-g886e009-release (https://github.com/FaridAlinejad/fds/tree/aaltofds)
+Version: 6.8.0-0-g886e009-release
 
 ------------------
 
