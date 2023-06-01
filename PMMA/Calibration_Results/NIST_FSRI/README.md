@@ -4,6 +4,8 @@ This folder holds results of NIST_FSRI efforts on modeling the PMMA gasification
 
 ## Notes on Modeling
 
+* Modeling was performed with FDS 6.8 running in SOLID_PHASE_ONLY mode, i.e. a 1D solid phase calculation of the sample (PMMA followed by Kaowool followed by an Al backplate followed by the FDS VOID backside boundary conditioin). Simulation times for a single CPU with a single thread were ~10 s for 50 kW/m2 tests (500 s simulation time) and ~15 s for 25 kW/m2 tests (800 s simulation time).
+
 * The constant specific heat value reported for the Kaowool PM insulation is at a temperature of 960 C. This is significantly higher than temperatures expected during pyrolysis of PMMA (<600 C). As specific heat generally increases with temperature, the single value was replaced (in advance of performing any simulations) with a temperature depdendent curve. This curve (C vs kJ/kg/K) was generated using the reported composition of Kaowool PM (44 % Al2O3 and 56 % SiO2) and specific heat data from the NIST Webbook [(26.85,0.7653),(226.85,1.0211),(526.85, 1.2128),(626.85,1.1711),(1326.85, 1.2834)].
 
 * The black painted insulation only test, using the reported time-dependence of the heat flux, was used to calibrate the heat transfer coefficient in the gasification device. FDS simulations of the Kaowool PM and Al backplate were performed using the default FDS method for determining the heat transfer coefficient followed by fixing the value at 10 and 20 W/m/K. A linear fit of h and the predicted end temperatures at each TC location was used to determine the h that would result in the measured temperature. For the three TC locations, these values were 13.3, 13.3, and 14.0 W/m/K and h. For PMMA simulations h was set to 13.5 W/m/K.
@@ -43,4 +45,4 @@ This folder contains predictions for all the PMMA gasification experiments.
 
 ### All_Props
 
-This folder contains predictions for all other property sets whose json files contain a full set of properties (kinetics plus rho, c, k) using the 50 kW/m2 R3 test. This set of results contributed to provide insights on possible user/modeling tool effects.
+This folder contains predictions for all other property sets whose json files contain a full set of properties (kinetics plus rho, c, and k) using the 50 kW/m2 R3 test. This set of results contributed to provide insights on possible user/modeling tool effects.
