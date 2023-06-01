@@ -1,2 +1,4 @@
 *.pdf
 *.py.swp
+
+.DS_Store
