@@ -23,5 +23,4 @@ In preparation for the MaCFP-3 Workshop (Oct. 2023), a pyrolysis model validatio
         * Predictions (numerical simulations) of validation experiments
 
 
-
-Further details are available online in the [Modeling Guidelines Wiki](https://github.com/MaCFP/macfp-db/wiki/MaCFP-2023-Modeling-Guidelines#additional-guidelines-for-nist-gasification-apparatus).
+Further information is available online in the [Modeling Guidelines Wiki](https://github.com/MaCFP/macfp-db/wiki/MaCFP-2023-Modeling-Guidelines#additional-guidelines-for-nist-gasification-apparatus). and in the [Guidelines for Participation in the MaCFP-3 Workshop document](https://github.com/MaCFP/macfp-db/files/11416103/Guidelines_for_Participation_MaCFP3.pdf). A video presentation of these guidelines is also [available online](https://www.youtube.com/watch?v=bAFx0mYoyxw).
