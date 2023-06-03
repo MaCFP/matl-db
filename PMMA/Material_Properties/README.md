@@ -9,12 +9,12 @@ This folder holds calibrated pyrolysis models (i.e., material property datasets)
 * **Thermodynamic Properties**: 
   * Heat capacity (c<sub>p</sub> [J kg<sup>-1 </sup> K<sup>-1 </sup>])
   * Heat of Reaction (h<sub>r</sub> [J kg<sup>-1 </sup>])
-  * Density (? [kg m<sup>-3</sup>])
+  * Density (&rho;  [kg m<sup>-3</sup>])
 * **Transport Properties**: 
   * Thermal Conductivity (k [W m<sup>-1 </sup>K<sup>-1 </sup>])
   * Mass Diffusivity (D [m<sup>2 </sup>s<sup>-1</sup>])
-  * Absorption Coefficient (? [m<sup>-1</sup> or m<sup>-2 </sup>kg<sup>-1</sup>])
-  * Emissivity (?)
+  * Absorption Coefficient (&alpha;  [m<sup>-1</sup> or m<sup>-2 </sup>kg<sup>-1</sup>])
+  * Emissivity (&epsilon; )
 
 
 ### PMMA Material Properties
