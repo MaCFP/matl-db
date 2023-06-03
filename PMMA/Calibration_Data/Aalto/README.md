@@ -39,9 +39,9 @@ The sample was observed to be entirely consumed in all of the experiments, leadi
 ###### Sample Mass and Test Heating Conditions  
 |Test Name | Initial sample mass (g)| Heat Flux (kW/m2)| Heater Temperature (K) |
 |----------|:------:| :---: | :---: |
-|Aalto\_Cone\_65kW\_1 | 71.76 | 65 | 734  |
-|Aalto\_Cone\_65kW\_2 | 71.67 | 65 | 734  |
-|Aalto\_Cone\_65kW\_3 | 72.88 | 65 | 734  |
-|Aalto\_Gasification\_65kW\_1 | 71.08 | 65 | 739 |
-|Aalto\_Gasification\_65kW\_2 | 73.89 | 65 | 739 |
-|Aalto\_Gasification\_65kW\_3 | 69.76 | 65 | 739 |
+|Aalto\_Cone\_65kW\_1 | 71.76 | 65 | 1007  |
+|Aalto\_Cone\_65kW\_2 | 71.67 | 65 | 1007  |
+|Aalto\_Cone\_65kW\_3 | 72.88 | 65 | 1007  |
+|Aalto\_Gasification\_65kW\_1 | 71.08 | 65 | 1012 |
+|Aalto\_Gasification\_65kW\_2 | 73.89 | 65 | 1012 |
+|Aalto\_Gasification\_65kW\_3 | 69.76 | 65 | 1012 |
