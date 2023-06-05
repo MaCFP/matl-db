@@ -1,0 +1,95 @@
+{
+    "Material": "MaCFP black cast PMMA",
+
+    "Lab": "BUW-FZJ",
+
+    "Calibration": [
+        {
+            "Model": "FDS6.7.9-0-gec52dee-HEAD",
+            "Method": "Inverse modelling with shuffled complex evelution (PROPTI)",
+            "Scope": [
+                "Pyrolysis Kinetics",
+                "Heat Capcity",
+                "Heat of Pyrolysis",
+                "Conductivity",
+                "Emissivity"
+            ],
+            "Data": [
+                {
+                    "Type": "Cone calorimeter",
+                    "Heat Flux": [65],
+                    "Source": "Aalto"
+                },
+                {
+                    "Type": "TGA",
+                    "Heating Rate": [2.5,5,10,15,20],
+                    "Source": ["LCPP","LCPP","NIST","LCPP","LCPP"]
+                },
+                {
+                    "Type": "DCS",
+                    "Heating Rate": [10,20],
+                    "Source": ["FSRI","FSRI"]
+                },
+                {
+                    "Type": "MCC",
+                    "Heating Rate": [60],
+                    "Source": "NIST"
+                }
+            ]
+        }
+    ],
+
+    "Composition": {
+        "Initial Components": [1, 2, 3, 4],
+        "Initial Mass Fraction": [0.023268419880128, 9.878106E-03, 4.557696E-01, 5.050922E-01],
+        "Final Components": [5]
+    },
+
+    "PyrolysisKinetics": {
+        "Reactants": [ [1], [2], [3], [4] ],
+        "Products": [ [5], [5], [5], [5] ],
+        "Pre-exponential": [4.89E+08,3.15E+04,1.95E+10,7.80E+13],
+        "Activation Energy": [9.32E+04,5.53E+04,1.48E+05,1.97E+05],
+        "Reaction Order": [1, 1, 1, 1],
+        "Nu Species": ["Methane", "Carbon Dioxide", "Methane", "Carbon Dioxide"],
+        "Species Yield": [0.99, 0.99, 0.99, 0.99],
+        "Residue Yield": [0.010, 0.010, 0.010, 0.010],
+        "Solid Yield": [0.022, 0.0, 0.022, 0.0]
+    },
+
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": [[[1], [2], [3], [4]], [5]],
+            "Value": [[[100.0, 200.0, 300.0, 420.0],
+                       [1.092193048203574, 3.010803502504312, 2.5064509858647384, 2.9979447489898297]], 3.13011011972178]
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Component Specific",
+            "Value": [699.0918352143465, 1992.689506425605, 529.1833655170698, 1187.493955570798, "None"],
+        },
+        "Density": {
+            "Form": "Component Specific",
+            "Value": [1201.722222222222,1201.722222222222,1201.722222222222,1201.722222222222,1155.0]
+        }
+    },
+
+    "Transport": {
+        "Conductivity": {
+            "Form": [[[1], [2], [3], [4]], [5]],
+            "Value": [[[50.0, 150.0, 300.0, 420.0],
+                       [0.1493661235437337, 0.0788646039973429,  0.0478595810772007, 0.5738201705430981]],  1.0240163103340307]
+        },
+        "Mass Diffusivity": {
+            "Form": "None"
+        },
+        "Absorption": {
+            "Form": "Component Specific",
+            "Value": [3434.326925173834,3434.326925173834,3434.326925173834,3434.326925173834,50000.0]
+        },
+        "Emissivity": {
+            "Form": "Component Specific",
+            "Value": [0.920661286422014,0.920661286422014,0.920661286422014,0.920661286422014,0.8822119859282802]
+        }
+    }
+
+}
