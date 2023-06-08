@@ -33,59 +33,59 @@ Simulation setup: solid phase only
 |:------------------------------------|:----:|:----:|:----:|:----:|
 |BUW-FZJ_Gasification_q50_Temp_Copper|-|3.175|26.055|294.045|
 |BUW-FZJ_Gasification_q50_Temp_Kaowool|-|28.6|0|290.65|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R3|26.474|5.9 |0.02852|290.65 |
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R4|25.352|5.65|0.02852|290.65 |
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R5|27.820|6.2 |0.02852|290.65 |
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R1|24.006|5.35|0.02852|290.65 |
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R2|24.769|5.52|0.02852|291.2  |
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R3|27.461|6.12|0.02852|291.2  |
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R4|27.371|6.1 |0.02852|291.7  |
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R5|28.044|6.25|0.02852|291.669|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R3|26.681|5.9 |0.02852|290.65 |
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R4|25.551|5.65|0.02852|290.65 |
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R5|28.038|6.2 |0.02852|290.65 |
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R1|24.194|5.35|0.02852|290.65 |
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R2|24.963|5.52|0.02852|291.2  |
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R3|27.676|6.12|0.02852|291.2  |
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R4|27.586|6.1 |0.02852|291.7  |
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R5|28.264|6.25|0.02852|291.669|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R3|26.979|5.9 |0.02852|290.65 |
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R4|25.836|5.65|0.02852|290.65 |
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R5|28.351|6.2 |0.02852|290.65 |
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R1|24.464|5.35|0.02852|290.65 |
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R2|25.241|5.52|0.02852|291.2  |
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R3|27.985|6.12|0.02852|291.2  |
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R4|27.893|6.1 |0.02852|291.7  |
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R5|28.579|6.25|0.02852|291.669|
+|BUW-FZJ_A_Gasification_q50_Mass_R3|26.474|5.9 |0.02852|290.65 |
+|BUW-FZJ_A_Gasification_q50_Mass_R4|25.352|5.65|0.02852|290.65 |
+|BUW-FZJ_A_Gasification_q50_Mass_R5|27.820|6.2 |0.02852|290.65 |
+|BUW-FZJ_A_Gasification_q50_Temp_R1|24.006|5.35|0.02852|290.65 |
+|BUW-FZJ_A_Gasification_q50_Temp_R2|24.769|5.52|0.02852|291.2  |
+|BUW-FZJ_A_Gasification_q50_Temp_R3|27.461|6.12|0.02852|291.2  |
+|BUW-FZJ_A_Gasification_q50_Temp_R4|27.371|6.1 |0.02852|291.7  |
+|BUW-FZJ_A_Gasification_q50_Temp_R5|28.044|6.25|0.02852|291.669|
+|BUW-FZJ_B_Gasification_q50_Mass_R3|26.681|5.9 |0.02852|290.65 |
+|BUW-FZJ_B_Gasification_q50_Mass_R4|25.551|5.65|0.02852|290.65 |
+|BUW-FZJ_B_Gasification_q50_Mass_R5|28.038|6.2 |0.02852|290.65 |
+|BUW-FZJ_B_Gasification_q50_Temp_R1|24.194|5.35|0.02852|290.65 |
+|BUW-FZJ_B_Gasification_q50_Temp_R2|24.963|5.52|0.02852|291.2  |
+|BUW-FZJ_B_Gasification_q50_Temp_R3|27.676|6.12|0.02852|291.2  |
+|BUW-FZJ_B_Gasification_q50_Temp_R4|27.586|6.1 |0.02852|291.7  |
+|BUW-FZJ_B_Gasification_q50_Temp_R5|28.264|6.25|0.02852|291.669|
+|BUW-FZJ_C_Gasification_q50_Mass_R3|26.979|5.9 |0.02852|290.65 |
+|BUW-FZJ_C_Gasification_q50_Mass_R4|25.836|5.65|0.02852|290.65 |
+|BUW-FZJ_C_Gasification_q50_Mass_R5|28.351|6.2 |0.02852|290.65 |
+|BUW-FZJ_C_Gasification_q50_Temp_R1|24.464|5.35|0.02852|290.65 |
+|BUW-FZJ_C_Gasification_q50_Temp_R2|25.241|5.52|0.02852|291.2  |
+|BUW-FZJ_C_Gasification_q50_Temp_R3|27.985|6.12|0.02852|291.2  |
+|BUW-FZJ_C_Gasification_q50_Temp_R4|27.893|6.1 |0.02852|291.7  |
+|BUW-FZJ_C_Gasification_q50_Temp_R5|28.579|6.25|0.02852|291.669|
 
 Cell size (solid):
 
 |File Name|Element size (m)|Total Initial cells (-)|
 |:----|:----:|:----:|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R3|0.0000113|521|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R4|0.0000113|499|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R5|0.0000113|548|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R1|0.0000113|473|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R2|0.0000113|488|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R3|0.0000113|541|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R4|0.0000113|539|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R5|0.0000113|552|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R3|0.0000125|472|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R4|0.0000125|452|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R5|0.0000125|496|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R1|0.0000125|428|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R2|0.0000125|441|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R3|0.0000125|489|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R4|0.0000125|488|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R5|0.0000125|500|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R3|0.0000337|174|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R4|0.0000336|167|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R5|0.0000337|183|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R1|0.0000336|158|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R2|0.0000337|163|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R3|0.0000336|181|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R4|0.0000337|180|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R5|0.0000336|185|
+|BUW-FZJ_A_Gasification_q50_Mass_R3|0.0000113|521|
+|BUW-FZJ_A_Gasification_q50_Mass_R4|0.0000113|499|
+|BUW-FZJ_A_Gasification_q50_Mass_R5|0.0000113|548|
+|BUW-FZJ_A_Gasification_q50_Temp_R1|0.0000113|473|
+|BUW-FZJ_A_Gasification_q50_Temp_R2|0.0000113|488|
+|BUW-FZJ_A_Gasification_q50_Temp_R3|0.0000113|541|
+|BUW-FZJ_A_Gasification_q50_Temp_R4|0.0000113|539|
+|BUW-FZJ_A_Gasification_q50_Temp_R5|0.0000113|552|
+|BUW-FZJ_B_Gasification_q50_Mass_R3|0.0000125|472|
+|BUW-FZJ_B_Gasification_q50_Mass_R4|0.0000125|452|
+|BUW-FZJ_B_Gasification_q50_Mass_R5|0.0000125|496|
+|BUW-FZJ_B_Gasification_q50_Temp_R1|0.0000125|428|
+|BUW-FZJ_B_Gasification_q50_Temp_R2|0.0000125|441|
+|BUW-FZJ_B_Gasification_q50_Temp_R3|0.0000125|489|
+|BUW-FZJ_B_Gasification_q50_Temp_R4|0.0000125|488|
+|BUW-FZJ_B_Gasification_q50_Temp_R5|0.0000125|500|
+|BUW-FZJ_C_Gasification_q50_Mass_R3|0.0000337|174|
+|BUW-FZJ_C_Gasification_q50_Mass_R4|0.0000336|167|
+|BUW-FZJ_C_Gasification_q50_Mass_R5|0.0000337|183|
+|BUW-FZJ_C_Gasification_q50_Temp_R1|0.0000336|158|
+|BUW-FZJ_C_Gasification_q50_Temp_R2|0.0000337|163|
+|BUW-FZJ_C_Gasification_q50_Temp_R3|0.0000336|181|
+|BUW-FZJ_C_Gasification_q50_Temp_R4|0.0000337|180|
+|BUW-FZJ_C_Gasification_q50_Temp_R5|0.0000336|185|
 
 Solid grid: 1D
 
@@ -132,7 +132,7 @@ Radiative fraction: (predicted or prescribed; if prescribed, what value) N/A
 
 Soot model: N/A
 
-Comments:
+Comments: N/A
 
 ------------------
 
@@ -142,9 +142,9 @@ Solver (e.g., GPyro, FDS, ThermaKin; include version): FDS, 1D heat transfer in 
 Radiation absorption model: FDS default
 
 Material property sets: BUW-FZJ contribution to MaCFP-2 [Approach A](https://github.com/MaCFP/matl-db/blob/master/PMMA/Material_Properties/MaCFP_PMMA_BUW-FZJ_A.json), [Approach B](https://github.com/MaCFP/matl-db/blob/master/PMMA/Material_Properties/MaCFP_PMMA_BUW-FZJ_B.json), generated by inverse modelling, see [1].
-BUW-FZJ contribution to MaCFP-3 [PMMA01](https://github.com/MaCFP/matl-db/blob/master/PMMA/Material_Properties/MaCFP_PMMA_BUW-FZJ_A.json), generated by inverse modelling, see [2].
+BUW-FZJ contribution to MaCFP-3 [Approach C](https://github.com/MaCFP/matl-db/blob/master/PMMA/Material_Properties/MaCFP_PMMA_BUW-FZJ_C.json), generated by inverse modelling, see [2].
 
-Comments: The preprint [3] provides further discussion on the concept of the parameter estimation itself, used for PMMA01. However, PMMA01 is a new parameter set, built on different experiment data than discussed in [3].
+Comments: N/A
 
 ------------------
 
@@ -166,30 +166,30 @@ Total wall clock time as reported by FDS, i.e. from the `CHID.out` file. Note: t
 
 |Cmp File Name |Total wall clock time (s)|Simulation time (s)|CPU|Cost|
 |--------|:-------:|:-----:|:---:|:-----:|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R3|11.173|500.0|1|4.29e-05|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R4|3.427|500.0|1|1.37e-05|
-|BUW-FZJ_ApproachA_Gasification_q50_Mass_R5|7.088|500.0|1|2.59e-05|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R1|2.374|500.0|1|1.00e-05|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R2|2.400|500.0|1|9.84e-06|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R3|3.607|500.0|1|1.33e-05|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R4|3.520|500.0|1|1.31e-05|
-|BUW-FZJ_ApproachA_Gasification_q50_Temp_R5|3.290|500.0|1|1.19e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R3|3.533|500.0|1|1.50e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R4|16.780|500.0|1|7.42e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Mass_R5|7.196|500.0|1|2.90e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R1|3.845|500.0|1|1.80e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R2|3.315|500.0|1|1.50e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R3|4.483|500.0|1|1.83e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R4|3.691|500.0|1|1.51e-05|
-|BUW-FZJ_ApproachB_Gasification_q50_Temp_R5|3.213|500.0|1|1.29e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R3|2.350|500.0|1|2.70e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R4|2.247|500.0|1|2.69e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Mass_R5|2.229|500.0|1|2.44e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R1|1.828|500.0|1|2.31e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R2|2.115|500.0|1|2.60e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R3|2.437|500.0|1|2.69e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R4|2.184|500.0|1|2.43e-05|
-|BUW-FZJ_PMMA01_Gasification_q50_Temp_R5|4.056|500.0|1|4.38e-05|
+|BUW-FZJ_A_Gasification_q50_Mass_R3|11.173|500.0|1|4.29e-05|
+|BUW-FZJ_A_Gasification_q50_Mass_R4|3.427|500.0|1|1.37e-05|
+|BUW-FZJ_A_Gasification_q50_Mass_R5|7.088|500.0|1|2.59e-05|
+|BUW-FZJ_A_Gasification_q50_Temp_R1|2.374|500.0|1|1.00e-05|
+|BUW-FZJ_A_Gasification_q50_Temp_R2|2.400|500.0|1|9.84e-06|
+|BUW-FZJ_A_Gasification_q50_Temp_R3|3.607|500.0|1|1.33e-05|
+|BUW-FZJ_A_Gasification_q50_Temp_R4|3.520|500.0|1|1.31e-05|
+|BUW-FZJ_A_Gasification_q50_Temp_R5|3.290|500.0|1|1.19e-05|
+|BUW-FZJ_B_Gasification_q50_Mass_R3|3.533|500.0|1|1.50e-05|
+|BUW-FZJ_B_Gasification_q50_Mass_R4|16.780|500.0|1|7.42e-05|
+|BUW-FZJ_B_Gasification_q50_Mass_R5|7.196|500.0|1|2.90e-05|
+|BUW-FZJ_B_Gasification_q50_Temp_R1|3.845|500.0|1|1.80e-05|
+|BUW-FZJ_B_Gasification_q50_Temp_R2|3.315|500.0|1|1.50e-05|
+|BUW-FZJ_B_Gasification_q50_Temp_R3|4.483|500.0|1|1.83e-05|
+|BUW-FZJ_B_Gasification_q50_Temp_R4|3.691|500.0|1|1.51e-05|
+|BUW-FZJ_B_Gasification_q50_Temp_R5|3.213|500.0|1|1.29e-05|
+|BUW-FZJ_C_Gasification_q50_Mass_R3|2.350|500.0|1|2.70e-05|
+|BUW-FZJ_C_Gasification_q50_Mass_R4|2.247|500.0|1|2.69e-05|
+|BUW-FZJ_C_Gasification_q50_Mass_R5|2.229|500.0|1|2.44e-05|
+|BUW-FZJ_C_Gasification_q50_Temp_R1|1.828|500.0|1|2.31e-05|
+|BUW-FZJ_C_Gasification_q50_Temp_R2|2.115|500.0|1|2.60e-05|
+|BUW-FZJ_C_Gasification_q50_Temp_R3|2.437|500.0|1|2.69e-05|
+|BUW-FZJ_C_Gasification_q50_Temp_R4|2.184|500.0|1|2.43e-05|
+|BUW-FZJ_C_Gasification_q50_Temp_R5|4.056|500.0|1|4.38e-05|
 
 
 Simulation time: See table above
@@ -212,5 +212,3 @@ CPU cost (Number of CPUs * Wall clock time / Simulation time / Total cells): See
 1. Lauer, Patrick, Hehnen, Tristan, Brännström, Fabian, Arnold, Lukas, Trettin, Corinna, & De Lannoye, Karen. (2021). Pyrolysis Model Data Set Contribution for the MaCFP Workshop April 2021 - Dataset (1.2) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.7803832
 
 2. Hehnen, Tristan, & Arnold, Lukas. (2023). Pyrolysis Model Data Set Contribution for the MaCFP-3 Workshop October 2023 (1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.8005836
-
-3. Tristan Hehnen and Lukas Arnold. (2023). PMMA Pyrolysis Simulation -- from Micro- to Real-Scale; Pre-print. arXiv: https://arxiv.org/abs/2303.17446
