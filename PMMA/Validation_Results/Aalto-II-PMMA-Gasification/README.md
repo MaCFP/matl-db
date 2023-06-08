@@ -32,7 +32,7 @@ Cell type: Cubic.
 
 Total cells: 27 (3 in each direction)
 
-Comments: Simulations of NIST gasification apparatus carried out without gaseous phase. This model was developed for MaCFP-2.
+Comments: Simulations of NIST gasification apparatus carried out without gaseous phase. This model was developed using MaCFP-2 data.
 
 #### Angular space discretization (radiation solver)
 Number of solid angles:
@@ -47,7 +47,7 @@ Comments: Ambient temperature.
 ------------------
 
 ### Boundary conditions
-Comments: On the exposed side incident heat flux equal to the nominal value from the heater (25 or 50 kW/m2). On the unexposed side, a Kaowool insulation layer of 2.85 cm as in experiments modelled as the boundary condition.
+Comments: On the exposed side incident heat flux equal to the nominal value from the heater (25 or 50 kW/m2). On the unexposed side, a Kaowool insulation layer of 2.86 cm as in experiments modelled as the boundary condition.
 
 ------------------
 
@@ -67,14 +67,16 @@ Comments: Simulations of NIST gasification apparatus carried out without gaseous
 ------------------
 
 ### Pyrolysis Models (include parameters)
-Solver (e.g., GPyro, FDS, ThermaKin; include version): FDS 6.8.0-0-g886e009-release
+Solver (e.g., GPyro, FDS, ThermaKin; include version): FDS 6.8.0-0-g886e009-release (modified version) https://github.com/FaridAlinejad/fds/tree/aaltofds
 
 Radiation absorption model: Effective absorption coefficient.
 
-Material property set: developed by Aalto University; calibration data: University of Lille (TGA for chemical kinetics estimation), Aalto University, DBI and University of Lund (gasification for material properties estimation); calibration method used: Gpyro (chemical kinetics), PROPTI (material properties).
+Material property set: developed by Aalto University; calibration data: University of Lille (TGA for chemical kinetics estimation), University of Maryland (DSC for heat of pyrolysis),
+Aalto University, DBI and University of Lund, Technical Institute of Fire protection in prague (gasification for material properties estimation); 
+calibration method used: Genetic Algorithm (chemical kinetics and material properties).
 
 
-Comments: The accompanying numerical results are obtained using the pyrolysis model developed at Aalto University during MaCFP Phase II.
+Comments: The accompanying numerical results are obtained using the pyrolysis model developed at Aalto University using the data of MaCFP Phase II.
 
 ------------------
 
