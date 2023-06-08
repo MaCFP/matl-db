@@ -82,7 +82,7 @@
         },
         "Absorption": {
             "Form": "Temprature-function*depth-function",
-            "Value": [1.067e-1 -4.942e-3 3.362e-2 1.037e-4 1.560e3 -4.218e-1 -9.680e2]
+            "Value": [1.229 -2.247e-3 5.579e-1 1.023e-4 1.551e2 -4.682e-1 -6.556e1]
         },
         "Emissivity": {
             "Form": "Single Value",
