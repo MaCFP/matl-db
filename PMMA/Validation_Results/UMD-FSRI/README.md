@@ -114,7 +114,7 @@ Solver (e.g., GPyro, FDS, ThermaKin; include version): ThermaKin2Ds, 1D object t
 
 Radiation absorption model: Random absorption algorithm, a Monte-Carlo approach
 
-Material property set: [Developed by UMD](https://github.com/dushyant-fire/matl-db/blob/master/PMMA/Material_Properties/MaCFP_PMMA_UMD.json), Hill-climbing optimization using ThermaKin2Ds [1]
+Material property set: [Developed by UMD](https://github.com/dushyant-fire/matl-db/blob/master/PMMA/Material_Properties/2021/MaCFP_PMMA_UMD.json), Hill-climbing optimization using ThermaKin2Ds [1]
 
 Comments:
 
