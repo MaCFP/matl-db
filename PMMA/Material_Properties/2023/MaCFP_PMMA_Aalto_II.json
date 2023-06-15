@@ -1,0 +1,93 @@
+{
+    "Material": "MaCFP-2 PMMA",
+
+    "Lab": "Aalto",
+    
+    "Calibration": [
+        {
+            "Model": "MATLAB",
+            "Method": "Genetic Algorithm",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [1,2,5,10,20,50],
+                "Source": "Lille"
+            }
+        },
+        {
+            "Model": "MATLAB",
+            "Method": "Genetic Algorithm",
+            "Scope": "Heat of Pyrolysis",
+            "Data": {
+                "Type": "DSC",
+                "Heating Rate": 10,
+                "Source": "UMD"
+            }
+        },
+        {
+            "Model": "MATLAB",
+            "Method": "Genetic Algorithm",
+            "Scope": ["Heat Capcity","Conductivity"],
+            "Data": {
+                "Type": "Gasification",
+                "Heat Flux": [25, 50, 65],
+                "Source": ["DBI_Lund","Aalto","Technical Institute of Fire protection in prague"]
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": ["Absorption","Emissivity"],
+            "Data": ["UV-Vis", "FTIR"]
+        },
+        {
+            "Method": "Literature",
+            "Scope": "Density"
+        }
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 3,
+        "Reaction Network": "Parallel",
+        "Pre-exponential": [5.06e-3, 9.24e7, 9.59e11],
+        "Activation Energy": [5.66e3, 9.11e4, 1.72e5],
+        "Reaction Order": [1, 1, 1],
+        "Initial Mass Fraction": [0.013, 0.027, 0.96],
+        "Solid Yield": [0, 0, 0]
+    },
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Linear",
+            "Slope": 3.6
+            "Intercept": 2.81e2 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [2.26e6, 5.0e5, 8.33e5]
+        },
+        "Density": {
+            "Form": "Single Value",
+            "Value": 1210 
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Linear",
+            "Slope": -7.06e-5
+            "Intercept": 1.90e-1
+        },
+        "Mass Diffusivity": {
+            "Form": "None"
+        },
+        "Absorption": {
+            "Form": "Temprature-function*depth-function",
+            "Value": [1.229 -2.247e-3 5.579e-1 1.023e-4 1.551e2 -4.682e-1 -6.556e1]
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.914
+        }
+    }
+
+}
