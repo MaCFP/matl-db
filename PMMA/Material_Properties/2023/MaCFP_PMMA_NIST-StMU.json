@@ -1,0 +1,102 @@
+{
+    "Material": "MaCFP PMMA",
+
+    "Lab": "NIST-StMU",
+    
+    "Calibration": [
+        {
+            "Model": "FACT",
+            "Method": "FACT-tga_fit",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "NIST"
+            }
+        },
+        {
+            "Model": "FACT",
+            "Method": "FACT-dsc_fit",
+            "Scope": "Thermodynamics",
+            "Data": {
+                "Type": "DSC",
+                "Heating Rate": 10,
+                "Source": "NIST"
+            }
+        },       
+        {
+            "Model": "FACT",
+            "Method": "FACT-mcc_fit",
+            "Scope": "Combustion",
+            "Data": {
+                "Type": "MCC",
+                "Heating Rate": 60,
+                "Source": "NIST"
+            }
+        },       
+        {
+            "Method": "Direct Measurement",
+            "Scope": "Density"
+        },
+        {
+            "Method": "Literature",
+            "Scope": [
+                "Absorption", 
+                "Emissivity",
+                "Conductivity"
+            ]
+        }
+    ],
+    
+    "Composition": {
+        "Number of Components": 3,
+        "Initial Mass Fraction": [0.035, 0.955, 0.01]
+    },
+    
+    "Kinetics": {
+        "Reactants": [ [1], [2] ],
+        "Products": [ [0], [0] ],
+        "Pre-exponential": [5.81e5,4.05e11],
+        "Activation Energy": [7.13e4,1.68e5],
+        "Reaction Order": [1, 1],
+        "Solid Yield": [0, 0]
+    },
+ 
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Single Value",
+            "Value": 2130 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [1.74e6, 9.14e5]
+        },
+        "Density": {
+            "Form": "Single Value",
+            "Value": 1177 
+        }
+    },
+
+    "Combustion": {
+        "Heat of Combustion": {
+            "Form": "Reaction Specific",
+            "Value": [3.82e7, 2.32e7]
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Single Value",
+            "Value": 0.20 
+        },
+        "Absorption": {
+            "Form": "Single Value",
+            "Value": 2620 
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.963
+        }
+    }
+
+}
