@@ -1,7 +1,7 @@
 ### Contributor
-Name:  Jason Floyd, Isaac Leventon, Morgan Brun
+Name:  Jason Floyd, Isaac Leventon, Morgan Bruns
 
-Institution:  FSRI,NIST,St. Mary's University,
+Institution:  FSRI,NIST,St. Mary's University (San Antonio),
 
 Country: USA
 
