@@ -11,7 +11,7 @@ import pandas as pd
 import json
 
 
-json_file_path = 'MaCFP_PMMA_NIST.json'
+json_file_path = '../../PMMA/Material_Properties/MaCFP_PMMA_NIST.json'
 
 # ***replace with command line file specification
 csv_file_path = 'NIST_TGA_10K_cat_devc.csv'
@@ -41,7 +41,6 @@ m_m = data['Mass'].values
 T_m = data['Temperature'].values
 beta_m = data['Heat Flow'].values
 
-
 # constant
 R       = 8.314             # gas constant, J/mol-K
 
@@ -62,11 +61,6 @@ t_f     = t_m[-1]              # final time, s
 beta    = beta/60;          # heating rate, K/s
 #T_0     = T_0 + 273.15;     # initial temperature, K
 alpha_0 = 0                 # initial progress factor
-
-
-
-
-
 
 
 # numerical parameters
