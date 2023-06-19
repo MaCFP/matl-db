@@ -8,9 +8,36 @@ from matplotlib import pyplot as plt
 
 plt.ion()
 
+def get_predictions( case ):
+   
+    # wak through results directory 
+    for subdir, dir, files in os.walk(results_dir):
+        
+        for file in files:
+           
+            # identify files with results for 'case'
+            if ((case and 'csv' in file) and 
+                not ('Kaowool' in file) and 
+                not ('Copper' in file)):
+
+                print(file)
+                
+                # get data from file
+                name = file.partition('_Gasification')[0]
+                print(name)
+
+                #data = pd.read_csv(results_dir + file, skiprows=range(1,2))
+                #data = data.dropna(how='all')
+
+                # store times and measured values
+                #times = data['Time'].values
+                #y_vals = data.loc[:, data.columns != 'Time'].values
+
+    return case 
+ 
+
 # constants
-#A_s = 0.10**2       # surface area of gasification samples (m^2)
-N   = 100           # number of data points for common comparisons
+results_dir = '../PMMA/Validation_Results/'
 
 # plotting parameters
 plt.rc('text', usetex=True)
@@ -107,7 +134,8 @@ for file in os.listdir("../PMMA/Validation_Data/NIST_Gasification_Apparatus/"):
 idx_case = 1
 for case in cases:
 
-    #case = 'q50_Mass'
+    # 1. Get and analyze all experimental data for case
+
     # extract data to lists 
     t_lst   = expt_dict[case][0]
     y_lst   = expt_dict[case][1]
@@ -121,10 +149,17 @@ for case in cases:
    
     # compute mean and standard deviation
     # ...this is only works because all our data is at 1 s intervals
-    print(case)
     t_mean  = np.nanmean(t_ar, axis=0)
     y_mean  = np.nanmean(y_ar, axis=0)
     y_std   = np.nanstd(y_ar, axis=0)
+
+    # 2. Get and analyze all model predictions for case
+    case = get_predictions( case )
+  
+
+    # 3. Compute all comparison statistics
+
+    # 4. Plot results
 
     # plot data versus time
     plt.figure(idx_case)
@@ -154,10 +189,11 @@ for case in cases:
     plt.show()
     
     idx_case += 1
-#time_max = max([max(times) for times in times_lst])
-#print(time_max)
     
-    
+   
+
+
+
     
 #print(len(times_lst),len(y_vals_lst))
 
