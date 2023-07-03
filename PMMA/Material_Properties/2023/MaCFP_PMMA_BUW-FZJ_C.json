@@ -34,8 +34,8 @@
                     "Type": "MCC",
                     "Heating Rate": [60],
                     "Source": "NIST",
-                    "Shift_Procedure": "No shift conducted.",
-                    "Shift_Value": [0.0]
+                    "Temperature_Shift_Procedure": "No shift conducted.",
+                    "Temperature_Shift_Value": [0.0]
                 }
             ]
         }
