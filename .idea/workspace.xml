@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="018e424b-612a-4796-b639-bb8c1c6b1f2b" name="Changes" comment="iso_tga calculates rms">
+      <change beforePath="$PROJECT_DIR$/Verification/Kinetics/dynamic_tga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Verification/Kinetics/dynamic_tga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Verification/Kinetics/iso_tga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Verification/Kinetics/iso_tga.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Verification/Kinetics/iso_tga_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Verification/Kinetics/iso_tga_data.csv" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="upstream/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="remotes/mcb1/master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2MprPAGsQcGepgWXV76u7HKsfBF" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/jcarl/OneDrive/Documents/Mac-fpLocal/matl-db/Verification/Kinetics/iso_tga.py"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Python"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jcarl\OneDrive\Documents\Mac-fpLocal\matl-db\Verification\Kinetics" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="018e424b-612a-4796-b639-bb8c1c6b1f2b" name="Changes" comment="" />
+      <created>1678476257442</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678476257442</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added parenthesis to comment">
+      <created>1678485137738</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678485137738</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added parenthesis to comment">
+      <created>1678485419190</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678485419190</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Created script for thermodynamics equation 33, graph curve is now working, and script saves as cv.">
+      <created>1680105012040</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1680105012040</updated>
+    </task>
+    <task id="LOCAL-00004" summary="reformatted iso_tga and corrected typo in dynamic_tga">
+      <created>1680648205884</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1680648205884</updated>
+    </task>
+    <task id="LOCAL-00005" summary="iso_tga.py reads in iso_tga.py and calculates sum of square errors.">
+      <created>1680985108136</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1680985108136</updated>
+    </task>
+    <task id="LOCAL-00006" summary="iso_tga.py reads in iso_tga.py and calculates sum of square errors.">
+      <created>1682557278661</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1682557278661</updated>
+    </task>
+    <task id="LOCAL-00007" summary="iso_tga calculates rms">
+      <created>1682557746863</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1682557746863</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="26aaa212-49b1-4d49-a7c5-06f453ea0890">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Local_juancgauna" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="26aaa212-49b1-4d49-a7c5-06f453ea0890" value="TOOL_WINDOW" />
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added parenthesis to comment" />
+    <MESSAGE value="Created script for thermodynamics equation 33, graph curve is now working, and script saves as cv." />
+    <MESSAGE value="reformatted iso_tga and corrected typo in dynamic_tga" />
+    <MESSAGE value="iso_tga.py reads in iso_tga.py and calculates sum of square errors." />
+    <MESSAGE value="iso_tga calculates rms" />
+    <option name="LAST_COMMIT_MESSAGE" value="iso_tga calculates rms" />
+  </component>
+</project>
