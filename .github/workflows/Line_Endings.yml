@@ -25,14 +25,12 @@ jobs:
 
       - name: Check for CFLF line endings
         run: |
-          N_CRLF_FILES=$(grep -rl $'\r$' * > tmp.txt && cat tmp.txt | wc -l)
-          echo $N_CRLF_FILES
-          if [$N_CRLF_FILES -gt 0]
-          then
-            echo "FAIL: Windows (CRLF) line endings detected!"
+          grep -IURl --exclude={"*.pdf","*.png"} --exclude-dir=".git"  --exclude-dir="output" $'\r'  > $crlf_temp
+          nlines=`cat $crlf_temp | wc -l`
+          if [ $nlines -gt 0 ]; then
+            echo "matl-db repo text files with dos line endings:"
+            cat $crlf_temp
             exit 1
-          else
-            echo "PASS: Unix (LF) line endings only"
           fi
 
 
