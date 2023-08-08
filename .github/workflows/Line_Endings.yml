@@ -23,9 +23,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Check for CFLF line endings
+      - name: Check for CRLF line endings
         run: |
-          grep -IURl --exclude={"*.pdf","*.png"} --exclude-dir=".git" $'\r' > tmp.txt
+          grep -IURl --exclude={"*.pdf","*.png"} --exclude-dir=".git" '\r'$ > tmp.txt
           cat tmp.txt
           nlines=$(cat tmp.txt | wc -l)
           if [ $nlines -gt 0 ]; then
