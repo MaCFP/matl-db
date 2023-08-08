@@ -1,6 +1,6 @@
 # MaCFP workflow
 
-name: Liquid_Pool_Fires
+name: Line_Endings
 
 # Controls when the workflow will run
 on:
@@ -25,8 +25,8 @@ jobs:
 
       - name: Check for CFLF line endings
         run: |
-          grep -IURl --exclude={"*.pdf","*.png"} --exclude-dir=".git"  --exclude-dir="output" $'\r'  > $crlf_temp
-          nlines=`cat $crlf_temp | wc -l`
+          grep -IURl --exclude={"*.pdf","*.png"} --exclude-dir=".git"  --exclude-dir="output" '\r'$  > tmp.txt
+          nlines=`cat tmp.txt | wc -l`
           if [ $nlines -gt 0 ]; then
             echo "matl-db repo text files with dos line endings:"
             cat $crlf_temp
