@@ -26,7 +26,7 @@ jobs:
       - name: Check for CFLF line endings
         run: |
           grep -IURl --exclude={"*.pdf","*.png"} --exclude-dir=".git" $'\r'  > tmp.txt
-          nlines=`cat tmp.txt | wc -l`
+          nlines=$(cat tmp.txt | wc -l)
           if [ $nlines -gt 0 ]; then
             echo "matl-db repo text files with dos line endings:"
             cat tmp.txt
