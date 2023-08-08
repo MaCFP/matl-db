@@ -25,7 +25,7 @@ jobs:
 
       - name: Check for CRLF line endings
         run: |
-          grep -IURl --exclude="*.pdf" --exclude-dir=".git" $'\r' > tmp.txt
+          grep -IURl --exclude="*.pdf" --exclude-dir=".git" $'\r'
 
 # nlines=$(cat tmp.txt | wc -l)
 # if [ $nlines -gt 0 ]; then
