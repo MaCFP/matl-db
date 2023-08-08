@@ -25,7 +25,7 @@ jobs:
 
       - name: Check for CRLF line endings
         run: |
-          grep -rl --exclude={"*.pdf","*.png"} --exclude-dir=".git" '\r' > tmp.txt
+          grep -rl --exclude={"*.pdf","*.png"} --exclude-dir=".git" '\r\n' > tmp.txt
           nlines=$(cat tmp.txt | wc -l)
           if [ $nlines -gt 0 ]; then
             echo "matl-db repo text files with dos line endings:"
