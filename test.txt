@@ -1,0 +1,8 @@
+This
+is
+another
+test
+of
+line
+endings.
+
