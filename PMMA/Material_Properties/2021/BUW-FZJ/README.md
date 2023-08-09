@@ -5,6 +5,7 @@ Full data sets and scripts are hosted on Zenodo: http://doi.org/10.5281/zenodo.4
 
 
 ### Description of the Parameter Estimation Process
+All simulations have been conducted with FDS (FDS6.7.5-797-gbcd82f862-master).
 The pyrolysis reaction kinetics and thermo-physical parameters were estimated using inverse modelling. The inverse modelling itself was managed with the optimisation framework PROPTI: https://github.com/FireDynamics/propti
 It is important to note that the goal of the inverse modelling was to match the data series directly. This means, for the TGA the residual mass over sample temperature and for the simplified cone calorimeter the mass loss rate were used. The experiment data series were used as provided.
 
