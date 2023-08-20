@@ -1,0 +1,79 @@
+{
+    "Material": "MaCFP-2 PMMA",
+
+    "Lab": "Unité Matériaux et Transformations (UMET)",
+    
+    "Calibration": [
+        {
+            "Model": "ThermaKin",
+            "Method": "Trial and Error",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "UCLAN, data; SANDIA 2021, calibration"
+            }
+        }
+,
+        {
+            "Method": "Literature (Li, J., & Stoliarov, S. I., Combustion and Flame, 2013)",
+            "Scope": ["Density", "Heat Capcity", "Heat of Pyrolysis"]
+        }
+,
+	{
+            "Method": "Literature (Li, J., Gong, J., & Stoliarov, S. I., International Journal of Heat and Mass Transfer, 2014)",
+            "Scope": ["Conductivity"]
+        }
+
+    ],
+            
+    "Kinetics": {
+        "Number of Reactions": 1,
+        "Reaction Network": "None",
+        "Pre-exponential": 6.73e10,
+        "Activation Energy": 1.6e5,
+        "Reaction Order": 1,
+        "Initial Mass Fraction": 1,
+        "Solid Yield": 0
+    }
+,
+    
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Linear",
+            "Slope": 3.6,
+            "Intercept": 6.00e2 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Single Value", 
+            "Value": [8.46e5]
+        },
+        "Density": {
+            "Form": "Linear",
+            "Slope": -0.63,
+            "Intercept": 1380
+        }
+    }
+,
+    
+    "Transport": {
+        "Conductivity": {
+            "Form": "Piecewise Linear",
+            "Boundary": 378,
+            "Slope": [-3.8e-4, -2.4e-4],
+            "Intercept": [0.45, 0.27]
+        },
+        "Mass Diffusivity": {
+            "Form": "None"
+        },
+        "Absorption": {
+            "Form": "Single Value",
+            "Value": "Unknown / Not Provided"
+        },
+        "Emissivity": {
+            "Form": "Single Value",
+            "Value": 0.95
+        }
+    }
+
+}
