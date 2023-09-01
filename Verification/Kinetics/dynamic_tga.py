@@ -9,17 +9,36 @@ import numpy             as np
 import matplotlib.pyplot as plt
 import pandas            as pd
 from   scipy.special import expi
+import argparse
+
+# create the parser
+parser = argparse.ArgumentParser()
+# add an argument
+parser.add_argument('material')
+# parse arguments
+args = parser.parse_args()
 
 
-json_file_path = '../../PMMA/Material_Properties/2021/MaCFP_PMMA_NIST.json'
+#material = 'MaCFP_PMMA_NIST'
+
+#json_file_path = '../../PMMA/Material_Properties/2021/MaCFP_PMMA_NIST.json'
+
+year = str(2021)
+json_file_path = '../../PMMA/Material_Properties/' + year + '/' + args.material + '.json'
 
 
 # ***replace with command line file specification
 csv_file_path  = 'NIST_TGA_10K_cat_devc.csv'
 
 # read the json file
-with open(json_file_path, 'r') as file:
-    kdata           = json.load(file)
+try:
+    with open(json_file_path, 'r') as file:
+        year = str(2021)
+        kdata           = json.load(file)
+except:
+    year = str(2023)
+    with open(json_file_path, 'r') as file:
+        kdata           = json.load(file)
 
 # read the CSV file
 data                = pd.read_csv(csv_file_path)
@@ -45,6 +64,9 @@ beta_m  = data['Heat Flow'].values
 #kinetic parameters
 A       = kdata['Kinetics']['Pre-exponential']   # pre-exponential    , 1/s
 E       = kdata['Kinetics']['Activation Energy'] # activation energy  , J/mol
+#A = 4.95E16
+#E = 1.64E5
+
 
 # constant
 R       = 8.314                                  # gas constant       , J/mol-K
@@ -88,10 +110,10 @@ m_e          = m_m[0] - (m_m[0] - m_f) * alpha
 
 
 # plotting parameters
-plt.rc('text' , usetex    = True)
-plt.rc('font' , family    = 'serif')
-plt.rc('xtick', labelsize = 18)
-plt.rc('ytick', labelsize = 18)
+#plt.rc('text' , usetex    = True)
+#plt.rc('font' , family    = 'serif')
+#plt.rc('xtick', labelsize = 18)
+#plt.rc('ytick', labelsize = 18)
 
 
 # plot imported data

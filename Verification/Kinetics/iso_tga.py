@@ -7,18 +7,32 @@ import json
 import numpy             as np
 import matplotlib.pyplot as plt
 import pandas            as pd
+import argparse
 
+# create the parser
+parser = argparse.ArgumentParser()
+# add an argument
+parser.add_argument('material')
+# parse arguments
+args = parser.parse_args()
+#print(args.material)
 
-json_file_path = '../../PMMA/Material_Properties/2021/MaCFP_PMMA_NIST.json'
-
+year = str(2021)
+json_file_path = '../../PMMA/Material_Properties/' + year + '/' + args.material + '.json'
 
 # ***replace with command line file specification
 csv_file_path  = 'iso_tga_data.csv'
 
 
 # read the json file
-with open(json_file_path, 'r') as file:
-    kdata            = json.load(file)
+try:
+    with open(json_file_path, 'r') as file:
+        year = str(2021)
+        kdata           = json.load(file)
+except:
+    year = str(2023)
+    with open(json_file_path, 'r') as file:
+        kdata           = json.load(file)
 
 
 # read the CSV file
@@ -65,11 +79,11 @@ for i in range(0, N):
 
 
 # plotting parameters
-plt.rc('text' , usetex    = True)
-plt.rc('font' , family    = 'serif')
-plt.rc('lines', linewidth = 1.5)
-plt.rc('xtick', labelsize = 18)
-plt.rc('ytick', labelsize = 18)
+#plt.rc('text' , usetex    = True)
+#plt.rc('font' , family    = 'serif')
+#plt.rc('lines', linewidth = 1.5)
+#plt.rc('xtick', labelsize = 18)
+#plt.rc('ytick', labelsize = 18)
 
 # Plot the Imported data
 plt.plot(t_m, m_m, label  = 'Model Predictions', color = 'red', marker = '.')

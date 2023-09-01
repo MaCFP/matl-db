@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="018e424b-612a-4796-b639-bb8c1c6b1f2b" name="Changes" comment="iso_tga calculates rms">
-      <change beforePath="$PROJECT_DIR$/Verification/Kinetics/dynamic_tga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Verification/Kinetics/dynamic_tga.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Verification/Kinetics/iso_tga.py" beforeDir="false" afterPath="$PROJECT_DIR$/Verification/Kinetics/iso_tga.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Verification/Kinetics/iso_tga_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Verification/Kinetics/iso_tga_data.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Scripts/bl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +55,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/jcarl/OneDrive/Documents/Mac-fpLocal/matl-db/Verification/Kinetics/iso_tga.py"
+    "last_opened_file_path": "C:/Users/jcarl/OneDrive/Documents/Mac-fpLocal/matl-db/Verification/Kinetics"
   },
   "keyToStringList": {
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
