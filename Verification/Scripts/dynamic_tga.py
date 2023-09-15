@@ -19,16 +19,12 @@ parser.add_argument('material')
 args = parser.parse_args()
 
 
-#material = 'MaCFP_PMMA_NIST'
-
-#json_file_path = '../../PMMA/Material_Properties/2021/MaCFP_PMMA_NIST.json'
-
 year = str(2021)
 json_file_path = '../../PMMA/Material_Properties/' + year + '/' + args.material + '.json'
 
 
 # ***replace with command line file specification
-csv_file_path  = 'NIST_TGA_10K_cat_devc.csv'
+csv_file_path  = "../Model_predictions" + '/' + args.material + "_" + "dynamic_TGA_10K" + "_" + "FDS" + ".csv"
 
 # read the json file
 try:
@@ -45,10 +41,9 @@ data                = pd.read_csv(csv_file_path)
 
 
 # extract imported data and replace non-number values with NaN values
-data['Time']        = pd.to_numeric(data['s']    , errors = 'coerce')
-data['Mass']        = pd.to_numeric(data['[mg]'] , errors = 'coerce')
-data['Temperature'] = pd.to_numeric(data['[K]']  , errors = 'coerce')
-data['Heat Flow']   = pd.to_numeric(data['[W/g]'], errors = 'coerce')
+data['Time']        = pd.to_numeric(data['t']    , errors = 'coerce')
+data['Temperature'] = pd.to_numeric(data['T']  , errors = 'coerce')
+data['Mass']        = pd.to_numeric(data['m'] , errors = 'coerce')
 
 # Drop NaN values
 data    = data.dropna()
@@ -58,14 +53,12 @@ data    = data.dropna()
 t_m     = data['Time'].values
 m_m     = data['Mass'].values
 T_m     = data['Temperature'].values
-beta_m  = data['Heat Flow'].values
+#beta_m  = data['Heat Flow'].values
 
 
 #kinetic parameters
 A       = kdata['Kinetics']['Pre-exponential']   # pre-exponential    , 1/s
 E       = kdata['Kinetics']['Activation Energy'] # activation energy  , J/mol
-#A = 4.95E16
-#E = 1.64E5
 
 
 # constant
@@ -76,12 +69,12 @@ m_f     = m_m[-1]                                # final mass
 
 # scenario parameters
 T_0     = T_m[0]                                 # initial temperature, C
-beta    = 11                                     # heating rate       , K/min
+beta    = 10 / 60                                # heating rate       , K/min
 t_f     = t_m[-1]                                # final time         , s
 alpha_0 = 0                                      # initial progress factor
 
 # unit conversions
-beta    = beta / 60    ;                         # heating rate       , K/s
+beta    = 10 / 60    ;                           # heating rate       , K/s
 #T_0    = T_0  + 273.15;                         # initial temperature, K
 
 # numerical parameters
@@ -110,10 +103,16 @@ m_e          = m_m[0] - (m_m[0] - m_f) * alpha
 
 
 # plotting parameters
+
 #plt.rc('text' , usetex    = True)
 #plt.rc('font' , family    = 'serif')
 #plt.rc('xtick', labelsize = 18)
 #plt.rc('ytick', labelsize = 18)
+
+
+# root mean square error is calculated
+rms_err    = np.sqrt(np.sum( (m_m - m_e) ** 2) / N)
+print('root mean square error:', rms_err)
 
 
 # plot imported data
@@ -130,14 +129,9 @@ plt.show()
 
 
  # save as CSV
-#with open('dynamic_tga.csv', mode='w', newline='') as file:
+#with open('../results/' + args.material + "_" + "dynamic_TGA_10K" + "_" + "FDS" + "_results.csv", mode='w', newline='') as file:
 #    writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 #    writer.writerow(['Time', 'alpha', 'Temperature'])
 #    writer.writerow([   's',     '-',           'K'])
 #    for i in range(len(t_m)):
 #        writer.writerow([ t[i], alpha[i], T_m[i] ])
-
-
-# root mean square error is calculated
-rms_err    = np.sqrt(np.sum( (m_m - m_e) ** 2) / N)
-print('root mean square error:', rms_err)
