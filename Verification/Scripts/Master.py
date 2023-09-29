@@ -19,3 +19,8 @@ subprocess.run(["python", args.experiment + ".py", args.material])
 #    os.remove('../results/' + args.material + "_" + "dynamic_TGA_10K" + "_" + "FDS" + "_results.csv")
 #except(FileNotFoundError):
 #    pass
+            
+            
+            
+            
+            
