@@ -64,7 +64,7 @@ def getvaluesfromjson(kinetic_values):
 
 # read the CSV file
 def read_csv(matl_set):
-    csv_file_path       = "../Model_prediction" + '/' + matl_set + "_" + "dynamic_TGA_10K" + "_" + "FDS" + ".csv"
+    csv_file_path       = "../Model_predictions" + '/' + matl_set + "_" + "dynamic_TGA_10K" + "_" + "FDS" + ".csv"
     data                = pd.read_csv(csv_file_path)
 
 
