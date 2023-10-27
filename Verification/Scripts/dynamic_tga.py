@@ -12,62 +12,59 @@ from   scipy.special     import expi
 import argparse
 
 
-
-
 # create the parser
 parser             = argparse.ArgumentParser()
+
 # add an argument
 parser.add_argument('matl_set')
+
 # compare_all is false by default unless -C flag is used in command prompt
 parser.add_argument("--compare_all", "-c", action = "store_true")
+
 # parse arguments
 args               = parser.parse_args()
 
-
-def openjson(matl_set):
+# function to get kinetic parameters for given material property set
+# ***update to use specified year in input***
+def get_kinetics(matl_set):
+    
     year           = str(2021)
     json_file_path = '../../PMMA/Material_Properties/' + year + '/' + args.matl_set + '.json'
     
+    with open(json_file_path, 'r') as file:
+        json_data = json.load(file)
 
- 
+    ## read the json file
+    #try:
+    #    with open(json_file_path, 'r') as file:
+    #        json_data = json.load(file)
+    #    return json_data
+    #except:
+    #    year = str(2023)
+    #    with open(json_file_path, 'r') as file:
+    #        json_data = json.load(file)
+    #    return json_data
 
-    # read the json file
+    # try:
+    #     n_reactions         = kinetic_values['Kinetics']['Number of Reactions']
+    # except(KeyError):
+    #     n_reactions         = kinetic_values['Kinetics']['Number of Reactions']
     
-    try:
-        with open(json_file_path, 'r') as file:
-            year           = str(2021)
-            kinetic_values = json.load(file)
-        return kinetic_values
-    except:
-        year = str(2023)
-        with open(json_file_path, 'r') as file:
-            kinetic_values = json.load(file)
-        return kinetic_values
-
-
-
-def getvaluesfromjson(kinetic_values):
-    try:
-        n_reactions         = kinetic_values['Kinetics']['Number of Reactions']
-    except(KeyError):
-        n_reactions         = kinetic_values['Kinetics']['Number of Reactions']
-    A                       = kinetic_values['Kinetics']['Pre-exponential']   # pre-exponential    , 1/s
-    E                       = kinetic_values['Kinetics']['Activation Energy']
-    N_S                     = kinetic_values['Kinetics']['Reaction Order']
-    NU_MATL                 = kinetic_values['Kinetics']["Solid Yield"]
-    Initial_Mass_Fraction   = kinetic_values['Kinetics']["Initial Mass Fraction"]
+    n_reactions             = json_data['Kinetics']['Number of Reactions']
+    A                       = json_data['Kinetics']['Pre-exponential']
+    E                       = json_data['Kinetics']['Activation Energy']
+    N_S                     = json_data['Kinetics']['Reaction Order']
+    NU_MATL                 = json_data['Kinetics']["Solid Yield"]
+    Initial_Mass_Fraction   = json_data['Kinetics']["Initial Mass Fraction"]
+    
     fetched_kinetic_values  = {"A" : A, "E" : E, "n_reactions" : n_reactions, "N_S" : N_S, "NU_MATL" : NU_MATL, "Initial_Mass_Fraction" : Initial_Mass_Fraction}
+
     return fetched_kinetic_values, A, E, Initial_Mass_Fraction
 
-        
-
-
-# read the CSV file
+# function to get FDS predictions for given material property set 
 def read_csv(matl_set):
     csv_file_path       = "../Model_predictions" + '/' + matl_set + "_" + "dynamic_TGA_10K" + "_" + "FDS" + ".csv"
     data                = pd.read_csv(csv_file_path)
-
-
 
     # extract imported data and replace non-number values with NaN values
     data['Time']        = pd.to_numeric(data['t'], errors = 'coerce')
@@ -77,17 +74,13 @@ def read_csv(matl_set):
     # Drop NaN values
     data                = data.dropna()
 
-
     # model predictions 
     t_m     = data['Time'].values
     m_m     = data['Mass'].values
     T_m     = data['Temperature'].values
 
-
-
     # constant
     R       = 8.314                                  # gas constant       , J/mol-K
-
 
     # scenario parameters
     T_0     = T_m[0]                                 # initial temperature, C
@@ -97,13 +90,11 @@ def read_csv(matl_set):
     # unit conversions
     beta    = 10 / 60    ;                           # heating rate       , K/s
 
-
     # numerical parameters
     N       = len(t_m)
+    
     return t_m, m_m, T_m, R, T_0, beta, alpha_0, N
 
-
-                    
 def analytical_solution(INITIAL_MASS_FRACTION ,n_reactions,fetched_kinetic_values,alpha_0,beta,T_0,R,T_m,m_m,N):
     total_mass = np.zeros(N)
 
@@ -113,8 +104,6 @@ def analytical_solution(INITIAL_MASS_FRACTION ,n_reactions,fetched_kinetic_value
         t     = []
         t     = np.linspace(0, N)
         
-        
-    
         try:
             A       = int(fetched_kinetic_values["A"][i])
             E       = int((fetched_kinetic_values["E"])[i])
@@ -129,9 +118,6 @@ def analytical_solution(INITIAL_MASS_FRACTION ,n_reactions,fetched_kinetic_value
             # temporary fix
             INITIAL_MASS_FRACTION_temp = INITIAL_MASS_FRACTION
             
-        
-        
-        
         C             = (1 - alpha_0) * np.exp( (A / beta) * T_0 * np.exp( - E / (R * T_0) ) + A * E / (beta * R) * expi( - E / (R * T_0) ) )
         alpha = np.zeros(N)
         for i2 in range(0, N):
@@ -178,11 +164,11 @@ def plot_and_rms(compare_all, total_mass,n_reactions,T_m,m_m,N):
 
 def run(matl_set, compare_all):
     
-    kinetic_values = openjson(matl_set)
-
     t_m, m_m, T_m, R, T_0, beta, alpha_0, N             = read_csv(matl_set)
- 
-    fetched_kinetic_values, A, E, INITIAL_MASS_FRACTION = getvaluesfromjson(kinetic_values)
+
+    print('hi')
+
+    fetched_kinetic_values, A, E, INITIAL_MASS_FRACTION = get_kinetics(matl_set)
 
     n_reactions                                         = int(fetched_kinetic_values["n_reactions"])
 
