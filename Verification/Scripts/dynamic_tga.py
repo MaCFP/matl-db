@@ -15,41 +15,24 @@ import argparse
 # create the parser
 parser             = argparse.ArgumentParser()
 
-# add an argument
-parser.add_argument('matl_set')
-
 # compare_all is false by default unless -C flag is used in command prompt
 parser.add_argument("--compare_all", "-c", action = "store_true")
+
+parser.add_argument('matl_set')
+
+parser.add_argument('matl_set_year')
 
 # parse arguments
 args               = parser.parse_args()
 
 # function to get kinetic parameters for given material property set
-# ***update to use specified year in input***
-def get_kinetics(matl_set):
+def get_kinetics(matl_set, matl_set_year):
     
-    year           = str(2021)
-    json_file_path = '../../PMMA/Material_Properties/' + year + '/' + args.matl_set + '.json'
+    json_file_path = '../../PMMA/Material_Properties/' + str(matl_set_year) + '/' + args.matl_set + '.json'
     
     with open(json_file_path, 'r') as file:
         json_data = json.load(file)
 
-    ## read the json file
-    #try:
-    #    with open(json_file_path, 'r') as file:
-    #        json_data = json.load(file)
-    #    return json_data
-    #except:
-    #    year = str(2023)
-    #    with open(json_file_path, 'r') as file:
-    #        json_data = json.load(file)
-    #    return json_data
-
-    # try:
-    #     n_reactions         = kinetic_values['Kinetics']['Number of Reactions']
-    # except(KeyError):
-    #     n_reactions         = kinetic_values['Kinetics']['Number of Reactions']
-    
     n_reactions             = json_data['Kinetics']['Number of Reactions']
     A                       = json_data['Kinetics']['Pre-exponential']
     E                       = json_data['Kinetics']['Activation Energy']
@@ -142,41 +125,65 @@ def analytical_solution(INITIAL_MASS_FRACTION ,n_reactions,fetched_kinetic_value
         
  
  
-def plot_and_rms(compare_all, total_mass,n_reactions,T_m,m_m,N):
+def plot_and_rms(matl_set,matl_set_number, fig, axs, compare_all, total_mass,n_reactions,T_m,m_m,N):
+    #rms_err = 0
+    #return rms_err,fig,axs
+    #fig = fig
+    #axs = axs
     
-    #plot model
-    plt.plot(T_m, m_m, label        = 'Model Predictions', color = 'red', marker = '.')
-
-    # root mean square error is calculated
     rms_err                         = np.sqrt(np.sum( (m_m - total_mass) ** 2) / N)
-    print('root mean square error:', rms_err)
+    if compare_all is False:
+        print('root mean square error:', rms_err)
+        #plot model
+        plt.plot(T_m, m_m, label        = 'Model Predictions', color = 'red', marker = '.')
+
+        # root mean square error is calculated
+        rms_err                         = np.sqrt(np.sum( (m_m - total_mass) ** 2) / N)
+          #  print('root mean square error:', rms_err)
         
-    # plot the analytical solution
-    plt.plot(T_m, total_mass, label = 'Exact Solution')
+        # plot the analytical solution
+        plt.plot(T_m, total_mass, label = 'Exact Solution')
 
-    plt.xlabel(r'Temperature (K)', fontsize = 20)
-    plt.ylabel(r'Mass (-)'       , fontsize = 20)
-    plt.legend()
-    plt.tight_layout()
-    if args.compare_all is False:    
+        plt.xlabel(r'Temperature (K)', fontsize = 20)
+        plt.ylabel(r'Mass (-)'       , fontsize = 20)
+        plt.legend()
+        plt.tight_layout();
         plt.show()
-    return rms_err
+        
 
-def run(matl_set, compare_all):
+        
+    if compare_all is True:
+      #  axs = 0
+      #  fig = 0
+        
+        axs[matl_set_number].plot(T_m, m_m)
+        axs[matl_set_number].plot(T_m,total_mass)
+        axs[matl_set_number].set_title(matl_set)
+        
+        
+    return fig, axs, rms_err
+
+def run(fig, axs, matl_set_number, matl_set, matl_set_year, compare_all):
     
     t_m, m_m, T_m, R, T_0, beta, alpha_0, N             = read_csv(matl_set)
 
-    print('hi')
-
-    fetched_kinetic_values, A, E, INITIAL_MASS_FRACTION = get_kinetics(matl_set)
+    fetched_kinetic_values, A, E, INITIAL_MASS_FRACTION = get_kinetics(matl_set, matl_set_year)
 
     n_reactions                                         = int(fetched_kinetic_values["n_reactions"])
 
     total_mass                                          = analytical_solution(INITIAL_MASS_FRACTION, n_reactions, fetched_kinetic_values, alpha_0, beta, T_0, R, T_m, m_m, N)
-
-    rms_err                                             = plot_and_rms(args.compare_all,total_mass,n_reactions,T_m,m_m,N)
     
-    return rms_err
+    if compare_all is True:
+        meaningless = 1
+    else:
+        fig = False
+        axs = False
+
+    fig, axs, rms_err                                             = plot_and_rms(matl_set,matl_set_number,fig, axs, args.compare_all,total_mass,n_reactions,T_m,m_m,N)
+    
+    #print(fig,axs,rms_err)
+    
+    return fig, rms_err
 
 
 # Work in progress to compare all reactions
@@ -191,7 +198,6 @@ def compare_all(compare_all):
         "MaCFP_PMMA_DBI_3",
         "MaCFP_PMMA_DBI_4",
         "MaCFP_PMMA_GIDAZE+",
-        "MaCFP_PMMA_NIST",
         "MaCFP_PMMA_Sandia_1",
         "MaCFP_PMMA_Sandia_2",
         "MaCFP_PMMA_Sandia_3",
@@ -210,23 +216,96 @@ def compare_all(compare_all):
     ]
 
     rms_err = {}
+    matl_sets_not_run = []
+    
     counter = 0
+    
+    rows = 5
+    cols = 5
+        #fig = 0
+        #axs = 0
+    fig, axs = plt.subplots(nrows=rows, ncols=cols, figsize=(20, rows * 4))
+    axs = axs.flatten()
+    
     for matl_set in matl_set_list:
         try:
-            rms_err[counter] = run(matl_set, args.compare_all)
+            year = 2021
+           # fig, axs, rms_err[matl_set] = [run(matl_set, year ,args.compare_all),year]
+            #fig,rms_err[matl_set] = [run(counter, matl_set, year ,args.compare_all),year]
+            fig,rms_err[matl_set] = run(fig,axs,counter, matl_set, year ,args.compare_all)
+            rms_err_list_within_dictionary = [rms_err[matl_set],year ]
+            rms_err[matl_set] = rms_err_list_within_dictionary
+
+            
+            #rms_err[matl_set[1]] = year
             counter += 1
-            print(matl_set)
+
+#            print(fig,axs,rms_err)
         except(FileNotFoundError):
-            counter +=1
-    return rms_err
+            year = 2023
+            try:
+                fig,rms_err[matl_set] = run(fig,axs,counter, matl_set, year ,args.compare_all)
+                rms_err_list_within_dictionary = [rms_err[matl_set],year ]
+                rms_err[matl_set] = rms_err_list_within_dictionary
+                counter += 1
+            
+            except:
+                matl_sets_not_run.append(matl_set)
+                counter +=1
+                continue
+   # return fig, axs, rms_err
+#print(key, spaces_string, value, "\n")
+            
+            
+    #counter +=1
+   # print(rms_err)
+    return fig, rms_err, matl_sets_not_run
+
+
+            
+def create_spaces_to_align(string, length_of_space):
+    spaces_string = ""
+    for i in range(0,length_of_space - (len(string))):
+         spaces_string += " "
+    return spaces_string
+        
+
+        #print(key, spaces_string, value, "\n")
+            
+            
+         #   counter +=1
+    #return rms_err, matl_sets_not_run
 
 
 
 if args.compare_all is True:
-    print(compare_all(args.compare_all))
+    fig, rms_err, matl_set_not_run = (compare_all(args.compare_all))
+   # print(rms_err)
+    
+    for matl_set in matl_set_not_run:
+        print("error - matl set not run:",matl_set,"\n")
+        
+
+    #print(rms_err)
+    for key,value in rms_err.items():
+  #      spaces_string = ""
+  #      for i in range(0,20 - (len(key))):
+  #          spaces_string += " "
+        
+#key is matl_set, value[0] is rms_err, value[1] id
+        matl_set = key
+        rms_err_temp = value[0]
+  #      rms_err_temp = value
+        year = value[1]
+ #       year = 2
+        print(year,matl_set,create_spaces_to_align(matl_set,20),"rms_err:" , rms_err_temp ,"\n")
+    plt.show()
         
 if args.compare_all is False:
-    run(args.matl_set, args.compare_all)
+    fig = False
+    axs = False
+    counter = False
+    run(fig, axs, counter, args.matl_set, args.matl_set_year, args.compare_all)
     
 
 
