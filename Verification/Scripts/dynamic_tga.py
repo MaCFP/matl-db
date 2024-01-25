@@ -32,14 +32,22 @@ def run(matl_set, matl_set_year, compare_all_boolean):
     json_file_path         = '../../PMMA/Material_Properties/' + str(matl_set_year) + '/' + args.matl_set + '.json'
     with open(json_file_path, 'r') as file:
         json_data          = json.load(file)
-
-    n_reactions            = json_data['Kinetics']['Number of Reactions']
+    try:
+        n_reactions            = json_data['Kinetics']['Number of Reactions']
+    except:
+        n_reactions            = json_data['Kinetics']['Reactants']
     A                      = json_data['Kinetics']['Pre-exponential']
     E                      = json_data['Kinetics']['Activation Energy']
     N_S                    = json_data['Kinetics']['Reaction Order']
     NU_MATL                = json_data['Kinetics']["Solid Yield"]
-    print(json_data['Kinetics']["Initial Mass Fraction"])
-    Initial_Mass_Fraction  = json_data['Kinetics']["Initial Mass Fraction"]
+    try:
+        Initial_Mass_Fraction  = json_data['Kinetics']["Initial Mass Fraction"]
+    except:
+        try:
+            Initial_Mass_Fraction  = json_data['Composition']["Initial Mass Fraction"]
+        except:
+            print("Error:  No Initial Mass Fraction in csv, ['kinetics']", matl_set)
+            return
     
     # place kinetic values within dictionaries as they are retrieved from JSON as lists
     fetched_kinetic_values = {"A" : A, "E" : E, "n_reactions" : n_reactions, "N_S" : N_S, "NU_MATL" : NU_MATL, "Initial_Mass_Fraction" : Initial_Mass_Fraction}
@@ -100,7 +108,6 @@ def run(matl_set, matl_set_year, compare_all_boolean):
             n_i                             = (fetched_kinetic_values["N_S"])[i]
             
         except(TypeError):
-            print("hi")
             A                               = (fetched_kinetic_values["A"])
             E                               = (fetched_kinetic_values["E"])
             NU_MATL                         = (fetched_kinetic_values["NU_MATL"])
@@ -142,7 +149,6 @@ def run(matl_set, matl_set_year, compare_all_boolean):
                             initial_guess  = alpha[i2 - 1]
                         # find root of equation as solution for alpha
                         root               = findroot(equation, initial_guess)
-                        print(root)
                         alpha[i2]          = root
         # convert alpha to masses
         v             = NU_MATL
@@ -151,10 +157,10 @@ def run(matl_set, matl_set_year, compare_all_boolean):
         m_e           = m_i_0 - (m_i_0 - m_i_f) * alpha
         total_mass    = total_mass + m_e
         
-    rms_err           = plot_and_rms(total_mass, n_reactions,T_m, m_m, N, compare)
+    rms_err           = plot_and_rms(total_mass, n_reactions,T_m, m_m, N, compare,A,E)
     return rms_err
      
-def plot_and_rms(total_mass, n_reactions, T_m, m_m, N, compare):
+def plot_and_rms(total_mass, n_reactions, T_m, m_m, N, compare,A,E):
 
     # root mean square error is calculated
     rms_err                         = np.sqrt(np.sum( (m_m - total_mass) ** 2) / N)
@@ -174,7 +180,18 @@ def plot_and_rms(total_mass, n_reactions, T_m, m_m, N, compare):
         plt.savefig("../Plot Results/" + args.matl_set + "_" + "dynamic_TGA_10K" + "_" + "FDS" + "plot.pdf")
         plt.show()
 
-        return rms_err
+# update comparison_data.json with RMSE and kinetics for creating graph of A vs RMSE
+#    dictionary_1 = {}
+#    results_dictionaries = {matl_set : {"A":A,"E":E, "RMSE":rms_err }}
+#        with open('comparison_data.json','r') as file:
+#            data = json.load(file)
+#            data.update(results_dictionaries)
+#    except:
+#        print("error first try statement")
+#        json.dump(results_dictionaries, file, indent = 4)
+#    with open('comparison_data.json','w') as file:
+#         json.dump(data, file, indent = 4)
+    return rms_err
 
 #output formatting tool            
 def f(string, length_of_space):
@@ -184,12 +201,16 @@ def f(string, length_of_space):
          spaces_string += " "
     return string + spaces_string
 
+exceptions = 0
 if compare is False:
     run(matl_set, matl_set_year, compare)
 if compare is True:
     try:
         run(matl_set, matl_set_year,compare)
     except:
+        if exceptions < 2:    
+            print("error running", matl_set)
+            exceptions = exceptions + 1
         pass
 
  # save as CSV
