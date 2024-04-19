@@ -40,6 +40,7 @@
         "Pre-exponential": 6.662e8,
         "Activation Energy": 1.34e5,
         "Reaction Order": 0.96,
+        "Initial Mass Fraction": 1,
         "Solid Yield": 0
     },
     
