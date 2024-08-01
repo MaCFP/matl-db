@@ -305,41 +305,49 @@ for i =1:N_files   % Loop through all of your data sets
     end
 
 end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% find(strcmp(Test_types,'FPA_25kW'))
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for i =1:N_files   % Loop through all of your data sets
     k=files{i,3};   % Find Lab Name
     L=files{i,4};   % Find Test Count
     m=files{i,2};   % Find Test Type
     if contains(filenames{i},"DSC_N2_10K")==1 && contains(filenames{i},["TGA_N2_10K","TGA_N2_20K","TGA_Ar_1K","TGA_Ar_10K","TGA_Ar_50K"])==1 (k==5 || k==8 || k== 10 || k==13)   %N2_10K
-        T_onset=TAB_DATA{28,3}(k,L);
-        T_endset=TAB_DATA{28,4}(k,L);
+        m_TGA=find(strcmp(Test_types,'TGA_N2_10K'))
+        T_onset=TAB_DATA{m_TGA,3}(k,L);
+        T_endset=TAB_DATA{m_TGA,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
         i_endset=find((EVAL_DATA{k,L,m}(:,2))==T_endset,1,'last');
         baseline=0.5*(EVAL_DATA{k,L,m}(i_onset,3)+EVAL_DATA{k,L,m}(i_endset,3))*((EVAL_DATA{k,L,m}(i_endset,1)-EVAL_DATA{k,L,m}(i_onset,1)));
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
-        TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{28,5}(k,L);
-        clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
+        TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{m_TGA,5}(k,L);
+        clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn m_TGA
 
-    elseif contains(filenames{i},"DSC_N2_20K")==1 && k==2   %N2_20K
-        T_onset=TAB_DATA{30,3}(k,L);
-        T_endset=TAB_DATA{30,4}(k,L);
+    elseif contains(filenames{i},"DSC_N2_20K")==1 && contains(LabNames{k}, 'DBI_Lund')   %N2_20K
+        m_TGA=find(strcmp(Test_types,'TGA_N2_20K'))
+        T_onset=TAB_DATA{m_TGA,3}(k,L);
+        T_endset=TAB_DATA{m_TGA,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
         i_endset=find((EVAL_DATA{k,L,m}(:,2))==T_endset,1,'last');
         baseline=0.5*(EVAL_DATA{k,L,m}(i_onset,3)+EVAL_DATA{k,L,m}(i_endset,3))*((EVAL_DATA{k,L,m}(i_endset,1)-EVAL_DATA{k,L,m}(i_onset,1)));
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
-        TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{30,5}(k,L);
-        clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
+        TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{m_TGA,5}(k,L);
+        clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn m_TGA
 
-    elseif contains(filenames{i},["DSC_Ar_1K","DSC_Ar_10K","DSC_Ar_50K"])==1 && k==9   %Ar_1,10,50K
-        T_onset=TAB_DATA{m+21,3}(k,L);
-        T_endset=TAB_DATA{m+21,4}(k,L);
+    elseif contains(filenames{i},["DSC_Ar_1K","DSC_Ar_10K","DSC_Ar_50K"])==1 && contains(LabNames{k}, 'Sandia')   %Ar_1,10,50K
+        tempname=strsplit(filenames{i},'_');
+        TGAname=['TGA_',tempname{3},'_',tempname{4}];
+        clear tempname
+        m_TGA=find(strcmp(Test_types,TGAname));
+        T_onset=TAB_DATA{m_TGA,3}(k,L);
+        T_endset=TAB_DATA{m_TGA,4}(k,L);
         i_onset=find((EVAL_DATA{k,L,m}(:,2))==T_onset,1);
         i_endset=find((EVAL_DATA{k,L,m}(:,2))==T_endset,1,'last');
         baseline=0.5*(EVAL_DATA{k,L,m}(i_onset,3)+EVAL_DATA{k,L,m}(i_endset,3))*((EVAL_DATA{k,L,m}(i_endset,1)-EVAL_DATA{k,L,m}(i_onset,1)));
         int_heat_rxn=(EVAL_DATA{k,L,m}(i_endset,4)-EVAL_DATA{k,L,m}(i_onset,4));
-        TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{m+21,5}(k,L);
-        clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn
-    end
+        TAB_DATA{m,1}(k,L)=(int_heat_rxn-baseline)/TAB_DATA{m_TGA,5}(k,L);
+        clear   T_onset  T_endset i_onset i_endset baseline int_heat_rxn m_TGA TGAname 
 end
 
 close
@@ -373,19 +381,20 @@ for i=1:N_files
         figure(1)    
         if contains(filenames{i},"UMD")==1
             figure(1)
-            shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            s=shadedErrorBar(EXP_DATA{k,L,m}(:,2),EXP_DATA{k,L,m}(:,3),[EXP_DATA{k,L,m}(:,4) EXP_DATA{k,L,m}(:,4)],'lineprops', {'LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+            s.patch.FaceColor = [0.5,0.25,0.25];
             figure(2)
             hold on
 %             plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,1,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
             plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,1,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',LabNames{k});
 %             shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'M','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-        elseif contains(filenames{i},"NIST")==1         
-            figure(1)
-            shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,L+2,k,m),[2*DSC_heatflow(1:last,L+4,k,m) 2*DSC_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
-            figure(2)
-            shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+        % elseif contains(filenames{i},"NIST")==1         
+        %     figure(1)
+        %     shadedErrorBar(DSC_Temperature(1:last),DSC_heatflow(1:last,L+2,k,m),[2*DSC_heatflow(1:last,L+4,k,m) 2*DSC_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
+        %     figure(2)
+        %     shadedErrorBar(DSC_Temperature(1:last),DSC_int_heatflow(1:last,L+2,k,m),[2*DSC_int_heatflow(1:last,L+4,k,m) 2*DSC_int_heatflow(1:last,L+4,k,m)],'lineprops', {'k','LineWidth',1 }); %plot with shaded error bards = 2stdevmean
         end        
-        if contains(filenames{i},"NIST")==0
+        if contains(filenames{i},"UMD")==0
             for ix=1:L
                 hold on
                 figure(1)        
@@ -394,9 +403,10 @@ for i=1:N_files
                 figure(2)
 %                 plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',QMJHL{k});
                 plot(DSC_Temperature(1:last),DSC_int_heatflow(1:last,ix,k,m),'-','MarkerSize',5,'color',rgb(Colors{k}),'DisplayName',LabNames{k});
-                
+
             end
         end
+        % pause(0.5)
     end
 end
 
@@ -411,8 +421,8 @@ axis([300 800 -1 5]);
 xlabel('Temperature [K]');
 ylabel('Heat Flow [W g^{-1}]');
 % legend(QMJHL{legend_counter},'Location','northwest');
-legend(LabNames{legend_counter},'Location','eastoutside','FontSize',8);
-            h=3;                                  % height of plot in inches
+legend(LabNames{legend_counter},'Location','eastoutside','FontSize',7);
+            h=4;                                  % height of plot in inches
             w=5.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
@@ -426,15 +436,15 @@ axis([300 800 -200 2500]);
 xlabel('Temperature [K]');
 ylabel('Integral Heat Flow [J g^{-1}]');
 % legend(QMJHL{legend_counter},'Location','northwest');
-legend(LabNames{legend_counter},'Location','eastoutside','FontSize',8);
-            h=3;                                  % height of plot in inches
+legend(LabNames{legend_counter},'Location','eastoutside','FontSize',7);
+            h=4;                                  % height of plot in inches
             w=5.5;                                  % width of plot in inches
             set(gcf, 'PaperSize', [w h]);           % set size of PDF page
             set(gcf, 'PaperPosition', [0 0 w h]);   % put plot in lower-left corner
             fig_filename=fullfile(char([Script_Figs_dir, Test_types{m} '_int_heatflow']));
             print(fig_filename,'-dpdf')
-close all
-
+% close all
+clear legend legend_counter
 %% Combine all of your DSC data from individual tests in N2/21%O2 at 10K/min
 figure('Renderer', 'painters', 'Position', [100 100 800 450])
 box on
@@ -442,7 +452,6 @@ hold on
 m=13;
 col_old=0;
 i_legend=1;
-clear legend_counter
 for k=1:N_Labs
     if Test_count(m,k)~=0 && contains(filenames{i},"UMET")==0 %(UMET DSC data is /\/\/\)
         col_new=Test_count(m,k);
