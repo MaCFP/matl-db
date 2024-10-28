@@ -44,7 +44,7 @@ Comments:
 ### Boundary conditions
 Imposed heat flux on the top surface : qe = 25 or 50 kW/m²
 Insulated for the back surface
-Comments: The insulation material is not needed for Gpyro. the adiabatic condition could be set directly bu the code.
+Comments: The insulation material is not needed for Gpyro. The adiabatic condition could be set directly by the code.
 
 
 ------------------
