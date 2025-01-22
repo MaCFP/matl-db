@@ -19,7 +19,7 @@
     "Kinetics": {
         "Number of Reactions": 1,
         "Reaction Network": "None",
-        "Pre-exponential": 5.79e23,
+        "Pre-exponential": 7.92e15,
         "Activation Energy": 3.03434e5,
         "Reaction Order": 3.56,
         "Initial Mass Fraction": 1,

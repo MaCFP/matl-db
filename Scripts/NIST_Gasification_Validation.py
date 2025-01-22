@@ -91,18 +91,18 @@ plt_dict = {
 }
 
 plt_marker_dict = {
-     "Aalto-I": ['b','o'],
-     "Aalto-II": ['b','s'],
-     "BUW-FZJ-A": ['lawngreen','o'],
-     "BUW-FZJ-B": ['lawngreen','s'],
-     "BUW-FZJ-C": ['lawngreen','^'],
-     "DBI-1": ['g','o'],
-     "DBI-cal": ['g','s'],
-     "NIST-StMU-FSRI": ['r','o'],
-     "NIST-FSRI": ['c','o'],
-     "EDF": ['m','o'],
-     "UMD-FSRI": ['y','o'],
-     "UMET": ['orange','o']
+     "Aalto-I": ['b','o','b'],
+     "Aalto-II": ['b','o','None'],
+     "BUW-FZJ-A": ['lawngreen','o','lawngreen'],
+     "BUW-FZJ-B": ['lawngreen','s','lawngreen'],
+     "BUW-FZJ-C": ['lawngreen','^','None'],
+     "DBI-1": ['g','o','g'],
+     "DBI-cal": ['g','o','None'],
+     "NIST-StMU-FSRI": ['r','o','None'],
+     "NIST-FSRI": ['c','o','c'],
+     "EDF": ['m','o','m'],
+     "UMD-FSRI": ['y','o','y'],
+     "UMET": ['orange','o','None']
 }
 
 # get experimental data
@@ -249,13 +249,23 @@ for name in q50_Mass_dict:
 
     plt.plot( q50_Mass_dict[name], q50_Temp_dict[name],
                   marker=plt_marker_dict[name][1],
-                  mec=plt_marker_dict[name][0], mfc='None',
+                  mec=plt_marker_dict[name][0], 
+                  mfc=plt_marker_dict[name][2],
                   ms=10, mew=2, linestyle='None',
                   label=name )
 
 plt.xlabel(r"NRMS for Sample Mass", fontsize=20)
 plt.ylabel(r"NRMS for Back Temperature", fontsize=20)
-plt.legend(loc='upper center', numpoints=1, ncol=2, prop={'size':10})
+
+#get handles and labels
+handles, labels = plt.gca().get_legend_handles_labels()
+
+#specify order of items in legend
+order = [6,9,3,2,4,8,7,10,11,0,1,5]
+
+#add legend to plot
+plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],
+           loc='upper center', numpoints=1, ncol=2, prop={'size':10})
 plt.tight_layout()
 plt.savefig("../PMMA/Validation_Results/plots/NRMS_q50_T_back_vs_Mass.pdf")
 idx_plt += 1
