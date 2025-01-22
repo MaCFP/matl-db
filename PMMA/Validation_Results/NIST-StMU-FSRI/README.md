@@ -30,7 +30,9 @@ Comments: Simulations T1-T5 (50 kW/m2) and 25R1-R3 (25 kW/m2) used the experimen
 Comments:
 SOLID_PHASE_ONLY = T
 Based on sensitivity analysis performed using https://github.com/MaCFP/matl-db/blob/master/PMMA/Material_Properties/2021/MaCFP_PMMA_NIST.json, simulations used a single, constant flux (i.e., no accounting for time dependence due to shutter or spatial dependence across the sample)
-Epoxy mass was treated as PMMA. Output processed to tare initial mass to the reported PMMA sample mass)
+Epoxy mass was treated as PMMA. Output processed to tare initial mass to the reported PMMA sample mass).
+Top Surface heat transfer coefficient: 13 W/m2-K
+
 
 ------------------
 

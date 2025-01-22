@@ -48,7 +48,7 @@ Comments: Can be found the model description in the Abstract file.
 ------------------
 
 ### Boundary conditions
-At x0 (surface exposed to the heat flux): the total heat on the exposed surface is a sum of the incident radiative flux (50 kW m-2), the heat lost by radiation and convection. Perfect contact is assumed at x1, y1 and y2 interfaces (ie., at polymer and kaowool interface). The outer boundary of the kaowool is considered as thermally insulated.
+At x0 (surface exposed to the heat flux): the total heat on the exposed surface is a sum of the incident radiative flux (50 kW m-2), the heat lost by radiation and convection (Convective heat transfer coefficient - 10 W m-2 K-1 on the top boundary). Perfect contact is assumed at x1, y1 and y2 interfaces (ie., at polymer and kaowool interface). The outer boundary of the kaowool is considered as thermally insulated.
 
 Comments: Can be found the model description in the Abstract file.
 
