@@ -1,4 +1,4 @@
-##MaCFP-4 Pyrolysis Model Calibration Data
+## MaCFP-4 Pyrolysis Model Calibration Data
 This directory is designed to maintain experimental measurements conducted as part of the MaCFP-4 Pyrolysis Model Calibration Exercise. Measurement data provided here (from both mg- and g-scale tests) have been provided by fire safety science institutions around the world. If/when using this data, please cite the appropriate references, as provided in the corresponding README files.
 #
 ### Key factors influencing material response during tests
