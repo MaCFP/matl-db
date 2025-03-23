@@ -1,7 +1,8 @@
 # Template README File for Institute X
 
-### Experimental Conditions: TGA
+### Experimental Conditions: TGA/DSC
 A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. 
+*Reference: More information is available at: [J. Smith, et al., Fire Safety Journal, 2020]
 
 * Heating Rate: 10 K/min
 * Temperature program
@@ -35,6 +36,7 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
 
 ### Experimental Conditions: MCC
 A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC experiments.  At the end of each test, the residual solid yield was measured and found to be consistent with the TGA results. 
+*Reference: More information is available at: [J. Smith, et al., Fire Technology, 2021]
 
 * Heating Rate: 60 K/min
 * Temperature program (Pyrolyzer)
@@ -60,6 +62,8 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 
 
 ### Experimental Conditions, Cone calorimeter
+*Reference: More information is available at: [J. Smith, et al., Journal of Fire Sciences, 2022]
+
 * Extraction flow rate: 24L/s
 * Sample Surface Area: 0.01 m2 (nominal)
 * Sample holder dimensions:
@@ -83,6 +87,8 @@ Three repeated pyrolysis tests were conducted to measure the mass loss and front
 
 
 ### Experimental Conditions, FPA
+*Reference: More information is available at: [J. Smith, et al., Fire and Materials, 2023]
+
 * Extraction/N2 flow rate: # L/s
 * Sample Surface Area: 0.00785 m2 (nominal)
 * Sample holder dimensions:
