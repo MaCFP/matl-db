@@ -26,7 +26,8 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
   - Note: Ultra High Purity (UHP) Nitrogen
 * Instrument
   - Type: Brand/Model
-  - Note: None
+  - Furnace Type: Platinum
+  - Notes: None
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
 |INSTITUTE-X\_STA\_N2\_10K\_1 | 0 | 4.947|  
