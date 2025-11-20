@@ -15,7 +15,7 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 12 months (or 100 tests, whichever is sooner) using a set of 6 reference materials with melting temperatures between 60-820 C
 * Crucible
   - Type: Pt-Rh
-  - Volume: 85 �L
+  - Volume: 85 uL
   - Diameter: 6.8 mm
   - Mass: None
   - Lid: True
@@ -28,6 +28,7 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
   - Type: Brand/Model
   - Furnace Type: Platinum
   - Notes: None
+
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
 |INSTITUTE-X\_STA\_N2\_10K\_1 | 0 | 4.947|  
@@ -48,7 +49,7 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 * Sample mass: 5 mg +/- 0.1mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using a 3.5 mg +/-0.1 mg sample of polystyrene as a reference. O2 sensor/flow calibration was checked at the start of each week of testing, Temperature calibration was performed every 12 months.
-* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71 �L) with no lid
+* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71 uL) with no lid
 * Pyrolyzer Carrier Gas
   - Ultra High Purity (UHP) Nitrogen 
   - N2 Flow rate = 80 ml/min
@@ -81,8 +82,9 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 * Ignition Source: (spark ignitor, flame, no pilot) ??
 
 ###### Test Heating Conditions  
+
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: || :---: |
+|----------|:------:| :---: |:------:| :---: | :---: |
 |INSTITUTE-X\_Cone\_30KW\_hor\-r1 | 30| 900 | 2.53 | 20|2200|
 |INSTITUTE-X\_Cone\_30KW\_hor\-r2 | 30| 900 | 2.53 | 21|2000|
 |INSTITUTE-X\_Cone\_30KW\_hor\-r3 | 30| 900 | 2.53 | 32|2100|
