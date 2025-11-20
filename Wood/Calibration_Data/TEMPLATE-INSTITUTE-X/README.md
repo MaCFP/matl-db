@@ -15,11 +15,11 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 12 months (or 100 tests, whichever is sooner) using a set of 6 reference materials with melting temperatures between 60-820 C
 * Crucible
   - Type: Pt-Rh
-  - Volume: 85 µL
+  - Volume: 85 ï¿½L
   - Diameter: 6.8 mm
   - Mass: None
   - Lid: True
-  - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85 µL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
+  - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85 uL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
 * Carrier Gas
   - Type: Nitrogen
   - Flow rate: 50 ml/min
@@ -48,7 +48,7 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 * Sample mass: 5 mg +/- 0.1mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using a 3.5 mg +/-0.1 mg sample of polystyrene as a reference. O2 sensor/flow calibration was checked at the start of each week of testing, Temperature calibration was performed every 12 months.
-* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71 µL) with no lid
+* Crucible type: ceramic crucibles (outer diameter 5.74mm / volume 71 ï¿½L) with no lid
 * Pyrolyzer Carrier Gas
   - Ultra High Purity (UHP) Nitrogen 
   - N2 Flow rate = 80 ml/min
@@ -59,12 +59,17 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
   - Type: Brand/Model
   - O2 Analyzer: [Paramagnetic // Chemical]
   - Note: None
-
+| Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
+| --------- | :---------: | :------------------------: | :------------------------: |
+|INSTITUTE-X\_MCC\_N2\_60K\_1 | 0 | 4.947|    1.0 |
+|INSTITUTE-X\_MCC\_N2\_60K\_2 | 0 | 5.000|    1.1 |
+|INSTITUTE-X\_MCC\_N2\_60K\_3 | 0 | 5.099|    1.2 |
 
 
 ### Experimental Conditions, Cone calorimeter
 *Reference: More information is available at: [J. Smith, et al., Journal of Fire Sciences, 2022]
 
+* Test Standard: ASTM E1354//ISO 5660
 * Extraction flow rate: 24L/s
 * Sample Surface Area: 0.01 m2 (nominal)
 * Sample holder dimensions:
@@ -73,14 +78,17 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
     - Retaining grid: None
 * Backing Insulation: One inch thick (2.54 cm) layer of Kaowool Blanket. Density = 128 kg/m3. Thermal Conductivity 0.06, 0.012, 0.21, 0.3 W/m-K (at 260, 538, 816, 1093 C, respectively)
 * Thermocouple location: None
+* Ignition Source: (spark ignitor, flame, no pilot) ??
 
 ###### Test Heating Conditions  
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) 
-|----------|:------:| :---: |
-|INSTITUTE-X\_Cone\_25KW\_hor\-r1 | 25| 924 |
-|INSTITUTE-X\_Cone\_25KW\_hor\-r2 | 25| 924 |
-|INSTITUTE-X\_Cone\_25KW\_hor\-r3 | 25| 924 |
-
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t_ign (s)|t_flameout (s)|
+|----------|:------:| :---: |:------:| :---: || :---: |
+|INSTITUTE-X\_Cone\_30KW\_hor\-r1 | 30| 900 | 2.53 | 20|2200|
+|INSTITUTE-X\_Cone\_30KW\_hor\-r2 | 30| 900 | 2.53 | 21|2000|
+|INSTITUTE-X\_Cone\_30KW\_hor\-r3 | 30| 900 | 2.53 | 32|2100|
+|INSTITUTE-X\_Cone\_60KW\_hor\-r1 | 60| 1200 | 2.52 | 8|1500|
+|INSTITUTE-X\_Cone\_60KW\_hor\-r2 | 60| 1200 | 2.56 | 10|1500|
+|INSTITUTE-X\_Cone\_60KW\_hor\-r3 | 60| 1200 | 2.55 | 7|1400|
 
 ##### Test Summary
 Three repeated pyrolysis tests were conducted to measure the mass loss and front surface temperature of pyrolysis tests in nitrogen environment at external heat flux of 25 and 65 kW/m2, respectively. The sample has a circular shape, with a diameter of 9.52 cm (3.75 in.) and thickness of 0.6 cm. The sample was insulated both on the side and bottom.
