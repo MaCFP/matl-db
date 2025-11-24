@@ -39,6 +39,11 @@ A Deatak MCC-4 microscale combustion calorimeter was used to conduct MCC experim
   * O2 Analyzer: Paramagnetic
   * Note: None
 
+| Test Name | O2 volume % | Initial Sample Mass (mg) | Final Sample Mass (mg) | 
+|--------- | :---------: | :------------------------: | :------------------------: | 
+|UDRI_MCC_N2_60K_1 | 0 | 5.560| 0.739 | 
+|UDRI_MCC_N2_60K_2 | 0 | 5.007| 0.673| 
+|UDRI_MCC_N2_60K_3 | 0 | 5.013| 0.669 |
 
 
 ### Experimental Conditions, Cone calorimeter
