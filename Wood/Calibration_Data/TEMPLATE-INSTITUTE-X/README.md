@@ -31,9 +31,9 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|INSTITUTE-X\_STA\_N2\_10K\_1 | 0 | 4.947|  
-|INSTITUTE-X\_STA\_N2\_10K\_2 | 0 | 5.000|  
-|INSTITUTE-X\_STA\_N2\_10K\_3 | 0 | 5.099|  
+|INSTITUTE-X\_STA\_N2\_10K\_R1 | 0 | 4.947|  
+|INSTITUTE-X\_STA\_N2\_10K\_R2 | 0 | 5.000|  
+|INSTITUTE-X\_STA\_N2\_10K\_R3 | 0 | 5.099|  
 
 
 ### Experimental Conditions: MCC
@@ -63,9 +63,9 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
   
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: | :------------------------: |
-|INSTITUTE-X\_MCC\_N2\_60K\_1 | 0 | 4.947|    1.0 |
-|INSTITUTE-X\_MCC\_N2\_60K\_2 | 0 | 5.000|    1.1 |
-|INSTITUTE-X\_MCC\_N2\_60K\_3 | 0 | 5.099|    1.2 |
+|INSTITUTE-X\_MCC\_N2\_60K\_R1 | 0 | 4.947|    1.0 |
+|INSTITUTE-X\_MCC\_N2\_60K\_R2 | 0 | 5.000|    1.1 |
+|INSTITUTE-X\_MCC\_N2\_60K\_R3 | 0 | 5.099|    1.2 |
 
 
 ### Experimental Conditions, Cone calorimeter
@@ -86,12 +86,12 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t_ign (s)|t_flameout (s)|
 |----------|:------:| :---: |:------:| :---: | :---: |
-|INSTITUTE-X\_Cone\_30KW\_hor\-r1 | 30| 900 | 2.53 | 20|2200|
-|INSTITUTE-X\_Cone\_30KW\_hor\-r2 | 30| 900 | 2.53 | 21|2000|
-|INSTITUTE-X\_Cone\_30KW\_hor\-r3 | 30| 900 | 2.53 | 32|2100|
-|INSTITUTE-X\_Cone\_60KW\_hor\-r1 | 60| 1200 | 2.52 | 8|1500|
-|INSTITUTE-X\_Cone\_60KW\_hor\-r2 | 60| 1200 | 2.56 | 10|1500|
-|INSTITUTE-X\_Cone\_60KW\_hor\-r3 | 60| 1200 | 2.55 | 7|1400|
+|INSTITUTE-X\_Cone\_30KW\_hor\_R1 | 30| 900 | 2.53 | 20|2200|
+|INSTITUTE-X\_Cone\_30KW\_hor\_R2 | 30| 900 | 2.53 | 21|2000|
+|INSTITUTE-X\_Cone\_30KW\_hor\_R3 | 30| 900 | 2.53 | 32|2100|
+|INSTITUTE-X\_Cone\_60KW\_hor\_R1 | 60| 1200 | 2.52 | 8|1500|
+|INSTITUTE-X\_Cone\_60KW\_hor\_R2 | 60| 1200 | 2.56 | 10|1500|
+|INSTITUTE-X\_Cone\_60KW\_hor\_R3 | 60| 1200 | 2.55 | 7|1400|
 
 ##### Test Summary
 Three repeated pyrolysis tests were conducted to measure the mass loss and front surface temperature of pyrolysis tests in nitrogen environment at external heat flux of 25 and 65 kW/m2, respectively. The sample has a circular shape, with a diameter of 9.52 cm (3.75 in.) and thickness of 0.6 cm. The sample was insulated both on the side and bottom.
@@ -112,6 +112,7 @@ Three repeated pyrolysis tests were conducted to measure the mass loss and front
     - Sample front surface temperature was measured with [TC, radiometer, IR camera?] at [location; center?]
 
 ###### Sample Mass and Test Heating Conditions  
-|Test Name | Initial sample mass (g)| Heat Flux (kW/m2)| Heater Temperature (K) |
-|----------|:------:| :---: | :---: |
-|INSTITUTE-X_FPA_25kW_r1 | 168.31| 25 | 932 |
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t_ign (s)|t_flameout (s)|
+|----------|:------:| :---: |:------:| :---: | :---: |
+|INSTITUTE-X\_FPA\_25KW\_R1 | 30| 900 | 2.53 | 20|2200|
+|INSTITUTE-X\_FPA\_25KW\_R2 | 30| 900 | 2.53 | 21|2000|
