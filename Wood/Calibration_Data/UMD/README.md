@@ -28,8 +28,10 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
   - Furnace Type: Platinum
   - Notes: None
 
-| Test Name | O2 volume % |  Initial Sample Mass (mg) | 
-| --------- | :---------: | :------------------------: |
-|UMD\_STA\_N2\_10K\_R1 | 0 | 4.301|  
-|UMD\_STA\_N2\_10K\_R2 | 0 | 4.062|  
-|UMD\_STA\_N2\_10K\_R3 | 0 | 3.942|  
+| Test Name | O2 volume % |  Initial External Sample Mass (mg) | Sample Mass Prior to Heating Ramp
+| --------- | :---------: | :------------------------: | :------------------------: |
+|UMD\_STA\_N2\_10K\_R1 | 0 | 4.301| 4.066
+|UMD\_STA\_N2\_10K\_R2 | 0 | 4.062| 3.842
+|UMD\_STA\_N2\_10K\_R3 | 0 | 3.942| 3.904
+
+**Notes:** **Initial External Sample Mass** refers to the mass of the sample before being inserted into the instrument. **Sample Mass Prior to Heating Ramp** refers to the mass of the sample at the beginning of the dynamic heating segment of the test. The discrepancy reflects moisture lost before the measurement begins and during the 1800 s isothermal segment prior to the heating ramp.
