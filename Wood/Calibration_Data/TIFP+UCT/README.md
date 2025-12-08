@@ -1,5 +1,5 @@
 # Template README File for TIFP+UCT
-*Reference: Technical Institute of Fire Protection, Prague (TIFP) and University of Chemistry and Technology, Prague (UCT) 
+Technical Institute of Fire Protection, Prague (TIFP) and University of Chemistry and Technology, Prague (UCT) 
 
 ### Experimental Conditions: TGA/DSC
 A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. DSC data serve as suplementary only and are not suitable for calibration.
