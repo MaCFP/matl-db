@@ -12,7 +12,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
   - Final Isotherm: 300 s (hold at 973 K for 300 s)
 * Sample mass: 5 mg +/- 0.20 mg
 * Sample geometry: Powdered
-* Calibration type: For each heating rate, a single baseline test was performed using an empty crucible. Temperature/Heat flow calibration for each heating rate were performed prior to MaCFP measurements using a set of 5 reference materials (In, Bi, Zn, Al, Ag) with melting temperatures between 429-1225 K. For more accurate DSC measurements, baseline (blank) measurements would have to be performed before each individual run and the heat flow rate (W/g) would need to be recalculated for actual, not the initial sample mass.
+* Calibration type: For each heating rate, a single baseline test was performed using an empty crucible. Temperature/Heat flow calibration for each heating rate were performed prior to MaCFP measurements using a set of 5 reference materials (In, Bi, Zn, Al, Ag) with melting temperatures between 429-1225 K. For more accurate DSC measurements, baseline (blank) measurements would have to be performed before each individual run and the heat flow rate (W/g) would need to be recalculated for the actual, not the initial sample mass.
 * Crucible
   - Type: Al2O3
   - Volume: 85 uL
