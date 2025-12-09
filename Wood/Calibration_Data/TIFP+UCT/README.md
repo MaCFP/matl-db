@@ -23,10 +23,10 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 * Carrier Gas
   - Type: Nitrogen
   - Flow rate: 50 ml/min (50 mL/min purge, 20 mL/min protective - no contact with the sample)
-  - Note: Ultra High Purity (UHP) Nitrogen??? XXX
+  - Note: Ultra High Purity (UHP) Nitrogen
 * Instrument
   - Type: NETZSCH STA 449 F3 Jupiter
-  - Furnace Type: Platinum??? XXX
+  - Furnace Type: Steel
   - Notes: None
 
 | Test Name | O2 volume % | Initial Sample Mass (mg) |
