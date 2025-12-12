@@ -43,7 +43,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 |TIFP+UCT\_STA\_N2\_20K\_R3 | 0 | 4.917| 
 
 * Note
-The first and second two measurements at heating rate of 5 K/min were taken on a different day. The difference in TGA data may be caused by different humidity levels. MLR data in the main part of thermal decomposition which are used for calibration are not affected.
+  - The first and second two measurements at heating rate of 5 K/min were taken on a different day. The difference in TGA data may be caused by different humidity levels. MLR data in the main part of thermal decomposition which are used for calibration are not affected.
 
 ### Experimental Conditions, Cone calorimeter with controlled atmosphere
 
