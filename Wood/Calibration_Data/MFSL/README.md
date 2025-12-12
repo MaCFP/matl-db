@@ -5,9 +5,9 @@ A NETZSCH STA 449F5 Jupiter was used to simultaneously conduct Thermogravimetric
 * Heating Rate: 10 K/min
 * Temperature program
   * Initial Temperature: 291-293 K
-  * Initial Isotherm: 30 s (hold at 313 K for 30 s)
-  * Maximum Temperature: 800 K
-  * Final Isotherm: None
+  * Initial Isotherm: 30 min (hold at 313 K for 30 min)
+  * Maximum Temperature: 1073 K
+  * Final Isotherm: 15 min (hold at 1073K for 15 min)
 * Sample mass: 5 mg +/- 0.2 mg
 * Sample geometry: Powdered
 * Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 12 months (or 100 tests, whichever is sooner) using a set of 6 reference materials with melting temperatures between 60-820 C
