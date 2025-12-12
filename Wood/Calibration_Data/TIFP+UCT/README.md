@@ -34,6 +34,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 |TIFP+UCT\_STA\_N2\_5K\_R1 | 0 | XXX|  
 |TIFP+UCT\_STA\_N2\_5K\_R2 | 0 | XXX|  
 |TIFP+UCT\_STA\_N2\_5K\_R3 | 0 | XXX|  
+|TIFP+UCT\_STA\_N2\_5K\_R4 | 0 | XXX| 
 |TIFP+UCT\_STA\_N2\_10K\_R1 | 0 | 5.196|  
 |TIFP+UCT\_STA\_N2\_10K\_R2 | 0 | 4.952| 
 |TIFP+UCT\_STA\_N2\_10K\_R3 | 0 | 5.139| 
@@ -42,8 +43,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 |TIFP+UCT\_STA\_N2\_20K\_R3 | 0 | 4.917| 
 
 
-### Experimental Conditions, Cone calorimeter
-*Reference: More information is available at: [J. Smith, et al., Journal of Fire Sciences, 2022]
+### Experimental Conditions, Cone calorimeter with controlled atmosphere
 
 * Test Standard: ASTM E1354//ISO 5660
 * Extraction flow rate: 24L/s
@@ -58,14 +58,10 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: |
-|TIFP+UCT\_Cone\_30KW\_hor\_R1 | 30| 900 | 2.53 | 20|2200|
-|TIFP+UCT\_Cone\_30KW\_hor\_R2 | 30| 900 | 2.53 | 21|2000|
-|TIFP+UCT\_Cone\_30KW\_hor\_R3 | 30| 900 | 2.53 | 32|2100|
-|TIFP+UCT\_Cone\_60KW\_hor\_R1 | 60| 1200 | 2.52 | 8|1500|
-|TIFP+UCT\_Cone\_60KW\_hor\_R2 | 60| 1200 | 2.56 | 10|1500|
-|TIFP+UCT\_Cone\_60KW\_hor\_R3 | 60| 1200 | 2.55 | 7|1400|
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |Thickness (cm)|Grain orientation (-)|t_ign (s)|t_flameout (s)|
+|----------|:------:| :---: |:------:| :---: | :---: | :---: |
+|TIFP+UCT\_Cone\_30KW\_hor\_perpendicular\_R1 | 30| 900 | 2.54 | -| -|
+
 
 ##### Test Summary
 Three repeated pyrolysis tests were conducted to measure the mass loss and front surface temperature of pyrolysis tests in nitrogen environment at external heat flux of 25 and 65 kW/m2, respectively. The sample has a circular shape, with a diameter of 9.52 cm (3.75 in.) and thickness of 0.6 cm. The sample was insulated both on the side and bottom.
