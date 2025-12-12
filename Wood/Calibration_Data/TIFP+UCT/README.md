@@ -66,11 +66,11 @@ Experiments were conducted on FTT iCone mini with controlled atmosphere module a
 
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |Thickness (cm)|Grain orientation (-)|t_ign (s)|t_flameout (s)|
 |----------|:------:| :---: |:------:| :---: | :---: | :---: |
-|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R1 | 30| 913 | 2.54 | -| -|
-|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R2 | 30| 913 | 2.54 | -| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R1 | 30| 1082 | 2.54 | -| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R2 | 30| 1082 | 2.54 | -| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R3 | 30| 1082| 2.54 | -| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R1 | 30| 913 | 2.54 | parallel| -| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R2 | 30| 913 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R1 | 30| 1082 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R2 | 30| 1082 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R3 | 30| 1082| 2.54 | parallel|-| -|
 
 * Note
   - Two types of samples were distributed among the MaCFP contributors - cut with the wood grain parallel and perpendicular to sample's front surface. The sample type was added to the name of each measurement.
