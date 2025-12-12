@@ -31,10 +31,10 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 
 | Test Name | O2 volume % | Initial Sample Mass (mg) |
 | --------- | :---------: | :----------------------: |
-|TIFP+UCT\_STA\_N2\_5K\_R1 | 0 | XXX|  
-|TIFP+UCT\_STA\_N2\_5K\_R2 | 0 | XXX|  
-|TIFP+UCT\_STA\_N2\_5K\_R3 | 0 | XXX|  
-|TIFP+UCT\_STA\_N2\_5K\_R4 | 0 | XXX| 
+|TIFP+UCT\_STA\_N2\_5K\_R1 | 0 | 4.930|  
+|TIFP+UCT\_STA\_N2\_5K\_R2 | 0 | 5.077|  
+|TIFP+UCT\_STA\_N2\_5K\_R3 | 0 | 5.107|  
+|TIFP+UCT\_STA\_N2\_5K\_R4 | 0 | 5.088| 
 |TIFP+UCT\_STA\_N2\_10K\_R1 | 0 | 5.196|  
 |TIFP+UCT\_STA\_N2\_10K\_R2 | 0 | 4.952| 
 |TIFP+UCT\_STA\_N2\_10K\_R3 | 0 | 5.139| 
@@ -42,6 +42,8 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 |TIFP+UCT\_STA\_N2\_20K\_R2 | 0 | 5.112| 
 |TIFP+UCT\_STA\_N2\_20K\_R3 | 0 | 4.917| 
 
+* Note
+The first and second two measurements at heating rate of 5 K/min were taken on a different day. The difference in TGA data may be caused by different humidity levels. MLR data in the main part of thermal decomposition which are used for calibration are not affected.
 
 ### Experimental Conditions, Cone calorimeter with controlled atmosphere
 
