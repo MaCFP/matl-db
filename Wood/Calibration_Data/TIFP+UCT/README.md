@@ -74,3 +74,4 @@ Experiments were conducted on FTT iCone mini with controlled atmosphere module a
 
 * Note
   - Two types of samples were distributed among the MaCFP contributors - cut with the wood grain parallel and perpendicular to sample's front surface. The sample type was added to the name of each measurement.
+  - Sample mass in the gasification data at time 0 sec is the mass of the sample that was measured separately before the test using laboratory scales.
