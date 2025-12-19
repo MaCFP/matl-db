@@ -1,0 +1,159 @@
+# common functions for the analysis scripts
+
+from pathlib import Path
+import re
+import pandas as pd
+from collections import defaultdict
+
+from Secret import Names
+
+#region paths
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent
+
+DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
+FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
+labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
+
+HOCKEY_CODES = [
+    "Avs", "Bolts", "Caps", "Cats", "Canes",
+    "Sens", "Habs", "Leafs", "Isles", "Devils",
+    "Flyers", "Pens", "CBJ", "Wings", "Hawks",
+    "Preds", "Blues", "Wild", "Jets", "Stars",
+    "Nucks", "Yotes", "VGK", "Ducks", "Sharks",
+]
+
+colors = [
+    "DarkViolet", "Gray", "Red", "OrangeRed", "Gold", "Green", "DeepPink", "Lime", "DeepSkyBlue",
+    "Indigo", "Black", "Navy", "Brown", "Blue", "Cyan", "Magenta", "Khaki", "DarkGreen",
+    "darkorange", "teal", "goldenrod"
+]
+
+def label(lab):
+    IDX = labs.index(lab)
+    label = HOCKEY_CODES[IDX]
+    color = colors[IDX]
+    return label, color
+
+
+
+#region functions
+def device_data(directory:Path, device:str):
+    paths = [
+        p
+        for p in DATA_DIR.rglob("*/*.csv")
+        if p.is_file()
+        if device in p.name.upper()
+        if not any(parent.name.startswith("TEMPLATE-INSTITUTE-X") for parent in p.parents)
+    ]
+    return paths
+
+
+
+def device_subset(serieslist, heatingrate, atmosphere):
+    sub_list = [
+        p
+        for p in serieslist
+        if heatingrate in p
+        if atmosphere in p
+    ]
+    return sub_list
+
+def get_series_names(data_list):
+    """Get unique series names from CSV files in the data list"""
+    series_set = set()
+
+    # Find all CSV files recursively
+    for csv_file in data_list:
+        stem = csv_file.stem
+        match = re.match(r"^(.*)_[Rr]\d+$", stem)
+        series_name = match.group(1) if match else stem
+        series_set.add(series_name)
+
+    return sorted(list(series_set))  # Return sorted list for consistent ordering
+
+
+
+
+#tables
+def make_institution_table(
+    paths,
+    atmospheres,
+    heating_rates,
+):
+    """
+    Build a count table of data availability by institution.
+
+    Parameters
+    ----------
+    paths : list[Path]
+        List of CSV file paths
+    atmospheres : list[str]
+        Atmospheres to include (e.g. ['N2', 'O2-21'])
+    heating_rates : list[str]
+        Heating rates to include (e.g. ['10K'])
+
+    Returns
+    -------
+    pandas.DataFrame
+    """
+
+    # counts[(inst_code, atmosphere, heating_rate)] = count
+    counts = defaultdict(int)
+
+    for p in paths:
+        name = p.stem
+        parts = name.split("_")
+
+        if len(parts) < 5:
+            continue
+
+        inst, _, atm, hr, _ = parts[:5]
+
+        if atm not in atmospheres:
+            continue
+        if hr not in heating_rates:
+            continue
+
+        counts[(label(inst,HOCKEY_CODES,colors)[0], atm, hr)] += 1
+
+    # ---------- Table construction logic ----------
+    inst_codes = [code for code in HOCKEY_CODES if any(counts.get((code, atm, hr), 0) > 0 for atm in atmospheres for hr in heating_rates)]
+
+    # Case 1: single atmosphere → columns = heating rates
+    if len(atmospheres) == 1 and len(heating_rates) > 1:
+        atm = atmospheres[0]
+        data = {
+            hr: [counts.get((inst, atm, hr), 0) for inst in inst_codes]
+            for hr in heating_rates
+        }
+        df = pd.DataFrame(data, index=inst_codes)
+
+    # Case 2: single heating rate → columns = atmospheres
+    elif len(heating_rates) == 1 and len(atmospheres) > 1:
+        hr = heating_rates[0]
+        data = {
+            atm: [counts.get((inst, atm, hr), 0) for inst in inst_codes]
+            for atm in atmospheres
+        }
+        df = pd.DataFrame(data, index=inst_codes)
+
+    # Case 3: multiple atmospheres AND heating rates
+    else:
+        columns = pd.MultiIndex.from_product(
+            [atmospheres, heating_rates],
+            names=["Atmosphere", "Heating Rate"]
+        )
+
+        data = []
+        for inst in inst_codes:
+            row = [
+                counts.get((inst, atm, hr), 0)
+                for atm, hr in columns
+            ]
+            data.append(row)
+
+        df = pd.DataFrame(data, index=inst_codes, columns=columns)
+
+    df.index.name = "Institution"
+    return df
