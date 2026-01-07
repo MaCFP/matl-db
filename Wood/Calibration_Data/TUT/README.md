@@ -17,7 +17,7 @@ A TG-DTA was used to simultaneously conduct Thermogravimetric Analysis (TGA) exp
   - Volume: 25.1 uL
   - Diameter: 5.00 mm
   - Mass: 87.3 mg +/- 0.6 mg
-  - Lid: True
+  - Lid: False
   - Note: Al2O3 crucibles (outer diameter 5mm / volume 25.13 uL) without a lid.
 * Carrier Gas
   - Type: Nitrogen
