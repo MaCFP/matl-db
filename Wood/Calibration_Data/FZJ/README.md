@@ -6,10 +6,10 @@ Universität Wuppertal (BUW).
 
 ## Experimental Conditions: Microscale Combustion Calorimetry (MCC)
 
-Mass down-scaling runs have been conducted at 60 K/min, to ensure that the experiment
-was conducted under the appropriate conditions. From these runs it could
-be determine determined that a sample mass between 2 mg to 4 mg is
-appropriate for the setup (sample preparation, crucible, device, purge gas, ...).
+Mass down-scaling runs have been performed at 60 K/min, to ensure that the experiments
+were conducted under the appropriate conditions. From these runs it could
+be determined that a sample mass between 2 mg to 4 mg is appropriate
+for the setup (sample preparation, crucible, device, purge gas, ...).
 It was observed that sample masses above 4 mg would start to compress in the
 crucible under their own weight, while below 2 mg the measured signal started
 to weaken. To enable a strong signal for the lower heating rates,
@@ -23,6 +23,11 @@ at the beginning and the end of each experiment were selected manually, for
 intervals where the HRR vs. time is nearly constant. A linear fit was
 performed through points in these intervals in the temperature vs. HRR space
 and subtracted from the HRR.
+
+The data was interpolated to match a 0.5 K spacing, as requested by MaCFP.
+Note that this can lead to minor inconsistencies for a few initial data points
+where the temperature is not yet monotonically increasing, due to noise.
+
 ### Experiment Overview
 - Sample
     - Preparation: Powdered, as provided by MaCFP
