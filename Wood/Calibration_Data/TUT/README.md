@@ -23,16 +23,20 @@ A TG-DTA was used to simultaneously conduct Thermogravimetric Analysis (TGA) exp
   - Type: Nitrogen
   - Flow rate: 50 ml/min
   - Note: High Purity Nitrogen (99.9% or more)
+* Pressure
+  - Measurement were conducted while varying the pressure inside the experimental apparatus.
+  - The pressure conditions were set to 100 kPa and 40 Pa.
+  - Each pressure condition is indicated in the file name (e.g., filename_100kPa_R1).
 * Instrument
   - Type: Rigaku/TG-DTA8122
   - Furnace Type: Platinum
   - Notes: None
 
-| Test Name | O2 volume % |  Initial Sample Mass (mg) | 
-| --------- | :---------: | :------------------------: |
-|TUT_TGA_N2_10K_100kPa_R1 | 0 | 5.065|  
-|TUT_TGA_N2_10K_100kPa_R2 | 0 | 4.997|  
-|TUT_TGA_N2_10K_100kPa_R3 | 0 | 4.980|  
-|TUT_TGA_N2_10K_40Pa_R1 | 0 | 5.028|
-|TUT_TGA_N2_10K_40Pa_R2 | 0 | 5.031|
-|TUT_TGA_N2_10K_40Pa_R3 | 0 | 4.926|
+| Test Name | O2 volume % |  Initial Sample Mass (mg) | Pressure (Pa) |
+| --------- | :---------: | :------------------------: | :------: |
+|TUT_TGA_N2_10K_100kPa_R1 | 0 | 5.065| 100000 |  
+|TUT_TGA_N2_10K_100kPa_R2 | 0 | 4.997| 100000 |  
+|TUT_TGA_N2_10K_100kPa_R3 | 0 | 4.980| 100000 |  
+|TUT_TGA_N2_10K_40Pa_R1 | 0 | 5.028| 40 |
+|TUT_TGA_N2_10K_40Pa_R2 | 0 | 5.031| 40 |
+|TUT_TGA_N2_10K_40Pa_R3 | 0 | 4.926| 40 |
