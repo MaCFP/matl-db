@@ -11,7 +11,7 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
   - Final Isotherm: 300 s (hold 1074 K for 300 s)
 * Sample mass: 1 mg +/- 0.05 mg
 * Sample geometry: Powdered
-* Calibration type: Results are baselinde-corrected. Temperature and heat flow calibration were performed before the experimental campaign with aluminum, indium and zinc.
+* Calibration type: Results are baseline-corrected. Temperature and heat flow calibration were performed before the experimental campaign with aluminum, indium and zinc.
 * Crucible
   - Type: alumina
   - Volume: 70 uL
@@ -92,7 +92,8 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 ###### Test Heating Conditions  
 
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: |
+|----------|:------:| :---: |:------:| :---: | :---: |:---: |
 |TUBS\_Cone\_30KW\_hor\_R1 | 30 | - | 2.55 | parallel | 26 | -|
 |TUBS\_Cone\_30KW\_hor\_R2 | 30 | - | 2.55 | parallel | 27 | -|
 |TUBS\_Cone\_30KW\_hor\_R3 | 30 | - | 2.55 | parallel | 25 | -|
+
