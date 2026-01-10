@@ -11,7 +11,7 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
   - Final Isotherm: 300 s (hold 1074 K for 300 s)
 * Sample mass: 1 mg +/- 0.05 mg
 * Sample geometry: Powdered
-* Calibration type: Results are baselinde-corrected. Temperature and heat flow calibration were performed before the experimental campaign with aluminum, indium and zinc.
+* Calibration type: Results are baseline-corrected. Temperature and heat flow calibration were performed before the experimental campaign with aluminum, indium and zinc.
 * Crucible
   - Type: alumina
   - Volume: 70 uL
@@ -46,3 +46,55 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
 |TUBS\_TGA\_N2\_50K\_R1 | 0 | 0.99| 
 |TUBS\_TGA\_N2\_50K\_R2 | 0 | 1.02| 
 |TUBS\_TGA\_N2\_50K\_R3 | 0 | 0.97| 
+
+### Experimental Conditions: MCC
+A FTT microscale combustion calorimeter was used to conduct MCC experiments.
+
+* Heating Rate: 30 K/min
+* Temperature program (Pyrolyzer)
+  - Initial temperature 348 K 
+  - Maximum Temperature 1073 K
+* Combustor Temperature: 1173K
+* Sample mass: 1 mg +/- 0.05mg
+* Sample geometry: Powdered
+* Calibration type: Temperature and Tau calibration were performed right before the test campaign and according to the standard.
+* Crucible type: Alumina crucibles (volume 57 uL) with no lid
+* Method A (inert atmosphere in pyrolyzer)
+* Pyrolyzer Carrier Gas
+  - Ultra High Purity (UHP) Nitrogen 
+  - N2 Flow rate = 80 ml/min
+* Combustor Carrier Gas
+  - Ultra High Purity (UHP) Oxygen + Pyrolyzer Carrier Gas
+  - O2 Flow rate = 20 ml/min
+* Instrument
+  - Type: FTT
+  - O2 Analyzer: Chemical
+* Baseline correction: The baseline was determined by fitting a 5th‑degree polynomial to the HRR signal in two temperature intervals where the heat release rate is assumed to be zero, namely 90–130 °C and 600–800 °C. The resulting polynomial was then evaluated over the full temperature range and subtracted from the HRR data to yield the baseline‑corrected curves. Data below 473 K were cut.
+  
+| Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
+| --------- | :---------: | :------------------------: | :------------------------: |
+|TUBS\_MCC\_N2\_30K\_R1 | 0 | 1.03 | 0.07 |
+|TUBS\_MCC\_N2\_30K\_R1 | 0 | 1.04 | 0.11 |
+|TUBS\_MCC\_N2\_30K\_R1 | 0 | 1.05 | 0.12 |
+
+### Experimental Conditions: Cone calorimeter
+
+* Test Standard: ISO 5660
+* Extraction flow rate: 24L/s
+* Sample Surface Area: 0.00884 m2
+* Sample holder dimensions:
+    - Square pan: 106mm x 106mm x 25mm
+    - Retainer frame: 94mm x 94mm opening, 53mm height
+    - Retaining grid: None
+* Backing Insulation: 27.5mm thick layer of mineal wool.
+* Thermocouple location: None
+* Ignition Source: spark ignitor
+
+###### Test Heating Conditions  
+
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | t_ign (s)|t_flameout (s)|
+|----------|:------:| :---: |:------:| :---: | :---: |:---: |
+|TUBS\_Cone\_30KW\_hor\_R1 | 30 | - | 2.55 | parallel | 26 | -|
+|TUBS\_Cone\_30KW\_hor\_R2 | 30 | - | 2.55 | parallel | 27 | -|
+|TUBS\_Cone\_30KW\_hor\_R3 | 30 | - | 2.55 | parallel | 25 | -|
+
