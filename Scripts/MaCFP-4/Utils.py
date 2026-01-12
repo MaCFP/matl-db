@@ -1,10 +1,10 @@
 # common functions for the analysis scripts
-
-from pathlib import Path
 import re
 import pandas as pd
-from collections import defaultdict
+import numpy as np
 
+from pathlib import Path
+from collections import defaultdict
 from Secret import Names
 
 #region paths
@@ -15,13 +15,6 @@ DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 
-# HOCKEY_CODES = [
-#     "Avs", "Bolts", "Caps", "Cats", "Canes",
-#     "Sens", "Habs", "Leafs", "Isles", "Devils",
-#     "Flyers", "Pens", "CBJ", "Wings", "Hawks",
-#     "Preds", "Blues", "Wild", "Jets", "Stars",
-#     "Nucks", "Yotes", "VGK", "Ducks", "Sharks",
-# ]
 
 CODES = ["Pekin", "Aylesbury", "Rouen",  "Saxony", 
           "Cayuga", "Buff", "Magpie", "Ancona", "Crested", 
@@ -161,3 +154,19 @@ def make_institution_table(
 
     df.index.name = "Institution"
     return df
+
+
+def interpolation(df:pd.DataFrame):
+    T_floor = df["Temperature (K)"].iloc[0]
+    T_floor = np.ceil(T_floor) 
+    T_ceil = df["Temperature (K)"].iloc[-1]
+    T_ceil = np.floor(T_ceil) 
+
+    InterpT = np.arange(T_floor, T_ceil+0.5, 0.5)
+    length = len(InterpT)
+    df_interp = pd.DataFrame(index=range(length))
+    for columns in df.columns[:]:
+        df_interp[columns] = np.interp(
+            InterpT, df["Temperature (K)"], df[columns]
+        )
+    return df_interp

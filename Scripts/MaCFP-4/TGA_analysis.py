@@ -6,7 +6,7 @@ from collections import defaultdict
 from pathlib import Path
 from scipy.signal import savgol_filter
 
-from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def
+from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
 from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
 from Secret import Names
 
@@ -86,22 +86,6 @@ def Calculate_dm_dt(df:pd.DataFrame):
 
 
 
-def interpolation(df:pd.DataFrame):
-    T_floor = df["Temperature (K)"].iloc[0]
-    T_floor = np.ceil(T_floor) 
-    T_ceil = df["Temperature (K)"].iloc[-1]
-    T_ceil = np.floor(T_ceil) 
-
-    InterpT = np.arange(T_floor, T_ceil+0.5, 0.5)
-    length = len(InterpT)
-    df_interp = pd.DataFrame(index=range(length))
-    for columns in df.columns[:]:
-        df_interp[columns] = np.interp(
-            InterpT, df["Temperature (K)"], df[columns]
-        )
-    return df_interp
-
-
 def average_HR_tga_series(series_name: str):
     
     paths = list(DATA_DIR.glob(f"*/{series_name}_[rR]*.csv"))
@@ -146,13 +130,13 @@ def average_HR_tga_series(series_name: str):
 
 
 
-def average_tga_set(set_name: str):
+def average_tga_series(series_name: str):
     
-    paths = list(DATA_DIR.glob(f"*/{set_name}_[rR]*.csv"))
+    paths = list(DATA_DIR.glob(f"*/{series_name}_[rR]*.csv"))
     Dataframes = []
 
     if len(paths) == 0:
-        raise Exception((f"No files found for series {set_name}", "red"))
+        raise Exception((f"No files found for series {series_name}", "red"))
 
     # Read data
 
