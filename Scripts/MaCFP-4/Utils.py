@@ -1,10 +1,10 @@
 # common functions for the analysis scripts
-
-from pathlib import Path
 import re
 import pandas as pd
-from collections import defaultdict
+import numpy as np
 
+from pathlib import Path
+from collections import defaultdict
 from Secret import Names
 
 #region paths
@@ -15,26 +15,23 @@ DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 
-HOCKEY_CODES = [
-    "Avs", "Bolts", "Caps", "Cats", "Canes",
-    "Sens", "Habs", "Leafs", "Isles", "Devils",
-    "Flyers", "Pens", "CBJ", "Wings", "Hawks",
-    "Preds", "Blues", "Wild", "Jets", "Stars",
-    "Nucks", "Yotes", "VGK", "Ducks", "Sharks",
-]
+
+CODES = ["Pekin", "Aylesbury", "Rouen",  "Saxony", 
+          "Cayuga", "Buff", "Magpie", "Ancona", "Crested", 
+          "Call",  "Muscovy", "Bali", "Pomeranian",  
+         "Shetland", "Alabio", "Mallard"]
 
 colors = [
-    "DarkViolet", "Gray", "Red", "OrangeRed", "Gold", "Green", "DeepPink", "Lime", "DeepSkyBlue",
-    "Indigo", "Black", "Navy", "Brown", "Blue", "Cyan", "Magenta", "Khaki", "DarkGreen",
+    "DarkViolet", "Gray",  "OrangeRed", "Gold", "Green", "DeepPink", "Lime", "DeepSkyBlue",
+    "Indigo", "Black", "Navy","Red", "Brown", "Blue", "Cyan", "Magenta", "Khaki", "DarkGreen",
     "darkorange", "teal", "goldenrod"
 ]
 
-def label(lab):
+def label_def(lab):
     IDX = labs.index(lab)
-    label = HOCKEY_CODES[IDX]
+    label = CODES[IDX]
     color = colors[IDX]
     return label, color
-
 
 
 #region functions
@@ -115,10 +112,10 @@ def make_institution_table(
         if hr not in heating_rates:
             continue
 
-        counts[(label(inst,HOCKEY_CODES,colors)[0], atm, hr)] += 1
+        counts[(label_def(inst)[0], atm, hr)] += 1
 
     # ---------- Table construction logic ----------
-    inst_codes = [code for code in HOCKEY_CODES if any(counts.get((code, atm, hr), 0) > 0 for atm in atmospheres for hr in heating_rates)]
+    inst_codes = [code for code in CODES if any(counts.get((code, atm, hr), 0) > 0 for atm in atmospheres for hr in heating_rates)]
 
     # Case 1: single atmosphere → columns = heating rates
     if len(atmospheres) == 1 and len(heating_rates) > 1:
@@ -157,3 +154,19 @@ def make_institution_table(
 
     df.index.name = "Institution"
     return df
+
+
+def interpolation(df:pd.DataFrame):
+    T_floor = df["Temperature (K)"].iloc[0]
+    T_floor = np.ceil(T_floor) 
+    T_ceil = df["Temperature (K)"].iloc[-1]
+    T_ceil = np.floor(T_ceil) 
+
+    InterpT = np.arange(T_floor, T_ceil+0.5, 0.5)
+    length = len(InterpT)
+    df_interp = pd.DataFrame(index=range(length))
+    for columns in df.columns[:]:
+        df_interp[columns] = np.interp(
+            InterpT, df["Temperature (K)"], df[columns]
+        )
+    return df_interp
