@@ -52,9 +52,9 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
 |TUBS\_TGA\_N2\_50K\_R1 | 0 | 0.99| 
 |TUBS\_TGA\_N2\_50K\_R2 | 0 | 1.02| 
 |TUBS\_TGA\_N2\_50K\_R3 | 0 | 0.97| 
-|TUBS\_TGA\_N2\_ISO320\_R1 | 0 | 1.02| 
-|TUBS\_TGA\_N2\_ISO320\_R2 | 0 | 0.99| 
-|TUBS\_TGA\_N2\_ISO320\_R3 | 0 | 0.96| 
+|TUBS\_TGA\_N2\_593Kiso\_R1 | 0 | 1.02| 
+|TUBS\_TGA\_N2\_593Kiso\_R2 | 0 | 0.99| 
+|TUBS\_TGA\_N2\_593Kiso\_R3 | 0 | 0.96| 
 
 ### Experimental Conditions: MCC
 A FTT microscale combustion calorimeter was used to conduct MCC experiments.
