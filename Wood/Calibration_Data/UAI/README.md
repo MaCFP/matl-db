@@ -42,7 +42,7 @@ Prior to each test, the system was flooded with nitrogen for 30 minutes. The sam
     - Depth: 4.2 mm
     - Lid: N/A
 
-The crucible was mechanically connected to the analytical balance through the brass rod and connected to the 3D support. 
+The crucible was mechanically connected to the analytical balance through the brass rod and connected to the 3D part. 
 
 - **Sample**
     - Initial sample mass: 15 mg
