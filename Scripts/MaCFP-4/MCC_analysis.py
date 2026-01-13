@@ -79,7 +79,8 @@ def average_MCC_series(series_name: str):
         df = pd.read_csv(path)
 
         #interpolation
-        df_interp = interpolation(df)
+       # df_interp = interpolation(df)
+        df_interp = df
         df_interp['dTdt'] = 60*np.gradient(df_interp['Temperature (K)'], df_interp['Time (s)'])
         Dataframes.append(df_interp)
     
@@ -130,7 +131,7 @@ for HR in unique_HR:
     for set in MCC_sub_set:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
-        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], label = label, color = color)
+        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'.', markersize=0.8, label = label, color = color)
         ax.set_xlabel('Temperature (K)')
         ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
@@ -170,7 +171,54 @@ for series in unique_conditions:
     fig2.tight_layout()
     ax2.legend()
 
-    fig1.savefig(str(base_dir) + '/MCC/MCC_{}_{}_Mass.{}'.format(atm,hr,ex))
-    fig2.savefig(str(base_dir) + '/MCC/MCC_{}_{}_dmdt.{}'.format(atm,hr,ex))
+    fig1.savefig(str(base_dir) + '/MCC/MCC_{}_{}_HRR.{}'.format(atm,hr,ex))
+    fig2.savefig(str(base_dir) + '/MCC/MCC_{}_{}_int_HRR.{}'.format(atm,hr,ex))
     plt.close(fig1)
     plt.close(fig2)
+
+
+#check mass scaling FZJ
+# HRR and int HRR rate plots for all unique atmospheres and heating rates 
+initial_mass = {
+    'R1': {'mass': 0.98, 'color': 'darkviolet'},
+    'R2': {'mass': 2.0, 'color': 'darkred'},
+    'R3': {'mass': 1.95, 'color': 'red'},
+    'R4': {'mass': 1.93, 'color': 'lightcoral'},
+    'R5': {'mass': 3.97, 'color': 'darkgreen'},
+    'R6': {'mass': 5.98, 'color': 'darkblue'},
+    'R7': {'mass': 5.96, 'color': 'blue'},
+    'R8': {'mass': 6.09, 'color': 'royalblue'},
+    'R9': {'mass': 7.17, 'color': 'darkgoldenrod'},
+    'R10': {'mass': 7.19, 'color': 'goldenrod'},
+    'R11': {'mass': 7.23, 'color': 'gold'},
+    'R12': {'mass': 3.91, 'color': 'lime'},
+    'R13': {'mass': 3.99, 'color': 'limegreen'},
+    'R14': {'mass': 4.09, 'color': 'green'},
+    'R15': {'mass': 7.09, 'color': 'black'}
+}
+
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+for test in DATA_DIR.rglob("FZJ/FZJ_*60K*.csv"):
+    parts = test.stem.split('_')
+    Repetition = parts[-1]
+    df_raw = pd.read_csv(test)
+    df = calculate_int_HRR(df_raw)
+    #ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
+    ax1.plot(df['Temperature (K)'], np.gradient(df['Temperature (K)'], df['Time (s)']), label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
+
+# Sort legend
+handles, labels = ax1.get_legend_handles_labels()
+labels_float = [float(label) for label in labels]
+sorted_pairs = sorted(zip(labels_float, handles))
+sorted_labels = [label for label, _ in sorted_pairs]
+sorted_handles = [handle for _, handle in sorted_pairs]
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlabel('Temperature (K)')
+ax1.set_ylabel('HRR [W g$^{-1}$]')
+fig1.tight_layout()
+ax1.legend(sorted_handles, sorted_labels)
+
+fig1.savefig(str(base_dir) + '/MCC/MCC_FZJ_60K_HR_Mass-Scaling_HRR.{}'.format(ex))
+plt.close(fig1)
+ 

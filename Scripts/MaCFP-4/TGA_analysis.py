@@ -132,9 +132,9 @@ def average_HR_tga_series(series_name: str):
 
 def average_tga_series(series_name: str):
     
-    paths = list(DATA_DIR.glob(f"*/{series_name}_[rR]*.csv"))
+    paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
     Dataframes = []
-
     if len(paths) == 0:
         raise Exception((f"No files found for series {series_name}", "red"))
 
@@ -142,7 +142,6 @@ def average_tga_series(series_name: str):
 
     for i, path in enumerate(paths):
         df_raw = pd.read_csv(path)
-
         # calculate derivatives
         df=Calculate_dm_dt(df_raw)
         df = df.drop(columns=['filtered'])
@@ -211,7 +210,7 @@ for HR in unique_HR:
         ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
         fig.tight_layout()
         ax.legend()
-    plt.savefig('../../../matl-db-organizing-committee/SCRIPT_FIGURES/TGA/HR_TGA_{}Kmin.{}'.format(HR[:-1], ex))
+    plt.savefig(str(base_dir) +'/TGA/HR_TGA_{}Kmin.{}'.format(HR[:-1], ex))
     plt.close(fig)
 
 
@@ -315,7 +314,7 @@ Average_values = pd.DataFrame({
 for idx,set in enumerate(TGA_sets):
     fig, ax_mass = plt.subplots(figsize=(6, 4))
     ax_rate = ax_mass.twinx()
-    df_average = average_tga_set(set)
+    df_average = average_tga_series(set)
 
     # plot average
     # Plot mass (left y-axis)
@@ -385,3 +384,43 @@ for idx,set in enumerate(TGA_sets):
     plt.close(fig)
 Average_values.drop('set',axis=1)
 print(Average_values)
+
+
+
+
+# Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
+# HR plots for all unique HR
+color = {'5K':'blue','10K':'black','20K':'red'}
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+fig2, ax2 = plt.subplots(figsize=(6, 4))
+for series in ['N2_5K','N2_10K','N2_20K']:
+    parts = series.split('_')
+    atm, hr  = parts[:2]
+    df_average = average_tga_series(series)
+    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr, color = color[hr])
+    ax1.fill_between(df_average['Temperature (K)'], 
+                    df_average['Normalized Mass']-2*df_average['unc Normalized Mass'],
+                    df_average['Normalized Mass']+2*df_average['unc Normalized Mass'],
+                    color=color[hr], alpha = 0.3)
+    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr, color = color[hr])
+    ax2.fill_between(df_average['Temperature (K)'], 
+                    df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
+                    df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
+                    color=color[hr], alpha = 0.3)
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlabel('Temperature (K)')
+ax1.set_ylabel('m/m$_0$ [g/g]')
+fig1.tight_layout()
+ax1.legend()
+
+ax2.set_ylim(bottom=0)
+ax2.set_xlabel('Temperature (K)')
+ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+fig2.tight_layout()
+ax2.legend()
+
+fig1.savefig(str(base_dir) + '/TGA/TGA_Average_N2_Mass.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/TGA/TGA_Average_N2_dmdt.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)
