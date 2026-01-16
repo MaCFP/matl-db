@@ -35,15 +35,15 @@ TGA_Data = device_data(DATA_DIR, 'TGA') + device_data(DATA_DIR, 'STA')
 # All unique sets (name without repetition number, e.g.TUT_TGA_N2_10K_40Pa )
 TGA_sets = get_series_names(TGA_Data)
 # All unique conditions over all institutes
-unique_conditions = { '_'.join(s.split('_')[2:]) for s in TGA_sets}
-
+unique_conditions = { '_'.join(s.split('_')[3:]) for s in TGA_sets}
+unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in TGA_sets if '_' in name))
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-print(make_institution_table(TGA_Data,['N2'],['5K','10K','20K','30K','40K','50K','60K']))
+print(make_institution_table(TGA_Data,['Wood'],['N2'],['5K','10K','20K','30K','40K','50K','60K']))
 
 print('Oxygen table')
-print(make_institution_table(TGA_Data,['O2-21'],['5K','10K','20K','30K','40K','50K','60K']))
+print(make_institution_table(TGA_Data,['Wood'],['O2-21'],['5K','10K','20K','30K','40K','50K','60K']))
 
 
 
@@ -89,6 +89,8 @@ def Calculate_dm_dt(df:pd.DataFrame):
 def average_HR_tga_series(series_name: str):
     
     paths = list(DATA_DIR.glob(f"*/{series_name}_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in TGA_Data]
     Dataframes_HR = []
 
     if len(paths) == 0:
@@ -102,7 +104,10 @@ def average_HR_tga_series(series_name: str):
         #interpolation
         df_interp = interpolation(df)
 
-        df_interp["dTdt"] = 60 * np.gradient(df_interp["Temperature (K)"], df_interp["Time (s)"])
+        #df_interp["dTdt"] = 60 * np.gradient(df_interp["Temperature (K)"], df_interp["Time (s)"])
+        window = 5
+        dt = df_interp['Time (s)'].shift(-5) - df_interp['Time (s)'].shift(5)
+        df_interp['dTdt'] = -60*(df_interp['Temperature (K)'].shift(5) - df_interp['Temperature (K)'].shift(-5)) / dt
         Dataframes_HR.append(df_interp)
 
     merged_df = Dataframes_HR[0]
@@ -134,6 +139,8 @@ def average_tga_series(series_name: str):
     
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in TGA_Data]
+
     Dataframes = []
     if len(paths) == 0:
         raise Exception((f"No files found for series {series_name}", "red"))
@@ -197,30 +204,33 @@ def average_tga_series(series_name: str):
 #region plots
 #--------------------------------------------------------
 # HR plots for all unique HR
-unique_HR = { '_'.join(s.split('_')[3:]) for s in TGA_sets}
+unique_HR = {s.split('_')[4] for s in TGA_sets}
 for HR in unique_HR:
-    fig, ax = plt.subplots(figsize=(6, 4))
-    TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21')
-    for set in TGA_sub_set:
-        average = average_HR_tga_series(set)
-        label, color = label_def(set.split('_')[0])
-        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '.', label = label, color=color, markersize=0.8)
-        ax.set_xlabel('Temperature (K)')
-        ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
-        ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
-        fig.tight_layout()
-        ax.legend()
-    plt.savefig(str(base_dir) +'/TGA/HR_TGA_{}Kmin.{}'.format(HR[:-1], ex))
-    plt.close(fig)
+    if 'iso' in HR:
+        continue
+    else:
+        fig, ax = plt.subplots(figsize=(6, 4))
+        TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21')
+        for set in TGA_sub_set:
+            average = average_HR_tga_series(set)
+            label, color = label_def(set.split('_')[0])
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '.', label = label, color=color, markersize=1)
+            ax.set_xlabel('Temperature (K)')
+            ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
+            ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
+            fig.tight_layout()
+            ax.legend()
+        plt.savefig(str(base_dir) +'/TGA/HR_TGA_{}Kmin.{}'.format(HR[:-1], ex))
+        plt.close(fig)
 
 
 # Mass and mass loss rate plots for all unique atmospheres and heating rates 
-for series in unique_conditions:
+for series in unique_conditions_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
-    atm, hr,  = parts[:2]
-    TGA_subset_paths = [p for p in TGA_Data if f"_{atm}_{hr}_" in p.name]
+    material, dev, atm, hr  = parts[:4]
+    TGA_subset_paths = [p for p in TGA_Data if f"{material}" in p.name and f"_{atm}_{hr}_" in p.name]
     for path in TGA_subset_paths:
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
@@ -240,8 +250,8 @@ for series in unique_conditions:
     fig2.tight_layout()
     ax2.legend()
 
-    fig1.savefig(str(base_dir) + '/TGA/TGA_{}_{}_Mass.{}'.format(atm,hr,ex))
-    fig2.savefig(str(base_dir) + '/TGA/TGA_{}_{}_dmdt.{}'.format(atm,hr,ex))
+    fig1.savefig(str(base_dir) + '/TGA/TGA_{}_{}_{}_Mass.{}'.format(material, atm,hr,ex))
+    fig2.savefig(str(base_dir) + '/TGA/TGA_{}_{}_{}_dmdt.{}'.format(material, atm,hr,ex))
     plt.close(fig1)
     plt.close(fig2)
 
@@ -255,9 +265,6 @@ for path in TGA_Data:
     ax_rate = ax_mass.twinx()
     df_raw = pd.read_csv(path)
     df = Calculate_dm_dt(df_raw)
-
-    # Label/color by sample/material
-    label, color = label_def(path.stem.split('_')[0])
 
     # Plot mass (left y-axis)
     ax_mass.plot(df['Temperature (K)'], df['Normalized mass'],
@@ -298,12 +305,12 @@ for path in TGA_Data:
 
 
 
-# plot average per TGA_set (unique institutions, unique conditions)
+# plot average per TGA_set (unique institutions, unique material, unique conditions)
 # and print a table with values of interest
 Average_values = pd.DataFrame({
     'set': TGA_sets,
     'Duck':[label_def(t.split('_')[0])[0] for t in TGA_sets],
-    'conditions':[t.split('A_')[1] for t in TGA_sets],
+    'conditions':[t.split('_')[3:] for t in TGA_sets],
     'peak MLR': np.nan,
     'std peak MLR': np.nan,
     'T peak': np.nan,
@@ -385,6 +392,16 @@ for idx,set in enumerate(TGA_sets):
 Average_values.drop('set',axis=1)
 print(Average_values)
 
+# plot of peak values 
+fig_values, ax_values = plt.subplots(figsize=(6, 4))
+for row in Average_values:
+    if str(Average_values['conditions'][0:5])=='N2_10K':
+        fig_values.plot(Average_values['T peak'],Average_values['peak MLR'])
+ax_values.set_xlabel('peak Temperature (K)')
+ax_values.set_ylabel('peak MLR [g/g]')
+fig_values.tight_layout()
+plt.savefig(str(base_dir) + f'/TGA/TGA_peakvalues.{ex}')
+plt.close(fig_values)
 
 
 
@@ -393,9 +410,9 @@ print(Average_values)
 color = {'5K':'blue','10K':'black','20K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))
-for series in ['N2_5K','N2_10K','N2_20K']:
+for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
     parts = series.split('_')
-    atm, hr  = parts[:2]
+    atm, hr  = parts[2:]
     df_average = average_tga_series(series)
     ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr, color = color[hr])
     ax1.fill_between(df_average['Temperature (K)'], 
@@ -424,3 +441,4 @@ fig1.savefig(str(base_dir) + '/TGA/TGA_Average_N2_Mass.{}'.format(ex))
 fig2.savefig(str(base_dir) + '/TGA/TGA_Average_N2_dmdt.{}'.format(ex))
 plt.close(fig1)
 plt.close(fig2)
+
