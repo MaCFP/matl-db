@@ -74,7 +74,7 @@ def get_series_names(data_list):
 
 #tables
 def make_institution_table(
-    paths,
+    paths, materials,
     atmospheres,
     heating_rates,
 ):
@@ -101,27 +101,27 @@ def make_institution_table(
     for p in paths:
         name = p.stem
         parts = name.split("_")
-
         if len(parts) < 5:
             continue
 
-        inst, _, atm, hr, _ = parts[:5]
-
+        inst, mat, _, atm, hr = parts[:5]
+        if mat not in materials:
+            continue
         if atm not in atmospheres:
             continue
         if hr not in heating_rates:
             continue
 
-        counts[(label_def(inst)[0], atm, hr)] += 1
-
+        counts[(label_def(inst)[0], mat, atm, hr)] += 1
+        
     # ---------- Table construction logic ----------
-    inst_codes = [code for code in CODES if any(counts.get((code, atm, hr), 0) > 0 for atm in atmospheres for hr in heating_rates)]
+    inst_codes = [code for code in CODES if any(counts.get((code, mat,atm, hr), 0) > 0 for mat in materials for atm in atmospheres for hr in heating_rates)]
 
     # Case 1: single atmosphere → columns = heating rates
     if len(atmospheres) == 1 and len(heating_rates) > 1:
         atm = atmospheres[0]
         data = {
-            hr: [counts.get((inst, atm, hr), 0) for inst in inst_codes]
+            hr: [sum(counts.get((inst,m, atm, hr), 0) for m in materials) for inst in inst_codes]
             for hr in heating_rates
         }
         df = pd.DataFrame(data, index=inst_codes)
@@ -130,7 +130,7 @@ def make_institution_table(
     elif len(heating_rates) == 1 and len(atmospheres) > 1:
         hr = heating_rates[0]
         data = {
-            atm: [counts.get((inst, atm, hr), 0) for inst in inst_codes]
+            atm: [sum(counts.get((inst,m, atm, hr), 0) for m in materials) for inst in inst_codes]
             for atm in atmospheres
         }
         df = pd.DataFrame(data, index=inst_codes)
@@ -145,7 +145,7 @@ def make_institution_table(
         data = []
         for inst in inst_codes:
             row = [
-                counts.get((inst, atm, hr), 0)
+                sum(counts.get((inst,m, atm, hr), 0) for m in materials)
                 for atm, hr in columns
             ]
             data.append(row)
