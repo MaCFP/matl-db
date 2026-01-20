@@ -49,7 +49,6 @@ The crucible was mechanically connected to the analytical balance through the br
     - Sample geometry: Powdered
 
 - **Calibration type**
-
 Two calibration procedures were performed
-  - **Mass calibration**: The analytical balance exhibited a time-dependent drift characterized by a gradual decrease in the measured mass. To quantify this effect, a blank experiment (no sample) was conducted under identical experimental conditions. The resulting drift curve was subtracted from the mass measured during each experiment.
-  - **Temperature calibration**: Since the tubular furnace reports the furnace wall temperature rather than the crucible temperature, a Type-K thermocouple connected to a Labjack T7-Pro data acquisition system was placed directly at the crucible location. The recorded temperature evolution was used to establish the calibration function relating the crucible temperature to the furnace temperature.
+  - **Mass calibration**: The analytical balance exhibited a time-dependent drift characterized by a gradual decrease in the measured mass. To quantify this effect, a blank experiment (no sample) was conducted under identical experimental conditions. The resulting drift curve was subtracted from the mass measured during each experiment. The drift was fitter using a third-order polynomial function of time (in minutes).
+  - **Temperature calibration**: Since the tubular furnace reports the furnace wall temperature rather than the crucible temperature, a Type-K thermocouple connected to a Labjack T7-Pro data acquisition system was placed directly at the crucible location. The recorded temperature evolution was used to establish the calibration function relating the crucible temperature to the furnace temperature. The calibration curve was fitted using a third-order polynomial function of the furnace wall temperature (in °C). 
