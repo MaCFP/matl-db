@@ -8,7 +8,7 @@ from scipy.signal import savgol_filter
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
 from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
-from Secret import Names
+
 
 #define whether to save files in pdf or png
 ex = 'pdf' #options 'pdf' or 'png
