@@ -107,6 +107,13 @@ def average_cone_series(series_name: str):
     return df_average
 
 
+def calculate_int_HRR(df:pd.DataFrame):
+    total_hrr = np.zeros(len(df))
+    for i in range(1, len(df)):
+        total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (kW/m2)'].iloc[i-1] + df['HRR (kW/m2)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
+    df['Int HRR'] = total_hrr
+    return df
+
 
 
 # Mass and HRR plots for all unique atmospheres and heating rates
@@ -212,33 +219,30 @@ for idx,set in enumerate(Cone_sets):
 
 
     #plot individual
-    paths_TGA_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
-    # peak_mlr_list = []
-    # T_peak_list = []
-    # T_onset_list = []
+    paths_CONE_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    ignition_time_list = []
+    HOC_list = []
 
-    for path in paths_TGA_set:
+    for path in paths_CONE_set:
         df_raw = pd.read_csv(path)
-        df = df_raw
+        df = calculate_int_HRR(df_raw)
 
-        # peak_mlr = df["dm/dt"].max()
-        # peak_index = df["dm/dt"].idxmax()
-        # T_peak = df["Temperature (K)"].iloc[peak_index]
-        # onset_index = df[df['dm/dt'] >= 0.1 * peak_mlr].index[0]
-        # T_onset = df["Temperature (K)"].iloc[onset_index]
+        ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
+        ignition_time = df["Time (s)"].iloc[ignition_index]
+        m0 = np.mean(df["Mass (g)"][1:5])
+        index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
+        index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
+        HOC = m0*(df['Int HRR'][index_end]-df['Int HRR'][index_start])/(df['Mass (g)'][index_start]-df['Mass (g)'][index_end])
 
-        # peak_mlr_list.append(peak_mlr)
-        # T_peak_list.append(T_peak)
-        # T_onset_list.append(T_onset)
+        ignition_time_list.append(ignition_time)
+        HOC_list.append(HOC)
 
         ax_HRR.plot(df['Time (s)'], df['HRR (kW/m2)'], '.',color ='black',markersize=0.0002)
 
-    # Average_values.at[idx, 'peak MLR'] = np.mean(peak_mlr_list)
-    # Average_values.at[idx, 'std peak MLR'] = np.std(peak_mlr_list, ddof=1)
-    # Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)
-    # Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
-    # Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
-    # Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
+    Average_values.at[idx, 'ignition time'] = np.mean(ignition_time_list)
+    Average_values.at[idx, 'std ignition time'] = np.std(ignition_time_list, ddof=1)
+    Average_values.at[idx, 'HOC'] = np.mean(HOC_list)
+    Average_values.at[idx, 'std HOC'] = np.std(HOC_list, ddof=1)
 
     # Set lower limits of both y-axes to 0
     ax_HRR.set_ylim(bottom=0)
