@@ -5,7 +5,7 @@ import numpy as np
 
 from pathlib import Path
 from collections import defaultdict
-from Secret import Names
+
 
 #region paths
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -38,7 +38,7 @@ def label_def(lab):
 def device_data(directory:Path, device:str):
     paths = [
         p
-        for p in DATA_DIR.rglob("*/*.csv")
+        for p in DATA_DIR.rglob("*.csv")
         if p.is_file()
         if device in p.name.upper()
         if not any(parent.name.startswith("TEMPLATE-INSTITUTE-X") for parent in p.parents)
