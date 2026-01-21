@@ -1,4 +1,4 @@
-# IMT Mines AlÃ¨s (IMT)
+# IMT Mines Alès (IMT)
 
 ### Experimental Conditions: TGA
 A Perkin Elmer TGA 8000 was used to conduct Thermogravimetric Analysis (TGA) experiments. 
@@ -26,6 +26,8 @@ A Perkin Elmer TGA 8000 was used to conduct Thermogravimetric Analysis (TGA) exp
 * Instrument
   - Type: Perkin Elmer TGA 8000
   - Furnace: Platinum + ceramic protective coating
+* Notes
+  - The temperature reported in the data files corresponds to the sample temperature and not the furnace temperature
 
 | Test Name | O2 volume (%) |  Heating rate (K/min) | Initial mass (mg) |
 | --------- | :-----------: | :-------------------: | :---------------: |
@@ -86,7 +88,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 
 * Test Standard: ISO 5660
 * Extraction flow rate: 24L/s
-* Sample Surface Area: 0.01 mÂ² (nominal) 0.00884 mÂ² (with frame)
+* Sample Surface Area: 0.01 m² (nominal) 0.00884 m² (with frame)
 * Sample holder dimensions:
     - Square pan: 100 mm x 100 mm x 22 mm
     - Retainer frame: 94 mm x 94 mm opening, 53 mm height
@@ -96,7 +98,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 * Thermocouple location: None
 * Ignition Source: Spark ignitor
 
-| Test Name | Heat Flux (kW/mÂ²)| Heater Temperature (K) | Thickness (cm) | t_ign (s)| t_flameout (s) |
+| Test Name | Heat Flux (kW/m²)| Heater Temperature (K) | Thickness (cm) | t_ign (s)| t_flameout (s) |
 |-----------| :--------------: | :--------------------: | :------------: | :------: | :------------: |
 | IMT-Mines-Ales_Wood_Cone_25kW_hor_R1 | 25 | 853 | 2.5 | 126 | 2301 |
 | IMT-Mines-Ales_Wood_Cone_25kW_hor_R2 | 25 | 853 | 2.5 | 304 | 2178 |
