@@ -71,8 +71,10 @@ set_plot_style()
 # ------------------------------------
 
 def Calculate_dm_dt(df:pd.DataFrame):
+    df = interpolation(df)
+
     # Normalize mass
-    df['Normalized mass'] = df['Mass (mg)'] / df['Mass (mg)'].iloc[0]
+    df['Normalized mass'] = df['Mass (mg)'] / np.mean(df['Mass (mg)'].iloc[0:5])
 
     # Smooth normalized mass
     df['filtered'] = savgol_filter(df['Normalized mass'], 41, 3)
@@ -230,7 +232,7 @@ for series in unique_conditions_material:
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
     material, dev, atm, hr  = parts[:4]
-    TGA_subset_paths = [p for p in TGA_Data if f"{material}" in p.name and f"_{atm}_{hr}_" in p.name]
+    TGA_subset_paths = [p for p in TGA_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
     for path in TGA_subset_paths:
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
