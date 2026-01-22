@@ -34,16 +34,17 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 TGA_Data = device_data(DATA_DIR, 'TGA') + device_data(DATA_DIR, 'STA')
 # All unique sets (name without repetition number, e.g.TUT_TGA_N2_10K_40Pa )
 TGA_sets = get_series_names(TGA_Data)
+
 # All unique conditions over all institutes
 unique_conditions = { '_'.join(s.split('_')[3:]) for s in TGA_sets}
 unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in TGA_sets if '_' in name))
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-print(make_institution_table(TGA_Data,['Wood'],['N2'],['5K','10K','20K','30K','40K','50K','60K']))
+print(make_institution_table(TGA_Data,['Wood'],['N2'],['2K','3K','5K','10K','20K','30K','40K','50K','60K']))
 
 print('Oxygen table')
-print(make_institution_table(TGA_Data,['Wood'],['O2-21'],['5K','10K','20K','30K','40K','50K','60K']))
+print(make_institution_table(TGA_Data,['Wood'],['O2-20','O2-21'],['2K','5K','10K','20K','30K']))
 
 
 
@@ -155,10 +156,7 @@ def average_tga_series(series_name: str):
         df=Calculate_dm_dt(df_raw)
         df = df.drop(columns=['filtered'])
         df = df.drop(columns=['Mass (mg)'])
-
-        #interpolation
-        df_interp = interpolation(df)
-        Dataframes.append(df_interp)
+        Dataframes.append(df)
 
     merged_df = Dataframes[0]
     for df in Dataframes[1:]:
@@ -233,7 +231,9 @@ for series in unique_conditions_material:
     parts = series.split('_')
     material, dev, atm, hr  = parts[:4]
     TGA_subset_paths = [p for p in TGA_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
-    
+    if atm == 'O2-21':
+        TGA_subset_paths += [p for p in TGA_Data if f"{material}_" in p.name and f"_O2-20_{hr}_" in p.name]
+
     for path in TGA_subset_paths:
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
@@ -330,6 +330,9 @@ for idx,set in enumerate(TGA_sets):
     fig, ax_mass = plt.subplots(figsize=(6, 4))
     ax_rate = ax_mass.twinx()
     df_average = average_tga_series(set)
+    
+    Duck, color = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
 
     # plot average
     # Plot mass (left y-axis)
@@ -389,7 +392,7 @@ for idx,set in enumerate(TGA_sets):
     ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
 
     # Figure title
-    fig_title = set
+    plt.title(Duck+"\n"+Conditions)
 
     # Legend
     fig.legend()
