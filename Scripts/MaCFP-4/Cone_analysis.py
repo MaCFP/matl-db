@@ -40,7 +40,7 @@ unique_conditions_gas_material = sorted(set(name.split('_', 1)[1] for name in Ga
 
 # Print tables
 print('Cone table')
-print(make_institution_table(Cone_Data,['Wood'],['30kW','60kW'],['hor']))
+print(make_institution_table(Cone_Data,['Wood'],['25kW','30kW','50kW','60kW','75kW'],['hor']))
 print('Gasification table')
 print(make_institution_table(Gasification_Data,['Wood'],['30kW','60kW'],['hor']))
 
