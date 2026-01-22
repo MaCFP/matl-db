@@ -42,7 +42,7 @@ print('Nitrogen table')
 print(make_institution_table(MCC_Data,['Wood'],['N2'],['30K','45K','60K']))
 
 print('Oxygen table')
-print(make_institution_table(MCC_Data,['Wood'],['O2-20', 'O2-21'],['60K']))
+print(make_institution_table(MCC_Data,['Wood'],['O2-2', 'O2-5', 'O2-10' , 'O2-20', 'O2-21'],['60K']))
 
 print('Char table')
 print(make_institution_table(MCC_Data,['Wood-char'],['O2-20', 'O2-21'],['60K']))
@@ -269,6 +269,9 @@ for idx,set in enumerate(MCC_sets):
     ax_intHRR = ax_HRR.twinx()
     df_average = average_MCC_series(set)
 
+    Duck, color = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
+
     # plot average
     # Plot HRRs (left y-axis)
     ax_HRR.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'],
@@ -345,7 +348,7 @@ for idx,set in enumerate(MCC_sets):
     ax_intHRR.set_ylabel('Integral HRR [J g$^{-1}$]')
 
     # Figure title
-    fig_title = set
+    plt.title(Duck+"\n"+Conditions)
 
     # Legend
     fig.legend()
