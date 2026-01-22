@@ -14,11 +14,11 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
+print(labs)
 
-
-CODES = ["Pekin", "Aylesbury", "Rouen",  "Saxony", 
-          "Cayuga", "Buff", "Magpie", "Ancona", "Crested", 
-          "Call",  "Muscovy", "Bali", "Pomeranian",  
+CODES = ["Pekin", "Aylesbury", "Orpington","Rouen", "Saxony", "Ruddy",
+          "Cayuga", "Buff",  "Bali", "Magpie", "Ancona", "Crested", 
+          "Call",  "Muscovy", "Pomeranian",  
          "Shetland", "Alabio", "Mallard"]
 
 colors = [
@@ -161,7 +161,6 @@ def interpolation(df:pd.DataFrame):
     T_floor = np.ceil(T_floor) 
     T_ceil = df["Temperature (K)"].iloc[-1]
     T_ceil = np.floor(T_ceil) 
-
     InterpT = np.arange(T_floor, T_ceil+0.5, 0.5)
     length = len(InterpT)
     df_interp = pd.DataFrame(index=range(length))
