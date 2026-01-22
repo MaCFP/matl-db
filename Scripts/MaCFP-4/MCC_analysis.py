@@ -71,6 +71,7 @@ set_plot_style()
 #region set plot style
 # ------------------------------------
 def calculate_int_HRR(df:pd.DataFrame):
+    df = interpolation(df)
     total_hrr = np.zeros(len(df))
     for i in range(1, len(df)):
         total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (W/g)'].iloc[i-1] + df['HRR (W/g)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
@@ -128,22 +129,15 @@ def average_MCC_series(series_name: str):
     return df_average
 
 
-def calculate_int_HRR(df:pd.DataFrame):
-    total_hrr = np.zeros(len(df))
-    for i in range(1, len(df)):
-        total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (W/g)'].iloc[i-1] + df['HRR (W/g)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
-    df['Int HRR'] = total_hrr
-    return df
 
 
 
-
-# HRR plots for all unique HR
+# HR plots for all unique HR
 # unique heating rates: 
 unique_HR = { '_'.join(s.split('_')[3:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(4, 3))
-    MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')
+    MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
     for set in MCC_sub_set:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
