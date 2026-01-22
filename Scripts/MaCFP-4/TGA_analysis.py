@@ -210,7 +210,7 @@ for HR in unique_HR:
         continue
     else:
         fig, ax = plt.subplots(figsize=(6, 4))
-        TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21')
+        TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21') + device_subset(TGA_sets, HR, 'O2-20')
         for set in TGA_sub_set:
             average = average_HR_tga_series(set)
             label, color = label_def(set.split('_')[0])
@@ -220,7 +220,7 @@ for HR in unique_HR:
             ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
             fig.tight_layout()
             ax.legend()
-        plt.savefig(str(base_dir) +'/TGA/HR_TGA_{}Kmin.{}'.format(HR[:-1], ex))
+        plt.savefig(str(base_dir) +'/TGA/dTdt_TGA_{}Kmin.{}'.format(HR[:-1], ex))
         plt.close(fig)
 
 
