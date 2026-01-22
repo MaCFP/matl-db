@@ -8,7 +8,7 @@ At Aalto University, thermogravimetric analysis (TGA) measurements were performe
 - 10 K/min
 
 ### Temperature program (temperatures in K)
-- Initial stabilization (drying stage): 313 K (isothermal hold)
+- Initial stabilization about 1200 s (drying stage): 313 K (isothermal hold)
 - Heating ramp: from 313 K up to 1073 K
 - Final isotherm: 60 s hold at 1073 K
 - Note: the stabilization step effectively acted as a drying stage; therefore, the exact initial moisture content is uncertain.
