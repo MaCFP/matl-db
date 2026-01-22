@@ -233,6 +233,7 @@ for series in unique_conditions_material:
     parts = series.split('_')
     material, dev, atm, hr  = parts[:4]
     TGA_subset_paths = [p for p in TGA_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
+    
     for path in TGA_subset_paths:
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
@@ -240,17 +241,22 @@ for series in unique_conditions_material:
         ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color)
         ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color)
 
+
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Temperature (K)')
     ax1.set_ylabel('m/m$_0$ [g/g]')
     fig1.tight_layout()
-    ax1.legend()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=0)
     ax2.set_xlabel('Temperature (K)')
     ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
     fig2.tight_layout()
-    ax2.legend()
+    handles2, labels2 = ax2.get_legend_handles_labels()
+    by_label2 = dict(zip(labels2, handles2))
+    ax2.legend(by_label2.values(), by_label2.keys())
 
     fig1.savefig(str(base_dir) + '/TGA/TGA_{}_{}_{}_Mass.{}'.format(material, atm,hr,ex))
     fig2.savefig(str(base_dir) + '/TGA/TGA_{}_{}_{}_dmdt.{}'.format(material, atm,hr,ex))
