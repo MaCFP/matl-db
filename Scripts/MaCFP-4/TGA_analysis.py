@@ -214,7 +214,7 @@ for HR in unique_HR:
         for set in TGA_sub_set:
             average = average_HR_tga_series(set)
             label, color = label_def(set.split('_')[0])
-            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '.', label = label, color=color, markersize=1)
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '.', label = label, color=color, markersize=2)
             ax.set_xlabel('Temperature (K)')
             ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
             ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
@@ -406,6 +406,7 @@ print(Average_values)
 # plot of peak values 
 fig_values, ax_values = plt.subplots(figsize=(6, 4))
 for row in Average_values:
+    print(row)
     if str(Average_values['conditions'][0:5])=='N2_10K':
         fig_values.plot(Average_values['T peak'],Average_values['peak MLR'])
 ax_values.set_xlabel('peak Temperature (K)')

@@ -16,10 +16,10 @@ FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 print(labs)
 
-CODES = ["Pekin", "Aylesbury", "Orpington","Rouen", "Saxony", "Ruddy",
-          "Cayuga", "Buff",  "Bali", "Magpie", "Ancona", "Crested", 
+CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", "Saxony", "Ruddy",
+          "Cayuga","Redhead", "Buff",  "Bali", "Magpie", "Ancona", "Crested", 
           "Call",  "Muscovy", "Pomeranian",  
-         "Shetland", "Alabio", "Mallard"]
+         "Shetland", "Alabio", "Mallard", "Hardhead"]
 
 colors = [
     "DarkViolet", "Gray",  "OrangeRed", "Gold", "Green", "DeepPink", "Lime", "DeepSkyBlue",
