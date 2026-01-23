@@ -56,7 +56,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
     - Retainer frame: None
     - Retaining grid: None
 * Backing Insulation: 2.3 cm thick layer of Dalfratherm 1260 Hybrid Blanket. Density = 128 kg/m3. Thermal Conductivity 0.05, 0.09, 0.13, 0.18, 0.25 W/m-K (at 200, 400, 600, 800, 1000 C, respectively)
-* Thermocouple location: Three thermocouples (TCs, bare-wire K-type with uninsulated junctions, bead diameter ~1 mm) were positioned along the main diagonal of a 10×10 cm square, measured from the bottom-left corner (0,0) in a top-down view. TC1 (2.9, 2.9 cm) was located toward the bottom-left corner, TC2 (5.0, 5.0 cm) at the center of the square, and TC3 (7.1, 7.1 cm) toward the top-right corner.
+* Thermocouple location: Three thermocouples (TCs, bare-wire K-type with uninsulated junctions, bead diameter ~1 mm) were positioned along the main diagonal of a 10×10 cm square, measured from the bottom-left corner (0,0) in a top-down view. TC3 (2.9, 2.9 cm) was located toward the bottom-left corner, TC2 (5.0, 5.0 cm) at the center of the square, and TC1 (7.1, 7.1 cm) toward the top-right corner.
 * Ignition Source: -
 
 ##### Test Summary
@@ -68,9 +68,16 @@ Experiments were conducted on FTT iCone mini with controlled atmosphere module a
 |----------|:------:| :---: |:------:| :---: | :---: | :---: |
 |TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R1 | 30| 913 | 2.54 | parallel| -| -|
 |TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R2 | 30| 913 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R4 | 30| 913 | 2.54 | parallel|-| -|
 |TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R1 | 30| 1082 | 2.54 | parallel|-| -|
 |TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R2 | 30| 1082 | 2.54 | parallel|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R3 | 30| 1082| 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R3 | 30| 1082 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R1 | 30| 912 | 2.54 | perpendicular| -| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R2 | 30| 912 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R3 | 30| 912 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R1 | 30| 1086 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R2 | 30| 1086 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R3 | 30| 1086 | 2.54 | perpendicular|-| -|
 
 * Note
   - Two types of samples were distributed among the MaCFP contributors - cut with the wood grain parallel and perpendicular to sample's front surface. The sample type was added to the name of each measurement.

@@ -3,12 +3,18 @@
 ### Experimental Conditions: TGA/DSC
 A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. 
 
-* Heating Rates: 5, 10, 20, 30, 40, 50 K/min
-* Temperature program
-  - Initial Temperature: 304 K
-  - Initial Isotherm: 1200 s (hold at 304 K for 1200 s)  
-  - Maximum Temperature: 1074 K
-  - Final Isotherm: 300 s (hold 1074 K for 300 s)
+* Non-isothermal STA experiments
+  - Heating Rates: 5, 10, 20, 30, 40, 50 K/min
+  - Temperature program
+    - Initial Temperature: 304 K
+    - Initial Isotherm: 1200 s (hold at 304 K for 1200 s)  
+    - Maximum Temperature: 1074 K
+    - Final Isotherm: 300 s (hold 1074 K for 300 s)
+* Isothermal STA experiments at 593 K
+  - Temperature program
+      - Initial Temperature: 304 K
+      - Initial Isotherm: 1200 s (hold at 304 K for 1200 s)  
+      - Maximum Temperature: 593 K (hold at 593 K for 6 hours)
 * Sample mass: 1 mg +/- 0.05 mg
 * Sample geometry: Powdered
 * Calibration type: Results are baseline-corrected. Temperature and heat flow calibration were performed before the experimental campaign with aluminum, indium and zinc.
@@ -46,6 +52,9 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
 |TUBS\_TGA\_N2\_50K\_R1 | 0 | 0.99| 
 |TUBS\_TGA\_N2\_50K\_R2 | 0 | 1.02| 
 |TUBS\_TGA\_N2\_50K\_R3 | 0 | 0.97| 
+|TUBS\_TGA\_N2\_593Kiso\_R1 | 0 | 1.02| 
+|TUBS\_TGA\_N2\_593Kiso\_R2 | 0 | 0.99| 
+|TUBS\_TGA\_N2\_593Kiso\_R3 | 0 | 0.96| 
 
 ### Experimental Conditions: MCC
 A FTT microscale combustion calorimeter was used to conduct MCC experiments.
@@ -69,7 +78,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Instrument
   - Type: FTT
   - O2 Analyzer: Chemical
-* Baseline correction: The baseline was determined by fitting a 5th‑degree polynomial to the HRR signal in two temperature intervals where the heat release rate is assumed to be zero, namely 90–130 °C and 600–800 °C. The resulting polynomial was then evaluated over the full temperature range and subtracted from the HRR data to yield the baseline‑corrected curves. Data below 473 K were cut.
+* Baseline correction: Linear baseline correction
   
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: | :------------------------: |
