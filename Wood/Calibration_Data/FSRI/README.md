@@ -18,7 +18,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
   - Diameter: 6.8 mm
   - Mass: See Below (Reference crucible: 256.93 mg)
   - Lid: True
-  - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85 uL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
+  - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85 uL) with a lid (a small hole in the lid allowed for gaseous decomposition products to escape).
 * Carrier Gas
   - Type: Nitrogen
   - Flow rate: 70 ml/min (50 mL/min purge, 20 mL/min protective)
@@ -30,10 +30,10 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg)  | Cruicble Mass (mg) |
 | --------- | :---------: | :------------------------: | :----------------: |
-|FSRI\_TGA\_N2\_3K\_R1  | 0 | 4.02 | 252.00 |
-|FSRI\_TGA\_N2\_10K\_R1 | 0 | 3.97 | 253.88 |
-|FSRI\_TGA\_N2\_10K\_R2 | 0 | 3.99 | 256.93 | 
-|FSRI\_TGA\_N2\_10K\_R3 | 0 | 3.94 | 255.14 | 
-|FSRI\_TGA\_N2\_30K\_R1 | 0 | 4.05 | 263.15 | 
-|FSRI\_TGA\_N2\_30K\_R2 | 0 | 4.05 | 256.71 | 
-|FSRI\_TGA\_N2\_30K\_R3 | 0 | 3.98 | 252.42 | 
+|FSRI\_STA\_N2\_3K\_R1  | 0 | 4.02 | 252.00 |
+|FSRI\_STA\_N2\_10K\_R1 | 0 | 3.97 | 253.88 |
+|FSRI\_STA\_N2\_10K\_R2 | 0 | 3.99 | 256.93 | 
+|FSRI\_STA\_N2\_10K\_R3 | 0 | 3.94 | 255.14 | 
+|FSRI\_STA\_N2\_30K\_R1 | 0 | 4.05 | 263.15 | 
+|FSRI\_STA\_N2\_30K\_R2 | 0 | 4.05 | 256.71 | 
+|FSRI\_STA\_N2\_30K\_R3 | 0 | 3.98 | 252.42 | 
