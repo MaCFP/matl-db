@@ -1,6 +1,10 @@
 ## MaCFP-4 Pyrolysis Model Calibration Data
 This directory is designed to maintain experimental measurements conducted as part of the MaCFP-4 Pyrolysis Model Calibration Exercise. Measurement data provided here (from both mg- and g-scale tests) have been provided by fire safety science institutions around the world. If/when using this data, please cite the appropriate references, as provided in the corresponding README files.
 #
+A preliminary summary of experimental results is available on the Releases Page of this repository. Modelers may find this report helpful in selecting calibration data for material property determination. 
+
+To allow for impartial review of this data, this preliminary report identifies institutions (in figures, tables, and corresponding text) using a unique, anonymous name. A dictionary that connects each institution with its unique identifier is provided online: [Institution_Keys](https://github.com/MaCFP/matl-db/blob/master/Wood/Calibration_Data/Institution_Key.md).
+#
 ### Key factors influencing material response during tests
 Every effort was made to remove variability between results due to potential differences in material composition by sharing samples of the same exact wood, prepared for mg- and g-scale experiments: that is, all tests were performed on the exact same material, from the same source, and prepared in the same form (excluding minor variations, ~5%, in sample slab thickness, as produced by the manufacturer).
 
