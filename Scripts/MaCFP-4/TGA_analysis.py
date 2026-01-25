@@ -61,7 +61,9 @@ def set_plot_style():
         'lines.linewidth': 1.5,
         'axes.labelsize': 12,
         'axes.titlesize': 12,
-        'legend.fontsize': 10,
+        'legend.fontsize': 10,        
+        'xtick.direction': 'in',
+        'ytick.direction': 'in',
     })
 
 set_plot_style()
@@ -220,6 +222,7 @@ for HR in unique_HR:
             ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
             fig.tight_layout()
             ax.legend()
+            ax.set_xlim(right=1100)
         plt.savefig(str(base_dir) +'/TGA/dTdt_TGA_{}Kmin.{}'.format(HR[:-1], ex))
         plt.close(fig)
 
@@ -243,6 +246,7 @@ for series in unique_conditions_material:
 
 
     ax1.set_ylim(bottom=0)
+    ax1.set_xlim(right=1100)
     ax1.set_xlabel('Temperature (K)')
     ax1.set_ylabel('m/m$_0$ [g/g]')
     fig1.tight_layout()
@@ -251,6 +255,7 @@ for series in unique_conditions_material:
     ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=0)
+    ax2.set_xlim(right=1100)
     ax2.set_xlabel('Temperature (K)')
     ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
     fig2.tight_layout()
@@ -288,7 +293,9 @@ for path in TGA_Data:
 
      # Set lower limits of both y-axes to 0
     ax_mass.set_ylim(bottom=0)
+    ax_mass.set_xlim(right=1100)
     ax_rate.set_ylim(bottom=0)
+    ax_rate.set_xlim(right=1100)
 
     # Axes labels
     ax_mass.set_xlabel('Temperature (K)')
@@ -366,7 +373,7 @@ for idx,set in enumerate(TGA_sets):
         peak_mlr = df["dm/dt"].max()
         peak_index = df["dm/dt"].idxmax()
         T_peak = df["Temperature (K)"].iloc[peak_index]
-        onset_index = df[df['dm/dt'] >= 0.1 * peak_mlr].index[0]
+        onset_index = df[(df['dm/dt'] >= 0.1 * peak_mlr) & (df['Temperature (K)'] > 400)].index[0]
         T_onset = df["Temperature (K)"].iloc[onset_index]
 
         peak_mlr_list.append(peak_mlr)
@@ -384,7 +391,9 @@ for idx,set in enumerate(TGA_sets):
 
     # Set lower limits of both y-axes to 0
     ax_mass.set_ylim(bottom=0)
+    ax_mass.set_xlim(right=1100)
     ax_rate.set_ylim(bottom=0)
+    ax_rate.set_xlim(right=1100)
 
     # Axes labels
     ax_mass.set_xlabel('Temperature (K)')
@@ -403,17 +412,66 @@ for idx,set in enumerate(TGA_sets):
 Average_values.drop('set',axis=1)
 print(Average_values)
 
-# plot of peak values 
-fig_values, ax_values = plt.subplots(figsize=(6, 4))
-for row in Average_values:
-    print(row)
-    if str(Average_values['conditions'][0:5])=='N2_10K':
-        fig_values.plot(Average_values['T peak'],Average_values['peak MLR'])
-ax_values.set_xlabel('peak Temperature (K)')
-ax_values.set_ylabel('peak MLR [g/g]')
-fig_values.tight_layout()
-plt.savefig(str(base_dir) + f'/TGA/TGA_peakvalues.{ex}')
-plt.close(fig_values)
+#plot average values 
+def plot_average_values(df):
+    """
+    Creates 2 plots for each distinct condition:
+    1) Peak MLR vs Peak Temperature
+    2) Onset T vs Peak Temperature
+    """
+    for condition in [['N2','5K'],['N2','10K'],['N2','20K']]:
+        # Filter data for this condition
+        condition_data = df[df['conditions'].apply(lambda x: all(c in x for c in condition))]
+        
+        fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
+        fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
+        
+        # Plot 1: Peak HRR vs Peak Temperature
+        for idx, row in condition_data.iterrows():
+            Duck, color = label_def(row['set'].split('_')[0])
+            
+            ax1.errorbar(row['T peak'], 
+                         row['peak MLR'],
+                         xerr=row['std T peak'],
+                         yerr=row['std peak MLR'],
+                         fmt='o', capsize=5, capthick=2, markersize=8,
+                         color=color, label=Duck)
+            
+            ax2.errorbar(row['T peak'], 
+                         row['T onset'],
+                         xerr=row['std T peak'],
+                         yerr=row['std T onset'],
+                         fmt='s', capsize=5, capthick=2, markersize=8,
+                         color=color, label=Duck)
+            
+        
+        ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
+        ax1.set_ylabel('Peak MLR (1/s)', fontsize=12)
+        
+        # Remove duplicate legend entries
+        handles, labels = ax1.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax1.legend(by_label.values(), by_label.keys())
+        
+        ax2.set_xlabel('Peak Temperature (K)', fontsize=12)
+        ax2.set_ylabel('Onset Temperature (K)', fontsize=12)
+        
+        # Remove duplicate legend entries
+        handles, labels = ax2.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax2.legend(by_label.values(), by_label.keys())
+        
+        fig1.tight_layout()
+        fig2.tight_layout()
+        
+        fig1.savefig(str(base_dir) + f'/TGA/Tpeak_Average_{condition[0]}_{condition[1]}_MLR.{ex}')
+        fig2.savefig(str(base_dir) + f'/TGA/Tonset_Average_{condition[0]}_{condition[1]}.{ex}')
+        
+        plt.close(fig1)
+        plt.close(fig2)
+
+# Use the function
+plot_average_values(Average_values)
 
 
 
@@ -426,24 +484,26 @@ for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
     parts = series.split('_')
     atm, hr  = parts[2:]
     df_average = average_tga_series(series)
-    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr, color = color[hr])
+    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr])
     ax1.fill_between(df_average['Temperature (K)'], 
                     df_average['Normalized Mass']-2*df_average['unc Normalized Mass'],
                     df_average['Normalized Mass']+2*df_average['unc Normalized Mass'],
                     color=color[hr], alpha = 0.3)
-    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr, color = color[hr])
+    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr + '/min', color = color[hr])
     ax2.fill_between(df_average['Temperature (K)'], 
                     df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
                     df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
                     color=color[hr], alpha = 0.3)
 
 ax1.set_ylim(bottom=0)
+ax1.set_xlim(right=1100)
 ax1.set_xlabel('Temperature (K)')
 ax1.set_ylabel('m/m$_0$ [g/g]')
 fig1.tight_layout()
 ax1.legend()
 
 ax2.set_ylim(bottom=0)
+ax1.set_xlim(right=1100)
 ax2.set_xlabel('Temperature (K)')
 ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
 fig2.tight_layout()
