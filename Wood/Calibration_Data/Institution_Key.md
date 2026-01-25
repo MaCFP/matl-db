@@ -16,7 +16,7 @@
 | TUBS             | Crested           |
 | TUT              | Call              |
 | UAI              | Muscovy           |
-| UCambria         | Pomeranian        |
+| UCantabria       | Pomeranian        |
 | UDRI             | Shetland          |
 | UMD              | Alabio            |
 | UMET             | Mallard           |
