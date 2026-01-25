@@ -1,4 +1,4 @@
-# Template README File for Institute UC
+# Template README File for Universidad de Cantabria (University of Cantabria)
 
 ### Experimental Conditions: TGA/DSC
 A SDT-650 TA Instrument was used to conduct Thermogravimetric Analysis (TGA) experiments. 
