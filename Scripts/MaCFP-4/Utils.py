@@ -5,7 +5,7 @@ import numpy as np
 
 from pathlib import Path
 from collections import defaultdict
-
+import matplotlib.pyplot as plt
 
 #region paths
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -16,16 +16,24 @@ FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 print(labs)
 
-CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", "Saxony", "Ruddy",
-          "Cayuga","Redhead", "Buff",  "Bali", "Magpie", "Ancona", "Crested", 
-          "Call",  "Muscovy", "Pomeranian",  
-         "Shetland", "Alabio", "Mallard", "Hardhead"]
+CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", 
+         "Saxony", "Ruddy", "Cayuga","Redhead", "Buff",  
+         "Bali", "Magpie", "Ancona", "Crested", "Call",  
+         "Muscovy", "Pomeranian",  "Shetland", "Alabio", "Mallard", "Hardhead"]
 
-colors = [
-    "DarkViolet", "Gray",  "OrangeRed", "Gold", "Green", "DeepPink", "Lime", "DeepSkyBlue",
-    "Indigo", "Black", "Navy","Red", "Brown", "Blue", "Cyan", "Magenta", "Khaki", "DarkGreen",
-    "darkorange", "teal", "goldenrod"
+#colors = ["#5B2A6F", "#808080", "#FF4500", "#FFD700", "#008000", 
+#          "#FF1493", "#00FF00", "#00BFFF", "#4B0082", "#000000",
+#          "#03EB9E", "#FF0000", "#A52A2A", "#0000FF", "#000080", 
+#          "#FF00FF", "#F0E68C", "#006400", "#FF8C00", "#008080", "#DAA520"
+#]
+
+colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", 
+          "#ff9896", "#c5b0d5", "#2ca02c",  "#c49c94", "#d62728",
+          "#dbdb8d", "#c7c7c7",  "#ffbb78", "#bcbd22", "#8c564b", 
+          "#f7b6d2","#e377c2", "#9edae5", "#7f7f7f","#9467bd" , "#DAA520"
 ]
+
+
 
 def label_def(lab):
     IDX = labs.index(lab)

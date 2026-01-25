@@ -149,7 +149,7 @@ for HR in unique_HR:
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
         fig.tight_layout()
         ax.legend()
-    plt.savefig(str(base_dir) + '/MCC/dTdt_MCC_{}Kmin.pdf'.format(HR[:-1]))
+    plt.savefig(str(base_dir) + '/MCC/dTdt_MCC_{}min.{}'.format(HR.split('_')[-1],ex))
     plt.close(fig)
 
 
