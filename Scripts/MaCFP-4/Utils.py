@@ -61,6 +61,7 @@ def device_subset(serieslist, heatingrate, atmosphere):
         for p in serieslist
         if heatingrate in p
         if atmosphere in p
+        if 'iso' not in p
     ]
     return sub_list
 

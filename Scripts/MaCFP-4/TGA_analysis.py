@@ -228,45 +228,58 @@ for HR in unique_HR:
 
 
 # Mass and mass loss rate plots for all unique atmospheres and heating rates 
+plot_configs = [
+    {'suffix': '', 'xlim': (None, 1100), 'ylim1': (0, None),'ylim2': (0, None)},  # Original
+    {'suffix': '_zoom1', 'xlim': (None,600), 'ylim1': (0.85, 1.1),'ylim2': (0, None)},  # Zoomed version
+    {'suffix': '_zoom2', 'xlim': (650, 1100), 'ylim1': (-0.09, 0.5),'ylim2': (0, None)},  # Full range
+]
+
+
 for series in unique_conditions_material:
-    fig1, ax1 = plt.subplots(figsize=(6, 4))
-    fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
     material, dev, atm, hr  = parts[:4]
     TGA_subset_paths = [p for p in TGA_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
     if atm == 'O2-21':
         TGA_subset_paths += [p for p in TGA_Data if f"{material}_" in p.name and f"_O2-20_{hr}_" in p.name]
 
-    for path in TGA_subset_paths:
-        df_raw = pd.read_csv(path)
-        df = Calculate_dm_dt(df_raw)
-        label, color = label_def(path.stem.split('_')[0])
-        ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color)
-        ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color)
+    for config in plot_configs:
+        fig1, ax1 = plt.subplots(figsize=(6, 4))
+        fig2, ax2 = plt.subplots(figsize=(6, 4))
+        for path in TGA_subset_paths:
+            df_raw = pd.read_csv(path)
+            if 'FPL' in path.stem:
+                df_raw = df_raw[df_raw['Temperature (K)'] > 400]
+            df = Calculate_dm_dt(df_raw)
+            label, color = label_def(path.stem.split('_')[0])
+            if '40Pa' in path.stem:
+                ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color,linestyle =':')
+                ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color,linestyle =':')
+            else:
+                ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color)
+                ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color)
+        # Apply configuration
+        ax1.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
+        ax1.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
+        ax1.set_xlabel('Temperature (K)')
+        ax1.set_ylabel('m/m$_0$ [g/g]')
+        fig1.tight_layout()
+        handles1, labels1 = ax1.get_legend_handles_labels()
+        by_label1 = dict(zip(labels1, handles1))
+        ax1.legend(by_label1.values(), by_label1.keys())
 
+        ax2.set_ylim(bottom=config['ylim2'][0], top=config['ylim2'][1])
+        ax2.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
+        ax2.set_xlabel('Temperature (K)')
+        ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+        fig2.tight_layout()
+        handles2, labels2 = ax2.get_legend_handles_labels()
+        by_label2 = dict(zip(labels2, handles2))
+        ax2.legend(by_label2.values(), by_label2.keys())
 
-    ax1.set_ylim(bottom=0)
-    ax1.set_xlim(right=1100)
-    ax1.set_xlabel('Temperature (K)')
-    ax1.set_ylabel('m/m$_0$ [g/g]')
-    fig1.tight_layout()
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    by_label1 = dict(zip(labels1, handles1))
-    ax1.legend(by_label1.values(), by_label1.keys())
-
-    ax2.set_ylim(bottom=0)
-    ax2.set_xlim(right=1100)
-    ax2.set_xlabel('Temperature (K)')
-    ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
-    fig2.tight_layout()
-    handles2, labels2 = ax2.get_legend_handles_labels()
-    by_label2 = dict(zip(labels2, handles2))
-    ax2.legend(by_label2.values(), by_label2.keys())
-
-    fig1.savefig(str(base_dir) + '/TGA/TGA_{}_{}_{}_Mass.{}'.format(material, atm,hr,ex))
-    fig2.savefig(str(base_dir) + '/TGA/TGA_{}_{}_{}_dmdt.{}'.format(material, atm,hr,ex))
-    plt.close(fig1)
-    plt.close(fig2)
+        fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass{config["suffix"]}.{ex}')
+        fig2.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_dmdt{config["suffix"]}.{ex}')
+        plt.close(fig1)
+        plt.close(fig2)
 
 
 
@@ -370,8 +383,8 @@ for idx,set in enumerate(TGA_sets):
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
 
-        peak_mlr = df["dm/dt"].max()
-        peak_index = df["dm/dt"].idxmax()
+        peak_index = df[(df['Temperature (K)'] > 400) & (df["dm/dt"].notna())]["dm/dt"].idxmax()
+        peak_mlr = df.loc[peak_index, "dm/dt"]
         T_peak = df["Temperature (K)"].iloc[peak_index]
         onset_index = df[(df['dm/dt'] >= 0.1 * peak_mlr) & (df['Temperature (K)'] > 400)].index[0]
         T_onset = df["Temperature (K)"].iloc[onset_index]
