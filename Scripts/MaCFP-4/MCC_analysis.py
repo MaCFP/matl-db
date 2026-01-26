@@ -70,7 +70,7 @@ set_plot_style()
 
 
 # ------------------------------------
-#region set plot style
+#region functions
 # ------------------------------------
 def calculate_int_HRR(df:pd.DataFrame):
     df = interpolation(df)
@@ -81,10 +81,18 @@ def calculate_int_HRR(df:pd.DataFrame):
     return df
 
 
-def average_MCC_series(series_name: str):
+def average_MCC_series(series_name: str, exclude=None, temp_filter=None):
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in MCC_Data]
+
+    # Apply exclusions
+    if exclude is not None:
+        if not isinstance(exclude, list):
+            exclude = [exclude]  # Convert single string to list
+        
+        for excl in exclude:
+            paths = [p for p in paths if excl not in str(p)]
 
     Dataframes = []
     if len(paths) == 0:
@@ -93,12 +101,17 @@ def average_MCC_series(series_name: str):
     # Read data
     for i, path in enumerate(paths):
         df = pd.read_csv(path)
+
+        # Apply temperature filter for specific institutes
+        if temp_filter is not None:
+            for institute, min_temp in temp_filter.items():
+                if institute in str(path):
+                    df_raw = df_raw[df_raw['Temperature (K)'] > min_temp].reset_index(drop=True)
+
+
         df = calculate_int_HRR(df)
-        #interpolation
-        df_interp = interpolation(df)
-        #df_interp = df
-        df_interp['dTdt'] = 60*np.gradient(df_interp['Temperature (K)'], df_interp['Time (s)'])
-        Dataframes.append(df_interp)
+        df['dTdt'] = 60*np.gradient(df['Temperature (K)'], df['Time (s)'])
+        Dataframes.append(df)
     
     merged_df = Dataframes[0]
     for df in Dataframes[1:]:
@@ -442,9 +455,7 @@ for series in ['Wood_MCC_N2_30K','Wood_MCC_N2_45K','Wood_MCC_N2_60K']:
             df = calculate_int_HRR(df)
             ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], '.', color = color[hr], alpha=0.1, markersize = 0.01, zorder=4)
             ax2.plot(df['Temperature (K)'], df['Int HRR'], '.', color = color[hr], alpha=0.1, markersize = 0.01, zorder=4)
-    if series == 'Wood_MCC_N2_30K':
-        series = 'FZJ_Wood_MCC_N2_30K'
-    df_average = average_MCC_series(series)
+    df_average = average_MCC_series(series, ['TUBS_Wood_MCC_N2_30K','FZJ_Wood_MCC_N2_60K_R8'])
     ax1.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'], label = hr+'/min', color = color[hr], zorder = 3)
     ax1.fill_between(df_average['Temperature (K)'], 
                     df_average['HRR (W/g)']-2*df_average['HRR_std'],
