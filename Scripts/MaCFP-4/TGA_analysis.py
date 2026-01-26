@@ -5,6 +5,8 @@ import re
 from collections import defaultdict
 from pathlib import Path
 from scipy.signal import savgol_filter
+from fnmatch import fnmatch
+
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
 from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
@@ -139,12 +141,19 @@ def average_HR_tga_series(series_name: str):
     return df_average
 
 
-
-def average_tga_series(series_name: str):
+def average_tga_series(series_name: str, exclude=None, temp_filter=None):
     
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in TGA_Data]
+
+    # Apply exclusions
+    if exclude is not None:
+        if not isinstance(exclude, list):
+            exclude = [exclude]  # Convert single string to list
+        
+        for excl in exclude:
+            paths = [p for p in paths if excl not in str(p)]
 
     Dataframes = []
     if len(paths) == 0:
@@ -154,6 +163,13 @@ def average_tga_series(series_name: str):
 
     for i, path in enumerate(paths):
         df_raw = pd.read_csv(path)
+
+        # Apply temperature filter for specific institutes
+        if temp_filter is not None:
+            for institute, min_temp in temp_filter.items():
+                if institute in str(path):
+                    df_raw = df_raw[df_raw['Temperature (K)'] > min_temp].reset_index(drop=True)
+
         # calculate derivatives
         df=Calculate_dm_dt(df_raw)
         df = df.drop(columns=['filtered'])
@@ -496,17 +512,24 @@ fig2, ax2 = plt.subplots(figsize=(6, 4))
 for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
     parts = series.split('_')
     atm, hr  = parts[2:]
-    df_average = average_tga_series(series)
-    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr])
+    for subset in [item for item in TGA_sets if fnmatch(item, f'*{series}')]:
+        paths = list(DATA_DIR.glob(f"*/*{subset}_*[rR]*.csv"))
+        for i, path in enumerate(paths):
+            df = pd.read_csv(path)
+            df = Calculate_dm_dt(df)
+            ax1.plot(df['Temperature (K)'], df['Normalized mass'], '.', color = color[hr], alpha=0.05, markersize = 0.01, zorder=4)
+            ax2.plot(df['Temperature (K)'], df['dm/dt'], '.', color = color[hr], alpha=0.08, markersize = 0.01, zorder=4)
+    df_average = average_tga_series(series,['UAI','IMT'],temp_filter={'FPL': 400})
+    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr], zorder = 3)
     ax1.fill_between(df_average['Temperature (K)'], 
                     df_average['Normalized Mass']-2*df_average['unc Normalized Mass'],
                     df_average['Normalized Mass']+2*df_average['unc Normalized Mass'],
-                    color=color[hr], alpha = 0.3)
-    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr + '/min', color = color[hr])
+                    color=color[hr], alpha = 0.3, zorder=2)
+    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr + '/min', color = color[hr], zorder = 3)
     ax2.fill_between(df_average['Temperature (K)'], 
                     df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
                     df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
-                    color=color[hr], alpha = 0.3)
+                    color=color[hr], alpha = 0.3, zorder=2)
 
 ax1.set_ylim(bottom=0)
 ax1.set_xlim(right=1100)
@@ -516,7 +539,7 @@ fig1.tight_layout()
 ax1.legend()
 
 ax2.set_ylim(bottom=0)
-ax1.set_xlim(right=1100)
+ax2.set_xlim(right=1100)
 ax2.set_xlabel('Temperature (K)')
 ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
 fig2.tight_layout()
