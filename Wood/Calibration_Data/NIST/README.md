@@ -14,6 +14,7 @@ A heated, non-stirred pressure vessel to determine the average molecular weight 
 Calibration tests were first run by filling the vessel with UHP helium, heating it to steady state (400◦C), and ensuring a proportional rise in measured system pressure and average temperature (spatially resolved measurements obtained), thus confirming the assumption of ideality. Validation testing was performed prior to the analysis of MaCFP-Wood. Specifically, water (H2O) and naphthalene (C10H8), which boil or sublimate to produce volatiles of known composition and molecular weight were tested. Measured average molecular weights of these two substances showed excellent agreement with expected values, matching within 2.6% and 1.0%, respectively.
 
 Average Molecular Weight of Gaseous Volatiles: 34.7 g/mol +/- 3.7 g/mol
+
 Corresponding Average Molecular Formula of Gaseous Volatiles: 𝐶<sub>(0.64±0.01)</sub> 𝐻<sub>(2.93±0.02)</sub> 𝑂<sub>(1.39±0.01)</sub>
 
 Further details regarding system calibration, validation, and quantification of measurement uncertainty is available in: [Tripi, A. , Greene, R. , Leventon, I. and McGrattan, K. (2025), Measurement of the Average Molecular Weights of Gaseous Pyrolyzates Produced by Combustible Solids, 16th International Conference and Exhibition on fire science and engineering, London, GB, [online], https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=960069 (Accessed December 4, 2025)]
