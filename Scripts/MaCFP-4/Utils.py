@@ -5,7 +5,7 @@ import numpy as np
 
 from pathlib import Path
 from collections import defaultdict
-from Secret import Names
+import matplotlib.pyplot as plt
 
 #region paths
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -15,17 +15,24 @@ DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 
+CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", 
+         "Saxony", "Ruddy", "Cayuga","Redhead", "Buff",  
+         "Bali", "Magpie", "Ancona", "Crested", "Call",  
+         "Muscovy", "Pomeranian",  "Shetland", "Alabio", "Mallard", "Hardhead"]
 
-CODES = ["Pekin", "Aylesbury", "Rouen",  "Saxony", 
-          "Cayuga", "Buff", "Magpie", "Ancona", "Crested", 
-          "Call",  "Muscovy", "Bali", "Pomeranian",  
-         "Shetland", "Alabio", "Mallard"]
+#colors = ["#5B2A6F", "#808080", "#FF4500", "#FFD700", "#008000", 
+#          "#FF1493", "#00FF00", "#00BFFF", "#4B0082", "#000000",
+#          "#03EB9E", "#FF0000", "#A52A2A", "#0000FF", "#000080", 
+#          "#FF00FF", "#F0E68C", "#006400", "#FF8C00", "#008080", "#DAA520"
+#]
 
-colors = [
-    "DarkViolet", "Gray",  "OrangeRed", "Gold", "Green", "DeepPink", "Lime", "DeepSkyBlue",
-    "Indigo", "Black", "Navy","Red", "Brown", "Blue", "Cyan", "Magenta", "Khaki", "DarkGreen",
-    "darkorange", "teal", "goldenrod"
+colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", 
+          "#ff9896", "#c5b0d5", "#2ca02c",  "#c49c94", "#d62728",
+          "#dbdb8d", "#c7c7c7",  "#ffbb78", "#bcbd22", "#8c564b", 
+          "#f7b6d2","#e377c2", "#9edae5", "#7f7f7f","#9467bd" , "#DAA520"
 ]
+
+
 
 def label_def(lab):
     IDX = labs.index(lab)
@@ -38,7 +45,7 @@ def label_def(lab):
 def device_data(directory:Path, device:str):
     paths = [
         p
-        for p in DATA_DIR.rglob("*/*.csv")
+        for p in DATA_DIR.rglob("*.csv")
         if p.is_file()
         if device in p.name.upper()
         if not any(parent.name.startswith("TEMPLATE-INSTITUTE-X") for parent in p.parents)
@@ -53,6 +60,7 @@ def device_subset(serieslist, heatingrate, atmosphere):
         for p in serieslist
         if heatingrate in p
         if atmosphere in p
+        if 'iso' not in p
     ]
     return sub_list
 
@@ -74,7 +82,7 @@ def get_series_names(data_list):
 
 #tables
 def make_institution_table(
-    paths,
+    paths, materials,
     atmospheres,
     heating_rates,
 ):
@@ -101,27 +109,27 @@ def make_institution_table(
     for p in paths:
         name = p.stem
         parts = name.split("_")
-
         if len(parts) < 5:
             continue
 
-        inst, _, atm, hr, _ = parts[:5]
-
+        inst, mat, _, atm, hr = parts[:5]
+        if mat not in materials:
+            continue
         if atm not in atmospheres:
             continue
         if hr not in heating_rates:
             continue
 
-        counts[(label_def(inst)[0], atm, hr)] += 1
-
+        counts[(label_def(inst)[0], mat, atm, hr)] += 1
+        
     # ---------- Table construction logic ----------
-    inst_codes = [code for code in CODES if any(counts.get((code, atm, hr), 0) > 0 for atm in atmospheres for hr in heating_rates)]
-
+    inst_codes = [code for code in CODES if any(counts.get((code, mat,atm, hr), 0) > 0 for mat in materials for atm in atmospheres for hr in heating_rates)]
+    print(inst_codes)
     # Case 1: single atmosphere → columns = heating rates
     if len(atmospheres) == 1 and len(heating_rates) > 1:
         atm = atmospheres[0]
         data = {
-            hr: [counts.get((inst, atm, hr), 0) for inst in inst_codes]
+            hr: [sum(counts.get((inst,m, atm, hr), 0) for m in materials) for inst in inst_codes]
             for hr in heating_rates
         }
         df = pd.DataFrame(data, index=inst_codes)
@@ -130,7 +138,7 @@ def make_institution_table(
     elif len(heating_rates) == 1 and len(atmospheres) > 1:
         hr = heating_rates[0]
         data = {
-            atm: [counts.get((inst, atm, hr), 0) for inst in inst_codes]
+            atm: [sum(counts.get((inst,m, atm, hr), 0) for m in materials) for inst in inst_codes]
             for atm in atmospheres
         }
         df = pd.DataFrame(data, index=inst_codes)
@@ -145,7 +153,7 @@ def make_institution_table(
         data = []
         for inst in inst_codes:
             row = [
-                counts.get((inst, atm, hr), 0)
+                sum(counts.get((inst,m, atm, hr), 0) for m in materials)
                 for atm, hr in columns
             ]
             data.append(row)
@@ -161,7 +169,6 @@ def interpolation(df:pd.DataFrame):
     T_floor = np.ceil(T_floor) 
     T_ceil = df["Temperature (K)"].iloc[-1]
     T_ceil = np.floor(T_ceil) 
-
     InterpT = np.arange(T_floor, T_ceil+0.5, 0.5)
     length = len(InterpT)
     df_interp = pd.DataFrame(index=range(length))
