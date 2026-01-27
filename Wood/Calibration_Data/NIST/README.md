@@ -12,6 +12,9 @@ Further details regarding system calibration, validation, and quantification of 
 | Residual Char |91.17 ± 3.93   | 2.28 ± 0.09    | 0.13 ± 0.01    | 0       | 3.65 ± 2.74    |
 | Gaseous Volatiles| 22.32 ± 4.03   | 8.55 ± 0.41    | 0.00 ± 0.02    | 0       | 63.91 ± 4.89   |
 
+Average Molecular Weight of Gaseous Volatiles: 34.7 g/mol +/- 3.7 g/mol
+Corresponding Average Molecular Formula of Gaseous Volatiles: 𝐶<sub>(0.64±0.01)</sub> 𝐻<sub>(2.93±0.02)</sub> 𝑂<sub>(1.39±0.01)</sub>
+
 
 
 ### Disclaimer
