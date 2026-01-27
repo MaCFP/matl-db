@@ -14,7 +14,6 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
-print(labs)
 
 CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", 
          "Saxony", "Ruddy", "Cayuga","Redhead", "Buff",  
@@ -125,7 +124,7 @@ def make_institution_table(
         
     # ---------- Table construction logic ----------
     inst_codes = [code for code in CODES if any(counts.get((code, mat,atm, hr), 0) > 0 for mat in materials for atm in atmospheres for hr in heating_rates)]
-
+    print(inst_codes)
     # Case 1: single atmosphere → columns = heating rates
     if len(atmospheres) == 1 and len(heating_rates) > 1:
         atm = atmospheres[0]
