@@ -10,7 +10,7 @@ from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
 
 
 #define whether to save files in pdf or png
-ex = 'pdf' #options 'pdf' or 'png
+ex = 'png' #options 'pdf' or 'png
 
 #when pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -186,6 +186,7 @@ for series in unique_conditions_material:
         ax2.plot(df['Temperature (K)'], df['Int HRR'], label = label, color=color)
 
     ax1.set_ylim(bottom=0)
+    ax1.set_xlim(right=900)
     ax1.set_xlabel('Temperature (K)')
     ax1.set_ylabel('HRR [W g$^{-1}$]')
     fig1.tight_layout()
@@ -194,6 +195,7 @@ for series in unique_conditions_material:
     ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=0)
+    ax2.set_xlim(right=900)
     ax2.set_xlabel('Temperature (K)')
     ax2.set_ylabel('Integral HRR [J g$^{-1}$]')
     fig2.tight_layout()
@@ -528,3 +530,85 @@ print('UDRI_Wood_MCC_N2_60K')
 UDRI_N2_60K = [    0.739/5.560,    0.673/5.007,    0.669/5.013]
 print(np.mean(UDRI_N2_60K))
 print(np.std(UDRI_N2_60K))
+
+
+#------------------------------------
+# region Oxygen concentration plots
+#------------------------------------
+# Plot MCC wood data at different oxygen levels (2%, 5%, 10%, 20%)
+
+# Define oxygen levels and their corresponding dataset identifiers
+oxygen_levels = {
+    '2%': 'O2-2_',
+    '5%': 'O2-5_', 
+    '10%': 'O2-10_',
+    '20%': 'O2-20_'
+}
+
+# Define color for different oxygen levels
+o2_colors = {'2%': 'lightblue', '5%': 'blue', '10%': 'orange', '20%': 'red'}
+
+# Define linestyle for different institutes
+o2_linestyle = {'IMT':':', 'NIST':'-'}
+
+# Create figures for HRR and integral HRR
+fig1, ax1 = plt.subplots(figsize=(8, 5))
+fig2, ax2 = plt.subplots(figsize=(8, 5))
+
+for o2_label, o2_code in oxygen_levels.items():
+    # Find all wood MCC series with this oxygen level at 60K heating rate
+    o2_series = [s for s in MCC_sets if 'Wood_MCC' in s and o2_code in s and '60K' in s]
+    
+    if len(o2_series) == 0:
+        print(f"No data found for {o2_label} oxygen")
+        continue
+    
+    # Plot individual experiments
+    for subset in o2_series:
+        paths = list(DATA_DIR.glob(f"*/{subset}_[rR]*.csv"))
+        Duck, _ = label_def(subset.split('_')[0])
+        
+        for i, path in enumerate(paths):
+            df = pd.read_csv(path)
+            df = calculate_int_HRR(df)
+            
+            # Create label only for first repetition to avoid duplicate legend entries
+            if i == 0:
+                label = f'{Duck} ({o2_label})'
+            else:
+                label = None
+            
+            ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], 
+                    color=o2_colors[o2_label], linestyle = o2_linestyle[subset.split('_')[0]],
+                    label=label, linewidth=1.5, alpha=0.8)
+            ax2.plot(df['Temperature (K)'], df['Int HRR'], 
+                    color=o2_colors[o2_label], linestyle = o2_linestyle[subset.split('_')[0]],
+                    label=label, linewidth=1.5, alpha=0.8)
+
+# Format HRR plot
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(350, 1000)
+ax1.set_xlabel('Temperature (K)')
+ax1.set_ylabel('HRR [W/g]')
+# Remove duplicate legend entries
+handles1, labels1 = ax1.get_legend_handles_labels()
+by_label1 = dict(zip(labels1, handles1))
+ax1.legend(by_label1.values(), by_label1.keys())
+fig1.tight_layout()
+
+# Format integral HRR plot
+ax2.set_ylim(bottom=0)
+ax2.set_xlim(350, 1000)
+ax2.set_xlabel('Temperature (K)')
+ax2.set_ylabel('Integral HRR [J/g]')
+# Remove duplicate legend entries
+handles2, labels2 = ax2.get_legend_handles_labels()
+by_label2 = dict(zip(labels2, handles2))
+ax2.legend(by_label2.values(), by_label2.keys())
+fig2.tight_layout()
+
+# Save figures
+fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_HRR.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_intHRR.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)
