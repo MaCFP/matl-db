@@ -328,14 +328,20 @@ for path in TGA_Data:
 
     # Axes labels
     ax_mass.set_xlabel('Temperature (K)')
-    ax_mass.set_ylabel('m/m$_0$ [g/g]')
-    ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+    ax_mass.set_ylabel('m/m$_0$ [g/g]', color = 'blue')
+    ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]', color ='red')
+
+    # Color the y-axes (spines + ticks) to match
+    ax_mass.spines['left'].set_color('blue')
+    ax_mass.tick_params(axis='y', colors='blue')
+    ax_rate.spines['right'].set_color('red')
+    ax_rate.tick_params(axis='y', colors='red')
 
     # Figure title
     fig_title = path.stem
 
     # Legend
-    fig.legend()
+    fig.legend(loc = 'upper right', bbox_to_anchor=(0.85, 0.95),frameon=True)
 
     fig.tight_layout()
     fig.savefig(str(base_dir) + f'/TGA/Individual/{path.stem}.{ex}')
@@ -476,7 +482,8 @@ def plot_average_values(df):
         
         ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
         ax1.set_ylabel('Peak MLR (1/s)', fontsize=12)
-        
+        #ax1.set_ylim(bottom=0)
+        fig1.tight_layout()
         # Remove duplicate legend entries
         handles, labels = ax1.get_legend_handles_labels()
         by_label = dict(zip(labels, handles))
@@ -538,7 +545,7 @@ ax1.set_ylabel('m/m$_0$ [g/g]')
 fig1.tight_layout()
 ax1.legend()
 
-ax2.set_ylim(bottom=0)
+ax2.set_ylim(0,0.0035)
 ax2.set_xlim(right=1100)
 ax2.set_xlabel('Temperature (K)')
 ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
