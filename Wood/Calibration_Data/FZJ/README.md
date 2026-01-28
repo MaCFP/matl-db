@@ -6,6 +6,15 @@ Universität Wuppertal (BUW).
 
 ## Experimental Conditions: Microscale Combustion Calorimetry (MCC)
 
+The sample powder was provided by MaCFP in a small glass bottle.
+Upon arrival, the bottle was opened and placed inside a desiccator for storage.
+The samples were kept inside the desiccator for more than four days before
+any experiments were conducted. Before an experiment, the bottle was taken out
+of the desiccator, on a laboratory scale the desired amount of sample material
+was placed inside a crucible and the bottle placed back into the desiccator.
+The experiment was conducted shortly after the crucible was filled.
+Thus, the sample was subjected to the laboratory environment only for a few minutes.
+
 Mass down-scaling runs have been performed at 60 K/min, to ensure that the experiments
 were conducted under the appropriate conditions. From these runs it could
 be determined that a sample mass between 2 mg to 4 mg is appropriate
