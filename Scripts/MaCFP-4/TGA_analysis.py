@@ -13,7 +13,7 @@ from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
 
 
 #define whether to save files in pdf or png
-ex = 'pdf' #options 'pdf' or 'png
+ex = 'png' #options 'pdf' or 'png
 
 #when pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -86,9 +86,11 @@ def Calculate_dm_dt(df:pd.DataFrame):
 
     # Central difference derivative w.r.t. time (NaN at first/last points)
     dt = df['Time (s)'].shift(-1) - df['Time (s)'].shift(1)
-    df['dm/dt'] = (df['filtered'].shift(1) - df['filtered'].shift(-1)) / dt
-
+    
     df['dm/dt unfiltered'] = (df['Normalized mass'].shift(1) - df['Normalized mass'].shift(-1)) / dt
+    
+    df['dm/dt'] = savgol_filter(df['dm/dt unfiltered'],41,3)#(df['filtered'].shift(1) - df['filtered'].shift(-1)) / dt
+    
     return df
 
 
@@ -315,8 +317,8 @@ for path in TGA_Data:
                     label='m/m$_0$, filtered', color='chartreuse')
 
     # Plot mass loss rate (right y-axis, dashed)
-    ax_rate.plot(df['Temperature (K)'], df['dm/dt unfiltered'],
-                    label='d(m/m$_0$)/dt', color='red', linestyle='--', alpha=0.9)
+    ax_rate.plot(df['Temperature (K)'], df['dm/dt unfiltered'],'.',
+                    label='d(m/m$_0$)/dt', color='red', alpha=0.9)
     ax_rate.plot(df['Temperature (K)'], df['dm/dt'],
                     label='d(m/m$_0$)/dt, filtered', color='black', linestyle='--', alpha=0.9)
 
@@ -400,8 +402,11 @@ for idx,set in enumerate(TGA_sets):
     peak_mlr_list = []
     T_peak_list = []
     T_onset_list = []
+    m_700_list = []
+    m_950_list = []
 
     for path in paths_TGA_set:
+        print(path)
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
 
@@ -410,10 +415,22 @@ for idx,set in enumerate(TGA_sets):
         T_peak = df["Temperature (K)"].iloc[peak_index]
         onset_index = df[(df['dm/dt'] >= 0.1 * peak_mlr) & (df['Temperature (K)'] > 400)].index[0]
         T_onset = df["Temperature (K)"].iloc[onset_index]
+        try:
+            T700_index = df[(df['Temperature (K)'] >=700)].index[0]
+            m700 = df["Normalized mass"].iloc[T700_index]
+        except:
+            m700 = np.nan
+        try:
+            T950_index = df[(df['Temperature (K)'] >=950)].index[0]
+            m950 = df["Normalized mass"].iloc[T950_index]
+        except:
+            m950 = np.nan
 
         peak_mlr_list.append(peak_mlr)
         T_peak_list.append(T_peak)
         T_onset_list.append(T_onset)
+        m_700_list.append(m700)
+        m_950_list.append(m950)
 
         ax_mass.plot(df['Temperature (K)'], df['Normalized mass'], '.',color ='black',markersize=0.00000000000002)
         ax_rate.plot(df['Temperature (K)'], df['dm/dt'],'.',color='black', markersize=0.5)
@@ -423,6 +440,10 @@ for idx,set in enumerate(TGA_sets):
     Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
     Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
     Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
+    Average_values.at[idx, 'm 700'] = np.mean(m_700_list)
+    Average_values.at[idx, 'std m 700'] = np.std(m_700_list, ddof=1)
+    Average_values.at[idx, 'T m 950'] = np.mean(m_950_list)
+    Average_values.at[idx, 'std m 950'] = np.std(m_950_list, ddof=1)
 
     # Set lower limits of both y-axes to 0
     ax_mass.set_ylim(bottom=0)

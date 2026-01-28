@@ -9,7 +9,7 @@ from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
 from scipy.signal import savgol_filter
 
 #define whether to save files in pdf or png
-ex = 'pdf' #options 'pdf' or 'png
+ex = 'png' #options 'pdf' or 'png
 
 #when pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -153,19 +153,27 @@ for series in unique_conditions_cone_material:
         df=df_raw
         label, color = label_def(path.stem.split('_')[0])
         ax1.plot(df['Time (s)'],savgol_filter((-1)*np.gradient(df['Mass (g)'],df['Time (s)']),53,3),'-', label = label, color=color)
-        ax2.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', label = label, color=color)
+        if path.stem.split('_')[0] =='UMET':
+            zorder =1
+        else:
+            zorder =5
+        ax2.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', label = label, color=color, zorder=zorder)
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
     ax1.set_ylabel('Mass loss rate [g/s]')
     fig1.tight_layout()
-    ax1.legend()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=0)
     ax2.set_xlabel('Time [s]')
     ax2.set_ylabel('HRR [kW/m$^2$]')
     fig2.tight_layout()
-    ax2.legend()
+    handles2, labels2 = ax2.get_legend_handles_labels()
+    by_label2 = dict(zip(labels2, handles2))
+    ax2.legend(by_label2.values(), by_label2.keys())
 
     fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_Mass.{}'.format(material, flux,orient,ex))
     fig2.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_HRR.{}'.format(material, flux,orient,ex))
@@ -223,7 +231,11 @@ for idx,set in enumerate(Cone_sets):
         m0 = np.mean(df["Mass (g)"][1:5])
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
-        HOC = m0*(df['Int HRR'][index_end]-df['Int HRR'][index_start])/(df['Mass (g)'][index_start]-df['Mass (g)'][index_end])
+        if path.stem.split('_')[0] == 'UDRI':
+            A_surf = 0.01
+        else:
+            A_surf = 0.00884
+        HOC = A_surf*(df['Int HRR'][index_end]-df['Int HRR'][index_start])/(df['Mass (g)'][index_start]-df['Mass (g)'][index_end])
 
         ignition_time_list.append(ignition_time)
         HOC_list.append(HOC)
@@ -293,14 +305,11 @@ plt.close(fig1)
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
 linestyle = ['-','--',':']
-for series in unique_conditions_cone_material+unique_conditions_gas_material:
+for series in unique_conditions_cone_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
     material, dev, flux, orient  = parts[:4]
-    if dev =='Cone':
-        Cone_subset_paths = [p for p in Cone_Data if dev in p.name and f"{material}_" in p.name and f"_{flux}_{orient}_" in p.name]
-    else:
-        Cone_subset_paths = [p for p in Gasification_Data if dev in p.name and f"{material}_" in p.name and f"_{flux}_{orient}_" in p.name]
+    Cone_subset_paths = [p for p in Cone_Data if dev in p.name and f"{material}_" in p.name and f"_{flux}_{orient}_" in p.name]
 
     for path in Cone_subset_paths:
         label, color = label_def(path.stem.split('_')[0])
@@ -319,9 +328,7 @@ for series in unique_conditions_cone_material+unique_conditions_gas_material:
     
     if dev == 'Cone':
         fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
-    elif dev == 'Gasification':
-        fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
-    
+ 
     plt.close(fig1)
 
 
@@ -338,16 +345,16 @@ for series in unique_conditions_gas_material:
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
     material, dev, flux, orient  = parts[:4]
-    Gas_subset_paths = [p for p in Gasification_Data if f"{material}" in p.name and f"_{flux}_{orient}_" in p.name]
+    Gas_subset_paths = [p for p in Gasification_Data if f"{material}" in p.name and f"_{flux}_" in p.name]
     for path in Gas_subset_paths:
         institute = path.stem.split('_')[0]
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
         label, color = label_def(path.stem.split('_')[0])
         if institute == 'TIFP+UCT':
-            ax1.plot(df['Time (s)'],df['dm/dt']/0.01,'-', label = label, color=color)
+            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
         elif institute == 'FSRI':
-            ax1.plot(df['Time (s)'],df['dm/dt']/0.00385,'-', label = label, color=color)
+            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
        # ax1.plot(df['Time (s)'],savgol_filter((-1)*np.gradient(df['Mass (g)'],df['Time (s)']),53,3),'-', label = label, color=color)
         ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color)
 
@@ -355,75 +362,25 @@ for series in unique_conditions_gas_material:
     ax1.set_xlabel('Time [s]')
     ax1.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
     fig1.tight_layout()
-    ax1.legend()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=0)
     ax2.set_xlabel('Time [s]')
     ax2.set_ylabel('Mass [g]')
     fig2.tight_layout()
-    ax2.legend()
+    handles2, labels2 = ax2.get_legend_handles_labels()
+    by_label2 = dict(zip(labels2, handles2))
+    ax2.legend(by_label2.values(), by_label2.keys())
 
-    fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_{}_MLR.{}'.format(material, flux,orient,ex))
-    fig2.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_{}_Mass.{}'.format(material, flux,orient,ex))
+    fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_MLR.{}'.format(material, flux,ex))
+    fig2.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_Mass.{}'.format(material, flux,ex))
 
 
     plt.close(fig1)
     plt.close(fig2)
 
-
-
-
-# plot average per Cone_set (unique institutions, unique material, unique conditions)
-for idx,set in enumerate(Cone_sets):
-    fig1, ax_MLR = plt.subplots(figsize=(6, 4))
-    df_average = average_cone_series(set)
-
-    Duck, color = label_def(set.split('_')[0])
-    Conditions = '_'.join(set.split('_')[2:])
-
-    # plot average
-    # Plot mass (left y-axis)
-    ax_MLR.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'],
-                        label='HRR', color='limegreen')
-    ax_MLR.fill_between(df_average['Time (s)'], 
-                         df_average['HRR (kW/m2)']-2*df_average['unc HRR (kW/m2)'],
-                         df_average['HRR (kW/m2)']+2*df_average['unc HRR (kW/m2)'],
-                         color='limegreen', alpha = 0.3)
-
-    # Plot mass loss rate (right y-axis, dashed)
-    # ax_rate.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'],
-    #                     label='d(m/m$_0$)/dt', color='red', alpha=0.9)
-
-    # ax_rate.fill_between(df_average['Temperature (K)'], 
-    #                     df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
-    #                     df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
-    #                     color='red', alpha=0.3)
-
-
-    #plot individual
-    paths_GAS_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
-
-    for path in paths_GAS_set:
-        df = pd.read_csv(path)
-        ax1.plot(df['Time (s)'],savgol_filter((-1)*np.gradient(df['Mass (g)'],df['Time (s)']),53,3),'-', label = label, color=color)
-
-    # Set lower limits of both y-axes to 0
-    ax_MLR.set_ylim(bottom=0)
-    
-
-    # Axes labels
-    ax_MLR.set_xlabel('Time (s)')
-    ax_MLR.set_ylabel('dm/dt (kW g$^{-1}$ s$^{-1}$)')
-
-    # Figure title
-    fig1.suptitle(Duck+"\n"+Conditions)
-
-    # Legend
-    fig1.legend()
-
-    fig1.tight_layout()
-    plt.savefig(str(base_dir) + f'/Cone/Average/{set}.{ex}')
-    plt.close(fig1)
 
 
 
@@ -438,13 +395,14 @@ for flux in [30,60]:
     Cone_subset_paths = [p for p in Gasification_Data if f"TIFP+UCT_Wood_" in p.name and f"_{flux}kW_hor_" in p.name]
     for path in Cone_subset_paths:
         label = path.stem.split('_')[5]
-        df = pd.read_csv(path)
-        ax1.plot(df['Time (s)'],savgol_filter((-1)*np.gradient(df['Mass (g)'],df['Time (s)']),53,3),'-', label = label, color=color[label])
+        df_raw = pd.read_csv(path)
+        df=Calculate_dm_dt(df_raw)
+        ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color[label])
         ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color[label])
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
-    ax1.set_ylabel('Mass loss rate [g/s]')
+    ax1.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
     fig1.tight_layout()
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
@@ -463,3 +421,40 @@ for flux in [30,60]:
     plt.close(fig1)
     plt.close(fig2)
 
+
+
+#  Back side temperature plots for all unique atmospheres and heating rates (when available)
+color = {'perpendicular':'black', 'parallel':'red'}
+for flux in [30,60]:
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    Gas_subset_paths = [p for p in Gasification_Data if f"TIFP+UCT_Wood_" in p.name and f"_{flux}kW_hor_" in p.name]
+    for path in Gas_subset_paths:
+        label = label_def(path.stem.split('_')[0])[0] +' ' + path.stem.split('_')[5]
+        df_raw = pd.read_csv(path)
+        df=Calculate_dm_dt(df_raw)
+        ax1.plot(df['Time (s)'],df['TC back 1 (K)'],'-', label = label, color=color[path.stem.split('_')[5]])
+        ax1.plot(df['Time (s)'],df['TC back 2 (K)'],'-',  color=color[path.stem.split('_')[5]])
+        ax1.plot(df['Time (s)'],df['TC back 3 (K)'],'-',  color=color[path.stem.split('_')[5]])
+    if flux == 30:
+        flux = 40
+    Capa_subset_paths = [p for p in Gasification_Data if f"FSRI_" in p.name and f"_{flux}kW_" in p.name]
+    for path in Capa_subset_paths:
+        label = label_def(path.stem.split('_')[0])[0] +' '
+        df_raw = pd.read_csv(path)
+        df=Calculate_dm_dt(df_raw)
+        ax1.plot(df['Time (s)'],df['TC Back (K)'],'-', label = label, color='#aec7e8')
+        ax1.plot(df['Time (s)'],df['TC Top (K)'],'.', label = label + 'Top', color="#bcbd22")
+
+
+    ax1.set_ylim(bottom=280)
+    ax1.set_xlabel('Time [s]')
+    ax1.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+    fig1.tight_layout()
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    ax1.legend(by_label.values(), by_label.keys())
+    
+
+    fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
+    
+    plt.close(fig1)

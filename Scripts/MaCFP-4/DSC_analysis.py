@@ -11,7 +11,7 @@ from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
 
 
 #define whether to save files in pdf or png
-ex = 'pdf' #options 'pdf' or 'png
+ex = 'png' #options 'pdf' or 'png
 
 #when pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -147,24 +147,28 @@ for series in unique_conditions_material:
     material, dev, atm, hr  = parts[:4]
     DSC_subset_paths = [p for p in DSC_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
     for path in DSC_subset_paths:
-        print(path)
         df_raw = pd.read_csv(path)
         df = Integral_DSC(df_raw)
         label, color = label_def(path.stem.split('_')[0])
         ax1.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], label = label, color=color)
         ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'], label = label, color=color)
 
+    ax1.set_xlim(400,800)
     #ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Temperature (K)')
     ax1.set_ylabel('Heat flow [W g$^{-1}$]')
     fig1.tight_layout()
-    ax1.legend()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
 
     #ax2.set_ylim(bottom=0)
     ax2.set_xlabel('Temperature (K)')
     ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
     fig2.tight_layout()
-    ax2.legend()
+    handles2, labels2 = ax2.get_legend_handles_labels()
+    by_label2 = dict(zip(labels2, handles2))
+    ax2.legend(by_label2.values(), by_label2.keys())
 
     fig1.savefig(str(base_dir) + '/DSC/DSC_{}_{}_{}_HF.{}'.format(material, atm,hr,ex))
     fig2.savefig(str(base_dir) + '/DSC/DSC_{}_{}_{}_iHF.{}'.format(material, atm,hr,ex))
@@ -184,7 +188,7 @@ for idx,set in enumerate(DSC_sets):
     # plot average
     # Plot mass (left y-axis)
     ax_HF.plot(df_average['Temperature (K)'], df_average['Heat Flow Rate (W/g)'],
-                        label='m/m$_0$', color='limegreen')
+                        label='average', color='limegreen')
     ax_HF.fill_between(df_average['Temperature (K)'], 
                          df_average['Heat Flow Rate (W/g)']-2*df_average['unc Heat Flow Rate (W/g)'],
                          df_average['Heat Flow Rate (W/g)']+2*df_average['unc Heat Flow Rate (W/g)'],
@@ -192,7 +196,7 @@ for idx,set in enumerate(DSC_sets):
 
     # Plot mass loss rate (right y-axis, dashed)
     ax_iHF.plot(df_average['Temperature (K)'], df_average['Int Heat Flow (J/g)'],
-                        label='d(m/m$_0$)/dt', color='red', alpha=0.9)
+                        label='average', color='red', alpha=0.9)
 
     ax_iHF.fill_between(df_average['Temperature (K)'], 
                         df_average['Int Heat Flow (J/g)']-2*df_average['unc Int Heat Flow (J/g)'],
@@ -216,7 +220,7 @@ for idx,set in enumerate(DSC_sets):
     ax_HF.set_xlabel('Temperature (K)')
     ax_HF.set_ylabel('Heat Flow [W/g]')
     ax_iHF.set_xlabel('Temperature (K)')
-    ax_iHF.set_ylabel('Integral Heat Flow [J/g]')
+    ax_iHF.set_ylabel('Integral Heat Flow [J$^{-1}$]')
 
 
     # Figure title
@@ -234,3 +238,118 @@ for idx,set in enumerate(DSC_sets):
     fig2.tight_layout()
     fig2.savefig(str(base_dir) + f'/DSC/Average/iHF_{set}.{ex}')
     plt.close(fig2)
+
+
+
+# Heat flow and integral heat flow plots for all unique atmospheres and heating rates 
+for series in unique_conditions_material:
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    parts = series.split('_')
+    material, dev, atm, hr  = parts[:4]
+    DSC_subset_paths = [p for p in DSC_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
+    for path in DSC_subset_paths:
+        df_raw = pd.read_csv(path)
+        df = Integral_DSC(df_raw)
+        label, color = label_def(path.stem.split('_')[0])
+        ax1.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'],'.', color=color, alpha=0.3, markersize =0.1, zorder=4)
+        ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'],'.', color=color, alpha=0.3, markersize =0.1,zorder=4)
+    
+    Institute_list = [name for name in DSC_sets if series in name]
+    print(Institute_list)
+    for Institute in Institute_list:
+        df_average = average_dsc_series(Institute)
+    
+        Duck, color = label_def(Institute.split('_')[0])
+        Conditions = '_'.join(Institute.split('_')[2:])
+
+        # plot average
+        # Plot mass (left y-axis)
+        ax1.plot(df_average['Temperature (K)'], df_average['Heat Flow Rate (W/g)'],
+                            label=Duck, color=color,zorder=2)
+        ax1.fill_between(df_average['Temperature (K)'], 
+                            df_average['Heat Flow Rate (W/g)']-2*df_average['unc Heat Flow Rate (W/g)'],
+                            df_average['Heat Flow Rate (W/g)']+2*df_average['unc Heat Flow Rate (W/g)'],
+                            color=color,alpha=0.3, zorder=3)
+        
+        # Plot mass loss rate (right y-axis, dashed)
+        ax2.plot(df_average['Temperature (K)'], df_average['Int Heat Flow (J/g)'],
+                        label=Duck, color=color, zorder=2)
+
+        ax2.fill_between(df_average['Temperature (K)'], 
+                        df_average['Int Heat Flow (J/g)']-2*df_average['unc Int Heat Flow (J/g)'],
+                        df_average['Int Heat Flow (J/g)']+2*df_average['unc Int Heat Flow (J/g)'],
+                        color=color, alpha=0.3,zorder=3)
+
+
+
+    #ax1.set_ylim(bottom=0)
+    ax1.set_xlabel('Temperature (K)')
+    ax1.set_ylabel('Heat flow [W g$^{-1}$]')
+    fig1.tight_layout()
+    ax1.legend()
+
+    ax2.set_xlabel('Temperature (K)')
+    ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
+    fig2.tight_layout()
+    ax2.legend()
+
+    fig1.savefig(str(base_dir) + '/DSC/DSC_{}_{}_{}_HF_avg.{}'.format(material, atm,hr,ex))
+    fig2.savefig(str(base_dir) + '/DSC/DSC_{}_{}_{}_iHF_avg.{}'.format(material, atm,hr,ex))
+    plt.close(fig1)
+    plt.close(fig2)
+
+
+
+# region heats of reactions:
+# only for STA data
+# All DSC data (including STA)
+STA_Data = device_data(DATA_DIR, 'STA')
+
+for exp in STA_Data:
+    df_raw = pd.read_csv(exp)
+    df = Integral_DSC(df_raw)
+    
+    df['Normalized mass'] = df['Mass (mg)'] / np.mean(df['Mass (mg)'].iloc[0:5])
+    dt = df['Time (s)'].shift(-1) - df['Time (s)'].shift(1)
+    df['dm/dt unfiltered'] = (df['Normalized mass'].shift(1) - df['Normalized mass'].shift(-1)) / dt
+    
+    df['dm/dt'] = savgol_filter(df['dm/dt unfiltered'],41,3)
+    
+    # Find peak MLR and its index
+    peak_MLR = df['dm/dt'].max()
+    peak_idx = df['dm/dt'].idxmax()
+    
+    # Find threshold (10% of peak)and indices
+    threshold = 0.1 * peak_MLR
+    before_peak = df.loc[:peak_idx]
+    idx1 = before_peak[before_peak['dm/dt'] >= threshold].index[0]
+    after_peak = df.loc[peak_idx:]
+    idx2 = after_peak[after_peak['dm/dt'] <= threshold].index[0]
+    
+    # Extract data for integration
+    T1 = df.loc[idx1, 'Temperature (K)']
+    T2 = df.loc[idx2, 'Temperature (K)']
+    HF1 = df.loc[idx1, 'Heat Flow Rate (W/g)']
+    HF2 = df.loc[idx2, 'Heat Flow Rate (W/g)']
+    
+    # Subset data between the two indices
+    df_subset = df.loc[idx1:idx2].copy()
+    
+    # Create linear baseline
+    df_subset['baseline'] = np.interp(
+        df_subset['Temperature (K)'], 
+        [T1, T2], 
+        [HF1, HF2]
+    )
+    
+    # Subtract baseline from heat flow rate
+    df_subset['HF_corrected'] = df_subset['Heat Flow Rate (W/g)'] - df_subset['baseline']
+    
+    # Integrate corrected heat flow rate with respect to time
+    value = np.trapezoid(df_subset['HF_corrected'], df_subset['Time (s)'])/(df['Normalized mass'][idx1]- df['Normalized mass'][idx2])
+    
+    print(f"Experiment: {exp.stem}")
+    print(f"Integration from {T1:.1f} K to {T2:.1f} K")
+    print(f"Estimated heat of reaction: {value:.4f} J/g")
+    print()
