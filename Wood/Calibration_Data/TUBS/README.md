@@ -1,5 +1,8 @@
 # Technische Universität Braunschweig (TUBS)
 
+Name of Experimentalist: Felix Armbrust
+Contact: f.armbrust(at)ibmb.tu-braunschweig.de
+
 ### Experimental Conditions: TGA/DSC
 A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. 
 
@@ -32,29 +35,41 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
   - Type: Mettler Toledo TGA/DSC3+
   - Sensor: TGA DTA platinum-rhodium
 
-| Test Name | O2 volume % |  Initial Sample Mass (mg) | 
-| --------- | :---------: | :------------------------: |
-|TUBS\_TGA\_N2\_5K\_R1 | 0 | 0.98|
-|TUBS\_TGA\_N2\_5K\_R2 | 0 | 1.05| 
-|TUBS\_TGA\_N2\_5K\_R3 | 0 | 0.95| 
-|TUBS\_TGA\_N2\_10K\_R1 | 0 | 1.04| 
-|TUBS\_TGA\_N2\_10K\_R2 | 0 | 1.03| 
-|TUBS\_TGA\_N2\_10K\_R3 | 0 | 1.03|
-|TUBS\_TGA\_N2\_20K\_R1 | 0 | 1.03| 
-|TUBS\_TGA\_N2\_20K\_R2 | 0 | 1.03| 
-|TUBS\_TGA\_N2\_20K\_R3 | 0 | 1.04|
-|TUBS\_TGA\_N2\_30K\_R1 | 0 | 1.05| 
-|TUBS\_TGA\_N2\_30K\_R2 | 0 | 1.00| 
-|TUBS\_TGA\_N2\_30K\_R3 | 0 | 0.97|
-|TUBS\_TGA\_N2\_40K\_R1 | 0 | 0.96| 
-|TUBS\_TGA\_N2\_40K\_R2 | 0 | 0.98| 
-|TUBS\_TGA\_N2\_40K\_R3 | 0 | 1.02|
-|TUBS\_TGA\_N2\_50K\_R1 | 0 | 0.99| 
-|TUBS\_TGA\_N2\_50K\_R2 | 0 | 1.02| 
-|TUBS\_TGA\_N2\_50K\_R3 | 0 | 0.97| 
-|TUBS\_TGA\_N2\_593Kiso\_R1 | 0 | 1.02| 
-|TUBS\_TGA\_N2\_593Kiso\_R2 | 0 | 0.99| 
-|TUBS\_TGA\_N2\_593Kiso\_R3 | 0 | 0.96| 
+| Test Name | O2 volume % |  Initial Sample Mass (mg) |   Purpose | 
+| --------- | :---------: | :------------------------: | :------------------------: |
+|TUBS\_TGA\_N2\_5K\_R1 | 0 | 0.98| main measurement|
+|TUBS\_TGA\_N2\_5K\_R2 | 0 | 1.05| main measurement| 
+|TUBS\_TGA\_N2\_5K\_R3 | 0 | 0.95| main measurement|
+|TUBS\_TGA\_N2\_10K\_R1 | 0 | 1.04| main measurement|
+|TUBS\_TGA\_N2\_10K\_R2 | 0 | 1.03| main measurement|
+|TUBS\_TGA\_N2\_10K\_R3 | 0 | 1.03| main measurement|
+|TUBS\_TGA\_N2\_20K\_R1 | 0 | 1.03| main measurement|
+|TUBS\_TGA\_N2\_20K\_R2 | 0 | 1.03| main measurement|
+|TUBS\_TGA\_N2\_20K\_R3 | 0 | 1.04| main measurement|
+|TUBS\_TGA\_N2\_30K\_R1 | 0 | 1.05| main measurement|
+|TUBS\_TGA\_N2\_30K\_R2 | 0 | 1.00| main measurement|
+|TUBS\_TGA\_N2\_30K\_R3 | 0 | 0.97| main measurement|
+|TUBS\_TGA\_N2\_40K\_R1 | 0 | 0.96| main measurement|
+|TUBS\_TGA\_N2\_40K\_R2 | 0 | 0.98| main measurement|
+|TUBS\_TGA\_N2\_40K\_R3 | 0 | 1.02| main measurement| 
+|TUBS\_TGA\_N2\_50K\_R1 | 0 | 0.99| main measurement|
+|TUBS\_TGA\_N2\_50K\_R2 | 0 | 1.02| main measurement|
+|TUBS\_TGA\_N2\_50K\_R3 | 0 | 0.97| main measurement|
+|TUBS\_TGA\_N2\_50K\_R4 | 0 | 4.02| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R5 | 0 | 4.01| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R6 | 0 | 4.00| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R7 | 0 | 2.03| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R8 | 0 | 1.98| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R9 | 0 | 2.02| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R10 | 0 | 1.03| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R11 | 0 | 1.00| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R12 | 0 | 1.02| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R13 | 0 | 0.5| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R14 | 0 | 0.47| mass down-scaling|
+|TUBS\_TGA\_N2\_50K\_R15 | 0 | 0.51| mass down-scaling|
+|TUBS\_TGA\_N2\_593Kiso\_R1 | 0 | 1.02| main measurement|
+|TUBS\_TGA\_N2\_593Kiso\_R2 | 0 | 0.99| main measurement|
+|TUBS\_TGA\_N2\_593Kiso\_R3 | 0 | 0.96| main measurement|
 
 ### Experimental Conditions: MCC
 A FTT microscale combustion calorimeter was used to conduct MCC experiments.
