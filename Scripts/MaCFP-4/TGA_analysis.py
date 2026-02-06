@@ -1,3 +1,9 @@
+"""
+
+Main script for TGA analysis for MaCFP-4
+
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -6,20 +12,20 @@ from collections import defaultdict
 from pathlib import Path
 from scipy.signal import savgol_filter
 from fnmatch import fnmatch
-
+from typing import Optional, Union, List, Tuple, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
-from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
+from Utils import DATA_DIR
 
 
-#define whether to save files in pdf or png
+#region Save plots as pdf or png
 ex = 'png' #options 'pdf' or 'png
 
-#when pushed to main repo replace
+# when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
 '../../Documents/'
 
-# check all subdirectories to save plots exist. 
+#region create subdirectories to save plots. 
 base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
 Individual_dir = base_dir / 'TGA' / 'Individual'
 Average_dir = base_dir / 'TGA' / 'Average'
@@ -30,10 +36,9 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 # ------------------------------------
 #region data
 # ------------------------------------
-#This section is used to determine what TGA data is available. 
-
 # All TGA data (including STA)
 TGA_Data = device_data(DATA_DIR, 'TGA') + device_data(DATA_DIR, 'STA')
+
 # All unique sets (name without repetition number, e.g.TUT_TGA_N2_10K_40Pa )
 TGA_sets = get_series_names(TGA_Data)
 
@@ -75,7 +80,8 @@ set_plot_style()
 #region functions
 # ------------------------------------
 
-def Calculate_dm_dt(df:pd.DataFrame):
+def Calculate_dm_dt(df:pd.DataFrame) -> pd.DataFrame:
+    """Calculate normalized mass and mass loss rate with smoothing."""
     df = interpolation(df)
 
     # Normalize mass
@@ -95,8 +101,8 @@ def Calculate_dm_dt(df:pd.DataFrame):
 
 
 
-def average_HR_tga_series(series_name: str):
-    
+def average_HR_tga_series(series_name: str) -> pd.DataFrame:
+    """Averages the actual heating rate (dT/dt) across all repetitions of a test series"""
     paths = list(DATA_DIR.glob(f"*/{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in TGA_Data]
@@ -113,7 +119,6 @@ def average_HR_tga_series(series_name: str):
         #interpolation
         df_interp = interpolation(df)
 
-        #df_interp["dTdt"] = 60 * np.gradient(df_interp["Temperature (K)"], df_interp["Time (s)"])
         window = 5
         dt = df_interp['Time (s)'].shift(-5) - df_interp['Time (s)'].shift(5)
         df_interp['dTdt'] = -60*(df_interp['Temperature (K)'].shift(5) - df_interp['Temperature (K)'].shift(-5)) / dt
@@ -143,8 +148,10 @@ def average_HR_tga_series(series_name: str):
     return df_average
 
 
-def average_tga_series(series_name: str, exclude=None, temp_filter=None):
-    
+
+def average_tga_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None, 
+                       temp_filter:Optional[Dict[str, float]] = None) -> pd.DataFrame:
+    """Calculate average mass and MLR for a test series with optional filtering."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in TGA_Data]
@@ -245,13 +252,13 @@ for HR in unique_HR:
         plt.close(fig)
 
 
+
 # Mass and mass loss rate plots for all unique atmospheres and heating rates 
 plot_configs = [
     {'suffix': '', 'xlim': (None, 1100), 'ylim1': (0, None),'ylim2': (0, None)},  # Original
     {'suffix': '_zoom1', 'xlim': (None,600), 'ylim1': (0.85, 1.1),'ylim2': (0, None)},  # Zoomed version
     {'suffix': '_zoom2', 'xlim': (650, 1100), 'ylim1': (-0.09, 0.5),'ylim2': (0, None)},  # Full range
 ]
-
 
 for series in unique_conditions_material:
     parts = series.split('_')
@@ -402,11 +409,11 @@ for idx,set in enumerate(TGA_sets):
     peak_mlr_list = []
     T_peak_list = []
     T_onset_list = []
+    m_400_list = []
     m_700_list = []
     m_950_list = []
 
     for path in paths_TGA_set:
-        print(path)
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
 
@@ -415,6 +422,8 @@ for idx,set in enumerate(TGA_sets):
         T_peak = df["Temperature (K)"].iloc[peak_index]
         onset_index = df[(df['dm/dt'] >= 0.1 * peak_mlr) & (df['Temperature (K)'] > 400)].index[0]
         T_onset = df["Temperature (K)"].iloc[onset_index]
+        T400_index = df[(df['Temperature (K)'] >=400)].index[0]
+        m400 = 1-df["Normalized mass"].iloc[T400_index]
         try:
             T700_index = df[(df['Temperature (K)'] >=700)].index[0]
             m700 = df["Normalized mass"].iloc[T700_index]
@@ -429,6 +438,7 @@ for idx,set in enumerate(TGA_sets):
         peak_mlr_list.append(peak_mlr)
         T_peak_list.append(T_peak)
         T_onset_list.append(T_onset)
+        m_400_list.append(m400)
         m_700_list.append(m700)
         m_950_list.append(m950)
 
@@ -440,6 +450,8 @@ for idx,set in enumerate(TGA_sets):
     Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
     Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
     Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
+    Average_values.at[idx, 'm 400'] = np.mean(m_400_list)
+    Average_values.at[idx, 'std m 400'] = np.std(m_400_list, ddof=1)
     Average_values.at[idx, 'm 700'] = np.mean(m_700_list)
     Average_values.at[idx, 'std m 700'] = np.std(m_700_list, ddof=1)
     Average_values.at[idx, 'T m 950'] = np.mean(m_950_list)
@@ -467,6 +479,7 @@ for idx,set in enumerate(TGA_sets):
     plt.close(fig)
 Average_values.drop('set',axis=1)
 print(Average_values)
+
 
 #plot average values 
 def plot_average_values(df):
@@ -533,7 +546,6 @@ plot_average_values(Average_values)
 
 
 # Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
-# HR plots for all unique HR
 color = {'5K':'blue','10K':'black','20K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))

@@ -1,38 +1,41 @@
+"""
+
+Main script for MCC analysis for MaCFP-4
+
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pathlib import Path
-import re
+from typing import Optional, Union, List, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, \
                   device_subset, label_def, interpolation
-from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
+from Utils import DATA_DIR
 
-
-#define whether to save files in pdf or png
+#region Save plots as pdf or png
 ex = 'png' #options 'pdf' or 'png
 
-#when pushed to main repo replace
+# TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
 '../../Documents/'
 
-# check all subdirectories to save plots exist. 
+#region create subdirectories to save plots.
 base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
-Individual_dir = base_dir / 'MCC' / 'Individual'
 Average_dir = base_dir / 'MCC' / 'Average'
-Individual_dir.mkdir(parents=True, exist_ok=True)
 Average_dir.mkdir(parents=True, exist_ok=True)
 
 
 # ------------------------------------
 #region data
 # ------------------------------------
-#This section is used to determine what MCC data is available. 
-
 # All MCC Data
 MCC_Data = device_data(DATA_DIR, 'MCC')
+
 # All unique sets (name without repetition number)
 MCC_sets = get_series_names(MCC_Data)
+
 # All unique conditions over all institutes
 unique_conditions = { '_'.join(s.split('_')[2:]) for s in MCC_sets}
 unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in MCC_sets if '_' in name))
@@ -46,6 +49,8 @@ print(make_institution_table(MCC_Data,['Wood'],['O2-2', 'O2-5', 'O2-10' , 'O2-20
 
 print('Char table')
 print(make_institution_table(MCC_Data,['Wood-char'],['O2-20', 'O2-21'],['60K']))
+
+
 
 # ------------------------------------
 #region set plot style
@@ -72,7 +77,8 @@ set_plot_style()
 # ------------------------------------
 #region functions
 # ------------------------------------
-def calculate_int_HRR(df:pd.DataFrame):
+def calculate_int_HRR(df:pd.DataFrame) -> pd.DataFrame:
+    """Calculate integral HRR."""
     df = interpolation(df)
     total_hrr = np.zeros(len(df))
     for i in range(1, len(df)):
@@ -81,7 +87,9 @@ def calculate_int_HRR(df:pd.DataFrame):
     return df
 
 
-def average_MCC_series(series_name: str, exclude=None, temp_filter=None):
+def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None, 
+                       temp_filter:Optional[Dict[str, float]] = None) -> pd.DataFrame:
+    """Calculate average mass and MLR for a test series with optional filtering."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in MCC_Data]
@@ -145,10 +153,10 @@ def average_MCC_series(series_name: str, exclude=None, temp_filter=None):
 
 
 
-
-
+# ------------------------------------
+#region plots
+# ------------------------------------
 # HR plots for all unique HR
-# unique heating rates: 
 unique_HR = { '_'.join(s.split('_')[3:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(4, 3))
@@ -442,8 +450,7 @@ plot_hrr_and_onset_vs_peak_temp(Average_values)
 
 
 
-# Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
-# HR plots for all unique HR
+# Average plot for Mass and mass loss rate (averaging over different institutes)
 color = {'30K':'blue','45K':'black','60K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))

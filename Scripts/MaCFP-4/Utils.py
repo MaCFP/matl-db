@@ -1,4 +1,15 @@
-# common functions for the analysis scripts
+"""
+
+Common functions for MaCFP-4 thermal analysis data processing.
+
+This module provides utilities for:
+- Loading and filtering experimental data from multiple institutions
+- Mapping institution codes to anonymized labels and colors
+- Creating data availability summary tables
+- Interpolating temperature-dependent measurements
+
+"""
+
 import re
 import pandas as pd
 import numpy as np
@@ -6,13 +17,16 @@ import numpy as np
 from pathlib import Path
 from collections import defaultdict
 import matplotlib.pyplot as plt
+from typing import List, Tuple
 
-#region paths
+
+#region get input path 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
-
 DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
-FIGURES_DIR = PROJECT_ROOT / "Documents" / "SCRIPTS_FIGURES" / "MaCFP-4"
+
+
+# region define labs, corresponding labels and colors
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 
 CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", 
@@ -20,11 +34,6 @@ CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen",
          "Bali", "Magpie", "Ancona", "Crested", "Call",  
          "Muscovy", "Pomeranian",  "Shetland", "Alabio", "Mallard", "Hardhead"]
 
-#colors = ["#5B2A6F", "#808080", "#FF4500", "#FFD700", "#008000", 
-#          "#FF1493", "#00FF00", "#00BFFF", "#4B0082", "#000000",
-#          "#03EB9E", "#FF0000", "#A52A2A", "#0000FF", "#000080", 
-#          "#FF00FF", "#F0E68C", "#006400", "#FF8C00", "#008080", "#DAA520"
-#]
 
 colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", 
           "#ff9896", "#c5b0d5", "#2ca02c",  "#c49c94", "#d62728",
@@ -33,16 +42,21 @@ colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8",
 ]
 
 
+assert len(CODES) >= len(labs), "Not enough codes for all institutions"
+assert len(colors) >= len(labs), "Not enough colors for all institutions"
 
-def label_def(lab):
+#region functions
+def label_def(lab:str) -> Tuple[str,str]:
+    """returns label and color for every lab"""
     IDX = labs.index(lab)
     label = CODES[IDX]
     color = colors[IDX]
     return label, color
 
 
-#region functions
-def device_data(directory:Path, device:str):
+
+def device_data(directory:Path, device:str)->List[Path]:
+    """creates list of all CSV files for a specific measurement device."""
     paths = [
         p
         for p in DATA_DIR.rglob("*.csv")
@@ -54,7 +68,8 @@ def device_data(directory:Path, device:str):
 
 
 
-def device_subset(serieslist, heatingrate, atmosphere):
+def device_subset(serieslist:List, heatingrate:str, atmosphere:str)->List[Path]:
+    """creates subset of device data for the specified heating rate and atmosphere"""
     sub_list = [
         p
         for p in serieslist
@@ -64,7 +79,8 @@ def device_subset(serieslist, heatingrate, atmosphere):
     ]
     return sub_list
 
-def get_series_names(data_list):
+
+def get_series_names(data_list:List[Path])->List[str]:
     """Get unique series names from CSV files in the data list"""
     series_set = set()
 
@@ -80,12 +96,12 @@ def get_series_names(data_list):
 
 
 
-#tables
+# tables
 def make_institution_table(
-    paths, materials,
-    atmospheres,
-    heating_rates,
-):
+    paths: List[Path], materials:List[str],
+    atmospheres:List[str],
+    heating_rates:List[str],
+) -> pd.DataFrame:
     """
     Build a count table of data availability by institution.
 
@@ -164,7 +180,9 @@ def make_institution_table(
     return df
 
 
-def interpolation(df:pd.DataFrame):
+
+def interpolation(df:pd.DataFrame) -> pd.DataFrame:
+    """Interpolates dataframe to 0.5 K temperature intervals"""
     T_floor = df["Temperature (K)"].iloc[0]
     T_floor = np.ceil(T_floor) 
     T_ceil = df["Temperature (K)"].iloc[-1]
