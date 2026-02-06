@@ -1,26 +1,31 @@
+"""
+
+Main script for Cone and gasification analysis for MaCFP-4
+
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pathlib import Path
 import re
-
-from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def
-from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
 from scipy.signal import savgol_filter
 
-#define whether to save files in pdf or png
-ex = 'png' #options 'pdf' or 'png
+from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def
+from Utils import DATA_DIR
 
-#when pushed to main repo replace
+
+#region Save plots as pdf or png
+ex = 'pdf' #options 'pdf' or 'png
+
+# TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
 '../../Documents/'
 
 
-# check all subdirectories to save plots exist. 
+#region create subdirectories to save plots. 
 base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
-Individual_dir = base_dir / 'Cone' / 'Individual'
 Average_dir = base_dir / 'Cone' / 'Average'
-Individual_dir.mkdir(parents=True, exist_ok=True)
 Average_dir.mkdir(parents=True, exist_ok=True)
 
 
@@ -29,11 +34,10 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 # ------------------------------------
 #This section is used to determine what cone data is available. 
 Cone_Data = device_data(DATA_DIR, 'CONE')
-Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA')
 Cone_sets = get_series_names(Cone_Data)
+Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA')
 Gas_sets = get_series_names(Gasification_Data)
-print(Gas_sets)
-Gasification_sets = get_series_names(Gasification_Data)
+
 unique_conditions_cone = { '_'.join(s.split('_')[3:]) for s in Cone_sets}
 unique_conditions_cone_material = sorted(set(name.split('_', 1)[1] for name in Cone_sets if '_' in name))
 unique_conditions_gas = { '_'.join(s.split('_')[3:]) for s in Gas_sets}
@@ -44,6 +48,7 @@ print('Cone table')
 print(make_institution_table(Cone_Data,['Wood'],['25kW','30kW','50kW','60kW','75kW'],['hor']))
 print('Gasification table')
 print(make_institution_table(Gasification_Data,['Wood'],['30kW','40kW','60kW'],['hor']))
+
 
 # ------------------------------------
 #region set plot style
@@ -66,13 +71,12 @@ def set_plot_style():
 set_plot_style()
 
 
+
 # ------------------------------------
 #region functions
 # ------------------------------------
-
-
-def average_cone_series(series_name: str):
-    
+def average_cone_series(series_name: str)->pd.DataFrame:
+    """Calculate average mass and MLR for a test series."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
@@ -128,11 +132,11 @@ def average_cone_series(series_name: str):
     sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
     df_average['unc HRR (kW/m2)'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
 
-
     return df_average
 
 
-def calculate_int_HRR(df:pd.DataFrame):
+def calculate_int_HRR(df:pd.DataFrame)->pd.DataFrame:
+    """Calculate integral HRR."""
     total_hrr = np.zeros(len(df))
     for i in range(1, len(df)):
         total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (kW/m2)'].iloc[i-1] + df['HRR (kW/m2)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
@@ -140,7 +144,16 @@ def calculate_int_HRR(df:pd.DataFrame):
     return df
 
 
+def Calculate_dm_dt(df:pd.DataFrame):
+    """Calculate mass loss rate ."""
+    dt = df['Time (s)'].shift(-2) - df['Time (s)'].shift(2)
+    df['dm/dt'] = (df['Mass (g)'].shift(2) - df['Mass (g)'].shift(-2)) / dt
+    return df
 
+
+# ------------------------------------
+#region Cone plots
+# ------------------------------------
 # Mass and HRR plots for all unique atmospheres and heating rates
 for series in unique_conditions_cone_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
@@ -181,8 +194,6 @@ for series in unique_conditions_cone_material:
 
     plt.close(fig1)
     plt.close(fig2)
-
-
 
 
 
@@ -272,8 +283,7 @@ print(Average_values)
 
 
 
-# Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
-# HR plots for all unique HR
+# Average plot for Mass and mass loss rate (averaging over different institutes)
 color = {'30kW':'blue','50kW':'black','60kW':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
@@ -284,7 +294,7 @@ for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
         for i, path in enumerate(paths):
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
-            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', color = color[flux], alpha=0.08, markersize = 0.1, zorder=4)
+            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', color = color[flux], alpha=0.7, markersize = 0.1, zorder=4)
     df_average = average_cone_series(series)
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 3)
     ax1.fill_between(df_average['Time (s)'], 
@@ -292,7 +302,7 @@ for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
                     df_average['HRR (kW/m2)']+2*df_average['unc HRR (kW/m2)'],
                     color=color[flux], alpha = 0.3, zorder=2)
 
-ax1.set_ylim(bottom=0)
+ax1.set_ylim(bottom=0,top=250)
 ax1.set_xlim(right=2500)
 ax1.set_xlabel('Time (s)')
 ax1.set_ylabel('HRR [kW/m$^2$]')
@@ -332,13 +342,10 @@ for series in unique_conditions_cone_material:
     plt.close(fig1)
 
 
-#region Gasification
 
-def Calculate_dm_dt(df:pd.DataFrame):
-    dt = df['Time (s)'].shift(-2) - df['Time (s)'].shift(2)
-    df['dm/dt'] = (df['Mass (g)'].shift(2) - df['Mass (g)'].shift(-2)) / dt
-    return df
-
+# ------------------------------------
+#region Gasification plots
+# ------------------------------------
 # Mass and mass loss rate plots for all unique atmospheres and heating rates (gasification)
 for series in unique_conditions_gas_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
@@ -355,7 +362,6 @@ for series in unique_conditions_gas_material:
             ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
         elif institute == 'FSRI':
             ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
-       # ax1.plot(df['Time (s)'],savgol_filter((-1)*np.gradient(df['Mass (g)'],df['Time (s)']),53,3),'-', label = label, color=color)
         ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color)
 
     ax1.set_ylim(bottom=0)
@@ -386,8 +392,7 @@ for series in unique_conditions_gas_material:
 
 
 
-# parallel versus perpendicular
-# Mass and mass loss rate plots for all unique atmospheres and heating rates
+# Plots comparing parallel verus perpendicular
 color = {'perpendicular':'black', 'parallel':'red'}
 for flux in [30,60]:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
@@ -423,7 +428,7 @@ for flux in [30,60]:
 
 
 
-#  Back side temperature plots for all unique atmospheres and heating rates (when available)
+#  Back side temperature plots (when available)
 color = {'perpendicular':'black', 'parallel':'red'}
 for flux in [30,60]:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
