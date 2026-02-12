@@ -12,7 +12,7 @@ from collections import defaultdict
 from pathlib import Path
 from scipy.signal import savgol_filter
 from fnmatch import fnmatch
-from typing import Optional, Union, List, Tuple, Dict
+from typing import Optional, Union, List, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
 from Utils import DATA_DIR
@@ -21,7 +21,7 @@ from Utils import DATA_DIR
 #region Save plots as pdf or png
 ex = 'png' #options 'pdf' or 'png
 
-# when prelim document pushed to main repo replace
+# TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
 '../../Documents/'
 
