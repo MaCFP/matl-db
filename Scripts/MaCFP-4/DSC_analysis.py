@@ -18,7 +18,7 @@ from Utils import DATA_DIR
 
 
 #define whether to save files in pdf or png
-ex = 'png' #options 'pdf' or 'png
+ex = 'pdf' #options 'pdf' or 'png
 
 # TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -321,14 +321,14 @@ for exp in STA_Data:
     df['Normalized mass'] = df['Mass (mg)'] / np.mean(df['Mass (mg)'].iloc[0:5])
     dt = df['Time (s)'].shift(-1) - df['Time (s)'].shift(1)
     df['dm/dt unfiltered'] = (df['Normalized mass'].shift(1) - df['Normalized mass'].shift(-1)) / dt
-    
+    df['dm/dt unfiltered'] = df['dm/dt unfiltered'].interpolate(method='linear', limit_direction='both') #avoid nan_values
     df['dm/dt'] = savgol_filter(df['dm/dt unfiltered'],41,3)
     
     # Find peak MLR and its index
     peak_MLR = df['dm/dt'].max()
     peak_idx = df['dm/dt'].idxmax()
     
-    # Find threshold (10% of peak)and indices
+    # Find threshold (10% of peak) and indices
     threshold = 0.1 * peak_MLR
     before_peak = df.loc[:peak_idx]
     idx1 = before_peak[before_peak['dm/dt'] >= threshold].index[0]
