@@ -148,6 +148,8 @@ def Calculate_dm_dt(df:pd.DataFrame):
     """Calculate mass loss rate ."""
     dt = df['Time (s)'].shift(-2) - df['Time (s)'].shift(2)
     df['dm/dt'] = (df['Mass (g)'].shift(2) - df['Mass (g)'].shift(-2)) / dt
+    df['dm/dt'] = df['dm/dt'].interpolate(method='linear', limit_direction='both') #avoid nan_values
+    print(df)
     return df
 
 
