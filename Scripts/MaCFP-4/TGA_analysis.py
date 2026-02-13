@@ -94,7 +94,7 @@ def Calculate_dm_dt(df:pd.DataFrame) -> pd.DataFrame:
     dt = df['Time (s)'].shift(-1) - df['Time (s)'].shift(1)
     
     df['dm/dt unfiltered'] = (df['Normalized mass'].shift(1) - df['Normalized mass'].shift(-1)) / dt
-    
+    df['dm/dt unfiltered'] = df['dm/dt unfiltered'].interpolate(method='linear', limit_direction='both') #avoid nan_values
     df['dm/dt'] = savgol_filter(df['dm/dt unfiltered'],41,3)#(df['filtered'].shift(1) - df['filtered'].shift(-1)) / dt
     
     return df
