@@ -741,4 +741,4 @@ latex_string = '\n'.join(new_lines)
 with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
     f.write(latex_string)
 
-
+# Finland won their hockey game
