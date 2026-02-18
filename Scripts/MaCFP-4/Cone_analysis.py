@@ -76,7 +76,7 @@ set_plot_style()
 #region functions
 # ------------------------------------
 def average_cone_series(series_name: str)->pd.DataFrame:
-    """Calculate average mass and MLR for a test series."""
+    """Calculate average mass and HRR for a test series."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
@@ -135,6 +135,68 @@ def average_cone_series(series_name: str)->pd.DataFrame:
     return df_average
 
 
+
+def average_Gas_series(series_name: str)->pd.DataFrame:
+    """Calculate average mass and MLR for a test series."""
+    paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in Gasification_Data]
+
+    Dataframes = []
+    if len(paths) == 0:
+        raise Exception((f"No files found for series {series_name}", "red"))
+
+    # Read data
+    for i, path in enumerate(paths):
+        df_raw = pd.read_csv(path)
+
+        t_floor = df_raw["Time (s)"].iloc[0]
+        t_floor = np.ceil(t_floor) 
+        t_ceil = df_raw["Time (s)"].iloc[-1]
+        t_ceil = np.floor(t_ceil) 
+
+        InterpT = np.arange(t_floor, t_ceil+1, 1)
+        length = len(InterpT)
+        df_interp = pd.DataFrame(index=range(length))
+        for columns in df_raw.columns[:]:
+            df_interp[columns] = np.interp(
+                InterpT, df_raw["Time (s)"], df_raw[columns]
+            )
+        df_interp = Calculate_dm_dt(df_interp)
+        Dataframes.append(df_interp)
+        
+
+    merged_df = Dataframes[0]
+    for df in Dataframes[1:]:
+        merged_df = pd.merge(
+            merged_df,
+            df,
+            on="Time (s)",
+            how="outer",
+            suffixes=("", f" {int(len(merged_df.columns)/2+0.5)}"),
+        )
+  
+    merged_df.rename(columns={'Mass (g)': "Mass (g) 1"}, inplace=True)
+    merged_df.rename(columns={'dm/dt': "dm/dt 1"}, inplace=True)
+
+    #average
+    time_cols = merged_df.filter(regex=r'^Time \(s\)').columns
+    mass_cols = merged_df.filter(regex=r'^Mass \(g\)').columns
+    dmdt_cols = merged_df.filter(regex=r'^dm/dt').columns
+
+    df_average = pd.DataFrame({'Time (s)': merged_df['Time (s)']})
+    n=2
+    sum = merged_df[dmdt_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[dmdt_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['dm/dt'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[dmdt_cols].sub(df_average['dm/dt'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['unc dm/dt'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    return df_average
+
+
 def calculate_int_HRR(df:pd.DataFrame)->pd.DataFrame:
     """Calculate integral HRR."""
     total_hrr = np.zeros(len(df))
@@ -149,7 +211,6 @@ def Calculate_dm_dt(df:pd.DataFrame):
     dt = df['Time (s)'].shift(-2) - df['Time (s)'].shift(2)
     df['dm/dt'] = (df['Mass (g)'].shift(2) - df['Mass (g)'].shift(-2)) / dt
     df['dm/dt'] = df['dm/dt'].interpolate(method='linear', limit_direction='both') #avoid nan_values
-    print(df)
     return df
 
 
@@ -211,6 +272,9 @@ for idx,set in enumerate(Cone_sets):
     ax_rate = ax_HRR.twinx()
     df_average = average_cone_series(set)
 
+    Duck, color = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
+
     # plot average
     # Plot mass (left y-axis)
     ax_HRR.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'],
@@ -268,8 +332,8 @@ for idx,set in enumerate(Cone_sets):
     ax_HRR.set_xlabel('Time (s)')
     ax_HRR.set_ylabel('HRR (kW/m2)')
 
-    # Figure title
-    fig_title = set
+        # Figure title
+    plt.title(Duck+"\n"+Conditions)
 
     # Legend
     fig.legend()
@@ -337,12 +401,41 @@ for series in unique_conditions_cone_material:
     ax1.set_ylabel('Temperature [K]')
     fig1.tight_layout()
     ax1.legend()
-    
-    if dev == 'Cone':
-        fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
+
+    fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
  
     plt.close(fig1)
 
+#  Back side temperature plots for all unique institutions, atmospheres and heating rates (when available)
+linestyle = ['-',':','-.']
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', "#a686c4", '#8c564b']
+for idx,set in enumerate(Cone_sets):
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    paths_CONE_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    color_counter = 0
+    Duck,x = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
+    for path in paths_CONE_set:
+        label, color = label_def(path.stem.split('_')[0])
+        df = pd.read_csv(path)
+        for i in range(1, 4):  # Check for Temperature 1, 2, 3
+            temp_col = f'TC back {i} (K)'
+            if temp_col in df.columns:
+                ax1.plot(df['Time (s)'], df[temp_col], label=label, color=colors[color_counter], linestyle = linestyle[i-1])
+        if 'TC Top (K)' in df.columns:
+            ax1.plot(df['Time (s)'], df['TC Top (K)'], label=label, color=colors[color_counter], dashes=[5, 10])
+        color_counter = color_counter+1
+
+    ax1.set_ylim(bottom=250, top=1200)
+    ax1.set_xlabel('Time [s]')
+    ax1.set_ylabel('Temperature [K]')
+
+    # Figure title
+    ax1.set_title(Duck+"\n"+Conditions)
+    fig1.tight_layout()
+    fig1.savefig(str(base_dir) + '/Cone/Individual/Cone_{}_BackT.{}'.format(set,ex))
+ 
+    plt.close(fig1)
 
 
 # ------------------------------------
@@ -391,6 +484,43 @@ for series in unique_conditions_gas_material:
 
 
 
+# Indivdual Mass and mass loss rate plots for all unique institutions atmospheres and heating rates (gasification)
+for set in Gas_sets:
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    paths_GAS_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    for path in paths_GAS_set:
+        df_raw = pd.read_csv(path)
+        df=Calculate_dm_dt(df_raw)
+        label, color = label_def(path.stem.split('_')[0])
+        if institute == 'TIFP+UCT':
+            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
+        elif institute == 'FSRI':
+            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
+        ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color)
+
+    ax1.set_ylim(bottom=0)
+    ax1.set_xlabel('Time [s]')
+    ax1.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+    fig1.tight_layout()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
+
+    ax2.set_ylim(bottom=0)
+    ax2.set_xlabel('Time [s]')
+    ax2.set_ylabel('Mass [g]')
+    fig2.tight_layout()
+    handles2, labels2 = ax2.get_legend_handles_labels()
+    by_label2 = dict(zip(labels2, handles2))
+    ax2.legend(by_label2.values(), by_label2.keys())
+
+    fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_MLR.{}'.format(material, flux,ex))
+    fig2.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_Mass.{}'.format(material, flux,ex))
+
+
+    plt.close(fig1)
+    plt.close(fig2)
 
 
 
@@ -449,7 +579,7 @@ for flux in [30,60]:
         label = label_def(path.stem.split('_')[0])[0] +' '
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
-        ax1.plot(df['Time (s)'],df['TC Back (K)'],'-', label = label, color='#aec7e8')
+        ax1.plot(df['Time (s)'],df['TC back 1 (K)'],'-', label = label, color='#aec7e8')
         ax1.plot(df['Time (s)'],df['TC Top (K)'],'.', label = label + 'Top', color="#bcbd22")
 
 
@@ -465,3 +595,84 @@ for flux in [30,60]:
     fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
     
     plt.close(fig1)
+
+
+#  Back side temperature plots for all unique institutions, atmospheres and heating rates (when available)
+linestyle = ['-',':','-.']
+colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', "#a686c4", '#8c564b']
+for idx,set in enumerate(Gas_sets):
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    paths_Gas_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    color_counter = 0
+    Duck,x = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
+    for path in paths_Gas_set:
+        label, color = label_def(path.stem.split('_')[0])
+        df = pd.read_csv(path)
+        for i in range(1, 4):  # Check for Temperature 1, 2, 3
+            temp_col = f'TC back {i} (K)'
+            if temp_col in df.columns:
+                ax1.plot(df['Time (s)'], df[temp_col], label=label, color=colors[color_counter], linestyle = linestyle[i-1])
+        if 'TC Top (K)' in df.columns:
+            ax1.plot(df['Time (s)'], df['TC Top (K)'], label=label, color=colors[color_counter], dashes=[1, 1])
+        color_counter = color_counter+1
+
+    ax1.set_ylim(bottom=250, top=1200)
+    ax1.set_xlabel('Time [s]')
+    ax1.set_ylabel('Temperature [K]')
+    
+    # Figure title
+    ax1.set_title(Duck+"\n"+Conditions)
+
+    fig1.tight_layout()
+    fig1.savefig(str(base_dir) + '/Cone/Individual/Gasification_{}_BackT.{}'.format(set,ex))
+ 
+    plt.close(fig1)
+
+
+# plot average per Gas_set (unique institutions, unique material, unique conditions)
+for idx,set in enumerate(Gas_sets):
+    fig, ax = plt.subplots(figsize=(6, 4))
+    df_average = average_Gas_series(set)
+
+    Duck, color = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
+
+    # plot average
+    # Plot mass (left y-axis)
+    if institute == 'TIFP+UCT':
+        area = 0.01
+    elif institute == 'FSRI':
+        area = 0.00385
+    ax.plot(df_average['Time (s)'], savgol_filter(df_average['dm/dt']/area,41,3),
+                        label='average MLR', color='limegreen')
+    ax.fill_between(df_average['Time (s)'], 
+                         savgol_filter((df_average['dm/dt']-2*df_average['unc dm/dt'])/area,41,3),
+                         savgol_filter((df_average['dm/dt']+2*df_average['unc dm/dt'])/area,41,3),
+                         color='limegreen', alpha = 0.3)
+
+
+    #plot individual
+    paths_Gas_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    for path in paths_Gas_set:
+        df_raw = pd.read_csv(path)
+        df=Calculate_dm_dt(df_raw)
+        ax.plot(df['Time (s)'],savgol_filter(df['dm/dt']/area,41,3), '.',color ='black',markersize=0.001)
+
+    # Set lower limits of both y-axes to 0
+    ax.set_ylim(bottom=0)
+
+    # Axes labels
+    ax.set_xlabel('Time (s)')
+    ax.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+
+    # Figure title
+    plt.title(Duck+"\n"+Conditions)
+
+    # Legend
+    fig.legend()
+
+    fig.tight_layout()
+    plt.savefig(str(base_dir) + f'/Cone/Average/{set}.{ex}')
+    plt.close(fig)
+
