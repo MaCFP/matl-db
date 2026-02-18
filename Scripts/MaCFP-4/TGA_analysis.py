@@ -224,7 +224,64 @@ def average_tga_series(series_name: str, exclude:Optional[Union[str, List[str]]]
     return df_average
 
 
-
+#plot average values 
+def plot_average_values(df):
+    """
+    Creates 2 plots for each distinct condition:
+    1) Peak MLR vs Peak Temperature
+    2) Onset T vs Peak Temperature
+    """
+    for condition in [['N2','5K'],['N2','10K'],['N2','20K']]:
+        # Filter data for this condition
+        condition_data = df[df['conditions'].apply(lambda x: all(c in x for c in condition))]
+        
+        fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
+        fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
+        
+        # Plot 1: Peak HRR vs Peak Temperature
+        for idx, row in condition_data.iterrows():
+            Duck, color = label_def(row['set'].split('_')[0])
+            
+            ax1.errorbar(row['T peak'], 
+                         row['peak MLR'],
+                         xerr=row['std T peak'],
+                         yerr=row['std peak MLR'],
+                         fmt='o', capsize=5, capthick=2, markersize=8,
+                         color=color, label=Duck)
+            
+            ax2.errorbar(row['T peak'], 
+                         row['T onset'],
+                         xerr=row['std T peak'],
+                         yerr=row['std T onset'],
+                         fmt='s', capsize=5, capthick=2, markersize=8,
+                         color=color, label=Duck)
+            
+        
+        ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
+        ax1.set_ylabel('Peak MLR (1/s)', fontsize=12)
+        #ax1.set_ylim(bottom=0)
+        fig1.tight_layout()
+        # Remove duplicate legend entries
+        handles, labels = ax1.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax1.legend(by_label.values(), by_label.keys())
+        
+        ax2.set_xlabel('Peak Temperature (K)', fontsize=12)
+        ax2.set_ylabel('Onset Temperature (K)', fontsize=12)
+        
+        # Remove duplicate legend entries
+        handles, labels = ax2.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax2.legend(by_label.values(), by_label.keys())
+        
+        fig1.tight_layout()
+        fig2.tight_layout()
+        
+        fig1.savefig(str(base_dir) + f'/TGA/Tpeak_Average_{condition[0]}_{condition[1]}_MLR.{ex}')
+        fig2.savefig(str(base_dir) + f'/TGA/Tonset_Average_{condition[0]}_{condition[1]}.{ex}')
+        
+        plt.close(fig1)
+        plt.close(fig2)
 
 
 #--------------------------------------------------------
@@ -360,6 +417,50 @@ for path in TGA_Data:
 
 
 
+# Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
+color = {'5K':'blue','10K':'black','20K':'red'}
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+fig2, ax2 = plt.subplots(figsize=(6, 4))
+for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
+    parts = series.split('_')
+    atm, hr  = parts[2:]
+    for subset in [item for item in TGA_sets if fnmatch(item, f'*{series}')]:
+        paths = list(DATA_DIR.glob(f"*/*{subset}_*[rR]*.csv"))
+        for i, path in enumerate(paths):
+            df = pd.read_csv(path)
+            df = Calculate_dm_dt(df)
+            ax1.plot(df['Temperature (K)'], df['Normalized mass'], '.', color = color[hr], alpha=0.05, markersize = 0.01, zorder=4)
+            ax2.plot(df['Temperature (K)'], df['dm/dt'], '.', color = color[hr], alpha=0.08, markersize = 0.01, zorder=4)
+    df_average = average_tga_series(series,['UAI','IMT'],temp_filter={'FPL': 400})
+    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr], zorder = 3)
+    ax1.fill_between(df_average['Temperature (K)'], 
+                    df_average['Normalized Mass']-2*df_average['unc Normalized Mass'],
+                    df_average['Normalized Mass']+2*df_average['unc Normalized Mass'],
+                    color=color[hr], alpha = 0.3, zorder=2)
+    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr + '/min', color = color[hr], zorder = 3)
+    ax2.fill_between(df_average['Temperature (K)'], 
+                    df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
+                    df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
+                    color=color[hr], alpha = 0.3, zorder=2)
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(right=1100)
+ax1.set_xlabel('Temperature (K)')
+ax1.set_ylabel('m/m$_0$ [g/g]')
+fig1.tight_layout()
+ax1.legend()
+
+ax2.set_ylim(0,0.0035)
+ax2.set_xlim(right=1100)
+ax2.set_xlabel('Temperature (K)')
+ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+fig2.tight_layout()
+ax2.legend()
+
+fig1.savefig(str(base_dir) + '/TGA/TGA_Average_N2_Mass.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/TGA/TGA_Average_N2_dmdt.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)
 
 
 
@@ -368,7 +469,7 @@ for path in TGA_Data:
 # and print a table with values of interest
 Average_values = pd.DataFrame({
     'set': TGA_sets,
-    'Duck':[label_def(t.split('_')[0])[0] for t in TGA_sets],
+    'Institution':[label_def(t.split('_')[0])[0] for t in TGA_sets],
     'conditions':[t.split('_')[3:] for t in TGA_sets],
     'peak MLR': np.nan,
     'std peak MLR': np.nan,
@@ -478,115 +579,166 @@ for idx,set in enumerate(TGA_sets):
     plt.savefig(str(base_dir) + f'/TGA/Average/{set}.{ex}')
     plt.close(fig)
 Average_values.drop('set',axis=1)
+plot_average_values(Average_values)
 print(Average_values)
 
 
-#plot average values 
-def plot_average_values(df):
-    """
-    Creates 2 plots for each distinct condition:
-    1) Peak MLR vs Peak Temperature
-    2) Onset T vs Peak Temperature
-    """
-    for condition in [['N2','5K'],['N2','10K'],['N2','20K']]:
-        # Filter data for this condition
-        condition_data = df[df['conditions'].apply(lambda x: all(c in x for c in condition))]
-        
-        fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
-        fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
-        
-        # Plot 1: Peak HRR vs Peak Temperature
-        for idx, row in condition_data.iterrows():
-            Duck, color = label_def(row['set'].split('_')[0])
+#-----------------------------------------------
+# region generate latex table values of interest
+#-----------------------------------------------
+# Select only the columns you want
+# columns_to_keep = ['Institution', 'conditions', 'peak MLR', 'std peak MLR', 
+#                    'T peak', 'std T peak', 'T onset', 'std T onset']
+
+# Average_values_table = Average_values[columns_to_keep]
+
+# latex_string = Average_values_table.to_latex(
+#     index=False,
+#     float_format="%.2e",
+#     escape=False
+# )
+
+# # Modify the string if needed
+# latex_string = latex_string.replace('\\toprule', '\\hline')
+# latex_string = latex_string.replace('\\midrule', '\\hline')
+# latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+# # Save to file
+# with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
+#     f.write(latex_string)
+
+# Helper function to format values with uncertainty
+def format_with_uncertainty(mean, std):
+    """Format value with uncertainty in scientific notation"""
+    if pd.isna(std) or std == 0:
+        # Single sample: no uncertainty
+        exponent = int(np.floor(np.log10(abs(mean))))
+        mantissa = mean / (10 ** exponent)
+        return f"${mantissa:.2f} \\times 10^{{{exponent}}}$"
+    else:
+        # Multiple samples: show mean ± std
+        exponent = int(np.floor(np.log10(abs(mean))))
+        mean_mantissa = mean / (10 ** exponent)
+        std_mantissa = std / (10 ** exponent)
+        return f"$({mean_mantissa:.2f} \\pm {std_mantissa:.2f}) \\times 10^{{{exponent}}}$"
+
+def format_temperature(mean, std):
+    """Format temperature (no scientific notation)"""
+    if pd.isna(std) or std == 0:
+        return f"${mean:.1f}$"
+    else:
+        return f"${mean:.1f} \\pm {std:.1f}$"
+
+# Extract sorting keys from conditions
+def extract_heating_rate(conditions):
+    """Extract numeric heating rate from conditions list"""
+    import re
+    if isinstance(conditions, list):
+        for item in conditions:
+            match = re.search(r'(\d+)K', str(item))
+            if match:
+                return int(match.group(1))
+    return 0
+
+def extract_atmosphere(conditions):
+    """Extract atmosphere from conditions list"""
+    if isinstance(conditions, list) and len(conditions) > 0:
+        return str(conditions[0])
+    return ''
+
+# Add sorting columns
+Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
+Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
+
+# Sort by atmosphere, then heating rate, then institution
+Average_values_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Institution'])
+
+# Add superscript A if std is NaN (single sample)
+Average_values_sorted['Institution_formatted'] = Average_values_sorted.apply(
+    lambda row: f"{row['Institution']}$^A$" if pd.isna(row['std peak MLR']) else row['Institution'],
+    axis=1
+)
+
+# Format MLR
+Average_values_sorted['MLR_formatted'] = Average_values_sorted.apply(
+    lambda row: format_with_uncertainty(row['peak MLR'], row['std peak MLR']),
+    axis=1
+)
+
+# Format T peak
+Average_values_sorted['T_peak_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(row['T peak'], row['std T peak']),
+    axis=1
+)
+
+# Format T onset
+Average_values_sorted['T_onset_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(row['T onset'], row['std T onset']),
+    axis=1
+)
+
+# Format conditions (convert list to string)
+Average_values_sorted['conditions_formatted'] = Average_values_sorted['conditions'].apply(
+    lambda x: ', '.join(x) if isinstance(x, list) else x
+)
+
+# Create a column to track condition changes for grouping
+Average_values_sorted['condition_group'] = Average_values_sorted['conditions_formatted']
+
+# Select and rename columns for the table
+columns_to_keep = ['Institution_formatted', 'conditions_formatted', 'MLR_formatted', 
+                   'T_peak_formatted', 'T_onset_formatted', 'condition_group']
+
+Average_values_table = Average_values_sorted[columns_to_keep].copy()
+Average_values_table.columns = ['Institution', 'Conditions', 'peak MLR (1/s)', 
+                                'T peak (K)', 'T onset (K)', 'condition_group']
+
+# Generate LaTeX
+latex_string = Average_values_table.to_latex(
+    index=False,
+    escape=False,
+    column_format='llccc',
+    columns=['Institution', 'Conditions', 'peak MLR (1/s)', 'T peak (K)', 'T onset (K)']
+)
+
+# Modify the string
+latex_string = latex_string.replace('\\toprule', '\\hline')
+latex_string = latex_string.replace('\\midrule', '\\hline')
+latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+# Make column headers bold
+latex_string = latex_string.replace('Institution', '\\textbf{Institution}')
+latex_string = latex_string.replace('Conditions', '\\textbf{Conditions}')
+latex_string = latex_string.replace('peak MLR (1/s)', '\\textbf{peak MLR (1/s)}')
+latex_string = latex_string.replace('T peak (K)', '\\textbf{T peak (K)}')
+latex_string = latex_string.replace('T onset (K)', '\\textbf{T onset (K)}')
+
+# Add blank lines between different conditions
+lines = latex_string.split('\n')
+new_lines = []
+prev_condition = None
+
+for i, line in enumerate(lines):
+    new_lines.append(line)
+    
+    # Check if this is a data row (contains '&')
+    if '&' in line and '\\textbf' not in line:
+        # Get the condition from this row (second column)
+        parts = line.split('&')
+        if len(parts) >= 2:
+            current_condition = parts[1].strip()
             
-            ax1.errorbar(row['T peak'], 
-                         row['peak MLR'],
-                         xerr=row['std T peak'],
-                         yerr=row['std peak MLR'],
-                         fmt='o', capsize=5, capthick=2, markersize=8,
-                         color=color, label=Duck)
+            # If condition changed and this is not the first data row, add blank line
+            if prev_condition is not None and current_condition != prev_condition:
+                # Insert blank line before current line
+                new_lines.insert(-1, '        \\\\')
             
-            ax2.errorbar(row['T peak'], 
-                         row['T onset'],
-                         xerr=row['std T peak'],
-                         yerr=row['std T onset'],
-                         fmt='s', capsize=5, capthick=2, markersize=8,
-                         color=color, label=Duck)
-            
-        
-        ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
-        ax1.set_ylabel('Peak MLR (1/s)', fontsize=12)
-        #ax1.set_ylim(bottom=0)
-        fig1.tight_layout()
-        # Remove duplicate legend entries
-        handles, labels = ax1.get_legend_handles_labels()
-        by_label = dict(zip(labels, handles))
-        ax1.legend(by_label.values(), by_label.keys())
-        
-        ax2.set_xlabel('Peak Temperature (K)', fontsize=12)
-        ax2.set_ylabel('Onset Temperature (K)', fontsize=12)
-        
-        # Remove duplicate legend entries
-        handles, labels = ax2.get_legend_handles_labels()
-        by_label = dict(zip(labels, handles))
-        ax2.legend(by_label.values(), by_label.keys())
-        
-        fig1.tight_layout()
-        fig2.tight_layout()
-        
-        fig1.savefig(str(base_dir) + f'/TGA/Tpeak_Average_{condition[0]}_{condition[1]}_MLR.{ex}')
-        fig2.savefig(str(base_dir) + f'/TGA/Tonset_Average_{condition[0]}_{condition[1]}.{ex}')
-        
-        plt.close(fig1)
-        plt.close(fig2)
+            prev_condition = current_condition
 
-# Use the function
-plot_average_values(Average_values)
+latex_string = '\n'.join(new_lines)
 
+# Save to file
+with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
+    f.write(latex_string)
 
-
-# Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
-color = {'5K':'blue','10K':'black','20K':'red'}
-fig1, ax1 = plt.subplots(figsize=(6, 4))
-fig2, ax2 = plt.subplots(figsize=(6, 4))
-for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
-    parts = series.split('_')
-    atm, hr  = parts[2:]
-    for subset in [item for item in TGA_sets if fnmatch(item, f'*{series}')]:
-        paths = list(DATA_DIR.glob(f"*/*{subset}_*[rR]*.csv"))
-        for i, path in enumerate(paths):
-            df = pd.read_csv(path)
-            df = Calculate_dm_dt(df)
-            ax1.plot(df['Temperature (K)'], df['Normalized mass'], '.', color = color[hr], alpha=0.05, markersize = 0.01, zorder=4)
-            ax2.plot(df['Temperature (K)'], df['dm/dt'], '.', color = color[hr], alpha=0.08, markersize = 0.01, zorder=4)
-    df_average = average_tga_series(series,['UAI','IMT'],temp_filter={'FPL': 400})
-    ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr], zorder = 3)
-    ax1.fill_between(df_average['Temperature (K)'], 
-                    df_average['Normalized Mass']-2*df_average['unc Normalized Mass'],
-                    df_average['Normalized Mass']+2*df_average['unc Normalized Mass'],
-                    color=color[hr], alpha = 0.3, zorder=2)
-    ax2.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = hr + '/min', color = color[hr], zorder = 3)
-    ax2.fill_between(df_average['Temperature (K)'], 
-                    df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
-                    df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
-                    color=color[hr], alpha = 0.3, zorder=2)
-
-ax1.set_ylim(bottom=0)
-ax1.set_xlim(right=1100)
-ax1.set_xlabel('Temperature (K)')
-ax1.set_ylabel('m/m$_0$ [g/g]')
-fig1.tight_layout()
-ax1.legend()
-
-ax2.set_ylim(0,0.0035)
-ax2.set_xlim(right=1100)
-ax2.set_xlabel('Temperature (K)')
-ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
-fig2.tight_layout()
-ax2.legend()
-
-fig1.savefig(str(base_dir) + '/TGA/TGA_Average_N2_Mass.{}'.format(ex))
-fig2.savefig(str(base_dir) + '/TGA/TGA_Average_N2_dmdt.{}'.format(ex))
-plt.close(fig1)
-plt.close(fig2)
 
