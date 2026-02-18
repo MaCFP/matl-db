@@ -140,7 +140,6 @@ def make_institution_table(
         
     # ---------- Table construction logic ----------
     inst_codes = [code for code in CODES if any(counts.get((code, mat,atm, hr), 0) > 0 for mat in materials for atm in atmospheres for hr in heating_rates)]
-    print(inst_codes)
     # Case 1: single atmosphere → columns = heating rates
     if len(atmospheres) == 1 and len(heating_rates) > 1:
         atm = atmospheres[0]
