@@ -14,12 +14,13 @@ from scipy.signal import savgol_filter
 from fnmatch import fnmatch
 from typing import Optional, Union, List, Dict
 
-from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
+from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation, format_latex
+from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
 from Utils import DATA_DIR
 
 
 #region Save plots as pdf or png
-ex = 'png' #options 'pdf' or 'png
+ex = 'pdf' #options 'pdf' or 'png
 
 # TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -48,12 +49,27 @@ unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in TGA_se
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-print(make_institution_table(TGA_Data,['Wood'],['N2'],['2K','3K','5K','10K','20K','30K','40K','50K','60K']))
+table_N2 = make_institution_table(TGA_Data,['Wood'],['N2'],['2K','3K','5K','10K','20K','30K','40K','50K'])
+table_N2.loc['Total'] = table_N2.sum(axis=0)
+print(table_N2)
+
+latex_str = format_latex(table_N2)
+with open(str(base_dir) +'/TGA/TGA_Nitrogen.tex', 'w') as f:
+    f.write(latex_str)
+
 
 print('Oxygen table')
-print(make_institution_table(TGA_Data,['Wood'],['O2-20','O2-21'],['2K','5K','10K','20K','30K']))
+table = make_institution_table(TGA_Data,['Wood'],['O2-20','O2-21'],['2K','5K','10K','20K','30K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
 
-
+#resort table for latex document
+table = table.T.groupby(level='Heating Rate').sum().T
+table.columns.name = None
+table = table[['2K', '5K', '10K', '20K', '30K']]
+latex_str = format_latex(table)
+with open(str(base_dir) +'/TGA/TGA_O2-20.tex', 'w') as f:
+    f.write(latex_str)
 
 # ------------------------------------
 #region set plot style
@@ -586,69 +602,10 @@ print(Average_values)
 #-----------------------------------------------
 # region generate latex table values of interest
 #-----------------------------------------------
-# Select only the columns you want
-# columns_to_keep = ['Institution', 'conditions', 'peak MLR', 'std peak MLR', 
-#                    'T peak', 'std T peak', 'T onset', 'std T onset']
-
-# Average_values_table = Average_values[columns_to_keep]
-
-# latex_string = Average_values_table.to_latex(
-#     index=False,
-#     float_format="%.2e",
-#     escape=False
-# )
-
-# # Modify the string if needed
-# latex_string = latex_string.replace('\\toprule', '\\hline')
-# latex_string = latex_string.replace('\\midrule', '\\hline')
-# latex_string = latex_string.replace('\\bottomrule', '\\hline')
-
-# # Save to file
-# with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
-#     f.write(latex_string)
-
-# Helper function to format values with uncertainty
-def format_with_uncertainty(mean, std):
-    """Format value with uncertainty in scientific notation"""
-    if pd.isna(std) or std == 0:
-        # Single sample: no uncertainty
-        exponent = int(np.floor(np.log10(abs(mean))))
-        mantissa = mean / (10 ** exponent)
-        return f"${mantissa:.2f} \\times 10^{{{exponent}}}$"
-    else:
-        # Multiple samples: show mean ± std
-        exponent = int(np.floor(np.log10(abs(mean))))
-        mean_mantissa = mean / (10 ** exponent)
-        std_mantissa = std / (10 ** exponent)
-        return f"$({mean_mantissa:.2f} \\pm {std_mantissa:.2f}) \\times 10^{{{exponent}}}$"
-
-def format_temperature(mean, std):
-    """Format temperature (no scientific notation)"""
-    if pd.isna(std) or std == 0:
-        return f"${mean:.1f}$"
-    else:
-        return f"${mean:.1f} \\pm {std:.1f}$"
-
-# Extract sorting keys from conditions
-def extract_heating_rate(conditions):
-    """Extract numeric heating rate from conditions list"""
-    import re
-    if isinstance(conditions, list):
-        for item in conditions:
-            match = re.search(r'(\d+)K', str(item))
-            if match:
-                return int(match.group(1))
-    return 0
-
-def extract_atmosphere(conditions):
-    """Extract atmosphere from conditions list"""
-    if isinstance(conditions, list) and len(conditions) > 0:
-        return str(conditions[0])
-    return ''
-
 # Add sorting columns
 Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
 Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
+Average_values['condition_key'] = Average_values['conditions'].apply(get_condition_key)
 
 # Sort by atmosphere, then heating rate, then institution
 Average_values_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Institution'])
@@ -682,16 +639,13 @@ Average_values_sorted['conditions_formatted'] = Average_values_sorted['condition
     lambda x: ', '.join(x) if isinstance(x, list) else x
 )
 
-# Create a column to track condition changes for grouping
-Average_values_sorted['condition_group'] = Average_values_sorted['conditions_formatted']
-
 # Select and rename columns for the table
 columns_to_keep = ['Institution_formatted', 'conditions_formatted', 'MLR_formatted', 
-                   'T_peak_formatted', 'T_onset_formatted', 'condition_group']
+                   'T_peak_formatted', 'T_onset_formatted', 'condition_key']
 
 Average_values_table = Average_values_sorted[columns_to_keep].copy()
 Average_values_table.columns = ['Institution', 'Conditions', 'peak MLR (1/s)', 
-                                'T peak (K)', 'T onset (K)', 'condition_group']
+                                'T peak (K)', 'T onset (K)', 'condition_key']
 
 # Generate LaTeX
 latex_string = Average_values_table.to_latex(
@@ -713,32 +667,31 @@ latex_string = latex_string.replace('peak MLR (1/s)', '\\textbf{peak MLR (1/s)}'
 latex_string = latex_string.replace('T peak (K)', '\\textbf{T peak (K)}')
 latex_string = latex_string.replace('T onset (K)', '\\textbf{T onset (K)}')
 
-# Add blank lines between different conditions
+# Add blank lines between different condition groups (first two items)
 lines = latex_string.split('\n')
 new_lines = []
-prev_condition = None
+prev_condition_key = None
+
+# Track condition keys as we iterate through table rows
+condition_keys = Average_values_table['condition_key'].tolist()
+data_row_index = 0
 
 for i, line in enumerate(lines):
-    new_lines.append(line)
+    # Check if this is a data row (contains '&' but not '\textbf')
+    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+        current_condition_key = condition_keys[data_row_index]
+        
+        # If condition key changed and this is not the first data row, add blank line
+        if prev_condition_key is not None and current_condition_key != prev_condition_key:
+            new_lines.append('        \\\\')
+        
+        prev_condition_key = current_condition_key
+        data_row_index += 1
     
-    # Check if this is a data row (contains '&')
-    if '&' in line and '\\textbf' not in line:
-        # Get the condition from this row (second column)
-        parts = line.split('&')
-        if len(parts) >= 2:
-            current_condition = parts[1].strip()
-            
-            # If condition changed and this is not the first data row, add blank line
-            if prev_condition is not None and current_condition != prev_condition:
-                # Insert blank line before current line
-                new_lines.insert(-1, '        \\\\')
-            
-            prev_condition = current_condition
+    new_lines.append(line)
 
 latex_string = '\n'.join(new_lines)
 
 # Save to file
 with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
     f.write(latex_string)
-
-# Finland won their hockey game

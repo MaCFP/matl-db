@@ -11,11 +11,12 @@ from pathlib import Path
 from typing import Optional, Union, List, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, \
-                  device_subset, label_def, interpolation
+                  device_subset, label_def, interpolation, format_latex
+from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere
 from Utils import DATA_DIR
 
 #region Save plots as pdf or png
-ex = 'png' #options 'pdf' or 'png
+ex = 'pdf' #options 'pdf' or 'png
 
 # TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
@@ -42,10 +43,21 @@ unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in MCC_se
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-print(make_institution_table(MCC_Data,['Wood'],['N2'],['30K','45K','60K']))
+table = make_institution_table(MCC_Data,['Wood'],['N2'],['30K','45K','60K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table)
+with open(str(base_dir) +'/MCC/MCC_Nitrogen.tex', 'w') as f:
+    f.write(latex_str)
 
 print('Oxygen table')
-print(make_institution_table(MCC_Data,['Wood'],['O2-2', 'O2-5', 'O2-10' , 'O2-20', 'O2-21'],['60K']))
+table = make_institution_table(MCC_Data,['Wood'],['O2-2', 'O2-5', 'O2-10' , 'O2-20'],['60K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table,'Oxygen concentration (Vol\\%)')
+with open(str(base_dir) +'/MCC/MCC_Oxygen.tex', 'w') as f:
+    f.write(latex_str)
+
 
 print('Char table')
 print(make_institution_table(MCC_Data,['Wood-char'],['O2-20', 'O2-21'],['60K']))
@@ -157,7 +169,7 @@ def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]]
 #region plots
 # ------------------------------------
 # HR plots for all unique HR
-unique_HR = { '_'.join(s.split('_')[3:]) for s in MCC_sets}
+unique_HR = { '_'.join(s.split('_')[4:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(4, 3))
     MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
@@ -343,7 +355,7 @@ for idx,set in enumerate(MCC_sets):
         T_onset_list.append(T_onset)
         T_onset10_list.append(T_onset10)
         FGC_list.append(FGC_v)
-        HR_total_list.append(HR_total)
+        HR_total_list.append(HR_total/1000) #kJ/g
         HR_capacity_list.append(HR_Capacity)
 
         ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '.',color ='black',markersize=0.00000000000002)
@@ -382,7 +394,6 @@ for idx,set in enumerate(MCC_sets):
     plt.savefig(str(base_dir) + f'/MCC/Average/{set}.{ex}')
     plt.close(fig)
 Average_values.drop('set',axis=1)
-print(Average_values)
 
 #plot average values 
 def plot_hrr_and_onset_vs_peak_temp(df):
@@ -499,44 +510,37 @@ plt.close(fig2)
 
 
 #------------------------------------
-# region char yields
+# region char yields (new values need to be added manually)
 #------------------------------------
-print('char yields')
-print('FZJ_MCC_N2_30K')
 FZJ_N2_30K = [0.64/4.0,0.54/4.01]
-print(np.mean(FZJ_N2_30K))
-print(np.std(FZJ_N2_30K))
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)
 
-print('FZJ_MCC_N2_45K')
 FZJ_N2_45K = [0.57/3.99]
-print(np.mean(FZJ_N2_45K))
-print(np.std(FZJ_N2_45K))
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'char_yield'] = np.mean(FZJ_N2_45K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'std_char_yield'] = np.std(FZJ_N2_45K)
 
-print('FZJ_MCC_N2_60K')
 FZJ_N2_60K = [    0.15/0.98,    0.28/2.0,    0.26/1.95,    0.27/1.93,    0.63/3.97,    0.82/5.98,    0.36/6.09,    1.13/7.19,    1.13/7.23,    0.55/3.99,   0.54/4.09]
-print(np.mean(FZJ_N2_60K))
-print(np.std(FZJ_N2_60K))
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'char_yield'] = np.mean(FZJ_N2_60K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(FZJ_N2_60K)
 
-print('IMT_MCC_N2_60K')
 IMT_N2_60K = [0.23/2.82, 0.24/2.2]
-print(np.mean(IMT_N2_60K))
-print(np.std(IMT_N2_60K))
+Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'char_yield'] = np.mean(IMT_N2_60K)
+Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(IMT_N2_60K)
 
-print(' NIST_Wood_MCC_N2_60K')
-# NIST_Wood_MCC_N2_60K data (final/initial mass ratios)
 NIST_N2_60K = [1.747/12.037, 1.843/11.921, 1.843/12.040, 1.846/11.903, 1.854/12.024, 1.844/11.989, 1.846/12.037, 1.847/12.043, 1.866/12.019, 0.707/5.075, 0.700/5.046, 0.700/5.048]
-print(np.mean(NIST_N2_60K))
-print(np.std(NIST_N2_60K))
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'char_yield'] = np.mean(NIST_N2_60K)
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(NIST_N2_60K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)
 
-print('TUBS_Wood_MCC_N2_30K')
 TUBS_N2_30K = [0.07/1.03, 0.11/1.04, 0.12/1.05]
-print(np.mean(TUBS_N2_30K))
-print(np.std(TUBS_N2_30K))
+Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'char_yield'] = np.mean(TUBS_N2_30K)
+Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(TUBS_N2_30K)
 
-print('UDRI_Wood_MCC_N2_60K')
 UDRI_N2_60K = [    0.739/5.560,    0.673/5.007,    0.669/5.013]
-print(np.mean(UDRI_N2_60K))
-print(np.std(UDRI_N2_60K))
+Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'char_yield'] = np.mean(UDRI_N2_60K)
+Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(UDRI_N2_60K)
 
 
 #------------------------------------
@@ -619,3 +623,123 @@ fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_HRR.{}'.format(ex))
 fig2.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_intHRR.{}'.format(ex))
 plt.close(fig1)
 plt.close(fig2)
+
+
+#-----------------------------------------------
+# region generate latex table values of interest
+#-----------------------------------------------
+print(Average_values)
+# Add sorting columns
+Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
+Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
+Average_values['condition_key'] = Average_values['conditions']
+
+# Sort by atmosphere, then heating rate, then Duck (institution)
+final_table_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Duck'])
+
+# Add superscript A if std is NaN (single sample) - check std peak HRR
+final_table_sorted['Duck_formatted'] = final_table_sorted.apply(
+    lambda row: f"{row['Duck']}$^A$" if pd.isna(row['std peak HRR']) else row['Duck'],
+    axis=1
+)
+
+# Format T onset
+final_table_sorted['T_onset_formatted'] = final_table_sorted.apply(
+    lambda row: format_temperature(row['T onset'], row['std T onset']),
+    axis=1
+)
+
+# Format T peak
+final_table_sorted['T_peak_formatted'] = final_table_sorted.apply(
+    lambda row: format_temperature(row['T peak'], row['std T peak']),
+    axis=1
+)
+
+# Format peak HRR
+final_table_sorted['HRR_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['peak HRR'], row['std peak HRR']),
+    axis=1
+)
+
+# Format HRR total
+final_table_sorted['HRRtotal_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['HR_total'], row['std HR_total']),
+    axis=1
+)
+
+# Format FGC
+final_table_sorted['FGC_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['FGC'], row['std FGC']),
+    axis=1
+)
+
+# Format FGC
+final_table_sorted['char_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['char_yield'], row['std_char_yield']),
+    axis=1
+)
+
+
+# Format conditions (keep as is or clean up)
+final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(
+    lambda x: str(x).replace('_', ' ')  # Optional: replace underscores with spaces
+)
+
+# Select and rename columns for the table
+columns_to_keep = ['Duck_formatted', 'conditions_formatted', 'T_onset_formatted', 
+                   'T_peak_formatted', 'HRR_formatted', 'HRRtotal_formatted',
+                   'FGC_formatted', 'char_formatted', 'condition_key']
+
+final_latex_table = final_table_sorted[columns_to_keep].copy()
+final_latex_table.columns = ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
+                             'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)', 'condition_key']
+
+# Generate LaTeX
+latex_string = final_latex_table.to_latex(
+    index=False,
+    escape=False,
+    column_format='llcccccc',
+    columns=['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
+                             'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
+)
+
+# Modify the string
+latex_string = latex_string.replace('\\toprule', '\\hline')
+latex_string = latex_string.replace('\\midrule', '\\hline')
+latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+# Make column headers bold
+for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
+    latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
+
+
+# Add blank lines between different condition groups
+lines = latex_string.split('\n')
+new_lines = []
+prev_condition_key = None
+
+# Track condition keys as we iterate through table rows
+condition_keys = final_latex_table['condition_key'].tolist()
+data_row_index = 0
+
+for i, line in enumerate(lines):
+    # Check if this is a data row (contains '&' but not '\textbf')
+    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+        current_condition_key = condition_keys[data_row_index]
+        
+        # If condition key changed and this is not the first data row, add blank line
+        if prev_condition_key is not None and current_condition_key != prev_condition_key:
+            new_lines.append('        \\\\')
+        
+        prev_condition_key = current_condition_key
+        data_row_index += 1
+    
+    new_lines.append(line)
+
+latex_string = '\n'.join(new_lines)
+
+# Save to file
+with open(str(base_dir) + f'/MCC/MCC_Values.tex', 'w') as f:
+    f.write(latex_string)
+
+print("LaTeX table saved!")

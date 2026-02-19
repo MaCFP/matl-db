@@ -11,7 +11,8 @@ from pathlib import Path
 import re
 from scipy.signal import savgol_filter
 
-from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def
+from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, format_latex
+from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
 from Utils import DATA_DIR
 
 
@@ -45,9 +46,29 @@ unique_conditions_gas_material = sorted(set(name.split('_', 1)[1] for name in Ga
 
 # Print tables
 print('Cone table')
-print(make_institution_table(Cone_Data,['Wood'],['25kW','30kW','50kW','60kW','75kW'],['hor']))
+table = make_institution_table(Cone_Data,['Wood'],['25kW','30kW','50kW','60kW','75kW'],['hor'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table,'Incident Heat Flux (kW/m$^2$)')
+with open(str(base_dir) +'/Cone/Cone_hor.tex', 'w') as f:
+    f.write(latex_str)
+
+
 print('Gasification table')
-print(make_institution_table(Gasification_Data,['Wood'],['30kW','40kW','60kW'],['hor']))
+Capa = make_institution_table(Gasification_Data,['Wood'],['N2'],['30kW','40kW','60kW'])
+Capa.loc['Total'] = Capa.sum(axis=0)
+print(Capa)
+latex_str = format_latex(Capa,'Incident Heat Flux (kW/m$^2$)')
+with open(str(base_dir) +'/Cone/Capa.tex', 'w') as f:
+    f.write(latex_str)
+
+Gasification = make_institution_table(Gasification_Data,['Wood'],['30kW','40kW','60kW'], ['hor'])
+Gasification.loc['Total'] = Gasification.sum(axis=0)
+print(Gasification)
+latex_str = format_latex(Gasification,'Incident Heat Flux (kW/m$^2$)')
+with open(str(base_dir) +'/Cone/Gasification.tex', 'w') as f:
+    f.write(latex_str)
+
 
 
 # ------------------------------------
@@ -676,3 +697,90 @@ for idx,set in enumerate(Gas_sets):
     plt.savefig(str(base_dir) + f'/Cone/Average/{set}.{ex}')
     plt.close(fig)
 
+
+
+#-----------------------------------------------
+# region generate latex table values of interest
+#-----------------------------------------------
+
+# Add sorting columns
+Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
+Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
+Average_values['condition_key'] = Average_values['conditions']
+
+# Sort by atmosphere, then heating rate, then Duck (institution)
+final_table_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Duck'])
+
+
+
+# Format ignition time
+final_table_sorted['ignitiont_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['ignition time'], row['std ignition time']),
+    axis=1
+)
+
+# Format HOC total
+final_table_sorted['HOC_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['HOC'], row['std HOC']),
+    axis=1
+)
+
+
+# Format conditions (keep as is or clean up)
+final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(
+    lambda x: ', '.join(x) if isinstance(x, list) else str(x).replace('_', ' ')
+)
+
+# Select and rename columns for the table
+columns_to_keep = ['Duck', 'conditions_formatted', 'ignitiont_formatted', 
+                    'HOC_formatted', 'condition_key']
+
+final_latex_table = final_table_sorted[columns_to_keep].copy()
+final_latex_table.columns = ['Institution', 'Conditions','Ignition time (s)', 'HOC (kJ/g)', 'condition_key']
+
+# Generate LaTeX
+latex_string = final_latex_table.to_latex(
+    index=False,
+    escape=False,
+    column_format='llcccccc',
+    columns=['Institution', 'Conditions','T onset (K)','Ignition time (s)', 'HOC (kJ/g)']
+)
+
+# Modify the string
+latex_string = latex_string.replace('\\toprule', '\\hline')
+latex_string = latex_string.replace('\\midrule', '\\hline')
+latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+# Make column headers bold
+for col in ['Institution', 'Conditions','T onset (K)','Ignition time (s)', 'HOC (kJ/g)']:
+    latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
+
+
+# Add blank lines between different condition groups
+lines = latex_string.split('\n')
+new_lines = []
+prev_condition_key = None
+
+# Track condition keys as we iterate through table rows
+condition_keys = final_latex_table['condition_key'].tolist()
+data_row_index = 0
+
+for i, line in enumerate(lines):
+    # Check if this is a data row (contains '&' but not '\textbf')
+    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+        current_condition_key = condition_keys[data_row_index]
+        
+        # If condition key changed and this is not the first data row, add blank line
+        if prev_condition_key is not None and current_condition_key != prev_condition_key:
+            new_lines.append('        \\\\')
+        
+        prev_condition_key = current_condition_key
+        data_row_index += 1
+    
+    new_lines.append(line)
+
+latex_string = '\n'.join(new_lines)
+
+# Save to file
+with open(str(base_dir) + f'/Cone/Cone_Values.tex', 'w') as f:
+    f.write(latex_string)

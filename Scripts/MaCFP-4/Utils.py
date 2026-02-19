@@ -175,8 +175,8 @@ def make_institution_table(
 
         df = pd.DataFrame(data, index=inst_codes, columns=columns)
 
-    df.index.name = "Institution"
     return df
+
 
 
 
@@ -194,3 +194,98 @@ def interpolation(df:pd.DataFrame) -> pd.DataFrame:
             InterpT, df["Temperature (K)"], df[columns]
         )
     return df_interp
+
+
+def format_latex(table:pd.DataFrame, column_name:str='Heating Rate, $\\beta$ (K/min)'):
+    """Given a panda dataframe, formats the latex table""" 
+    latex_str = table.to_latex(column_format='l' + 'c'*len(table.columns), escape=False)
+    lines = latex_str.split('\n')
+    new_lines = []
+
+    for i, line in enumerate(lines):
+        # Add the header line with multicolumn for "Heating Rate (K/min)"
+        if line[0:1] == '\\':
+            new_lines.append(line)
+        
+        # Replace column headers (3K, 5K, etc.) with just numbers
+        elif line[0:1] == ' ':
+            # Extract and clean the heating rates
+            new_lines.append('\\hline')
+            new_line = ' & \\multicolumn{'+ str(len(table.columns)) + '}{c}{' + column_name + '} \\\\' 
+            new_lines.append(new_line)
+            parts = line.split('&')
+            if column_name == 'Heating Rate, $\\beta$ (K/min)':
+                rate_parts = [p.split('K')[0] for p in parts[1:]]
+                new_line = 'Institution' + ' & ' + ' & '.join(rate_parts) + '\\\\'
+                new_lines.append(new_line)
+            elif column_name == 'Oxygen concentration (Vol\\%)':
+                rate_parts = [p.split('O2-')[1] for p in parts[1:]]
+                new_line = 'Institution' + ' & ' + ' & '.join(rate_parts)
+                new_lines.append(new_line)
+            elif column_name == 'Incident Heat Flux (kW/m$^2$)':
+                rate_parts = [p.split('kW')[0] for p in parts[1:]]
+                new_line = 'Institution' + ' & ' + ' & '.join(rate_parts) + '\\\\'
+                new_lines.append(new_line)
+            new_lines.append('\\hline')
+
+
+        elif line[0:5] == 'Total':
+            new_lines.append('\\hline')
+            new_lines.append(line)
+            new_lines.append('\\hline')
+        
+        else:
+            new_lines.append(line)
+
+    latex_str = '\n'.join(new_lines)
+    return latex_str
+
+
+#Formatting functions for latex value tables
+# Helper function to format values with uncertainty
+def format_with_uncertainty(mean, std):
+    """Format value with uncertainty in scientific notation"""
+    if pd.isna(std) or std == 0:
+        # Single sample: no uncertainty
+        exponent = int(np.floor(np.log10(abs(mean))))
+        mantissa = mean / (10 ** exponent)
+        return f"${mantissa:.2f} \\times 10^{{{exponent}}}$"
+    else:
+        # Multiple samples: show mean ± std
+        exponent = int(np.floor(np.log10(abs(mean))))
+        mean_mantissa = mean / (10 ** exponent)
+        std_mantissa = std / (10 ** exponent)
+        return f"$({mean_mantissa:.2f} \\pm {std_mantissa:.2f}) \\times 10^{{{exponent}}}$"
+
+def format_temperature(mean, std):
+    """Format temperature (no scientific notation)"""
+    if pd.isna(std) or std == 0:
+        return f"${mean:.1f}$"
+    else:
+        return f"${mean:.1f} \\pm {std:.1f}$"
+
+def format_regular(mean, std):
+    """Format regular numbers (no scientific notation)"""
+    if pd.isna(std) or std == 0:
+        return f"${mean:.2f}$"
+    else:
+        return f"${mean:.2f} \\pm {std:.2f}$"
+
+# Extract sorting keys from conditions
+def extract_heating_rate(conditions):
+    """Extract numeric heating rate from conditions string"""
+    import re
+    match = re.search(r'(\d+)K', str(conditions))
+    if match:
+        return int(match.group(1))
+    return 0
+
+def extract_atmosphere(conditions):
+    """Extract atmosphere from conditions string (part before underscore)"""
+    return str(conditions).split('_')[0]
+
+def get_condition_key(conditions):
+    """Get first two items of conditions for grouping"""
+    if isinstance(conditions, list):
+        return tuple(conditions[:2]) if len(conditions) >= 2 else tuple(conditions)
+    return ()
