@@ -12,8 +12,9 @@ from collections import defaultdict
 from pathlib import Path
 from scipy.signal import savgol_filter
 from typing import Optional, Union, List, Dict
+import math
 
-from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation
+from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation, format_latex
 from Utils import DATA_DIR
 
 
@@ -44,10 +45,16 @@ unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in DSC_se
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-print(make_institution_table(DSC_Data,['Wood'],['N2'],['3K','5K','10K','20K','30K','40K','50K','60K']))
+table = make_institution_table(DSC_Data,['Wood'],['N2'],['3K','5K','10K','20K','30K','40K','50K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+
+latex_str = format_latex(table)
+with open(str(base_dir) + '/DSC/DSC_Nitrogen.tex', 'w') as f:
+    f.write(latex_str)
 
 print('Oxygen table')
-print(make_institution_table(DSC_Data,['Wood'],['O2-21'],['3K','5K','10K','20K','30K','40K','50K','60K']))
+print(make_institution_table(DSC_Data,['Wood'],['O2-21'],['3K','5K','10K','20K','30K','40K','50K']))
 
 
 
@@ -314,6 +321,9 @@ for series in unique_conditions_material:
 # only for STA data
 STA_Data = device_data(DATA_DIR, 'STA')
 
+# Initialize list to store results
+results = []
+
 for exp in STA_Data:
     df_raw = pd.read_csv(exp)
     df = Integral_DSC(df_raw)
@@ -356,8 +366,54 @@ for exp in STA_Data:
     
     # Integrate corrected heat flow rate with respect to time
     value = np.trapezoid(df_subset['HF_corrected'], df_subset['Time (s)'])/(df['Normalized mass'][idx1]- df['Normalized mass'][idx2])
-    
-    print(f"Experiment: {exp.stem}")
-    print(f"Integration from {T1:.1f} K to {T2:.1f} K")
-    print(f"Estimated heat of reaction: {value:.4f} J/g")
-    print()
+
+    # Store results
+    results.append({
+        'Experiment': exp.stem,
+        'Heat of Reaction (J/g)': value.round(0)
+    })
+
+# Create DataFrame from results
+results_df = pd.DataFrame(results)
+
+results_df['Institution'] = results_df['Experiment'].str.extract(r'^([^_]+)')[0]
+results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d+)K_')[0].astype(int)
+
+# Group by institution and conditions, number the repetitions
+results_df['Repetition'] = results_df.groupby(['Institution', 'Heating Rate (K/min)']).cumcount() + 1
+results_df['Repetition'] = 'R' + results_df['Repetition'].astype(str)
+
+# Pivot to create the desired table format
+final_table = results_df.pivot_table(
+    index=['Heating Rate (K/min)', 'Institution'],
+    columns='Repetition',
+    values='Heat of Reaction (J/g)',
+    aggfunc='first'
+).reset_index()
+
+for col in final_table.columns:
+    if col not in ['Institution', 'Heating Rate (K/min)']:
+        final_table[col] = final_table[col].apply(lambda x: str(int(x)) if pd.notna(x) else '-')
+final_table = final_table.fillna('-')
+
+columns = ['Institution', 'Heating Rate (K/min)']+list(final_table.columns[2:])
+final_table = final_table[columns]
+
+# Convert to LaTeX with more options
+latex_table = final_table.to_latex(
+    index=False,
+    escape=False,
+    column_format='|l|c|' + 'c' * (len(final_table.columns) - 2)+'|', 
+    bold_rows=False,
+    multicolumn=True,
+    multicolumn_format='c'
+)
+
+latex_table = latex_table.replace('\\toprule', '\\hline')
+latex_table = latex_table.replace('\\midrule', '\\hline')
+latex_table = latex_table.replace('\\bottomrule', '\\hline')
+
+with open(str(base_dir) + '/DSC/heat_of_reaction_table.tex', 'w') as f:
+    f.write(latex_table)
+
+print(final_table)
