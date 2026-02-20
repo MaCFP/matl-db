@@ -35,7 +35,7 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 #region data
 # ------------------------------------
 # All DSC data (including STA)
-DSC_Data = device_data(DATA_DIR, 'DSC') + device_data(DATA_DIR, 'STA')
+DSC_Data = device_data(DATA_DIR, '_DSC') + device_data(DATA_DIR, 'STA')
 # All unique sets (name without repetition number, e.g.TUT_DSC_N2_10K_40Pa )
 DSC_sets = get_series_names(DSC_Data)
 # All unique conditions over all institutes
@@ -45,7 +45,8 @@ unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in DSC_se
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-table = make_institution_table(DSC_Data,['Wood'],['N2'],['3K','5K','10K','20K','30K','40K','50K'])
+DSC_table_data = DSC_Data + device_data(DATA_DIR, 'TM-DSC')
+table = make_institution_table(DSC_table_data,['Wood'],['N2'],['3K','5K','10K','20K','30K','40K','50K'])
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 
@@ -316,8 +317,38 @@ for series in unique_conditions_material:
     plt.close(fig2)
 
 
+#------------------------------------
+# region Modulated dsc
+#------------------------------------
+color_lib = {'R1':'blue', 'R2':'black','R3':'red'}
+TMDSC = device_data(DATA_DIR, 'TM-DSC')
+fig1, ax1 = plt.subplots(figsize=(8, 4))
+for path in TMDSC:
+    R = path.stem.split('_')[-1]
+    print(path)
+    df_raw = pd.read_csv(path)
+    label, color = label_def(path.stem.split('_')[0])
+    ax1.plot(df_raw['Temperature (K)'], df_raw['Reversing Heat Flow (Normalized) W/g'],'-', label = 'Reversing ' + R, color=color_lib[R])
+    ax1.plot(df_raw['Temperature (K)'], df_raw['Non-Reversing Heat Flow (Normalized) W/g'],':', label = 'Non-Reversing '+ R, color=color_lib[R])
+    ax1.plot(df_raw['Temperature (K)'], df_raw['Total Heat Flow (Normalized) W/g'],'--', label = 'Total '+ R, color=color_lib[R])
 
-# region heats of reactions:
+    #ax1.set_xlim(400,800)
+    #ax1.set_ylim(bottom=-0.5)
+    ax1.set_xlabel('Temperature (K)')
+    ax1.set_ylabel('Heat flow [W g$^{-1}$]')
+    fig1.tight_layout()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys(), fontsize='small',loc='center left', bbox_to_anchor=(1, 0.5))
+
+    fig1.savefig(str(base_dir) + '/DSC/TM-DSC.{}'.format(ex))
+    plt.close(fig1)
+
+
+
+#------------------------------------
+# region heats of reactions
+#------------------------------------
 # only for STA data
 STA_Data = device_data(DATA_DIR, 'STA')
 
@@ -376,7 +407,7 @@ for exp in STA_Data:
 # Create DataFrame from results
 results_df = pd.DataFrame(results)
 
-results_df['Institution'] = results_df['Experiment'].str.extract(r'^([^_]+)')[0]
+results_df['Institution'] = results_df['Experiment'].str.split('_').str[0].apply(lambda x: label_def(x)[0])
 results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d+)K_')[0].astype(int)
 
 # Group by institution and conditions, number the repetitions

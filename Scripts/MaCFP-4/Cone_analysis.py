@@ -28,7 +28,8 @@ ex = 'pdf' #options 'pdf' or 'png
 base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
 Average_dir = base_dir / 'Cone' / 'Average'
 Average_dir.mkdir(parents=True, exist_ok=True)
-
+Average_dir = base_dir / 'Cone' / 'Individual'
+Average_dir.mkdir(parents=True, exist_ok=True)
 
 # ------------------------------------
 #region data
