@@ -571,7 +571,7 @@ for idx,set in enumerate(TGA_sets):
     Average_values.at[idx, 'std m 400'] = np.std(m_400_list, ddof=1)
     Average_values.at[idx, 'm 700'] = np.mean(m_700_list)
     Average_values.at[idx, 'std m 700'] = np.std(m_700_list, ddof=1)
-    Average_values.at[idx, 'T m 950'] = np.mean(m_950_list)
+    Average_values.at[idx, 'm 950'] = np.mean(m_950_list)
     Average_values.at[idx, 'std m 950'] = np.std(m_950_list, ddof=1)
 
     # Set lower limits of both y-axes to 0
@@ -597,6 +597,39 @@ for idx,set in enumerate(TGA_sets):
 Average_values.drop('set',axis=1)
 plot_average_values(Average_values)
 print(Average_values)
+
+
+# plot 100 kPa versus 40 kPA
+fig, ax_mass = plt.subplots(figsize=(6, 4))
+color = {'100kPa':'black', '40Pa':'red'}
+for series in ['TUT_Wood_TGA_N2_10K_40Pa','TUT_Wood_TGA_N2_10K_100kPa']:
+    for path in list(DATA_DIR.glob(f"*/*{series}_*[rR]*.csv")):
+        df_raw = pd.read_csv(path)
+        df = Calculate_dm_dt(df_raw)
+        label=series.split('_')[-1]
+        ax_mass.plot(df['Temperature (K)'], df['filtered'],
+                    label=label, color=color[label])
+
+
+    # Set lower limits of both y-axes to 0
+ax_mass.set_ylim(bottom=0)
+ax_mass.set_xlim(right=1100)
+ax_rate.set_ylim(bottom=0)
+ax_rate.set_xlim(right=1100)
+
+# Axes labels
+ax_mass.set_xlabel('Temperature (K)')
+ax_mass.set_ylabel('m/m$_0$ [g/g]')
+
+# Legend
+handles, labels = plt.gca().get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+fig.legend(by_label.values(), by_label.keys(), 
+        loc='upper right', bbox_to_anchor=(0.85, 0.95), frameon=True)
+
+fig.tight_layout()
+fig.savefig(str(base_dir) + f'/TGA/TGA_Pressure.{ex}')
+plt.close(fig)
 
 
 #-----------------------------------------------
@@ -634,6 +667,25 @@ Average_values_sorted['T_onset_formatted'] = Average_values_sorted.apply(
     axis=1
 )
 
+# Format MC
+Average_values_sorted['MC_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(100*row['m 400'], 100*row['std m 400']),
+    axis=1
+)
+
+# Format char ratio at 700K
+Average_values_sorted['c700_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(100*row['m 700'], 100*row['std m 700']),
+    axis=1
+)
+
+# Format char ratio at 950K
+Average_values_sorted['c950_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(100*row['m 950'], 100*row['std m 950']),
+    axis=1
+)
+
+
 # Format conditions (convert list to string)
 Average_values_sorted['conditions_formatted'] = Average_values_sorted['conditions'].apply(
     lambda x: ', '.join(x) if isinstance(x, list) else x
@@ -641,18 +693,18 @@ Average_values_sorted['conditions_formatted'] = Average_values_sorted['condition
 
 # Select and rename columns for the table
 columns_to_keep = ['Institution_formatted', 'conditions_formatted', 'MLR_formatted', 
-                   'T_peak_formatted', 'T_onset_formatted', 'condition_key']
+                   'T_peak_formatted', 'T_onset_formatted','MC_formatted', 'c700_formatted','c950_formatted', 'condition_key']
 
 Average_values_table = Average_values_sorted[columns_to_keep].copy()
 Average_values_table.columns = ['Institution', 'Conditions', 'peak MLR (1/s)', 
-                                'T peak (K)', 'T onset (K)', 'condition_key']
+                                'T peak (K)', 'T onset (K)', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)','m/m_{0} at 950~K (\\%)' , 'condition_key']
 
 # Generate LaTeX
 latex_string = Average_values_table.to_latex(
     index=False,
     escape=False,
-    column_format='llccc',
-    columns=['Institution', 'Conditions', 'peak MLR (1/s)', 'T peak (K)', 'T onset (K)']
+    column_format='llcccccc',
+    columns=['Institution', 'Conditions', 'peak MLR (1/s)', 'T peak (K)', 'T onset (K)','MC (\\%)', 'm/m_{0} at 700~K (\\%)','m/m_{0} at 950~K (\\%)' ]
 )
 
 # Modify the string
@@ -666,6 +718,9 @@ latex_string = latex_string.replace('Conditions', '\\textbf{Conditions}')
 latex_string = latex_string.replace('peak MLR (1/s)', '\\textbf{peak MLR (1/s)}')
 latex_string = latex_string.replace('T peak (K)', '\\textbf{T peak (K)}')
 latex_string = latex_string.replace('T onset (K)', '\\textbf{T onset (K)}')
+latex_string = latex_string.replace('MC (\\%)', '\\textbf{MC (\\%)}')
+latex_string = latex_string.replace('m/m_{0} at 700~K (\\%)', '\\textbf{$m/m_{0}$ at 700~K (\\%)}')
+latex_string = latex_string.replace('m/m_{0} at 950~K (\\%)', '\\textbf{$m/m_{0}$ at 950~K (\\%)}')
 
 # Add blank lines between different condition groups (first two items)
 lines = latex_string.split('\n')

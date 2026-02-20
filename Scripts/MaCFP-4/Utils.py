@@ -210,7 +210,6 @@ def format_latex(table:pd.DataFrame, column_name:str='Heating Rate, $\\beta$ (K/
         # Replace column headers (3K, 5K, etc.) with just numbers
         elif line[0:1] == ' ':
             # Extract and clean the heating rates
-            new_lines.append('\\hline')
             new_line = ' & \\multicolumn{'+ str(len(table.columns)) + '}{c}{' + column_name + '} \\\\' 
             new_lines.append(new_line)
             parts = line.split('&')
@@ -226,18 +225,21 @@ def format_latex(table:pd.DataFrame, column_name:str='Heating Rate, $\\beta$ (K/
                 rate_parts = [p.split('kW')[0] for p in parts[1:]]
                 new_line = 'Institution' + ' & ' + ' & '.join(rate_parts) + '\\\\'
                 new_lines.append(new_line)
-            new_lines.append('\\hline')
 
 
         elif line[0:5] == 'Total':
             new_lines.append('\\hline')
             new_lines.append(line)
-            new_lines.append('\\hline')
         
         else:
             new_lines.append(line)
-
+    
     latex_str = '\n'.join(new_lines)
+
+    latex_str = latex_str.replace('\\toprule', '\\hline')
+    latex_str = latex_str.replace('\\midrule', '\\hline \\\\')
+    latex_str = latex_str.replace('\\bottomrule', '\\hline \\\\')
+
     return latex_str
 
 
@@ -259,6 +261,8 @@ def format_with_uncertainty(mean, std):
 
 def format_temperature(mean, std):
     """Format temperature (no scientific notation)"""
+    if abs(mean) < 0.005:  # avoid -0.0
+        mean = 0.0
     if pd.isna(std) or std == 0:
         return f"${mean:.1f}$"
     else:
