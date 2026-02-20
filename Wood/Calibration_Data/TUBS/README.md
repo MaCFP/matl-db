@@ -33,6 +33,7 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
   - Note: Ultra High Purity (UHP) Nitrogen
 * Instrument
   - Type: Mettler Toledo TGA/DSC3+
+  - Resolution of balance: 0.1 µg
   - Sensor: TGA DTA platinum-rhodium
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |   Purpose | 
