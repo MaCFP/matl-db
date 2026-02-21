@@ -6,6 +6,15 @@ Universität Wuppertal (BUW).
 
 ## Experimental Conditions: Microscale Combustion Calorimetry (MCC)
 
+The sample powder was provided by MaCFP in a small glass bottle.
+Upon arrival, the bottle was opened and placed inside a desiccator for storage.
+The samples were kept inside the desiccator for more than four days before
+any experiments were conducted. Before an experiment, the bottle was taken out
+of the desiccator, on a laboratory scale the desired amount of sample material
+was placed inside a crucible and the bottle placed back into the desiccator.
+The experiment was conducted shortly after the crucible was filled.
+Thus, the sample was subjected to the laboratory environment only for a few minutes.
+
 Mass down-scaling runs have been performed at 60 K/min, to ensure that the experiments
 were conducted under the appropriate conditions. From these runs it could
 be determined that a sample mass between 2 mg to 4 mg is appropriate
@@ -65,22 +74,18 @@ where the temperature is not yet monotonically increasing, due to noise.
 
 | Run Label | Initial Sample Mass (mg) | Final Sample Mass (mg) | Heating Rate (K/min) | Purpose |
 | :---- | :---- | :---- | :---- | :---- |
-| FZJ_MCC_N2_60K_R1 | 0.98 | 0.15 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R2 | 2.0 | 0.28 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R3 | 1.95 | 0.26 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R4 | 1.93 | 0.27 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R5 | 3.97 | 0.63 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R6 | 5.98 | 0.82 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R7 | 5.96 | nan | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R8 | 6.09 | 0.36 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R9 | 7.17 | nan | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R10 | 7.19 | 1.13 | 60 | mass down-scaling |
-| FZJ_MCC_N2_60K_R11 | 7.23 | 1.13 | 60 | mass down-scaling |
-| FZJ_MCC_N2_30K_R1 | 4.0 | 0.64 | 30 | main measurement |
-| FZJ_MCC_N2_30K_R2 | 4.01 | 0.54 | 30 | main measurement |
-| FZJ_MCC_N2_45K_R1 | 4.07 | nan | 45 | main measurement |
-| FZJ_MCC_N2_45K_R2 | 3.99 | 0.57 | 45 | main measurement |
-| FZJ_MCC_N2_60K_R12 | 3.91 | nan | 60 | main measurement |
-| FZJ_MCC_N2_60K_R13 | 3.99 | 0.55 | 60 | main measurement |
-| FZJ_MCC_N2_60K_R14 | 4.09 | 0.54 | 60 | main measurement |
+| FZJ_Wood_MCC_N2_60K_R1 | 0.98 | 0.15 | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_60K_R2 | 2.0 | 0.28 | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_60K_R3 | 1.95 | 0.26 | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_60K_R4 | 1.93 | 0.27 | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_60K_R5 | 3.97 | 0.63 | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_60K_R6 | 5.98 | 0.82 | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_60K_R7 | 5.96 | nan | 60 | mass down-scaling |
+| FZJ_Wood_MCC_N2_30K_R1 | 4.0 | 0.64 | 30 | main measurement |
+| FZJ_Wood_MCC_N2_30K_R2 | 4.01 | 0.54 | 30 | main measurement |
+| FZJ_Wood_MCC_N2_45K_R1 | 4.07 | nan | 45 | main measurement |
+| FZJ_Wood_MCC_N2_45K_R2 | 3.99 | 0.57 | 45 | main measurement |
+| FZJ_Wood_MCC_N2_60K_R8 | 3.91 | nan | 60 | main measurement |
+| FZJ_Wood_MCC_N2_60K_R9 | 3.99 | 0.55 | 60 | main measurement |
+| FZJ_Wood_MCC_N2_60K_R10 | 4.09 | 0.54 | 60 | main measurement |
 
