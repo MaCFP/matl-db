@@ -95,7 +95,7 @@ def calculate_int_HRR(df:pd.DataFrame) -> pd.DataFrame:
     total_hrr = np.zeros(len(df))
     for i in range(1, len(df)):
         total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (W/g)'].iloc[i-1] + df['HRR (W/g)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
-    df['Int HRR'] = total_hrr
+    df['Int HRR'] = total_hrr/1000
     return df
 
 
@@ -151,15 +151,41 @@ def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]]
     dTdt_cols = merged_df.filter(regex=r'^dTdt').columns
     intHRR_cols = merged_df.filter(regex=r'^Int HRR').columns
 
-    df_average = pd.DataFrame({
-        'Temperature (K)': merged_df['Temperature (K)'],
-        'HRR (W/g)': merged_df[hrr_cols].mean(axis=1),
-        'HRR_std': merged_df[hrr_cols].std(axis=1, skipna=True, ddof=0),
-        'dTdt (K/min)': merged_df[dTdt_cols].mean(axis=1),
-        'dTdt_std': merged_df[dTdt_cols].std(axis=1, skipna=True, ddof=0),
-        'int HRR': merged_df[intHRR_cols].mean(axis=1),
-        'int HRR_std': merged_df[intHRR_cols].std(axis=1, skipna=True, ddof=0),
-    }).dropna(subset=['HRR (W/g)'], how='all')
+    df_average = pd.DataFrame({'Temperature (K)': merged_df['Temperature (K)']})
+    n=2
+    sum = merged_df[hrr_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[hrr_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['HRR (W/g)'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[hrr_cols].sub(df_average['HRR (W/g)'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['HRR_std'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    sum = merged_df[dTdt_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[dTdt_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['dTdt (K/min)'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[dTdt_cols].sub(df_average['dTdt (K/min)'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['dTdt_std'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    sum = merged_df[intHRR_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[intHRR_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['int HRR'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[intHRR_cols].sub(df_average['int HRR'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['int HRR_std'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    # df_average = pd.DataFrame({
+    #     'Temperature (K)': merged_df['Temperature (K)'],
+    #     'HRR (W/g)': merged_df[hrr_cols].mean(axis=1),
+    #     'HRR_std': merged_df[hrr_cols].std(axis=1, skipna=True, ddof=0),
+    #     'dTdt (K/min)': merged_df[dTdt_cols].mean(axis=1),
+    #     'dTdt_std': merged_df[dTdt_cols].std(axis=1, skipna=True, ddof=0),
+    #     'int HRR': merged_df[intHRR_cols].mean(axis=1),
+    #     'int HRR_std': merged_df[intHRR_cols].std(axis=1, skipna=True, ddof=0),
+    # }).dropna(subset=['HRR (W/g)'], how='all')
 
     return df_average
 
@@ -217,7 +243,7 @@ for series in unique_conditions_material:
     ax2.set_ylim(bottom=0)
     ax2.set_xlim(right=900)
     ax2.set_xlabel('Temperature (K)')
-    ax2.set_ylabel('Integral HRR [J g$^{-1}$]')
+    ax2.set_ylabel('Integral HRR [kJ g$^{-1}$]')
     fig2.tight_layout()
     handles2, labels2 = ax2.get_legend_handles_labels()
     by_label2 = dict(zip(labels2, handles2))
@@ -355,7 +381,7 @@ for idx,set in enumerate(MCC_sets):
         T_onset_list.append(T_onset)
         T_onset10_list.append(T_onset10)
         FGC_list.append(FGC_v)
-        HR_total_list.append(HR_total/1000) #kJ/g
+        HR_total_list.append(HR_total) #kJ/g
         HR_capacity_list.append(HR_Capacity)
 
         ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '.',color ='black',markersize=0.00000000000002)
@@ -382,7 +408,7 @@ for idx,set in enumerate(MCC_sets):
     # Axes labels
     ax_HRR.set_xlabel('Temperature (K)')
     ax_HRR.set_ylabel('HRR [W g$^{-1}$]')
-    ax_intHRR.set_ylabel('Integral HRR [J g$^{-1}$]')
+    ax_intHRR.set_ylabel('Integral HRR [kJ g$^{-1}$]')
 
     # Figure title
     plt.title(Duck+"\n"+Conditions)
@@ -497,7 +523,7 @@ ax1.legend()
 ax2.set_ylim(bottom=0)
 ax2.set_xlim(350,1000)
 ax2.set_xlabel('Temperature (K)')
-ax2.set_ylabel('Integral HRR [J/g]')
+ax2.set_ylabel('Integral HRR [kJ/g]')
 fig2.tight_layout()
 ax2.legend()
 
@@ -611,7 +637,7 @@ fig1.tight_layout()
 ax2.set_ylim(bottom=0)
 ax2.set_xlim(350, 1000)
 ax2.set_xlabel('Temperature (K)')
-ax2.set_ylabel('Integral HRR [J/g]')
+ax2.set_ylabel('Integral HRR [kJ/g]')
 # Remove duplicate legend entries
 handles2, labels2 = ax2.get_legend_handles_labels()
 by_label2 = dict(zip(labels2, handles2))

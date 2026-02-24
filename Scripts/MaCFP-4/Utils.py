@@ -274,6 +274,11 @@ def format_regular(mean, std):
         return f"${mean:.2f}$"
     else:
         return f"${mean:.2f} \\pm {std:.2f}$"
+    
+
+def format_ignition(mean, std):
+    """Format regular numbers (no scientific notation)"""
+    return f"${mean:.2f} \\pm {std:.2f}$"    
 
 # Extract sorting keys from conditions
 def extract_heating_rate(conditions):

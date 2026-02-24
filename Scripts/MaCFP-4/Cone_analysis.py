@@ -12,7 +12,7 @@ import re
 from scipy.signal import savgol_filter
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, format_latex
-from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
+from Utils import format_ignition, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
 from Utils import DATA_DIR
 
 
@@ -255,7 +255,7 @@ for series in unique_conditions_cone_material:
             zorder =1
         else:
             zorder =5
-        ax2.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', label = label, color=color, zorder=zorder)
+        ax2.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', label = label, color=color, zorder=zorder)
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
@@ -382,13 +382,13 @@ for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
         for i, path in enumerate(paths):
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
-            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', color = color[flux], alpha=0.7, markersize = 0.1, zorder=4)
+            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', color = color[flux], alpha=0.5, markersize = 0.1, zorder=5)
     df_average = average_cone_series(series)
-    ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 3)
+    ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
     ax1.fill_between(df_average['Time (s)'], 
                     df_average['HRR (kW/m2)']-2*df_average['unc HRR (kW/m2)'],
                     df_average['HRR (kW/m2)']+2*df_average['unc HRR (kW/m2)'],
-                    color=color[flux], alpha = 0.3, zorder=2)
+                    color=color[flux], alpha = 0.3, zorder=3)
 
 ax1.set_ylim(bottom=0,top=250)
 ax1.set_xlim(right=2500)
@@ -402,7 +402,7 @@ plt.close(fig1)
 
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
-linestyle = ['-','--',':']
+linestyle = ['--',':','-']
 for series in unique_conditions_cone_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
@@ -416,13 +416,27 @@ for series in unique_conditions_cone_material:
             temp_col = f'TC back {i} (K)'
             if temp_col in df.columns:
                 ax1.plot(df['Time (s)'], df[temp_col], label=label, color=color, linestyle = linestyle[i-1])
+            if 'TC Top (K)' in df.columns:
+                ax1.plot(df['Time (s)'], df['TC Top (K)'], label=label, color=color, linestyle = '-')
 
 
     ax1.set_ylim(bottom=250)
     ax1.set_xlabel('Time [s]')
     ax1.set_ylabel('Temperature [K]')
     fig1.tight_layout()
-    ax1.legend()
+    
+    # Get unique (label, style) combinations
+    handles, labels = ax1.get_legend_handles_labels()
+    unique = {}
+    for handle, label in zip(handles, labels):
+        # Create a key based on label and visual properties
+        key = (label, handle.get_linestyle(), handle.get_color())
+        if key not in unique:
+            unique[key] = (handle, label)
+
+    unique_handles = [v[0] for v in unique.values()]
+    unique_labels = [v[1] for v in unique.values()]
+    ax1.legend(unique_handles, unique_labels)
 
     fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_BackT.{}'.format(material, flux,orient,ex))
  
@@ -504,45 +518,6 @@ for series in unique_conditions_gas_material:
     plt.close(fig1)
     plt.close(fig2)
 
-
-
-# Indivdual Mass and mass loss rate plots for all unique institutions atmospheres and heating rates (gasification)
-for set in Gas_sets:
-    fig1, ax1 = plt.subplots(figsize=(6, 4))
-    fig2, ax2 = plt.subplots(figsize=(6, 4))
-    paths_GAS_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
-    for path in paths_GAS_set:
-        df_raw = pd.read_csv(path)
-        df=Calculate_dm_dt(df_raw)
-        label, color = label_def(path.stem.split('_')[0])
-        if institute == 'TIFP+UCT':
-            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
-        elif institute == 'FSRI':
-            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
-        ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color)
-
-    ax1.set_ylim(bottom=0)
-    ax1.set_xlabel('Time [s]')
-    ax1.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
-    fig1.tight_layout()
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    by_label1 = dict(zip(labels1, handles1))
-    ax1.legend(by_label1.values(), by_label1.keys())
-
-    ax2.set_ylim(bottom=0)
-    ax2.set_xlabel('Time [s]')
-    ax2.set_ylabel('Mass [g]')
-    fig2.tight_layout()
-    handles2, labels2 = ax2.get_legend_handles_labels()
-    by_label2 = dict(zip(labels2, handles2))
-    ax2.legend(by_label2.values(), by_label2.keys())
-
-    fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_MLR.{}'.format(material, flux,ex))
-    fig2.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_Mass.{}'.format(material, flux,ex))
-
-
-    plt.close(fig1)
-    plt.close(fig2)
 
 
 
@@ -716,7 +691,7 @@ final_table_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', '
 
 # Format ignition time
 final_table_sorted['ignitiont_formatted'] = final_table_sorted.apply(
-    lambda row: format_regular(row['ignition time'], row['std ignition time']),
+    lambda row: format_ignition(row['ignition time'], row['std ignition time']),
     axis=1
 )
 
