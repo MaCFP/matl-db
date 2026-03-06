@@ -38,15 +38,15 @@ A baseline (blank) measurement was performed using an **empty Al₂O₃ (alumina
 ## Test list
 | Test name | O2 (vol-%) | Initial sample mass (mg) |
 |---|---:|---:|
-| Aalto_Wood_STA_N2_5K_R1  | 0 | 7.4270 |
+| Aalto_Wood_STA_N2_5K_R1  | 0 | 8.8730 |
 | Aalto_Wood_STA_N2_10K_R1 | 0 | 7.4270 |
-| Aalto_Wood_STA_N2_20K_R1 | 0 | 7.4270 |
-| Aalto_Wood_STA_N2_5K_R2  | 0 | 8.0765 |
+| Aalto_Wood_STA_N2_20K_R1 | 0 | 8.3625 |
+| Aalto_Wood_STA_N2_5K_R2  | 0 | 8.7090 |
 | Aalto_Wood_STA_N2_10K_R2 | 0 | 8.0765 |
-| Aalto_Wood_STA_N2_20K_R2 | 0 | 8.0765 |
-| Aalto_Wood_STA_N2_5K_R3  | 0 | 8.0540 |
+| Aalto_Wood_STA_N2_20K_R2 | 0 | 8.2330 |
+| Aalto_Wood_STA_N2_5K_R3  | 0 | 8.7710 |
 | Aalto_Wood_STA_N2_10K_R3 | 0 | 8.0540 |
-| Aalto_Wood_STA_N2_20K_R3 | 0 | 8.0540 |
+| Aalto_Wood_STA_N2_20K_R3 | 0 | 7.9190 |
 
 ## Notes
 - Moisture content prior to the ramp is uncertain because the stabilization hold acted as a drying step.
