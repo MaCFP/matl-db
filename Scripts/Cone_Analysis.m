@@ -135,8 +135,8 @@ for m=3:5
         N_tests_cone=Test_count(m,k);
         for L=1:N_tests_cone
             if TAB_DATA{m,2}(k,L)~=0 && TAB_DATA{m,3}(k,L)~=0
-                Total_MassLoss=TAB_DATA{m,4}(k,L)*(EVAL_DATA{k,L,m}(TAB_DATA{m,2}(k,L),2)-EVAL_DATA{k,L,m}(TAB_DATA{m,3}(k,L),2));      % m0*((mass at tHRR_init>100)-(mass at tHRR_final>100))
-                Total_HeatRelease= Asurf(k)*(EVAL_DATA{k,L,m}(TAB_DATA{m,3}(k,L),10)-EVAL_DATA{k,L,m}(TAB_DATA{m,2}(k,L),10));                      % (THR at tHRR_final>100)-(THR at tHRR_int>100))
+                Total_MassLoss=TAB_DATA{m,4}(k,L)*(EVAL_DATA{k,L,m}(TAB_DATA{m,2}(k,L),2)-EVAL_DATA{k,L,m}(TAB_DATA{m,3}(k,L),2));      % m0*((mass at HRR > 240)-(mass at HRR_final>240))
+                Total_HeatRelease= Asurf(k)*(EVAL_DATA{k,L,m}(TAB_DATA{m,3}(k,L),10)-EVAL_DATA{k,L,m}(TAB_DATA{m,2}(k,L),10));                      % (THR at HRR_final>240)-(THR at HRR_int>240))
                 TAB_DATA{m,5}(k,L)=Total_HeatRelease/Total_MassLoss;
                 clear Total_MassLoss Total_HeatRelease
             end

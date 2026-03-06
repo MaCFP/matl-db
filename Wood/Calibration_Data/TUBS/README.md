@@ -78,7 +78,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Instrument
   - Type: FTT
   - O2 Analyzer: Chemical
-* Baseline correction: The baseline was determined by fitting a 5th‑degree polynomial to the HRR signal in two temperature intervals where the heat release rate is assumed to be zero, namely 90–130 °C and 600–800 °C. The resulting polynomial was then evaluated over the full temperature range and subtracted from the HRR data to yield the baseline‑corrected curves. Data below 374 K were cut.
+* Baseline correction: Linear baseline correction
   
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: | :------------------------: |

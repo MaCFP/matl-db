@@ -1,47 +1,68 @@
+"""
+
+Main script for MCC analysis for MaCFP-4
+
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pathlib import Path
-import re
+from typing import Optional, Union, List, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, \
-                  device_subset, label_def, interpolation
-from Utils import SCRIPT_DIR, PROJECT_ROOT, DATA_DIR, FIGURES_DIR
-from Secret import Names
+                  device_subset, label_def, interpolation, format_latex
+from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere
+from Utils import DATA_DIR
 
-#define whether to save files in pdf or png
+#region Save plots as pdf or png
 ex = 'pdf' #options 'pdf' or 'png
 
-#when pushed to main repo replace
+# TO DO: when prelim document pushed to main repo replace
 '../../../matl-db-organizing-committee/' #with
 '../../Documents/'
 
-# check all subdirectories to save plots exist. 
+#region create subdirectories to save plots.
 base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
-Individual_dir = base_dir / 'MCC' / 'Individual'
 Average_dir = base_dir / 'MCC' / 'Average'
-Individual_dir.mkdir(parents=True, exist_ok=True)
 Average_dir.mkdir(parents=True, exist_ok=True)
 
 
 # ------------------------------------
 #region data
 # ------------------------------------
-#This section is used to determine what MCC data is available. 
-
 # All MCC Data
 MCC_Data = device_data(DATA_DIR, 'MCC')
+
 # All unique sets (name without repetition number)
 MCC_sets = get_series_names(MCC_Data)
+
 # All unique conditions over all institutes
 unique_conditions = { '_'.join(s.split('_')[2:]) for s in MCC_sets}
+unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in MCC_sets if '_' in name))
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
 print('Nitrogen table')
-print(make_institution_table(MCC_Data,['N2'],['30K','45K','60K']))
+table = make_institution_table(MCC_Data,['Wood'],['N2'],['30K','45K','60K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table)
+with open(str(base_dir) +'/MCC/MCC_Nitrogen.tex', 'w') as f:
+    f.write(latex_str)
 
 print('Oxygen table')
-print(make_institution_table(MCC_Data,['O2-20', 'O2-21'],['60K']))
+table = make_institution_table(MCC_Data,['Wood'],['O2-2', 'O2-5', 'O2-10' , 'O2-20'],['60K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table,'Oxygen concentration (Vol\\%)')
+with open(str(base_dir) +'/MCC/MCC_Oxygen.tex', 'w') as f:
+    f.write(latex_str)
+
+
+print('Char table')
+print(make_institution_table(MCC_Data,['Wood-char'],['O2-20', 'O2-21'],['60K']))
+
+
 
 # ------------------------------------
 #region set plot style
@@ -57,6 +78,8 @@ def set_plot_style():
         'axes.labelsize': 12,
         'axes.titlesize': 12,
         'legend.fontsize': 10,
+        'xtick.direction': 'in',
+        'ytick.direction': 'in',
     })
 
 set_plot_style()
@@ -64,13 +87,34 @@ set_plot_style()
 
 
 # ------------------------------------
-#region set plot style
+#region functions
 # ------------------------------------
-def average_MCC_series(series_name: str):
-    
-    paths = list(DATA_DIR.glob(f"*/{series_name}_[rR]*.csv"))
-    Dataframes = []
+def calculate_int_HRR(df:pd.DataFrame) -> pd.DataFrame:
+    """Calculate integral HRR."""
+    df = interpolation(df)
+    total_hrr = np.zeros(len(df))
+    for i in range(1, len(df)):
+        total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (W/g)'].iloc[i-1] + df['HRR (W/g)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
+    df['Int HRR'] = total_hrr/1000
+    return df
 
+
+def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None, 
+                       temp_filter:Optional[Dict[str, float]] = None) -> pd.DataFrame:
+    """Calculate average mass and MLR for a test series with optional filtering."""
+    paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in MCC_Data]
+
+    # Apply exclusions
+    if exclude is not None:
+        if not isinstance(exclude, list):
+            exclude = [exclude]  # Convert single string to list
+        
+        for excl in exclude:
+            paths = [p for p in paths if excl not in str(p)]
+
+    Dataframes = []
     if len(paths) == 0:
         raise Exception((f"No files found for series {series_name}", "red"))
 
@@ -78,11 +122,16 @@ def average_MCC_series(series_name: str):
     for i, path in enumerate(paths):
         df = pd.read_csv(path)
 
-        #interpolation
-       # df_interp = interpolation(df)
-        df_interp = df
-        df_interp['dTdt'] = 60*np.gradient(df_interp['Temperature (K)'], df_interp['Time (s)'])
-        Dataframes.append(df_interp)
+        # Apply temperature filter for specific institutes
+        if temp_filter is not None:
+            for institute, min_temp in temp_filter.items():
+                if institute in str(path):
+                    df_raw = df_raw[df_raw['Temperature (K)'] > min_temp].reset_index(drop=True)
+
+
+        df = calculate_int_HRR(df)
+        df['dTdt'] = 60*np.gradient(df['Temperature (K)'], df['Time (s)'])
+        Dataframes.append(df)
     
     merged_df = Dataframes[0]
     for df in Dataframes[1:]:
@@ -100,34 +149,56 @@ def average_MCC_series(series_name: str):
     time_cols = merged_df.filter(regex=r'^Time \(s\)').columns
     hrr_cols = merged_df.filter(regex=r'^HRR \(W/g\)').columns
     dTdt_cols = merged_df.filter(regex=r'^dTdt').columns
+    intHRR_cols = merged_df.filter(regex=r'^Int HRR').columns
 
-    df_average = pd.DataFrame({
-        'Temperature (K)': merged_df['Temperature (K)'],
-        'HRR (W/g)': merged_df[hrr_cols].mean(axis=1),
-        'HRR_std': merged_df[hrr_cols].std(axis=1, skipna=True, ddof=0),
-        'dTdt (K/min)': merged_df[dTdt_cols].mean(axis=1),
-        'dTdt_std': merged_df[dTdt_cols].std(axis=1, skipna=True, ddof=0),
-    }).dropna(subset=['HRR (W/g)'], how='all')
+    df_average = pd.DataFrame({'Temperature (K)': merged_df['Temperature (K)']})
+    n=2
+    sum = merged_df[hrr_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[hrr_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['HRR (W/g)'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[hrr_cols].sub(df_average['HRR (W/g)'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['HRR_std'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    sum = merged_df[dTdt_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[dTdt_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['dTdt (K/min)'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[dTdt_cols].sub(df_average['dTdt (K/min)'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['dTdt_std'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    sum = merged_df[intHRR_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    cnt = merged_df[intHRR_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    df_average['int HRR'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+
+    diff = merged_df[intHRR_cols].sub(df_average['int HRR'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
+    df_average['int HRR_std'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+
+    # df_average = pd.DataFrame({
+    #     'Temperature (K)': merged_df['Temperature (K)'],
+    #     'HRR (W/g)': merged_df[hrr_cols].mean(axis=1),
+    #     'HRR_std': merged_df[hrr_cols].std(axis=1, skipna=True, ddof=0),
+    #     'dTdt (K/min)': merged_df[dTdt_cols].mean(axis=1),
+    #     'dTdt_std': merged_df[dTdt_cols].std(axis=1, skipna=True, ddof=0),
+    #     'int HRR': merged_df[intHRR_cols].mean(axis=1),
+    #     'int HRR_std': merged_df[intHRR_cols].std(axis=1, skipna=True, ddof=0),
+    # }).dropna(subset=['HRR (W/g)'], how='all')
 
     return df_average
 
 
-def calculate_int_HRR(df:pd.DataFrame):
-    total_hrr = np.zeros(len(df))
-    for i in range(1, len(df)):
-        total_hrr[i] = total_hrr[i-1] + 0.5 * (df['HRR (W/g)'].iloc[i-1] + df['HRR (W/g)'].iloc[i]) * (df['Time (s)'].iloc[i] - df['Time (s)'].iloc[i-1])
-    df['Int HRR'] = total_hrr
-    return df
 
-
-
-
-# HRR plots for all unique HR
-# unique heating rates: 
-unique_HR = { '_'.join(s.split('_')[3:]) for s in MCC_sets}
+# ------------------------------------
+#region plots
+# ------------------------------------
+# HR plots for all unique HR
+unique_HR = { '_'.join(s.split('_')[4:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(4, 3))
-    MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')
+    MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
     for set in MCC_sub_set:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
@@ -137,7 +208,7 @@ for HR in unique_HR:
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
         fig.tight_layout()
         ax.legend()
-    plt.savefig(str(base_dir) + '/MCC/HR_MCC_{}Kmin.pdf'.format(HR[:-1]))
+    plt.savefig(str(base_dir) + '/MCC/dTdt_MCC_{}min.{}'.format(HR.split('_')[-1],ex))
     plt.close(fig)
 
 
@@ -146,79 +217,555 @@ for HR in unique_HR:
 
 
 # HRR and int HRR rate plots for all unique atmospheres and heating rates 
-for series in unique_conditions:
+for series in unique_conditions_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
-    atm, hr,  = parts[:2]
-    MCC_subset_paths = [p for p in MCC_Data if f"_{atm}_{hr}_" in p.name]
+    material, dev, atm, hr,  = parts[:4]
+    MCC_subset_paths = [p for p in MCC_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
     for path in MCC_subset_paths:
         df_raw = pd.read_csv(path)
-        df = calculate_int_HRR(df_raw)
+        df_interp = interpolation(df_raw)
+        df = calculate_int_HRR(df_interp)
         label, color = label_def(path.stem.split('_')[0])
         ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = label, color=color)
         ax2.plot(df['Temperature (K)'], df['Int HRR'], label = label, color=color)
 
     ax1.set_ylim(bottom=0)
+    ax1.set_xlim(right=900)
     ax1.set_xlabel('Temperature (K)')
     ax1.set_ylabel('HRR [W g$^{-1}$]')
     fig1.tight_layout()
-    ax1.legend()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=0)
+    ax2.set_xlim(right=900)
     ax2.set_xlabel('Temperature (K)')
-    ax2.set_ylabel('Integral HRR [J g$^{-1}$]')
+    ax2.set_ylabel('Integral HRR [kJ g$^{-1}$]')
     fig2.tight_layout()
-    ax2.legend()
+    handles2, labels2 = ax2.get_legend_handles_labels()
+    by_label2 = dict(zip(labels2, handles2))
+    ax2.legend(by_label2.values(), by_label2.keys())
 
-    fig1.savefig(str(base_dir) + '/MCC/MCC_{}_{}_HRR.{}'.format(atm,hr,ex))
-    fig2.savefig(str(base_dir) + '/MCC/MCC_{}_{}_int_HRR.{}'.format(atm,hr,ex))
+    fig1.savefig(str(base_dir) + '/MCC/MCC_{}_{}_{}_HRR.{}'.format(material,atm,hr,ex))
+    fig2.savefig(str(base_dir) + '/MCC/MCC_{}_{}_{}_int_HRR.{}'.format(material, atm,hr,ex))
     plt.close(fig1)
     plt.close(fig2)
 
 
 #check mass scaling FZJ
 # HRR and int HRR rate plots for all unique atmospheres and heating rates 
-initial_mass = {
-    'R1': {'mass': 0.98, 'color': 'darkviolet'},
-    'R2': {'mass': 2.0, 'color': 'darkred'},
-    'R3': {'mass': 1.95, 'color': 'red'},
-    'R4': {'mass': 1.93, 'color': 'lightcoral'},
-    'R5': {'mass': 3.97, 'color': 'darkgreen'},
-    'R6': {'mass': 5.98, 'color': 'darkblue'},
-    'R7': {'mass': 5.96, 'color': 'blue'},
-    'R8': {'mass': 6.09, 'color': 'royalblue'},
-    'R9': {'mass': 7.17, 'color': 'darkgoldenrod'},
-    'R10': {'mass': 7.19, 'color': 'goldenrod'},
-    'R11': {'mass': 7.23, 'color': 'gold'},
-    'R12': {'mass': 3.91, 'color': 'lime'},
-    'R13': {'mass': 3.99, 'color': 'limegreen'},
-    'R14': {'mass': 4.09, 'color': 'green'},
-    'R15': {'mass': 7.09, 'color': 'black'}
-}
+# initial_mass = {
+#     'R1': {'mass': 0.98, 'color': 'darkviolet'},
+#     'R2': {'mass': 2.0, 'color': 'darkred'},
+#     'R3': {'mass': 1.95, 'color': 'red'},
+#     'R4': {'mass': 1.93, 'color': 'lightcoral'},
+#     'R5': {'mass': 3.97, 'color': 'darkgreen'},
+#     'R6': {'mass': 5.98, 'color': 'darkblue'},
+#     'R7': {'mass': 5.96, 'color': 'blue'},
+#     'R8': {'mass': 6.09, 'color': 'royalblue'},
+#     'R9': {'mass': 7.17, 'color': 'darkgoldenrod'},
+#     'R10': {'mass': 7.19, 'color': 'goldenrod'},
+#     'R11': {'mass': 7.23, 'color': 'gold'},
+#     'R12': {'mass': 3.91, 'color': 'lime'},
+#     'R13': {'mass': 3.99, 'color': 'limegreen'},
+#     'R14': {'mass': 4.09, 'color': 'green'},
+#     'R15': {'mass': 7.09, 'color': 'black'}
+# }
 
+# fig1, ax1 = plt.subplots(figsize=(6, 4))
+# for test in DATA_DIR.rglob("FZJ/FZJ_*60K*.csv"):
+#     parts = test.stem.split('_')
+#     Repetition = parts[-1]
+#     df_raw = pd.read_csv(test)
+#     df = calculate_int_HRR(df_raw)
+#     ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
+#     #ax1.plot(df['Temperature (K)'], np.gradient(df['Temperature (K)'], df['Time (s)']), label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
+
+# # Sort legend
+# handles, labels = ax1.get_legend_handles_labels()
+# labels_float = [float(label) for label in labels]
+# sorted_pairs = sorted(zip(labels_float, handles))
+# sorted_labels = [label for label, _ in sorted_pairs]
+# sorted_handles = [handle for _, handle in sorted_pairs]
+
+# ax1.set_ylim(bottom=0)
+# ax1.set_xlabel('Temperature (K)')
+# ax1.set_ylabel('HRR [W g$^{-1}$]')
+# fig1.tight_layout()
+# ax1.legend(sorted_handles, sorted_labels)
+
+# fig1.savefig(str(base_dir) + '/MCC/MCC_FZJ_60K_Mass-Scaling_HRR.{}'.format(ex))
+# plt.close(fig1)
+ 
+
+
+# plot average per MCC_set (unique institutions, unique material, unique conditions)
+# and print a table with values of interest
+Average_values = pd.DataFrame({
+    'set': MCC_sets,
+    'Duck':[label_def(t.split('_')[0])[0] for t in MCC_sets],
+    'conditions':[t.split('MCC_')[1] for t in MCC_sets],
+    'peak HRR': np.nan,
+    'std peak HRR': np.nan,
+    'T peak': np.nan,
+    'std T peak': np.nan,
+    'T onset': np.nan,
+    'std T onset': np.nan,
+    "HR_total":np.nan,
+    "std HR_total":np.nan,
+    "HR_capacity":np.nan,
+    "std HR_capacity":np.nan,
+    "FGC":np.nan,
+    "std FGC":np.nan,
+})
+for idx,set in enumerate(MCC_sets):
+    fig, ax_HRR = plt.subplots(figsize=(6, 4))
+    ax_intHRR = ax_HRR.twinx()
+    df_average = average_MCC_series(set)
+
+    Duck, color = label_def(set.split('_')[0])
+    Conditions = '_'.join(set.split('_')[2:])
+
+    # plot average
+    # Plot HRRs (left y-axis)
+    ax_HRR.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'],
+                        label='HRR', color='limegreen')
+    ax_HRR.fill_between(df_average['Temperature (K)'], 
+                         df_average['HRR (W/g)']-2*df_average['HRR_std'],
+                         df_average['HRR (W/g)']+2*df_average['HRR_std'],
+                         color='limegreen', alpha = 0.3)
+
+    # Plot mass loss rate (right y-axis, dashed)
+    ax_intHRR.plot(df_average['Temperature (K)'], df_average['int HRR'],
+                        label='integral HRR', color='red', alpha=0.9)
+
+    ax_intHRR.fill_between(df_average['Temperature (K)'], 
+                        df_average['int HRR']-2*df_average['int HRR_std'],
+                        df_average['int HRR']+2*df_average['int HRR_std'],
+                        color='red', alpha=0.3)
+
+
+    #plot individual
+    paths_MCC_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    peak_HRR_list = []
+    T_peak_list = []
+    T_onset_list = []
+    T_onset10_list = []
+    FGC_list = []
+    HR_total_list = []
+    HR_capacity_list = []
+    T_0 = 298
+
+    for path in paths_MCC_set:
+        df_raw = pd.read_csv(path)
+        df = calculate_int_HRR(df_raw)
+        peak_HRR = df["HRR (W/g)"].max()
+        peak_index = df["HRR (W/g)"].idxmax()
+        T_peak = df["Temperature (K)"].iloc[peak_index]
+        HR_total = df['Int HRR'].iloc[-1]
+        onset_index = df[df['Int HRR'] >= 0.05 * HR_total].index[0]
+        T_onset = df["Temperature (K)"].iloc[onset_index]
+        onset_index10 = df[df['Int HRR'] >= 0.10 * HR_total].index[0]
+        T_onset10 = df["Temperature (K)"].iloc[onset_index10]
+        endset_index = df[df['Int HRR'] >= 0.95 * HR_total].index[0]
+        T_endset = df["Temperature (K)"].iloc[endset_index]
+        HR_Capacity = peak_HRR / np.average(np.gradient(df['Temperature (K)'], df['Time (s)']))
+        FGC_v = (HR_total * (T_endset - T_0)) / ((T_endset - T_onset) * (T_onset - T_0))
+        
+
+        peak_HRR_list.append(peak_HRR)
+        T_peak_list.append(T_peak)
+        T_onset_list.append(T_onset)
+        T_onset10_list.append(T_onset10)
+        FGC_list.append(FGC_v)
+        HR_total_list.append(HR_total) #kJ/g
+        HR_capacity_list.append(HR_Capacity)
+
+        ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '.',color ='black',markersize=0.00000000000002)
+        ax_intHRR.plot(df['Temperature (K)'], df['Int HRR'],'.',color='black', markersize=0.5)
+    Average_values.at[idx, 'peak HRR'] = np.mean(peak_HRR_list)
+    Average_values.at[idx, 'std peak HRR'] = np.std(peak_HRR_list, ddof=1)
+    Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)
+    Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
+    Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
+    Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
+    Average_values.at[idx, 'T onset10'] = np.mean(T_onset10_list)
+    Average_values.at[idx, 'std T onset10'] = np.std(T_onset10_list, ddof=1)
+    Average_values.at[idx, 'HR_total'] = np.mean(HR_total_list)
+    Average_values.at[idx, 'std HR_total'] = np.std(HR_total_list, ddof=1)
+    Average_values.at[idx, 'HR_capacity'] = np.mean(HR_capacity_list)
+    Average_values.at[idx, 'std HR_capacity'] = np.std(HR_capacity_list, ddof=1)
+    Average_values.at[idx, 'FGC'] = np.mean(FGC_list)
+    Average_values.at[idx, 'std FGC'] = np.std(FGC_list, ddof=1)
+
+    # Set lower limits of both y-axes to 0
+    ax_HRR.set_ylim(bottom=0)
+    ax_intHRR.set_ylim(bottom=0)
+
+    # Axes labels
+    ax_HRR.set_xlabel('Temperature (K)')
+    ax_HRR.set_ylabel('HRR [W g$^{-1}$]')
+    ax_intHRR.set_ylabel('Integral HRR [kJ g$^{-1}$]')
+
+    # Figure title
+    plt.title(Duck+"\n"+Conditions)
+
+    # Legend
+    fig.legend()
+
+    fig.tight_layout()
+    plt.savefig(str(base_dir) + f'/MCC/Average/{set}.{ex}')
+    plt.close(fig)
+Average_values.drop('set',axis=1)
+
+#plot average values 
+def plot_hrr_and_onset_vs_peak_temp(df):
+    """
+    Creates 2 plots for each distinct condition:
+    1) Peak HRR vs Peak Temperature
+    2) Onset T vs Peak Temperature
+    """
+    # Get unique conditions
+    conditions = df['conditions'].unique()
+    
+    for condition in conditions:
+        # Filter data for this condition
+        condition_data = df[df['conditions'] == condition]
+        
+        fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
+        fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
+        
+        # Plot 1: Peak HRR vs Peak Temperature
+        for idx, row in condition_data.iterrows():
+            Duck, color = label_def(row['set'].split('_')[0])
+            
+            ax1.errorbar(row['T peak'], 
+                         row['peak HRR'],
+                         xerr=row['std T peak'],
+                         yerr=row['std peak HRR'],
+                         fmt='o', capsize=5, capthick=2, markersize=8,
+                         color=color, label=Duck)
+            
+            ax2.errorbar(row['T peak'], 
+                         row['T onset'],
+                         xerr=row['std T peak'],
+                         yerr=row['std T onset'],
+                         fmt='s', capsize=5, capthick=2, markersize=8,
+                         color=color, label=Duck)
+            
+        
+        ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
+        ax1.set_ylabel('Peak HRR (W/g)', fontsize=12)
+        
+        # Remove duplicate legend entries
+        handles, labels = ax1.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax1.legend(by_label.values(), by_label.keys())
+        
+        ax2.set_xlabel('Peak Temperature (K)', fontsize=12)
+        ax2.set_ylabel('Onset Temperature (K)', fontsize=12)
+        
+        # Remove duplicate legend entries
+        handles, labels = ax2.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax2.legend(by_label.values(), by_label.keys())
+        
+        fig1.tight_layout()
+        fig2.tight_layout()
+        
+        fig1.savefig(str(base_dir) + f'/MCC/Tpeak_Average_{condition}_HRR.{ex}')
+        fig2.savefig(str(base_dir) + f'/MCC/Tonset_Average_{condition}_HRR.{ex}')
+        
+        plt.close(fig1)
+        plt.close(fig2)
+
+# Use the function
+plot_hrr_and_onset_vs_peak_temp(Average_values)
+
+
+
+# Average plot for Mass and mass loss rate (averaging over different institutes)
+color = {'30K':'blue','45K':'black','60K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
-for test in DATA_DIR.rglob("FZJ/FZJ_*60K*.csv"):
-    parts = test.stem.split('_')
-    Repetition = parts[-1]
-    df_raw = pd.read_csv(test)
-    df = calculate_int_HRR(df_raw)
-    #ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
-    ax1.plot(df['Temperature (K)'], np.gradient(df['Temperature (K)'], df['Time (s)']), label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
-
-# Sort legend
-handles, labels = ax1.get_legend_handles_labels()
-labels_float = [float(label) for label in labels]
-sorted_pairs = sorted(zip(labels_float, handles))
-sorted_labels = [label for label, _ in sorted_pairs]
-sorted_handles = [handle for _, handle in sorted_pairs]
+fig2, ax2 = plt.subplots(figsize=(6, 4))
+for series in ['Wood_MCC_N2_30K','Wood_MCC_N2_45K','Wood_MCC_N2_60K']:
+    parts = series.split('_')
+    atm, hr  = parts[2:]
+    for subset in [item for item in MCC_sets if series in item]:
+        paths = list(DATA_DIR.glob(f"*/{subset}_[rR]*.csv"))
+        for i, path in enumerate(paths):
+            df = pd.read_csv(path)
+            df = calculate_int_HRR(df)
+            ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], '.', color = color[hr], alpha=0.1, markersize = 0.01, zorder=4)
+            ax2.plot(df['Temperature (K)'], df['Int HRR'], '.', color = color[hr], alpha=0.1, markersize = 0.01, zorder=4)
+    df_average = average_MCC_series(series, ['TUBS_Wood_MCC_N2_30K','FZJ_Wood_MCC_N2_60K_R8'])
+    ax1.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'], label = hr+'/min', color = color[hr], zorder = 3)
+    ax1.fill_between(df_average['Temperature (K)'], 
+                    df_average['HRR (W/g)']-2*df_average['HRR_std'],
+                    df_average['HRR (W/g)']+2*df_average['HRR_std'],
+                    color=color[hr], alpha = 0.4, zorder=2)
+    ax2.plot(df_average['Temperature (K)'], df_average['int HRR'], label = hr+'/min', color = color[hr], zorder=3)
+    ax2.fill_between(df_average['Temperature (K)'], 
+                    df_average['int HRR']-2*df_average['int HRR_std'],
+                    df_average['int HRR']+2*df_average['int HRR_std'],
+                    color=color[hr], alpha = 0.4, zorder=2)
 
 ax1.set_ylim(bottom=0)
+ax1.set_xlim(350,1000)
 ax1.set_xlabel('Temperature (K)')
-ax1.set_ylabel('HRR [W g$^{-1}$]')
+ax1.set_ylabel('HRR [W/g]')
 fig1.tight_layout()
-ax1.legend(sorted_handles, sorted_labels)
+ax1.legend()
 
-fig1.savefig(str(base_dir) + '/MCC/MCC_FZJ_60K_HR_Mass-Scaling_HRR.{}'.format(ex))
+ax2.set_ylim(bottom=0)
+ax2.set_xlim(350,1000)
+ax2.set_xlabel('Temperature (K)')
+ax2.set_ylabel('Integral HRR [kJ/g]')
+fig2.tight_layout()
+ax2.legend()
+
+fig1.savefig(str(base_dir) + '/MCC/MCC_Average_N2_HRR.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/MCC/MCC_Average_N2_intHRR.{}'.format(ex))
 plt.close(fig1)
- 
+plt.close(fig2)
+
+
+
+
+#------------------------------------
+# region char yields (new values need to be added manually)
+#------------------------------------
+FZJ_N2_30K = [0.64/4.0,0.54/4.01]
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)
+
+FZJ_N2_45K = [0.57/3.99]
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'char_yield'] = np.mean(FZJ_N2_45K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'std_char_yield'] = np.std(FZJ_N2_45K)
+
+FZJ_N2_60K = [    0.15/0.98,    0.28/2.0,    0.26/1.95,    0.27/1.93,    0.63/3.97,    0.82/5.98,    0.36/6.09,    1.13/7.19,    1.13/7.23,    0.55/3.99,   0.54/4.09]
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'char_yield'] = np.mean(FZJ_N2_60K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(FZJ_N2_60K)
+
+IMT_N2_60K = [0.23/2.82, 0.24/2.2]
+Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'char_yield'] = np.mean(IMT_N2_60K)
+Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(IMT_N2_60K)
+
+NIST_N2_60K = [1.747/12.037, 1.843/11.921, 1.843/12.040, 1.846/11.903, 1.854/12.024, 1.844/11.989, 1.846/12.037, 1.847/12.043, 1.866/12.019, 0.707/5.075, 0.700/5.046, 0.700/5.048]
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'char_yield'] = np.mean(NIST_N2_60K)
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(NIST_N2_60K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)
+
+TUBS_N2_30K = [0.07/1.03, 0.11/1.04, 0.12/1.05]
+Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'char_yield'] = np.mean(TUBS_N2_30K)
+Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(TUBS_N2_30K)
+
+UDRI_N2_60K = [    0.739/5.560,    0.673/5.007,    0.669/5.013]
+Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'char_yield'] = np.mean(UDRI_N2_60K)
+Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(UDRI_N2_60K)
+
+
+#------------------------------------
+# region Oxygen concentration plots
+#------------------------------------
+# Plot MCC wood data at different oxygen levels (2%, 5%, 10%, 20%)
+
+# Define oxygen levels and their corresponding dataset identifiers
+oxygen_levels = {
+    '2%': 'O2-2_',
+    '5%': 'O2-5_', 
+    '10%': 'O2-10_',
+    '20%': 'O2-20_'
+}
+
+# Define color for different oxygen levels
+o2_colors = {'2%': 'lightblue', '5%': 'blue', '10%': 'orange', '20%': 'red'}
+
+# Define linestyle for different institutes
+o2_linestyle = {'IMT':':', 'NIST':'-'}
+
+# Create figures for HRR and integral HRR
+fig1, ax1 = plt.subplots(figsize=(8, 5))
+fig2, ax2 = plt.subplots(figsize=(8, 5))
+
+for o2_label, o2_code in oxygen_levels.items():
+    # Find all wood MCC series with this oxygen level at 60K heating rate
+    o2_series = [s for s in MCC_sets if 'Wood_MCC' in s and o2_code in s and '60K' in s]
+    
+    if len(o2_series) == 0:
+        print(f"No data found for {o2_label} oxygen")
+        continue
+    
+    # Plot individual experiments
+    for subset in o2_series:
+        paths = list(DATA_DIR.glob(f"*/{subset}_[rR]*.csv"))
+        Duck, _ = label_def(subset.split('_')[0])
+        
+        for i, path in enumerate(paths):
+            df = pd.read_csv(path)
+            df = calculate_int_HRR(df)
+            
+            # Create label only for first repetition to avoid duplicate legend entries
+            if i == 0:
+                label = f'{Duck} ({o2_label})'
+            else:
+                label = None
+            
+            ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], 
+                    color=o2_colors[o2_label], linestyle = o2_linestyle[subset.split('_')[0]],
+                    label=label, linewidth=1.5, alpha=0.8)
+            ax2.plot(df['Temperature (K)'], df['Int HRR'], 
+                    color=o2_colors[o2_label], linestyle = o2_linestyle[subset.split('_')[0]],
+                    label=label, linewidth=1.5, alpha=0.8)
+
+# Format HRR plot
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(350, 1000)
+ax1.set_xlabel('Temperature (K)')
+ax1.set_ylabel('HRR [W/g]')
+# Remove duplicate legend entries
+handles1, labels1 = ax1.get_legend_handles_labels()
+by_label1 = dict(zip(labels1, handles1))
+ax1.legend(by_label1.values(), by_label1.keys())
+fig1.tight_layout()
+
+# Format integral HRR plot
+ax2.set_ylim(bottom=0)
+ax2.set_xlim(350, 1000)
+ax2.set_xlabel('Temperature (K)')
+ax2.set_ylabel('Integral HRR [kJ/g]')
+# Remove duplicate legend entries
+handles2, labels2 = ax2.get_legend_handles_labels()
+by_label2 = dict(zip(labels2, handles2))
+ax2.legend(by_label2.values(), by_label2.keys())
+fig2.tight_layout()
+
+# Save figures
+fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_HRR.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_intHRR.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)
+
+
+#-----------------------------------------------
+# region generate latex table values of interest
+#-----------------------------------------------
+print(Average_values)
+# Add sorting columns
+Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
+Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
+Average_values['condition_key'] = Average_values['conditions']
+
+# Sort by atmosphere, then heating rate, then Duck (institution)
+final_table_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Duck'])
+
+# Add superscript A if std is NaN (single sample) - check std peak HRR
+final_table_sorted['Duck_formatted'] = final_table_sorted.apply(
+    lambda row: f"{row['Duck']}$^A$" if pd.isna(row['std peak HRR']) else row['Duck'],
+    axis=1
+)
+
+# Format T onset
+final_table_sorted['T_onset_formatted'] = final_table_sorted.apply(
+    lambda row: format_temperature(row['T onset'], row['std T onset']),
+    axis=1
+)
+
+# Format T peak
+final_table_sorted['T_peak_formatted'] = final_table_sorted.apply(
+    lambda row: format_temperature(row['T peak'], row['std T peak']),
+    axis=1
+)
+
+# Format peak HRR
+final_table_sorted['HRR_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['peak HRR'], row['std peak HRR']),
+    axis=1
+)
+
+# Format HRR total
+final_table_sorted['HRRtotal_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['HR_total'], row['std HR_total']),
+    axis=1
+)
+
+# Format FGC
+final_table_sorted['FGC_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['FGC'], row['std FGC']),
+    axis=1
+)
+
+# Format FGC
+final_table_sorted['char_formatted'] = final_table_sorted.apply(
+    lambda row: format_regular(row['char_yield'], row['std_char_yield']),
+    axis=1
+)
+
+
+# Format conditions (keep as is or clean up)
+final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(
+    lambda x: str(x).replace('_', ' ')  # Optional: replace underscores with spaces
+)
+
+# Select and rename columns for the table
+columns_to_keep = ['Duck_formatted', 'conditions_formatted', 'T_onset_formatted', 
+                   'T_peak_formatted', 'HRR_formatted', 'HRRtotal_formatted',
+                   'FGC_formatted', 'char_formatted', 'condition_key']
+
+final_latex_table = final_table_sorted[columns_to_keep].copy()
+final_latex_table.columns = ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
+                             'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)', 'condition_key']
+
+# Generate LaTeX
+latex_string = final_latex_table.to_latex(
+    index=False,
+    escape=False,
+    column_format='llcccccc',
+    columns=['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
+                             'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
+)
+
+# Modify the string
+latex_string = latex_string.replace('\\toprule', '\\hline')
+latex_string = latex_string.replace('\\midrule', '\\hline')
+latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+# Make column headers bold
+for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
+    latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
+
+
+# Add blank lines between different condition groups
+lines = latex_string.split('\n')
+new_lines = []
+prev_condition_key = None
+
+# Track condition keys as we iterate through table rows
+condition_keys = final_latex_table['condition_key'].tolist()
+data_row_index = 0
+
+for i, line in enumerate(lines):
+    # Check if this is a data row (contains '&' but not '\textbf')
+    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+        current_condition_key = condition_keys[data_row_index]
+        
+        # If condition key changed and this is not the first data row, add blank line
+        if prev_condition_key is not None and current_condition_key != prev_condition_key:
+            new_lines.append('        \\\\')
+        
+        prev_condition_key = current_condition_key
+        data_row_index += 1
+    
+    new_lines.append(line)
+
+latex_string = '\n'.join(new_lines)
+
+# Save to file
+with open(str(base_dir) + f'/MCC/MCC_Values.tex', 'w') as f:
+    f.write(latex_string)
+
+print("LaTeX table saved!")
