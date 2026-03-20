@@ -23,7 +23,7 @@ ex = 'pdf' #options 'pdf' or 'png
 '../../Documents/'
 
 #region create subdirectories to save plots.
-base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
+base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Average_dir = base_dir / 'MCC' / 'Average'
 Average_dir.mkdir(parents=True, exist_ok=True)
 
@@ -202,7 +202,7 @@ for HR in unique_HR:
     for set in MCC_sub_set:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
-        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'.', markersize=0.8, label = label, color = color)
+        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
         ax.set_xlabel('Temperature (K)')
         ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
@@ -384,8 +384,8 @@ for idx,set in enumerate(MCC_sets):
         HR_total_list.append(HR_total) #kJ/g
         HR_capacity_list.append(HR_Capacity)
 
-        ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '.',color ='black',markersize=0.00000000000002)
-        ax_intHRR.plot(df['Temperature (K)'], df['Int HRR'],'.',color='black', markersize=0.5)
+        ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '-', linewidth = 0.1,color ='black')
+        ax_intHRR.plot(df['Temperature (K)'], df['Int HRR'],'-', linewidth = 0.1,color='black', markersize=0.5)
     Average_values.at[idx, 'peak HRR'] = np.mean(peak_HRR_list)
     Average_values.at[idx, 'std peak HRR'] = np.std(peak_HRR_list, ddof=1)
     Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)
@@ -499,8 +499,8 @@ for series in ['Wood_MCC_N2_30K','Wood_MCC_N2_45K','Wood_MCC_N2_60K']:
         for i, path in enumerate(paths):
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
-            ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], '.', color = color[hr], alpha=0.1, markersize = 0.01, zorder=4)
-            ax2.plot(df['Temperature (K)'], df['Int HRR'], '.', color = color[hr], alpha=0.1, markersize = 0.01, zorder=4)
+            ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], '-',linewidth=0.2, color = color[hr], alpha=0.15, zorder=4)
+            ax2.plot(df['Temperature (K)'], df['Int HRR'], '-',linewidth=0.2, color = color[hr], alpha=0.15,zorder=4)
     df_average = average_MCC_series(series, ['TUBS_Wood_MCC_N2_30K','FZJ_Wood_MCC_N2_60K_R8'])
     ax1.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'], label = hr+'/min', color = color[hr], zorder = 3)
     ax1.fill_between(df_average['Temperature (K)'], 

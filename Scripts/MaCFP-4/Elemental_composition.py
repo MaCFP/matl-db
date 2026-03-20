@@ -10,7 +10,7 @@ ex = 'pdf' #options 'pdf' or 'png
 '../../Documents/'
 
 #region create subdirectories to save plots. 
-base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
+base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Composition_dir = base_dir / 'Composition'
 Composition_dir.mkdir(parents=True, exist_ok=True)
 
