@@ -25,7 +25,7 @@ ex = 'pdf' #options 'pdf' or 'png
 
 
 #region create subdirectories to save plots. 
-base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
+base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Average_dir = base_dir / 'Cone' / 'Average'
 Average_dir.mkdir(parents=True, exist_ok=True)
 Average_dir = base_dir / 'Cone' / 'Individual'
@@ -339,7 +339,7 @@ for idx,set in enumerate(Cone_sets):
         ignition_time_list.append(ignition_time)
         HOC_list.append(HOC)
 
-        ax_HRR.plot(df['Time (s)'], df['HRR (kW/m2)'], '.',color ='black',markersize=0.0002)
+        ax_HRR.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color='black', linewidth=0.2)
 
     Average_values.at[idx, 'ignition time'] = np.mean(ignition_time_list)
     Average_values.at[idx, 'std ignition time'] = np.std(ignition_time_list, ddof=1)
@@ -382,7 +382,7 @@ for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
         for i, path in enumerate(paths):
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
-            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '.', color = color[flux], alpha=0.5, markersize = 0.1, zorder=5)
+            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
     df_average = average_cone_series(series)
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
     ax1.fill_between(df_average['Time (s)'], 
@@ -493,7 +493,7 @@ for series in unique_conditions_gas_material:
             ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
         elif institute == 'FSRI':
             ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
-        ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color)
+        ax2.plot(df['Time (s)'], df['Mass (g)'], '-', label = label, color=color)
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
@@ -532,7 +532,7 @@ for flux in [30,60]:
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
         ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color[label])
-        ax2.plot(df['Time (s)'], df['Mass (g)'], '.', label = label, color=color[label])
+        ax2.plot(df['Time (s)'], df['Mass (g)'],'-', label = label, color=color[label])
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
@@ -577,7 +577,7 @@ for flux in [30,60]:
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
         ax1.plot(df['Time (s)'],df['TC back 1 (K)'],'-', label = label, color='#aec7e8')
-        ax1.plot(df['Time (s)'],df['TC Top (K)'],'.', label = label + 'Top', color="#bcbd22")
+        ax1.plot(df['Time (s)'],df['TC Top (K)'],':', label = label + 'Top', color="#bcbd22")
 
 
     ax1.set_ylim(bottom=280)
@@ -654,7 +654,7 @@ for idx,set in enumerate(Gas_sets):
     for path in paths_Gas_set:
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
-        ax.plot(df['Time (s)'],savgol_filter(df['dm/dt']/area,41,3), '.',color ='black',markersize=0.001)
+        ax.plot(df['Time (s)'],savgol_filter(df['dm/dt']/area,41,3), '-',color ='black',linewidth=0.2)
 
     # Set lower limits of both y-axes to 0
     ax.set_ylim(bottom=0)

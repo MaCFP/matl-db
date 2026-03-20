@@ -27,7 +27,7 @@ ex = 'pdf' #options 'pdf' or 'png
 '../../Documents/'
 
 #region create subdirectories to save plots. 
-base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
+base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Individual_dir = base_dir / 'TGA' / 'Individual'
 Average_dir = base_dir / 'TGA' / 'Average'
 Individual_dir.mkdir(parents=True, exist_ok=True)
@@ -314,7 +314,7 @@ for HR in unique_HR:
         for set in TGA_sub_set:
             average = average_HR_tga_series(set)
             label, color = label_def(set.split('_')[0])
-            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '.', label = label, color=color, markersize=2)
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '-', label = label, color=color)
             ax.set_xlabel('Temperature (K)')
             ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
             ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
@@ -397,7 +397,7 @@ for path in TGA_Data:
                     label='m/m$_0$, filtered', color='chartreuse')
 
     # Plot mass loss rate (right y-axis, dashed)
-    ax_rate.plot(df['Temperature (K)'], df['dm/dt unfiltered'],'.',
+    ax_rate.plot(df['Temperature (K)'], df['dm/dt unfiltered'],'-',
                     label='d(m/m$_0$)/dt', color='red', alpha=0.9)
     ax_rate.plot(df['Temperature (K)'], df['dm/dt'],
                     label='d(m/m$_0$)/dt, filtered', color='black', linestyle='--', alpha=0.9)
@@ -445,8 +445,8 @@ for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
         for i, path in enumerate(paths):
             df = pd.read_csv(path)
             df = Calculate_dm_dt(df)
-            ax1.plot(df['Temperature (K)'], df['Normalized mass'], '.', color = color[hr], alpha=0.05, markersize = 0.01, zorder=4)
-            ax2.plot(df['Temperature (K)'], df['dm/dt'], '.', color = color[hr], alpha=0.08, markersize = 0.01, zorder=4)
+            ax1.plot(df['Temperature (K)'], df['Normalized mass'], '-', color = color[hr], alpha=0.1, linewidth = 0.1, zorder=4)
+            ax2.plot(df['Temperature (K)'], df['dm/dt'], '-', color = color[hr], alpha=0.15, linewidth = 0.1, zorder=4)
     df_average = average_tga_series(series,['UAI','IMT'],temp_filter={'FPL': 400})
     ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr], zorder = 3)
     ax1.fill_between(df_average['Temperature (K)'], 
@@ -559,8 +559,8 @@ for idx,set in enumerate(TGA_sets):
         m_700_list.append(m700)
         m_950_list.append(m950)
 
-        ax_mass.plot(df['Temperature (K)'], df['Normalized mass'], '.',color ='black',markersize=0.00000000000002)
-        ax_rate.plot(df['Temperature (K)'], df['dm/dt'],'.',color='black', markersize=0.5)
+        ax_mass.plot(df['Temperature (K)'], df['Normalized mass'], '-',linewidth = 0.05, color ='black')
+        ax_rate.plot(df['Temperature (K)'], df['dm/dt'],'-',linewidth = 0.05,color='black', markersize=0.5)
     Average_values.at[idx, 'peak MLR'] = np.mean(peak_mlr_list)
     Average_values.at[idx, 'std peak MLR'] = np.std(peak_mlr_list, ddof=1)
     Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)

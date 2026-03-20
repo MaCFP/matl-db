@@ -26,7 +26,7 @@ ex = 'pdf' #options 'pdf' or 'png
 '../../Documents/'
 
 #region create subdirectories to save plots. 
-base_dir = Path('../../../matl-db-organizing-committee/SCRIPT_FIGURES')
+base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Average_dir = base_dir / 'DSC' / 'Average'
 Average_dir.mkdir(parents=True, exist_ok=True)
 
@@ -226,8 +226,8 @@ for idx,set in enumerate(DSC_sets):
     for path in paths_TGA_set:
         df_raw = pd.read_csv(path)
         df = Integral_DSC(df_raw)
-        ax_HF.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], '.',color ='black',markersize=0.00000000002)
-        ax_iHF.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'],'.',color='black', markersize=0.0005)
+        ax_HF.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], '-',color ='black',linewidth=0.1)
+        ax_iHF.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'],'-',color='black', linewidth=0.1)
 
     # Set lower limits of both y-axes to 0
    #ax_mass.set_ylim(bottom=0)
@@ -269,8 +269,8 @@ for series in unique_conditions_material:
         df_raw = pd.read_csv(path)
         df = Integral_DSC(df_raw)
         label, color = label_def(path.stem.split('_')[0])
-        ax1.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'],'.', color=color, alpha=0.3, markersize =0.1, zorder=4)
-        ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'],'.', color=color, alpha=0.3, markersize =0.1,zorder=4)
+        ax1.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'],'-', color=color, alpha=0.3, linewidth =0.1, zorder=4)
+        ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'],'-', color=color, alpha=0.3, linewidth =0.1,zorder=4)
     
     Institute_list = [name for name in DSC_sets if series in name]
     for Institute in Institute_list:
@@ -325,7 +325,6 @@ TMDSC = device_data(DATA_DIR, 'TM-DSC')
 fig1, ax1 = plt.subplots(figsize=(8, 4))
 for path in TMDSC:
     R = path.stem.split('_')[-1]
-    print(path)
     df_raw = pd.read_csv(path)
     label, color = label_def(path.stem.split('_')[0])
     ax1.plot(df_raw['Temperature (K)'], df_raw['Reversing Heat Flow (Normalized) W/g'],'-', label = 'Reversing ' + R, color=color_lib[R])
