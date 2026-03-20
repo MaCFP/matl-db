@@ -1167,60 +1167,47 @@ Figures~\ref{Fig:Gasification_30kW_Temperature} and \ref{Fig:Gasification_60kW_T
 \end{figure}
 
 
+\clearpage
+\subsection{Thermal Conductivity and Diffusivity}
+\subsubsection{TPS Hot Disc}
 
-%\subsection{Thermal Conductivity and Diffusivity}
-%
-%\subsubsection{TPS Hot Disc}
-%
-%Measurements of thermal conductivity reported in Table~\ref{Table_14} were obtained at ambient temperature by one institution using a TPS~2500S-Hot Disk (Transient Plane Source (TPS) method) under the following test and analysis conditions:
-%\begin{itemize}
-% \item Kapton sensor (radius 2.0 mm)
-% \item Two plates for measurement
-% \item The material is treated as isotropic and considered as semi-infinite when using the appropriate size of the sensor.
-% \item Energy pulse: Power: 35 mW, Duration: 20 s
-%\end{itemize}
-%
-%\begin{table}[ht]
-%\caption{Measured thermal conductivity of PMMA at room temperature}
-%\label{Table_14}
-%\begin{center}
-%\begin{tabular}{|l|ccc|}
-%\hline
-%Sample    & Temperature (K) & Thermal Conductivity (W/m/K) & Mean Dev. (K)        \\ \hline
-%          & 295             & 0.220                        & $9.63\times10^{-4}$  \\
-%PMMA 1    & 295             & 0.210                        & $2.69\times10^{-4}$  \\
-%          & 295             & 0.209                        & $2.68\times10^{-4}$  \\ \hline & 293             & 0.209                        & $8.65\times10^{-4}$  \\
-%PMMA 2    & 293             & 0.208                        & $2.60\times10^{-4}$  \\
-%          & 293             & 0.209                        & $1.99\times10^{-4}$  \\ \hline
-%\end{tabular}
-%\end{center}
-%\end{table}
-%
-%
-%\subsubsection{Laser Flash Diffusivity}
-%
-%Measurements of thermal diffusivity reported in Table~\ref{Table_15} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) under the following test conditions:
-%\begin{itemize}
-% \item Three flashes for each temperature
-% \item Square sample 25.4~cm by 25.4~cm
-% \item Both sides of the sample coated with graphite paint
-%\end{itemize}
-%
-%\begin{table}[ht]
-%\caption{Measured Thermal Diffusivity of PMMA from 298 K to 373 K}
-%\label{Table_15}
-%\begin{center}
-%\begin{tabular}{|l|ccccccccc|}
-%\hline
-%        & \multicolumn{9}{|c|}{Temperature (K)}                                 \\ \cline{2-10}
-%Sample  & 298  & 303  & 313  & 323  & 333  & 343  & 353  & 363  & 373           \\ \cline{2-10}
-%        & \multicolumn{9}{|c|}{Sample Thermal Diffusivity (mm$^2$/s)}           \\ \hline
-%PMMA 1  & 0.117 & 0.115 & 0.111 & 0.110 & 0.109 & 0.106 & 0.105 & 0.103 & 0.102 \\
-%PMMA 2  & 0.112 & 0.112 & 0.110 & 0.108 & 0.107 & 0.106 & 0.104 & 0.103 & 0.101 \\ \hline
-%\end{tabular}
-%\end{center}
-%\end{table}
-%
+Measurements of thermal conductivity were obtained at ambient temperature by one institution (Mallard) using a TPS~2500S-Hot Disk (Transient Plane Source (TPS) method) under the following test and analysis conditions:
+\begin{itemize}
+ \item Kapton 8563 sensor (radius 9.868~mm)
+ \item Temperature Program: 20$^\circ$C
+ \item Initial Sample Moisture Content: 50~\%
+ %\item The material is treated as isotropic and considered as semi-infinite when using the appropriate size of the sensor.
+ %\item Energy pulse: Power: 35 mW, Duration: 20 s
+\end{itemize}
+The mean and reported uncertainty of these two repeated measurements was: $k = 0.1445$ W/(m-K)~+/-~0.5~W/(m-K).
+
+\subsubsection{Laser Flash Diffusivity}
+
+Measurements of thermal diffusivity reported in Table~\ref{tab:Diffusivity} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) by two institutions. Mallard data represents an average of two repeated experiments. Rouen data is calculated as the average of six repeated experiments (conducted with the wood grain oriented either perpendicular or parallel to the sample's front surface); uncertainties represent one standard deviation of repeated measurements. These results demonstrate that grain orientation has a significant (factor of 2x to 3x increase) on measured thermal diffusivity.
+
+\begin{table}[h]
+	\centering
+	\caption{Measured Thermal Diffusivity of MaCFP-Wood from 298 K to 5773 K}
+	\label{tab:Diffusivity}
+	\begin{tabular}{cccc}
+		\hline
+		 & \textbf{Temperature)} & \textbf{Diffusivity (perpendicular)} & \textbf{Diffusivity (parallel)}\\
+		\textbf{Institution} & \textbf{(K)} & \textbf{(mm$^2$/s)} & \textbf{ (mm$^2$/s)} \\
+		\hline
+		Mallard& 'Room Temperature' & - & $0.195 \pm 0.005$ \\
+		\hline
+		Rouen&298 & $0.43 \pm 0.04$ & $0.14 \pm 0.01$ \\
+		& 323 & $0.47 \pm 0.04$ & $0.15 \pm 0.01$ \\
+		& 348 & $0.43 \pm 0.03$ & $0.15 \pm 0.01$ \\
+		& 373 & $0.40 \pm 0.03$ & $0.15 \pm 0.01$ \\
+		& 423 & $0.35 \pm 0.03$ & $0.14 \pm 0.01$ \\
+		& 473 & $0.33 \pm 0.02$ & $0.13 \pm 0.01$ \\
+		& 523 & $0.31 \pm 0.02$ & $0.13 \pm 0.01$ \\
+		& 573 & $0.30 \pm 0.02$ & $0.13 \pm 0.01$ \\
+		\hline
+	\end{tabular}
+	\label{tab:diffusivity}
+\end{table}
 \subsection{Molecular Composition of MaCFP-Wood and its Gaseous Pyrolyzates}
 An experimental method was developed to identify the average molecular formula of the gaseous volatiles produced during anaerobic decomposition of combustible solids; this approach was applied to MaCFP-Wood. An organic elemental analyzer determines the average composition, while a heated, non-stirred pressure vessel determines the average molecular weight. Table~\ref{Tab:Elemental_Composition} lists the elemental compositions of virgin wood, residual char (generated under anaerobic conditions), and the gaseous volatiles that the wood produces. Figure~\ref{Fig:Elemental_Composition} plots these results, highlighting the increased carbon content of the char as compared to the virgin wood.
 
