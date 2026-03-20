@@ -68,3 +68,72 @@ Optical pyrometer measurements were corrected with the emissivity of the virgin 
 |FSRI\_CAPA\_N2\_40KW\_R2 | 40| 915.8 | 12.61 | 8.68 | 0.82 | 0.82 |
 |FSRI\_CAPA\_N2\_60KW\_R1 | 60| 1033.4 | 13.07 | 8.69 | 0.79 | 0.83 |
 |FSRI\_CAPA\_N2\_60KW\_R2 | 60| 1033.4 | 11.93 | 8.69 | 0.79 | 0.83 |
+
+
+### Experimental Conditions, Cone Calorimetry (Deatak CC-2)
+
+* Tested in general accordance with ASTM E1354
+* No edge frame or retaining grid used - instead four ~1mm diameter black wires wrapped around sample at edges to tie down samples
+* ~25 mm thick cerawool insulation on back surface
+
+##### Test Summary
+Cone calorimeter tests were conducted in general accordance with the ASTM E1354 standard with samples in the horizontal orientation. The heater was approximately 25 mm from the top surface of the sample and the spark igniter was approximately 12 mm from the top surface of the sample. Ignition times asnd times to flame out were observed and recorded manually via the operator pushing a button. Samples are labeled according to the orientation of their grain relative to the sample surface, e.g. `parallel' denotes a sample cut from long boards harvested from axial slices of the tree.
+
+###### Test Heating Conditions  
+
+|Test Name | Mass (g) | Sample Length (mm)| Sample Length (mm) | Sample Thickness (mm) | Time to Ignition (s) | Time to Flame Out (s)
+|----------|:------:| :---: |:------:| :------:| :---: |:------:|
+|  FSRI\_Wood\_Parallel\_Cone\_25kW\_hor\_R1        |  86.22   |  99.7   |  99.6   |  26.5   |  88.25  |  2279.75  | 
+|  FSRI\_Wood\_Parallel\_Cone\_25kW\_hor\_R2        |  89.95   |  99.5   |  99.7   |  26.4   |  91.75  |  2131.75  | 
+|  FSRI\_Wood\_Parallel\_Cone\_25kW\_hor\_R3        |  104.35  |  99.5   |  99.6   |  26.3   |  52.25  |  2050.25  | 
+|  FSRI\_Wood\_Parallel\_Cone\_50kW\_hor\_R1        |  96.91   |  99.4   |  99.6   |  26.3   |  9.25   |  1460.5   | 
+|  FSRI\_Wood\_Parallel\_Cone\_50kW\_hor\_R2        |  96.60   |  99.5   |  99.8   |  26.5   |  11.75  |  1405     | 
+|  FSRI\_Wood\_Parallel\_Cone\_50kW\_hor\_R3        |  93.04   |  99.9   |  99.3   |  26.4   |  39.75  |  1449     | 
+|  FSRI\_Wood\_Parallel\_Cone\_75kW\_hor\_R1        |  96.84   |  99.4   |  99.7   |  26.4   |  5      |  1220     | 
+|  FSRI\_Wood\_Parallel\_Cone\_75kW\_hor\_R2        |  99.16   |  99.5   |  99.8   |  26.3   |  4.75   |  1199.5   | 
+|  FSRI\_Wood\_Parallel\_Cone\_75kW\_hor\_R3        |  99.68   |  99.6   |  99.7   |  26.1   |  5      |  1258     | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_25kW\_hor\_R1   |  102.06  |  99.9   |  99.8   |  26.5   |  104    |  1957.75  | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_25kW\_hor\_R2   |  94.03   |  99.5   |  99.8   |  26.4   |  107    |  2001.5   | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_25kW\_hor\_R3   |  103.10  |  100.2  |  100.1  |  26.3   |  135.25 |  1821     | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_50kW\_hor\_R1   |  100.94  |  100.1  |  100.2  |  26.3   |  23.75  |  1234.25  | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_50kW\_hor\_R2   |  104.65  |  100.3  |  100.5  |  26.5   |  25.25  |  1278     | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_50kW\_hor\_R3   |  97.05   |  99.7   |  99.5   |  26.4   |  19.75  |  1213     | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_75kW\_hor\_R1   |  98.52   |  100.1  |  100.0  |  26.4   |  10.5   |  902.75   | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_75kW\_hor\_R2   |  103.75  |  100.7  |  100.5  |  26.3   |  14.25  |  969.5    | 
+|  FSRI\_Wood\_Perpendicular\_Cone\_75kW\_hor\_R3   |  97.21   |  100.0  |  100.0  |  26.1   |  10     |  890.5    | 
+
+### Experimental Conditions, Thermal Diffusivity (Netzsch LFA 467 HT Hyperflash)
+
+* Light flash analysis
+* Cylindrical sample ~12.7 mm diameter 
+* Both sides of the sample coated with graphite paint
+
+* Sample Diameter: 0.0127 m (nominal)
+* Sample Surface Area: 0.0005 m2 (nominal)
+* Sample thickness: ~1-2 mm (See Table)
+* 4 sample holder (2 x 2) - only 2 samples loaded for each test
+* 100 SCCM total N2 purge
+
+##### Test Summary
+Thermal diffusivity was measured using a Netzsch LFA 467 HT Hyperflash. The LFA 467 HT Hyperflash uses a xenon light source and an InSb infrared detector. Experiments were conducted on virgin wood samples at temperature intervals from 298 K (25 C) up to 623 K (350 C).
+
+Samples are named below according to the grain orientation relative to the exposed surface of the sample, e.g. `Perpendicular' denotes a sample taken from an axial core of a tree. The dimensions and mass were measured prior to the experiments. The sample surfaces were painted with two coats of graphite spray and tested in open sample holders within the test chamber of the apparatus. Two samples were loaded into the sample holders (that hold a maximum of four samples) for each experiment. The experiments consisted of four shots at each temperature set point. 
+
+The diffusivity was calculated with the standard Netzsch model (improved Cape-Lehmann) assuming the sample dimensions did not change with temperature (i.e. no thermal expansion was defined for the material). The mean calculated diffusivity over the four shots at each temperature is presented in each individual data file. 
+
+###### Test Heating Conditions  
+
+|Test Name | Mass (g) | Thickness (mm)| Diameter (mm) |
+|----------|:------:| :---: |:------:|
+|FSRI\_Wood\_LFA\_N2\_Parallel\_R1 | 91.24 | 1.885 | 12.68 |
+|FSRI\_Wood\_LFA\_N2\_Parallel\_R2 | 95.64 | 1.966 | 12.73 |
+|FSRI\_Wood\_LFA\_N2\_Parallel\_R3 | 102.58 | 1.935 | 12.70 |
+|FSRI\_Wood\_LFA\_N2\_Parallel\_R4 | 93.41 | 1.903 | 12.72 |
+|FSRI\_Wood\_LFA\_N2\_Parallel\_R5 | 59.47 | 1.195 | 12.52 |
+|FSRI\_Wood\_LFA\_N2\_Parallel\_R6 | 65.54 | 1.082 | 12.65 |
+|FSRI\_Wood\_LFA\_N2\_Perpendicular\_R1 | 95.61 | 1.880 | 12.70 |
+|FSRI\_Wood\_LFA\_N2\_Perpendicular\_R2 | 93.90 | 1.897 | 1.897 |
+|FSRI\_Wood\_LFA\_N2\_Perpendicular\_R3 | 103.24 | 2.009 | 12.74 |
+|FSRI\_Wood\_LFA\_N2\_Perpendicular\_R4 | 106.45 | 2.045 | 12.76 |
+|FSRI\_Wood\_LFA\_N2\_Perpendicular\_R5 | 99.17 | 1.918 | 12.70 |
+|FSRI\_Wood\_LFA\_N2\_Perpendicular\_R6 | 94.82 | 1.835 | 12.73 |
