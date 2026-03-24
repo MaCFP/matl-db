@@ -380,7 +380,8 @@ for exp in STA_Data:
     T2 = df.loc[idx2, 'Temperature (K)']
     HF1 = df.loc[idx1, 'Heat Flow Rate (W/g)']
     HF2 = df.loc[idx2, 'Heat Flow Rate (W/g)']
-    
+    M1= df.loc[idx1, 'Normalized mass']
+    M2= df.loc[idx2, 'Normalized mass']
     # Subset data between the two indices
     df_subset = df.loc[idx1:idx2].copy()
     
@@ -400,8 +401,11 @@ for exp in STA_Data:
     # Store results
     results.append({
         'Experiment': exp.stem,
-        'Heat of Reaction (J/g)': value.round(0)
+        'Heat of Reaction (J/g)': value.round(0),
+        'Mass_norm_1(g/g)': M1,
+        'Mass_norm_2(g/g)': M2,
     })
+# print(results)
 
 # Create DataFrame from results
 results_df = pd.DataFrame(results)
