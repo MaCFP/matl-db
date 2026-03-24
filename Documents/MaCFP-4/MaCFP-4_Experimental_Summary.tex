@@ -474,8 +474,8 @@ The measurement data presented here is provided with limited processing and shou
 All TGA experiments submitted to this workshop were performed at constant heating rates between 2~K/min and 50~K/min. In practice, actual heating rate may vary throughout the course of experiments (especially at their start, while the TGA furnace is heating up). Figures~\ref{Fig:TGA_5K_dTdt},~\ref{Fig:TGA_10K_dTdt} and \ref{Fig:TGA_20K_dTdt} show actual time-resolved heating rates in tests conducted, nominally, at $\beta$ = 5 K/min, 10 K/min and 20 K/min, respectively. In either figure, each curve represents the mean instantaneous heating rate as calculated from repeated experiments conducted by the same institution, under the same gaseous environment and target heating rate. When multiple curves are shown for the same institution on Fig.~\ref{Fig:TGA_10K_dTdt}, they represent average heating rates measured in tests conducted under different gaseous environments (e.g., pure nitrogen, 21 vol.~\% oxygen in nitrogen or different pressure e.g. 40Pa versus 100kPa).
 
 As shown here, the actual heating rate can vary significantly during the early stages of testing (i.e., as samples are first heated from 50~K to 150~K above their initial temperature) before the heating rate, $\beta$, finally reaches its target value. In most cases, this variability simply reflects physical limitations of the instrument furnace. For a smaller number of tests, 
-Typically, heating rate stabilized prior to notable sample decomposition; however, this non-steady heating rate may significantly impact apparent heat flow in DSC and STA tests, and thus calibrated values of sample heat capacity. For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments, no systematic differences in time-resolved heating rates were observed.
-\begin{figure}
+Typically, heating rate stabilized prior to notable sample decomposition; however, this non-steady heating rate may significantly impact apparent heat flow in DSC and STA tests, and thus calibrated values of sample heat capacity. For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments, no systematic differences in time-resolved heating rates were observed (i.e., sample heating was highly repeatable in replicate tests submitted by the same institution).
+\begin{figure} [h!]
 	\centering
 	\includegraphics[width=5.5in]{../SCRIPT_FIGURES/TGA/dTdt_TGA_5Kmin.pdf}
 	\caption{Average (of repeated experiments conducted by a single institution) reported instantaneous heating rate during TGA experiments conducted at a nominal heating rate of $\beta=5$ K/min; all tests conducted in pure nitrogen.}
@@ -485,7 +485,7 @@ Typically, heating rate stabilized prior to notable sample decomposition; howeve
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/TGA/dTdt_TGA_10Kmin.pdf}
-  \caption{Average (of repeated experiments conducted by a single institution in the same gaseous environment) instantaneous heating rate during TGA experiments conducted at a nominal heating rate of $\beta=10$ K/min. Repeated curves for the same institution represent measurement data from tests conducted in different gaseous environments. }
+  \caption{Average (of repeated experiments conducted by a single institution in the same gaseous environment) instantaneous heating rate during TGA experiments conducted at a nominal heating rate of $\beta=10$ K/min. Repeated curves for the same institution represent measurement data from tests conducted in different gaseous environments. The discontinuity in heating rate for 'Orpington' tests arises due to a rapid heating to 373~K followed by an extended isothermal hold at this temperature (sample drying) prior to decomposition at $\beta=10$ K/min.}
   \label{Fig:TGA_10K_dTdt}
 \end{figure}
 
@@ -496,12 +496,12 @@ Typically, heating rate stabilized prior to notable sample decomposition; howeve
   \label{Fig:TGA_20K_dTdt}
 \end{figure}
 
-
+\clearpage
 \subsubsection{Mass Fraction and Mass Loss Rate}
 
 The key measurements recorded during TGA tests are sample mass, $m$~(mg); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded.  Both $m$ and $T$ were reported as time-resolved measurements. Prior to further analysis, sample mass was normalized by initial mass, $m_0$, which was calculated as the mean value over the first 5 data points of the respective experiment data file. As discussed below, variations in sample conditioning/preparation prior to testing resulted in differences in initial sample moisture content at the start of testing. In future revisions of this document and/or publications of more detailed analysis of these experimental results, sample mass may be re-normalized to mitigate the impact of variations in initial sample moisture content.
 
-Most TGA tests were run with, nominally, constant heating rates between 2~K/min~$\leq\beta\leq$~50~K/min (in approximately 80\% of these tests, heating rate varied between 5~K/min~$\leq\beta\leq$~20~K/min). One institute also conducted tests at an isothermal temperature of 593~K. Sample mass and temperature were reported either at regular temperature increments or at fixed time intervals. In most datasets, mass was reported every 0.5~K; (the full range of reporting frequencies in datasets submitted by different institutions varied, with three institutes reporting data at constant time intervals, i.e. every 1~s or every 2.4~s). Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. For all tests, normalized mass, $m/m_0$, and time, $t$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). 
+Most TGA tests were run with, nominally, constant heating rates between 2~K/min~$\leq\beta\leq$~50~K/min (in approximately 80\% of these tests, heating rate varied between 5~K/min~$\leq\beta\leq$~20~K/min). One institute also conducted tests at an isothermal temperature of 593~K. Sample mass and temperature were reported either at regular temperature increments or at fixed time intervals. In most datasets, mass was reported every 0.5~K; (the full range of reporting frequencies in datasets submitted by different institutions varied, with three institutes reporting data at constant time intervals, i.e. every 1~s or every 2.4~s). Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. For all tests, time, $t$, and normalized mass, $m/m_0$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). 
 
 Prior to further analysis, noise in all individual $m/m_0$ curves was reduced by applying a Savitzky-Golay filter (third order polynomial fit; 41 data point range). These fitting parameters were determined by trial and error, and future work will examine optimizing the choice of these parameters. Normalized mass loss rate was then calculated for each replicate $j$ at each temperature, $T_i$, as the numerical derivative of filtered sample mass curves across a 1~K interval, as follows:
 \begin{equation}
@@ -518,11 +518,11 @@ Figure~\ref{Fig:TGA_N2_10K_2} shows the effect of this filter on a representativ
   \label{Fig:TGA_N2_10K_2}
 \end{figure}
 
-Figures~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_N2_20K} show measurement data from 10, 44, and 10 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 5~K/min, 10~K/min, and 20~K/min, respectively. Figure~\ref{Fig:TGA_O2-21_10K} shows measurements from 4 repeated tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min. 
+Figures~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_N2_20K} show measured mass and mass loss rate data from 10, 44, and 10 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 5~K/min, 10~K/min, and 20~K/min, respectively. As seen here, sample decomposition primarily occurs between 500~K and 700~K, with only one distinct reaction peak (though overlapping reactions likely occur across this temperature range). Approximately 70~\% of initial sample mass is lost by $T=700~$~K; only minor mass loss is observed at higher temperatures, as discussed later in this section. 
 
-TGA measurements were analyzed to calculate average Mass and MLR curves as well as an estimate of measurement uncertainty for each of these conditions. An effort was made to include as much data as possible in the generation of these average curves; however, clear outliers (full curves, not just individual data points) were not used for the calculation of mean and standard deviation values. Datasets identified as outliers\footnote{Outliers in TGA data were identified for two primary causes: (1) shifts in apparent temperature at which decomposition reactions occur (e.g., `Cayuga' datasets) and (2) substantial mass loss at $T>750$~K, potentially indicative of oxidation of char or other baseline correction issues (e.g., `Buff', 'Muscovy', and ambient-pressure 'Mallard' datasets)} are still plotted in Figs.~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_O2-21_10K}.% with a note identifying them as outliers in the captions below their respective figures. 
+Figure~\ref{Fig:TGA_O2-21_10K} plots measurements from 4 repeated tests conducted in a mixture of oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min. Though char oxidation is not the focus of MaCFP-4, it will be considered in future workshops. In these tests, measured sample decomposition occurs in two discrete steps with approximately 70~\% of initial sample mass is lost by $T=600~$~K and the remaining sample mass lost by $T=750~$~K to $T=775~$~K (char oxidation).
 
-For brevity, this document supplies figures of TGA measurement data only when repeated measurements under those test conditions were supplied by multiple labs; this represents the majority of TGA data received. Normalized mass and mass loss rate curves (individual test data, along with average curves) from all TGA experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
+One institution submitted measurement data from tests performed under different atmospheric pressures: 100~kPa and 40~Pa at 10~K/min. Mass and mass loss rate data from these tests are shown in Fig.~\ref{Fig:TGA_pressure}. These results suggest that varied test conditions between these two experiments can: (1) promote the appearance of a secondary/minor reaction between 800~K and 1000~K and (2) strongly impact final residue yield. It is not immediately clear if this differences arises directly due to pressure differences or unintentionally due to variations in sample conditioning prior to heating. Specifically, the evacuation of gases to reduce system pressure may have also more effectively eliminated the presence of ambient oxygen, thus reducing apparent char oxidation later in each test. Similar secondary mass loss can be observed in a small subset of the anaerobic, ambient pressure TGA data data submitted by some, but not most, of the participating institutions (see $\beta=10$~K/min test results in Fig.~\ref{Fig:TGA_N2_10K}). This similarity supports the possibility that sample conditioning/test procedure (specifically, factors that affect oxygen availability during the experiment) may be the main source of observed differences. 
 
 \begin{figure} [p]
 \centering
@@ -592,17 +592,20 @@ For brevity, this document supplies figures of TGA measurement data only when re
    \caption{}
    \label{Fig:TGA_O2-21_10Kdmdt}
 \end{subfigure}
-
-  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.20$ or $X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min.}
+  \caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in a mixture of oxygen and nitrogen at a nominal heating rate of $\beta=10$~K/min ('Cayuga', $X_{\rm O_2}=0.20$; 'Mallard', $X_{\rm O_2}=0.21$).}
   \label{Fig:TGA_O2-21_10K}
 \end{figure}
 
-One institution submitted measurements performed under different atmospheric pressures: 100~kPa and 40~Pa at 10~K/min. The mass loss is shown in figure \ref{Fig:TGA_pressure}. 
+
+TGA measurements were analyzed to calculate average Mass and MLR curves as well as an estimate of measurement uncertainty for each of these conditions. An effort was made to include as much data as possible in the generation of these average curves; however, clear outliers (full curves, not just individual data points) were not used for the calculation of mean and standard deviation values. Datasets identified as outliers\footnote{Outliers in TGA data were identified for two primary causes: (1) shifts in apparent temperature at which decomposition reactions occur (e.g., `Cayuga' datasets) and (2) substantial mass loss at $T>750$~K, potentially indicative of oxidation of char or other baseline correction issues (e.g., `Buff', 'Muscovy', and ambient-pressure 'Mallard' datasets)} are still plotted in Figs.~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_O2-21_10K}.% with a note identifying them as outliers in the captions below their respective figures. 
+
+For brevity, this document supplies figures of TGA measurement data only when repeated measurements under those test conditions were supplied by multiple labs; this represents the majority of TGA data received. Normalized mass and mass loss rate curves (individual test data, along with average curves) from all TGA experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
+
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.6\linewidth]{../SCRIPT_FIGURES/TGA/TGA_Pressure.pdf}
-	\caption{Normalized mass loss of TGA tests conducted under different pressures ( 100~kPa and 40~Pa) at a nominal heating rate of $\beta=10$~K/min}
+	\caption{Normalized mass loss of TGA tests conducted under different pressures (100~kPa and 40~Pa) at a nominal heating rate of $\beta=10$~K/min}
 	\label{Fig:TGA_pressure}
 \end{figure}
 
@@ -615,17 +618,18 @@ where $N_i$ is equal to the number of measurements from an individual experiment
   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n}  \left(\frac{\dot{m}_{i',j}}{m_{0,j}} - \overline{\left(\frac{\dot{m}}{m_0}\right)_i} \right)^2\right)}
 \end{equation}
 
-Figure~\ref{Fig:TGA-N2_5_10_20K} plots average mass and mass loss rate curves from anaerobic TGA tests conducted at 5, 10, and 20~K/min on a single set of axes.The average mass and mass loss rate is plotted as a solid curve surrounded by a shaded area, which represents two standard deviations of the mean, $2 \sigma_{mean,i}$. Individual experiments are plotted as dotted lines. 
+\clearpage
+Figure~\ref{Fig:TGA-N2_5_10_20K} plots average mass and mass loss rate curves from anaerobic TGA tests conducted at 5, 10, and 20~K/min on a single set of axes. The average mass and mass loss rate is plotted as a solid curve surrounded by a shaded area, which represents two standard deviations of the mean, $2 \sigma_{mean,i}$. Individual experiments are plotted as dotted lines. 
 
-\begin{figure}[p]
+\begin{figure}[h!]
 \centering
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.80\textwidth}
    \includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/TGA/TGA_Average_N2_Mass.pdf}
    \caption{}
    \label{Fig:TGA-N2_5_10_20K_Mass}
 \end{subfigure}
 
-\begin{subfigure}[b]{0.85\textwidth}
+\begin{subfigure}[b]{0.80\textwidth}
    \includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/TGA/TGA_Average_N2_dmdt.pdf}
    \caption{}
    \label{Fig:TGA-N2_5_10_20K_dmdt}
@@ -657,7 +661,15 @@ Figure~\ref{Fig:TGA-N2_5_10_20K} plots average mass and mass loss rate curves fr
 \newpage
 \subsubsection{Tabulated values of interest}
 
-The peak normalized mass loss rate and the temperature at which it was recorded was calculated for each TGA experiment. An ``onset'' temperature, defined as the lowest temperature at which the normalized mass loss rate exceeds 10~\% of its peak value, was calculated. The moisture content (MC) was defined as (1- $m_{\mathrm{400}}/m_{\mathrm{0}}$), where $m_{\mathrm{400}}$ is the sample mass at T=400~K. A negative value indicates that the recorded mass is higher than the starting mass. A char yield ($m$/$m_\mathrm{0}$) is determined at 700~K and 950~K. The arithmetic mean and standard deviation (`Std Dev') of each of these values are reported in Table~\ref{tab:wood_tga_results}. Here, the reported uncertainty is one standard deviation of the average value of measurements made by one organization at one exposure level.
+Key features of TGA measurement data were identified as follows:
+\begin{itemize}
+\item \textbf{Peak MLR and T peak}: The peak normalized mass loss rate and the temperature at which it was recorded. 
+\item \textbf{T onset}: A representative onset temperature of decomposition, defined as the lowest temperature at which the normalized mass loss rate exceeds 10~\% of its peak value. 
+\item \textbf{Moisture content, MC}: Sample moisture content was defined as (1- $m_{\mathrm{400}}/m_{\mathrm{0}}$), where $m_{\mathrm{400}}$ is the sample mass at $T=400$~K. A negative value indicates that the recorded mass is higher than the starting mass. 
+\item \textbf{Char yield, $m$/$m_\mathrm{0}$}: Residue yields are calculated at 700~K and 950~K ($m_{\mathrm{700}}/m_{\mathrm{0}}$. Calculated 'char yields' at 700~K and 950~K are not adjusted to account for potential variations in apparent moisture content at the start of each test. Substantial differences in ($m$/$m_\mathrm{0}$) at 950~K help to highlight apparent between datasets that do or do not support further decomposition between 800~K and 1000~K. As discussed above, this may arise due to partial oxidation of residual char later in experiments.
+\end{itemize}
+
+The arithmetic mean and standard deviation (`Std Dev') of each of these values are reported in Table~\ref{tab:wood_tga_results}. Here, the reported uncertainty represents one standard deviation of the repeated measurements made by one organization at one exposure level.
 
 	\begin{table}[htbp]
 		\centering
@@ -665,6 +677,7 @@ The peak normalized mass loss rate and the temperature at which it was recorded 
 		\label{tab:wood_tga_results}
 		\resizebox{\textwidth}{!}{%
 		\input{../SCRIPT_FIGURES/TGA/TGA_Values.tex}}\\
+		\raggedright
 		$^A$ Only one experiment available.\\
 	\end{table}
 
@@ -673,7 +686,7 @@ The peak normalized mass loss rate and the temperature at which it was recorded 
 \newpage
 \subsection{Differential Scanning Calorimetry (DSC)}
 
-The key measurements recorded during DSC tests are heat flow to the sample, $\dot{q}/m_0$ (W/g), sample temperature, $T$~(K), and the time, $t$~(s), at which these values were recorded.  Both $\dot{q}$ and $T$ were reported as time-resolved measurements. Prior to further analysis, submitted heat flow measurements were all adjusted such that endothermic events (e.g., heat flow to the sample during thermal decomposition at approximately 600~K to 650~K) would be recorded as positive (increasing) events, with respect to the baseline. Due to significant deviations in reported DSC data (potentially as a result of calibration, baseline correction, or instrumentation issues) negative and/or positive heat flow measurements do not necessarily indicate exothermic and/or endothermic events. Consequently, careful consideration should be made if attempting to use these measurements for determination of Wood heat capacity or heat of decomposition. As described later in this section, an estimate of the heat of decomposition of Wood is made based on a more detailed analysis of DSC measurements that were obtained simultaneously with TGA data in a Simultaneous Thermal Analysis apparatus (STA).
+The key measurements recorded during DSC tests are heat flow to the sample, $\dot{q}/m_0$ (W/g), sample temperature, $T$~(K), and the time, $t$~(s), at which these values were recorded.  Both $\dot{q}$ and $T$ were reported as time-resolved measurements. Prior to further analysis, submitted heat flow measurements were all adjusted such that endothermic events (e.g., heat flow to the sample during thermal decomposition, which peaks at approximately 600~K to 650~K) would be recorded as positive (increasing) events, with respect to the baseline. Due to significant deviations in reported DSC data (potentially as a result of calibration, baseline correction, or instrumentation issues) negative and/or positive heat flow measurements do not necessarily indicate exothermic and/or endothermic events. Consequently, careful consideration should be made if attempting to use these measurements for determination of 'MacFP-Wood' heat capacity or heat of decomposition. As described later in this section, an estimate of the heat of decomposition of Wood is made based on a more detailed analysis of DSC measurements that were obtained simultaneously with TGA data in a Simultaneous Thermal Analysis apparatus (STA).
 
 Most DSC tests were run at constant heating rates. Currently four institutions have submitted data at  3~K/min, 5~K/min, 10~K/min 20~K/min and 30~K/min. Both heat flow to the sample and sample temperature were reported at regular time or temperature intervals. Much like TGA data, effectively this meant that heat flow to the sample was reported, in most experiments, approximately every 0.5~K (the full range of reporting frequencies in datasets submitted by different institutions typically varied between 0.5~K and 1~K per mass measurement, with one institution reporting data at constant time intervals, i.e. every 1~s). This reporting frequency was not constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next.
 
@@ -1183,8 +1196,7 @@ The mean and reported uncertainty of these two repeated measurements was: $k = 0
 
 \subsubsection{Laser Flash Diffusivity}
 
-Measurements of thermal diffusivity reported in Table~\ref{tab:Diffusivity} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) by two institutions. Mallard data represents an average of two repeated experiments. Rouen data is calculated as the average of six repeated experiments (conducted with the wood grain oriented either perpendicular or parallel to the sample's front surface); uncertainties represent one standard deviation of repeated measurements. These results demonstrate that grain orientation has a significant (factor of 2x to 3x increase) on measured thermal diffusivity.
-
+Measurements of thermal diffusivity reported in Table~\ref{tab:Diffusivity} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) by two institutions. Mallard data represents an average of two repeated experiments. Rouen data is calculated as the average of six repeated experiments (conducted with the wood grain oriented either perpendicular or parallel to the sample's front surface); uncertainties represent one standard deviation of repeated measurements. These results demonstrate that grain orientation has a significant (factor of 2x to 3x increase) on measured thermal diffusivity. A smaller difference (30~\%) is observed in repeated measurements of diffusivity taken by two labs at nominally the same temperature (ambient). It is possible that this difference arises due to variations in sample preparation (e.g., optical coating during test) or conditioning (e.g., pre-test drying and variations in sample moisture content during the test).
 \begin{table}[h]
 	\centering
 	\caption{Measured Thermal Diffusivity of MaCFP-Wood from 298 K to 5773 K}
@@ -1194,7 +1206,7 @@ Measurements of thermal diffusivity reported in Table~\ref{tab:Diffusivity} were
 		 & \textbf{Temperature)} & \textbf{Diffusivity (perpendicular)} & \textbf{Diffusivity (parallel)}\\
 		\textbf{Institution} & \textbf{(K)} & \textbf{(mm$^2$/s)} & \textbf{ (mm$^2$/s)} \\
 		\hline
-		Mallard& 'Room Temperature' & - & $0.195 \pm 0.005$ \\
+		Mallard& 293 & - & $0.195 \pm 0.005$ \\
 		\hline
 		Rouen&298 & $0.43 \pm 0.04$ & $0.14 \pm 0.01$ \\
 		& 323 & $0.47 \pm 0.04$ & $0.15 \pm 0.01$ \\
@@ -1209,9 +1221,9 @@ Measurements of thermal diffusivity reported in Table~\ref{tab:Diffusivity} were
 	\label{tab:diffusivity}
 \end{table}
 \subsection{Molecular Composition of MaCFP-Wood and its Gaseous Pyrolyzates}
-An experimental method was developed to identify the average molecular formula of the gaseous volatiles produced during anaerobic decomposition of combustible solids; this approach was applied to MaCFP-Wood. An organic elemental analyzer determines the average composition, while a heated, non-stirred pressure vessel determines the average molecular weight. Table~\ref{Tab:Elemental_Composition} lists the elemental compositions of virgin wood, residual char (generated under anaerobic conditions), and the gaseous volatiles that the wood produces. Figure~\ref{Fig:Elemental_Composition} plots these results, highlighting the increased carbon content of the char as compared to the virgin wood.
+An experimental method was developed to identify the average molecular formula of the gaseous volatiles produced during anaerobic decomposition of combustible solids; this approach was applied to MaCFP-Wood. An organic elemental analyzer determines the average composition, while a heated, non-stirred pressure vessel determines the average molecular weight. Table~\ref{Tab:Elemental_Composition} lists the elemental compositions of virgin wood, residual char (generated under anaerobic conditions), and the gaseous volatiles that the wood produces. Figure~\ref{Fig:Elemental_Composition} plots these results, highlighting the increased carbon content of the char as compared to the virgin wood. The sum of the mass fractions of individually measured components is not equal to 1 due to the presence of inorganic components in these samples. Error bars reported in this table represent an expanded uncertainty (95~\% confidence interval) accounting for the relative difference between measured and expected values (i.e., calibration uncertainty) and variations in repeated measurements.
 
-Following the approach described in Section~\ref{g_tests_composition}, the average molecular weight of these gaseous pyrolyzates is determined as 34.7~g/mol~$\pm$~3.7~g/mol. By combining these results, a representative formula for the average gaseous pyrolyzates produced by this Eastern White Pine is found: \textcolor{red}{**(C$_{0.64\pm0.01}$~H$_{2.93\pm0.02}$~O$_{1.39\pm0.01}$)**}. Here, the presence of Nitrogen is neglected as it was only measured in trace amounts. 
+Following the approach introduced in Section~\ref{g_tests_composition}, the average molecular weight of these gaseous pyrolyzates is determined as 34.7~g/mol~$\pm$~3.7~g/mol. By combining these results (composition and molecular weight), a representative formula for the average gaseous pyrolyzates produced by 'MaCFP Wood' is calculated as: \textcolor{red}{**(C$_{0.64\pm0.01}$~H$_{2.93\pm0.02}$~O$_{1.39\pm0.01}$)**}. Here, the presence of Nitrogen is neglected as it was only measured in trace amounts. 
 
 \begin{table}[h]
     \centering
