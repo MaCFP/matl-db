@@ -367,11 +367,12 @@ for exp in STA_Data:
     # Find peak MLR and its index
     peak_MLR = df['dm/dt'].max()
     peak_idx = df['dm/dt'].idxmax()
-    
+
     # Find threshold (10% of peak) and indices
     threshold = 0.1 * peak_MLR
     before_peak = df.loc[:peak_idx]
-    idx1 = before_peak[before_peak['dm/dt'] >= threshold].index[0]
+    idx1 = before_peak[(before_peak['dm/dt'] >= threshold) & (before_peak.index > 10)].index[0]
+
     after_peak = df.loc[peak_idx:]
     idx2 = after_peak[after_peak['dm/dt'] <= threshold].index[0]
     
