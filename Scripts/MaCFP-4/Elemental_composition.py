@@ -19,8 +19,8 @@ Composition_dir.mkdir(parents=True, exist_ok=True)
 # ------------------------------------
 species = ['C', 'H', 'N', 'S', 'O']
 virgin = [48.9, 6.1, 0, 0, 40.7]
-char = [91.2, 2.8, 0, 0, 3.7]
-pyrolyzate = [22.3, 8.6, 0, 0, 63.9]
+char = [91.2, 2.3, 0, 0, 3.7]
+pyrolyzate = [32.0, 7.1, 0, 0, 56.2]
 
 
 
