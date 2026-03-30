@@ -1,9 +1,9 @@
-# Template README File for CERIB/CEF
+# README File for CERIB
 
-### Experimental Conditions: TGA/DSC
+### Experimental Conditions: STA
 A Perkin Elmer PYRIS was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. 
 
-* Heating Rate: 10 K/min
+* Heating Rate: 5, 10 or 20 K/min
 * Temperature program
   - Initial Temperature: 308 K (35°C)
   - Initial Isotherm: 1200 s (hold at 38 K for 1200 s)  
@@ -12,19 +12,22 @@ A Perkin Elmer PYRIS was used to simultaneously conduct Thermogravimetric Analys
   - Type: Nitrogen
   - Flow rate: 100 ml/min
   - Note: Ultra High Purity (UHP) Nitrogen
+* Crucible
+  - Type: Pt
+  - Volume: 60 uL
+  - Lid: False
 * Instrument
   - Type: Perking Elmer PYRIS
 
-
 | Test Name | O2 volume % |  Initial Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: |
-|CERIB\_STA\_N2\_05K\_R1 | 0 | 7.596|  
-|CERIB\_STA\_N2\_05K\_R2 | 0 | 8.795|  
-|CERIB\_STA\_N2\_05K\_R3 | 0 | 7.145|  
-|CERIB\_STA\_N2\_10K\_R1 | 0 | 9.345|  
-|CERIB\_STA\_N2\_10K\_R2 | 0 | 10.353|  
-|CERIB\_STA\_N2\_10K\_R3 | 0 | 8.424|  
-|CERIB\_STA\_N2\_20K\_R1 | 0 | 7.658|  
-|CERIB\_STA\_N2\_20K\_R2 | 0 | 8.286|  
-|CERIB\_STA\_N2\_20K\_R3 | 0 | 7.897|  
+|CERIB\_STA\_N2\_05K\_R1 | 0 | 7.4641 |
+|CERIB\_STA\_N2\_05K\_R2 | 0 | 8.6731 |
+|CERIB\_STA\_N2\_05K\_R3 | 0 | 7.0113 |
+|CERIB\_STA\_N2\_10K\_R1 | 0 | 9.2461 |
+|CERIB\_STA\_N2\_10K\_R2 | 0 | 10.2556|  
+|CERIB\_STA\_N2\_10K\_R3 | 0 | 8.3155 |
+|CERIB\_STA\_N2\_20K\_R1 | 0 | 7.5918 |
+|CERIB\_STA\_N2\_20K\_R2 | 0 | 8.2091 |
+|CERIB\_STA\_N2\_20K\_R3 | 0 | 7.8157 |
 
