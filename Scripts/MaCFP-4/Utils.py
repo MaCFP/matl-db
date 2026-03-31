@@ -271,14 +271,14 @@ def format_temperature(mean, std):
 def format_regular(mean, std):
     """Format regular numbers (no scientific notation)"""
     if pd.isna(std) or std == 0:
-        return f"${mean:.2f}$"
+        return f"${mean:.1f}$"
     else:
-        return f"${mean:.2f} \\pm {std:.2f}$"
+        return f"${mean:.1f} \\pm {std:.1f}$"
     
 
 def format_ignition(mean, std):
     """Format regular numbers (no scientific notation)"""
-    return f"${mean:.2f} \\pm {std:.2f}$"    
+    return f"${mean:.1f} \\pm {std:.1f}$"    
 
 # Extract sorting keys from conditions
 def extract_heating_rate(conditions):

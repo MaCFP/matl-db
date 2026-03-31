@@ -351,8 +351,8 @@ for idx,set in enumerate(Cone_sets):
     
 
     # Axes labels
-    ax_HRR.set_xlabel('Time (s)')
-    ax_HRR.set_ylabel('HRR (kW/m2)')
+    ax_HRR.set_xlabel('Time [s]')
+    ax_HRR.set_ylabel('HRR [kW/m2]')
 
         # Figure title
     plt.title(Duck+"\n"+Conditions)
@@ -392,7 +392,7 @@ for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
 
 ax1.set_ylim(bottom=0,top=250)
 ax1.set_xlim(right=2500)
-ax1.set_xlabel('Time (s)')
+ax1.set_xlabel('Time [s]')
 ax1.set_ylabel('HRR [kW/m$^2$]')
 fig1.tight_layout()
 ax1.legend()
@@ -582,7 +582,7 @@ for flux in [30,60]:
 
     ax1.set_ylim(bottom=280)
     ax1.set_xlabel('Time [s]')
-    ax1.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+    ax1.set_ylabel('Surface Temperature [K]')
     fig1.tight_layout()
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
@@ -660,7 +660,7 @@ for idx,set in enumerate(Gas_sets):
     ax.set_ylim(bottom=0)
 
     # Axes labels
-    ax.set_xlabel('Time (s)')
+    ax.set_xlabel('Time [s]')
     ax.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
 
     # Figure title
