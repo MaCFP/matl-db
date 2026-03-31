@@ -718,7 +718,7 @@ columns_to_keep = ['Duck_formatted', 'conditions_formatted', 'T_onset_formatted'
 
 final_latex_table = final_table_sorted[columns_to_keep].copy()
 final_latex_table.columns = ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
-                             'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)', 'condition_key']
+                             'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)', 'condition_key']
 
 # Generate LaTeX
 latex_string = final_latex_table.to_latex(
@@ -726,7 +726,7 @@ latex_string = final_latex_table.to_latex(
     escape=False,
     column_format='llcccccc',
     columns=['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
-                             'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
+                             'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
 )
 
 # Modify the string

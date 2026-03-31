@@ -67,6 +67,7 @@
  
     "Thermodynamics": {
         "Heat Capacity": {
+            "Equation": "constant, cp=C0+C1*T, piecewise defined",
             "Form": "Table",
             "Temperatures": [308.15, 313.15, 373.15, 413.15],
             "Values": [1800, 1700, 1600, 1400] 
@@ -76,6 +77,7 @@
             "Value": [1.74e6, 9.14e5]
         },
         "Density": {
+            "Equation": "constant, p=C0+C1*T+D0, piecewise defined",
             "Form": "Single Value",
             "Value": 1177 
         }
@@ -90,6 +92,7 @@
     
     "Transport": {
         "Conductivity": {
+            "Equation": "constant, k=C0+C1*T+C3*T^3, piecewise defined",
             "Form": "Table",
             "Temperatures": [293.05, 298.05, 302.95, 
                             307.85, 312.75, 317.75, 
@@ -101,10 +104,12 @@
                       0.17770]
         },
         "Absorption": {
+            "Equation": "constant, a=C0+C1*T+D0*lambda, piecewise defined",
             "Form": "Single Value",
             "Value": 2620 
         },
         "Emissivity": {
+            "Equation": "constant, e=C0+C1*T+D0*lambda, piecewise defined",
             "Form": "Single Value",
             "Value": 0.963
         }
