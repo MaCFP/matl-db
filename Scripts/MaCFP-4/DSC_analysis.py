@@ -172,7 +172,7 @@ for series in unique_conditions_material:
 
     #ax1.set_xlim(400,800)
     ax1.set_ylim(bottom=-0.5)
-    ax1.set_xlabel('Temperature (K)')
+    ax1.set_xlabel('Temperature [K]')
     ax1.set_ylabel('Heat flow [W g$^{-1}$]')
     fig1.tight_layout()
     handles1, labels1 = ax1.get_legend_handles_labels()
@@ -180,7 +180,7 @@ for series in unique_conditions_material:
     ax1.legend(by_label1.values(), by_label1.keys())
 
     ax2.set_ylim(bottom=-500)
-    ax2.set_xlabel('Temperature (K)')
+    ax2.set_xlabel('Temperature [K]')
     ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
     fig2.tight_layout()
     handles2, labels2 = ax2.get_legend_handles_labels()
@@ -234,9 +234,9 @@ for idx,set in enumerate(DSC_sets):
    # ax_rate.set_ylim(bottom=0)
 
     # Axes labels
-    ax_HF.set_xlabel('Temperature (K)')
+    ax_HF.set_xlabel('Temperature [K]')
     ax_HF.set_ylabel('Heat Flow [W/g]')
-    ax_iHF.set_xlabel('Temperature (K)')
+    ax_iHF.set_xlabel('Temperature [K]')
     ax_iHF.set_ylabel('Integral Heat Flow [J$^{-1}$]')
 
 
@@ -300,13 +300,13 @@ for series in unique_conditions_material:
 
 
     ax1.set_ylim(bottom=-0.5)
-    ax1.set_xlabel('Temperature (K)')
+    ax1.set_xlabel('Temperature [K]')
     ax1.set_ylabel('Heat flow [W g$^{-1}$]')
     fig1.tight_layout()
     ax1.legend()
 
     ax2.set_ylim(bottom=-500)
-    ax2.set_xlabel('Temperature (K)')
+    ax2.set_xlabel('Temperature [K]')
     ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
     fig2.tight_layout()
     ax2.legend()
@@ -333,7 +333,7 @@ for path in TMDSC:
 
     #ax1.set_xlim(400,800)
     #ax1.set_ylim(bottom=-0.5)
-    ax1.set_xlabel('Temperature (K)')
+    ax1.set_xlabel('Temperature [K]')
     ax1.set_ylabel('Heat flow [W g$^{-1}$]')
     fig1.tight_layout()
     handles1, labels1 = ax1.get_legend_handles_labels()

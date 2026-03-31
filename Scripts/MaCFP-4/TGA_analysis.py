@@ -273,8 +273,8 @@ def plot_average_values(df):
                          color=color, label=Duck)
             
         
-        ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
-        ax1.set_ylabel('Peak MLR (1/s)', fontsize=12)
+        ax1.set_xlabel('Peak Temperature [K]', fontsize=12)
+        ax1.set_ylabel('Peak MLR [1/s]', fontsize=12)
         #ax1.set_ylim(bottom=0)
         fig1.tight_layout()
         # Remove duplicate legend entries
@@ -282,8 +282,8 @@ def plot_average_values(df):
         by_label = dict(zip(labels, handles))
         ax1.legend(by_label.values(), by_label.keys())
         
-        ax2.set_xlabel('Peak Temperature (K)', fontsize=12)
-        ax2.set_ylabel('Onset Temperature (K)', fontsize=12)
+        ax2.set_xlabel('Peak Temperature [K]', fontsize=12)
+        ax2.set_ylabel('Onset Temperature [K]', fontsize=12)
         
         # Remove duplicate legend entries
         handles, labels = ax2.get_legend_handles_labels()
@@ -315,7 +315,7 @@ for HR in unique_HR:
             average = average_HR_tga_series(set)
             label, color = label_def(set.split('_')[0])
             ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '-', label = label, color=color)
-            ax.set_xlabel('Temperature (K)')
+            ax.set_xlabel('Temperature [K]')
             ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
             ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
             fig.tight_layout()
@@ -358,7 +358,7 @@ for series in unique_conditions_material:
         # Apply configuration
         ax1.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
         ax1.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
-        ax1.set_xlabel('Temperature (K)')
+        ax1.set_xlabel('Temperature [K]')
         ax1.set_ylabel('m/m$_0$ [g/g]')
         fig1.tight_layout()
         handles1, labels1 = ax1.get_legend_handles_labels()
@@ -367,7 +367,7 @@ for series in unique_conditions_material:
 
         ax2.set_ylim(bottom=config['ylim2'][0], top=config['ylim2'][1])
         ax2.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
-        ax2.set_xlabel('Temperature (K)')
+        ax2.set_xlabel('Temperature [K]')
         ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
         fig2.tight_layout()
         handles2, labels2 = ax2.get_legend_handles_labels()
@@ -409,7 +409,7 @@ for path in TGA_Data:
     ax_rate.set_xlim(right=1100)
 
     # Axes labels
-    ax_mass.set_xlabel('Temperature (K)')
+    ax_mass.set_xlabel('Temperature [K]')
     ax_mass.set_ylabel('m/m$_0$ [g/g]', color = 'blue')
     ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]', color ='red')
 
@@ -461,14 +461,14 @@ for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
 
 ax1.set_ylim(bottom=0)
 ax1.set_xlim(right=1100)
-ax1.set_xlabel('Temperature (K)')
+ax1.set_xlabel('Temperature [K]')
 ax1.set_ylabel('m/m$_0$ [g/g]')
 fig1.tight_layout()
 ax1.legend()
 
 ax2.set_ylim(0,0.0035)
 ax2.set_xlim(right=1100)
-ax2.set_xlabel('Temperature (K)')
+ax2.set_xlabel('Temperature [K]')
 ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
 fig2.tight_layout()
 ax2.legend()
@@ -581,7 +581,7 @@ for idx,set in enumerate(TGA_sets):
     ax_rate.set_xlim(right=1100)
 
     # Axes labels
-    ax_mass.set_xlabel('Temperature (K)')
+    ax_mass.set_xlabel('Temperature [K]')
     ax_mass.set_ylabel('m/m$_0$ [g/g]')
     ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
 
@@ -618,7 +618,7 @@ ax_rate.set_ylim(bottom=0)
 ax_rate.set_xlim(right=1100)
 
 # Axes labels
-ax_mass.set_xlabel('Temperature (K)')
+ax_mass.set_xlabel('Temperature [K]')
 ax_mass.set_ylabel('m/m$_0$ [g/g]')
 
 # Legend
