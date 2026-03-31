@@ -197,13 +197,13 @@ def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]]
 # HR plots for all unique HR
 unique_HR = { '_'.join(s.split('_')[4:]) for s in MCC_sets}
 for HR in unique_HR:
-    fig, ax = plt.subplots(figsize=(4, 3))
+    fig, ax = plt.subplots(figsize=(6, 4))
     MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
     for set in MCC_sub_set:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
         ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
-        ax.set_xlabel('Temperature (K)')
+        ax.set_xlabel('Temperature [K]')
         ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
         fig.tight_layout()
@@ -233,7 +233,7 @@ for series in unique_conditions_material:
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlim(right=900)
-    ax1.set_xlabel('Temperature (K)')
+    ax1.set_xlabel('Temperature [K]')
     ax1.set_ylabel('HRR [W g$^{-1}$]')
     fig1.tight_layout()
     handles1, labels1 = ax1.get_legend_handles_labels()
@@ -242,7 +242,7 @@ for series in unique_conditions_material:
 
     ax2.set_ylim(bottom=0)
     ax2.set_xlim(right=900)
-    ax2.set_xlabel('Temperature (K)')
+    ax2.set_xlabel('Temperature [K]')
     ax2.set_ylabel('Integral HRR [kJ g$^{-1}$]')
     fig2.tight_layout()
     handles2, labels2 = ax2.get_legend_handles_labels()
@@ -406,7 +406,7 @@ for idx,set in enumerate(MCC_sets):
     ax_intHRR.set_ylim(bottom=0)
 
     # Axes labels
-    ax_HRR.set_xlabel('Temperature (K)')
+    ax_HRR.set_xlabel('Temperature [K]')
     ax_HRR.set_ylabel('HRR [W g$^{-1}$]')
     ax_intHRR.set_ylabel('Integral HRR [kJ g$^{-1}$]')
 
@@ -457,16 +457,16 @@ def plot_hrr_and_onset_vs_peak_temp(df):
                          color=color, label=Duck)
             
         
-        ax1.set_xlabel('Peak Temperature (K)', fontsize=12)
-        ax1.set_ylabel('Peak HRR (W/g)', fontsize=12)
+        ax1.set_xlabel('Peak Temperature [K]', fontsize=12)
+        ax1.set_ylabel('Peak HRR [W/g]', fontsize=12)
         
         # Remove duplicate legend entries
         handles, labels = ax1.get_legend_handles_labels()
         by_label = dict(zip(labels, handles))
         ax1.legend(by_label.values(), by_label.keys())
         
-        ax2.set_xlabel('Peak Temperature (K)', fontsize=12)
-        ax2.set_ylabel('Onset Temperature (K)', fontsize=12)
+        ax2.set_xlabel('Peak Temperature [K]', fontsize=12)
+        ax2.set_ylabel('Onset Temperature [K]', fontsize=12)
         
         # Remove duplicate legend entries
         handles, labels = ax2.get_legend_handles_labels()
@@ -515,14 +515,14 @@ for series in ['Wood_MCC_N2_30K','Wood_MCC_N2_45K','Wood_MCC_N2_60K']:
 
 ax1.set_ylim(bottom=0)
 ax1.set_xlim(350,1000)
-ax1.set_xlabel('Temperature (K)')
+ax1.set_xlabel('Temperature [K]')
 ax1.set_ylabel('HRR [W/g]')
 fig1.tight_layout()
 ax1.legend()
 
 ax2.set_ylim(bottom=0)
 ax2.set_xlim(350,1000)
-ax2.set_xlabel('Temperature (K)')
+ax2.set_xlabel('Temperature [K]')
 ax2.set_ylabel('Integral HRR [kJ/g]')
 fig2.tight_layout()
 ax2.legend()
@@ -589,8 +589,8 @@ o2_colors = {'2%': 'lightblue', '5%': 'blue', '10%': 'orange', '20%': 'red'}
 o2_linestyle = {'IMT':':', 'NIST':'-'}
 
 # Create figures for HRR and integral HRR
-fig1, ax1 = plt.subplots(figsize=(8, 5))
-fig2, ax2 = plt.subplots(figsize=(8, 5))
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+fig2, ax2 = plt.subplots(figsize=(6, 4))
 
 for o2_label, o2_code in oxygen_levels.items():
     # Find all wood MCC series with this oxygen level at 60K heating rate
@@ -625,7 +625,7 @@ for o2_label, o2_code in oxygen_levels.items():
 # Format HRR plot
 ax1.set_ylim(bottom=0)
 ax1.set_xlim(350, 1000)
-ax1.set_xlabel('Temperature (K)')
+ax1.set_xlabel('Temperature [K]')
 ax1.set_ylabel('HRR [W/g]')
 # Remove duplicate legend entries
 handles1, labels1 = ax1.get_legend_handles_labels()
@@ -636,7 +636,7 @@ fig1.tight_layout()
 # Format integral HRR plot
 ax2.set_ylim(bottom=0)
 ax2.set_xlim(350, 1000)
-ax2.set_xlabel('Temperature (K)')
+ax2.set_xlabel('Temperature [K]')
 ax2.set_ylabel('Integral HRR [kJ/g]')
 # Remove duplicate legend entries
 handles2, labels2 = ax2.get_legend_handles_labels()
@@ -735,7 +735,7 @@ latex_string = latex_string.replace('\\midrule', '\\hline')
 latex_string = latex_string.replace('\\bottomrule', '\\hline')
 
 # Make column headers bold
-for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'HR\\_Total (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
+for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
     latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
 
 
