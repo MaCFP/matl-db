@@ -455,6 +455,10 @@ Calibration curves converting chromatogram peak area to element mass were develo
 \subsubsection{Molecular Weight of Gaseous pyrolyzates}
 An experimental method was developed to identify the average molecular formula of the gaseous volatiles produced during anaerobic decomposition of combustible solids; this approach was applied to MaCFP-Wood. In this approach, an organic elemental analyzer determines the average composition, while a heated, non-stirred pressure vessel determines the average molecular weight. In the pressure vessel experiments, gram-scale samples are heated under inert atmospheres (helium) to measure the average molecular weight of the evolved gaseous species via ideal gas law calculations. Calibration testing was performed without any sample to ensure the assumption of ideality via proportional pressure and temperature rise. Validation tests were conducted using water or naphthalene, which are both known to boil or sublimate, without chemical decomposition, to create gaseous species of known composition and molecular weight. Measured molecular weights matched within 4.7~\% of expected values. The full experimental approach has been applied to two synthetic polymers known to degrade predominantly into their monomers and to a natural wood, western red cedar. Further details of this approach are available elsewhere~\cite{tripi2025measurement}.
 
+\subsection{Sample Reflectivity and Emissivity}
+\label{optical_tests}
+Measurements of spectrally-dependent sample reflectivity were determined using an experimental apparatus consisting of an FTIR spectrometer coupled with a detector and an integrating sphere. First, a reference measurement is first performed in the sphere without a sample (system sealed with the same gold coating), then the flux reflected by the sample is measured, and finally the sample reflectivity is calculated as the ratio between reflected flux and reference flux. Various combinations of sources, detectors, and integrating spheres can be used for sample reflectivity measurements. Here, a single institution provided reflectivity data using a Bruker VERTEX spectrometer (4 cm$^{-1}$ resolution, based on the averaging of 1000 scans for each measurement), a gold-coated integrating sphere, and a liquid-nitrogen-cooled Mercury Cadmium Telluride (MCT) detector, manufactured by Kolmar technologies. In these tests, directional-hemispherical reflectivity ($\rho$) is measured at wavelengths between 1.4~$\mu$m and 10~$\mu$m. As wood samples are opaque, their transmissivities are assumed equal to 0 and their
+absortivities are calculated as the complement of reflectivity to 1: $\alpha=1-\rho$.
 
 \chapter{Experimental Results}
 \label{exp_results}
@@ -1254,6 +1258,41 @@ Following the approach introduced in Section~\ref{g_tests_composition}, the aver
    (virgin wood, residual char, and gaseous pyrolyzates)}
   \label{Fig:Elemental_Composition}
 \end{figure}
+
+\subsection{Reflectivity and Average Emissivity}
+Figure~\ref{Fig:Reflectivity} plots the average (20 replicate measurements) reflectivity of `MaCFP Wood' as a function of wavenumber\footnote{The range 500~cm$^{-1}<$wavenumber $<11000$~cm$^{-1}$ is equivalent to 0.91~$\mu$m $<\lambda<20~\mu$m.}. Here, shaded errorbars represent two standard deviations of the mean of repeated measurements. Based on these measurements, an effective broadband emissivity of this sample is calculated as:
+\begin{equation}
+	\varepsilon(T) = 1 - \frac{\displaystyle\sum_{\nu} \rho(\nu) \cdot B(\nu, T)}{\displaystyle\sum_{\nu} B(\nu, T)}
+\end{equation}
+
+\noindent where $B(\nu, T)$ is the Planck blackbody radiance:
+
+\begin{equation}
+	B(\nu, T) = \frac{2\pi h c^2 \nu^3}{e^{\,hc\nu / k_B T} - 1}
+\end{equation}
+
+Here, $T$ is absolute temperature and $\rho(\nu)$ is equal to the measured reflectivity at wavenumber, $\nu$. The final terms represent Planck's constant ($h = 6.626 \times 10^{-34}$ J$\cdot$s), the speed of light ($c = 3.000 \times 10^{8}$ m/s), and Boltzmann's constant ($k_B = 1.381 \times 10^{-23}$ J/K). The effective broadband emissivity of `MaCFP Wood' is calculated at a range of temperatures between 293~K and 453~K; these values are provided in Table~\ref{tab:emissivity}.
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=4in]{../SCRIPT_FIGURES/Reflectivity/Average/Avg_reflectivity.pdf}
+	\caption{Reflectivity of `MaCFP Wood'}
+	\label{Fig:Reflectivity}
+\end{figure}
+
+
+\begin{table}[b]
+	\centering
+	\begin{tabular}{c|cccccccccc}
+		\hline
+		\textbf{Temperature (K)} & 293 & 313 & 333 & 353 & 373 & 393 & 413 & 433 & 453 & 473 \\
+		\hline
+		\textbf{Emissivity} & 0.879 & 0.877 & 0.875 & 0.872 & 0.869 & 0.866 & 0.863 & 0.860 & 0.856 & 0.853 \\
+		\hline
+	\end{tabular}
+	\caption{Calculated Emissivity of `MaCFP Wood'}
+	\label{tab:emissivity}
+\end{table}
+
 
 \chapter{Summary}
 \label{Summary}
