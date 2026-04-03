@@ -12,7 +12,8 @@ scripts = [
     'DSC_analysis.py',
     'MCC_analysis.py',
     'Cone_analysis.py',
-    'Elemental_composition.py'
+    'Elemental_composition.py',
+    'Reflectivity_analysis.py'
 ]
 
 for script in scripts:
