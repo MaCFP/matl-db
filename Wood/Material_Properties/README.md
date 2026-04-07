@@ -29,7 +29,7 @@ Modelers are asked to:
 #### Calibration Approach
 Modelers are not provided limitations or suggestions regarding their pyrolysis model parameterization (i.e., calibration) approach; however, they are required to use either (a) at least one of the milligram-scale datasets (e.g., TGA or DSC) and one gram-scale experiment (e.g., cone calorimetry or controlled atmosphere gasification experiments), or (b) at least two of the gram-scale experiments available in the [Calibration Data](https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data) section of the MaCFP repository. Modelers can supplement MaCFP data with any literature data that they deem necessary (please be sure to cite any and all appropriate references, including those for measurement data found on the MaCFP Repo).
 
-#### How to Property sets
+#### How to Submit Property sets
 When submitting property sets, modelers are asked to provide a detailed description (README.md) of:
 * The method of determination of each of these parameters (written) 
 * Decomposition reaction mechanism (written and mathematical)
