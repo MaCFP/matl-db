@@ -21,7 +21,7 @@ This README file was prepared by Wenxuan Wu. For any questions or requests for a
 ### Experimental Conditions: Thermogravimetric Analysis (TGA)
 
 * Instrument
-  - Type: NETZSCH/STA 449 F3 Jupiter®
+  - Type: NETZSCH STA 449 F3 Jupiter®
   - Furnace Type: Platinum
   - Notes: None
 * Heating Rate: 10 K/min
@@ -34,7 +34,7 @@ This README file was prepared by Wenxuan Wu. For any questions or requests for a
 * Sample geometry: Powdered
 * Calibration type: Before each type of experiment (N2/Air), a baseline test was performed using an empty crucible. Temperature calibration was performed every 12 months by NETZSCH technician
 * Crucible
-  - Type: Alumina
+  - Type: Alumina (NETZSCH)
   - Volume: 85 uL
   - Diameter: 6.8 mm
   - Mass: 130~150mg
@@ -88,6 +88,7 @@ This README file was prepared by Wenxuan Wu. For any questions or requests for a
 
 * Instrument
   - Type: FTT, FPA
+* Test Standard: ASTM E2058-19
 * Extraction flow rate: 150L/s
 * Sample Surface Area: 0.01 m2 (nominal)
 * Sample Initial Thickness: 2.53 cm
