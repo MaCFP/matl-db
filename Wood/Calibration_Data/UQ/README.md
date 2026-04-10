@@ -1,6 +1,6 @@
 # The University of Queensland, Brisbane, Australia
 
-This README file was prepared by Wenxuan Wu. For any questions or requests for additional information, please contact Wenxuan Wu (wenxuan.wu@uq.edu.au), David Morrisset (d.morrisset@uq.edu.au), or UQ Fire group lead David Lange (d.lange@uq.edu.au).
+This README file was prepared by Wenxuan Wu. Experiments were performed by Zeinab Darabi, Joshua Madden and Wenxuan Wu. For any questions or requests for additional information, please contact Wenxuan Wu (wenxuan.wu@uq.edu.au), David Morrisset (d.morrisset@uq.edu.au), or UQ Fire group lead David Lange (d.lange@uq.edu.au).
 
 ### Experimental Conditions:  Transient Plane Source (TPS)
 
@@ -117,7 +117,7 @@ This README file was prepared by Wenxuan Wu. For any questions or requests for a
 * Thermocouple locations: Back surface
 * Ignition Source: Ethylene Flame Ignitor
 * HRR calculation: Brohez et al. \[1999] Q\_CO2,CO (CDG)
-* Responsible: Josh Madden (joshua.madden@uq.edu.au), Zeinab Darabi (z.darabi@uq.edu.au), and Wenxuan Wu (wenxuan.wu@uq.edu.au)
+* Responsible: Joshua Madden (joshua.madden@uq.edu.au), Zeinab Darabi (z.darabi@uq.edu.au), and Wenxuan Wu (wenxuan.wu@uq.edu.au)
 
 ###### Sample Mass and Test Heating Conditions
 
@@ -129,5 +129,5 @@ This README file was prepared by Wenxuan Wu. For any questions or requests for a
 |UQ\_Wood\_FPA\_60kW\_R2 | 60| 66.1 | 2.53 | 35|696|
 |UQ\_Wood\_FPA\_60kW\_R3 | 60| 66.1 | 2.53 | 45|776|
 
-* Notes: Smoothing was NOT applied to the raw HRRPUA.
+* Notes: Smoothing was NOT applied to the raw HRRPUA. Mass measurements from tests conducted at 60 KWm-2 exhibited unexpected fluctuations. Side/rear flaming occurred at 'UQ\_Wood\_FPA\_60kW\_R2'.
 
