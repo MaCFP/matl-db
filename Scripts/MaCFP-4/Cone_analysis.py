@@ -37,7 +37,7 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 #This section is used to determine what cone data is available. 
 Cone_Data = device_data(DATA_DIR, 'CONE')
 Cone_sets = get_series_names(Cone_Data)
-Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA')
+Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA') + device_data(DATA_DIR, 'FPA')
 Gas_sets = get_series_names(Gasification_Data)
 
 unique_conditions_cone = { '_'.join(s.split('_')[3:]) for s in Cone_sets}
@@ -56,7 +56,7 @@ with open(str(base_dir) +'/Cone/Cone_hor.tex', 'w') as f:
 
 
 print('Gasification table')
-Capa = make_institution_table(Gasification_Data,['Wood'],['N2'],['30kW','40kW','60kW'])
+Capa = make_institution_table(Gasification_Data,['Wood'],['N2'],['30kW','40kW','50kW','60kW','70kW'])
 Capa.loc['Total'] = Capa.sum(axis=0)
 print(Capa)
 latex_str = format_latex(Capa,'Incident Heat Flux (kW/m$^2$)')
@@ -110,11 +110,16 @@ def average_cone_series(series_name: str)->pd.DataFrame:
     # Read data
 
     for i, path in enumerate(paths):
+        print
         df_raw = pd.read_csv(path)
 
         t_floor = df_raw["Time (s)"].iloc[0]
-        t_floor = np.ceil(t_floor) 
         t_ceil = df_raw["Time (s)"].iloc[-1]
+        # Guard against NaN or empty time columns
+        if pd.isna(t_floor) or pd.isna(t_ceil) or t_ceil <= t_floor:
+            print(f"WARNING: Skipping {path} — invalid time range ({t_floor} to {t_ceil})")
+            continue
+        t_floor = np.ceil(t_floor) 
         t_ceil = np.floor(t_ceil) 
 
         InterpT = np.arange(t_floor, t_ceil+1, 1)
@@ -163,7 +168,7 @@ def average_Gas_series(series_name: str)->pd.DataFrame:
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Gasification_Data]
-
+    print(series_name)
     Dataframes = []
     if len(paths) == 0:
         raise Exception((f"No files found for series {series_name}", "red"))
@@ -637,7 +642,7 @@ for idx,set in enumerate(Gas_sets):
 
     # plot average
     # Plot mass (left y-axis)
-    if institute == 'TIFP+UCT':
+    if institute in ['TIFP+UCT', 'Aalto', 'UQ']:
         area = 0.01
     elif institute == 'FSRI':
         area = 0.00385
