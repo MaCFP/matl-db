@@ -2,6 +2,8 @@
 
 This README file was prepared by Wenxuan Wu. Experiments were performed by Zeinab Darabi, Joshua Madden and Wenxuan Wu. For any questions or requests for additional information, please contact Wenxuan Wu (wenxuan.wu@uq.edu.au), David Morrisset (d.morrisset@uq.edu.au), or UQ Fire group lead David Lange (d.lange@uq.edu.au).
 
+All samples were stored in an environment at room temperature ~23 °C and approximately 50% relative humidity. The moisture content of the tested samples was determined using representative samples and the oven-drying method in accordance with ASTM D4442: 10.2 % +- 0.3 %.
+
 ### Experimental Conditions:  Transient Plane Source (TPS)
 
 * Instrument
