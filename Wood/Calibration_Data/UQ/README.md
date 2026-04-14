@@ -90,9 +90,9 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 ###### Test Heating Conditions
 
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |Final thickness (cm)|t\_ign (s)|t\_flameout (s)|
-|UQ\_Wood\_Cone\_60kW\_hor\_R1 | 60| 1033 | 2.15 | 15|908|
-|UQ\_Wood\_Cone\_60kW\_hor\_R2 | 60| 1033 | 2.2 | 10|920|
-|UQ\_Wood\_Cone\_60kW\_hor\_R3 | 60| 1033 | 2.15 | 14|918|
+|UQ\_Wood\_Cone\_60kW\_hor\_Parallel\_R1 | 60| 1033 | 2.15 | 15|908|
+|UQ\_Wood\_Cone\_60kW\_hor\_Parallel\_R2 | 60| 1033 | 2.2 | 10|920|
+|UQ\_Wood\_Cone\_60kW\_hor\_Parallel\_R3 | 60| 1033 | 2.15 | 14|918|
 
 * Notes: Tests conducted at 30 KWm-2 encountered issues of the pilot. Test data was therefore not included. Mass measurements from tests conducted at 60 KWm-2 exhibited unexpected fluctuations.
 
@@ -124,12 +124,12 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 ###### Sample Mass and Test Heating Conditions
 
 |Test Name | Heat Flux (kW/m2)| Heater Lamp Control VAC |Thickness (cm)|t\_ign (s)|t\_flameout (s)|
-|UQ\_Wood\_FPA\_30kW\_R1 | 30| 44.7 | 2.53 | 150|493|
-|UQ\_Wood\_FPA\_30kW\_R2 | 30| 44.7 | 2.53 | 186|709|
-|UQ\_Wood\_FPA\_30kW\_R3 | 30| 44.7 | 2.53 | 140|990|
-|UQ\_Wood\_FPA\_60kW\_R1 | 60| 66.1 | 2.53 | 37|763|
-|UQ\_Wood\_FPA\_60kW\_R2 | 60| 66.1 | 2.53 | 35|696|
-|UQ\_Wood\_FPA\_60kW\_R3 | 60| 66.1 | 2.53 | 45|776|
+|UQ\_Wood\_FPA\_30kW\_Parallel\_R1 | 30| 44.7 | 2.53 | 150|493|
+|UQ\_Wood\_FPA\_30kW\_Parallel\_R2 | 30| 44.7 | 2.53 | 186|709|
+|UQ\_Wood\_FPA\_30kW\_Parallel\_R3 | 30| 44.7 | 2.53 | 140|990|
+|UQ\_Wood\_FPA\_60kW\_Parallel\_R1 | 60| 66.1 | 2.53 | 37|763|
+|UQ\_Wood\_FPA\_60kW\_Parallel\_R2 | 60| 66.1 | 2.53 | 35|696|
+|UQ\_Wood\_FPA\_60kW\_Parallel\_R3 | 60| 66.1 | 2.53 | 45|776|
 
 * Notes: Smoothing was NOT applied to the raw HRRPUA. Mass measurements from tests conducted at 60 KWm-2 exhibited unexpected fluctuations. Side/rear flaming occurred at 'UQ\_Wood\_FPA\_60kW\_R2'.
 
