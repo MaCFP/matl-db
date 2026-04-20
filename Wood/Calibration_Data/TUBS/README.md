@@ -123,3 +123,27 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 |TUBS\_Cone\_30KW\_hor\_R2 | 30 | - | 2.55 | parallel | 27 | -|
 |TUBS\_Cone\_30KW\_hor\_R3 | 30 | - | 2.55 | parallel | 25 | -|
 
+### Experimental Conditions: Controlled Atmosphere Cone calorimeter
+
+* Test Standard: ISO 5660-5
+* Extraction flow rate: 24L/s
+* Sample Surface Area: 0.00884 m2
+* Sample holder dimensions:
+    - Square pan: 106mm x 106mm x 25mm
+    - Retainer frame: 94mm x 94mm opening, 53mm height
+    - Retaining grid: None
+* Backing Insulation: 27.5mm thick layer of mineal wool.
+* Thermocouple location: None
+* Ignition Source: None
+* Target gas atmosphere: 0 vol% oxygen, 100 vol% nitrogen (target nitrogen purge flow rate: 150 L/min)
+
+###### Test Heating Conditions  
+
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | actual oxygen concentration (vol%)|
+|----------|:------:| :---: |:------:| :---: | :---: |
+|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R1 | 20 | - | 2.57 | parallel | 0.08 | 
+|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R2 | 20 | - | 2.58 | parallel | 0.13 | 
+|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R3 | 20 | - | 2.57 | parallel | 0.18 | 
+|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R4 | 20 | - | 2.57 | perpendicular | 0.18 |
+|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R5 | 20 | - | 2.57 | perpendicular | 0.19 |
+|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R5 | 20 | - | 2.57 | perpendicular | 0.14 |
