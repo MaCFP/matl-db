@@ -141,9 +141,9 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 
 |Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | actual oxygen concentration (vol%)|
 |----------|:------:| :---: |:------:| :---: | :---: |
-|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R1 | 20 | - | 2.57 | parallel | 0.08 | 
-|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R2 | 20 | - | 2.58 | parallel | 0.13 | 
-|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R3 | 20 | - | 2.57 | parallel | 0.18 | 
-|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R4 | 20 | - | 2.57 | perpendicular | 0.18 |
-|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R5 | 20 | - | 2.57 | perpendicular | 0.19 |
-|TUBS\_ControlledCone\_O2-0\_20KW\_hor\_R5 | 20 | - | 2.57 | perpendicular | 0.14 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R1 | 20 | - | 2.57 | parallel | 0.08 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R2 | 20 | - | 2.58 | parallel | 0.13 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R3 | 20 | - | 2.57 | parallel | 0.18 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R1 | 20 | - | 2.57 | perpendicular | 0.18 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R2 | 20 | - | 2.57 | perpendicular | 0.19 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R3 | 20 | - | 2.57 | perpendicular | 0.14 |
