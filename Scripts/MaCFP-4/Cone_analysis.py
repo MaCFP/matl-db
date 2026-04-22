@@ -107,19 +107,35 @@ set_plot_style()
 # ------------------------------------
 #region functions
 # ------------------------------------
-def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None)->pd.DataFrame:
-    """Calculate average mass and HRR for a test series."""
+def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None,exclude_individual: Optional[Union[str, List[str]]] = None)->pd.DataFrame:
+    """Calculate average mass and HRR for a test series.
+    Args:
+        series_name: Name of the test series to search for
+        exclude: String or list of strings to exclude entire groups (partial path matching)
+        exclude_individual: String or list of strings to exclude individual experiments (e.g., "R1", "r2")
+    """
+
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
 
-    # Apply exclusions
+    # Apply institution exclusions
     if exclude is not None:
         if not isinstance(exclude, list):
             exclude = [exclude]  # Convert single string to list
         
         for excl in exclude:
             paths = [p for p in paths if excl not in str(p)]
+
+    # Apply individual experiment exclusions
+    if exclude_individual is not None:
+        if not isinstance(exclude_individual, list):
+            exclude_individual = [exclude_individual]
+        
+        for excl in exclude_individual:
+            # Match full experiment name in the file stem
+            paths = [p for p in paths if excl not in p.stem]
+
 
     Dataframes = []
     if len(paths) == 0:
@@ -406,7 +422,7 @@ for series in ['Cone_25kW_hor','Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor','
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
-    df_average = average_cone_series(series, ['UMET','UQ'])
+    df_average = average_cone_series(series, ['UMET','UQ'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'])
     average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
     ax1.fill_between(df_average['Time (s)'], 
