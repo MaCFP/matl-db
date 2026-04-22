@@ -29,13 +29,13 @@ DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 # region define labs, corresponding labels and colors
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 
-CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", 
+CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", #"Harlequin" add Harlequin in second place once BUW data is commited
          "Saxony", "Ruddy", "Cayuga","Canard", "Redhead", "Buff",  
          "Bali", "Magpie", "Ancona", "Crested", "Call",  
          "Muscovy", "Pomeranian",  "Shetland", "Alabio", "Mallard", "Hardhead"]
 
 
-colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", 
+colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", # "#be15f6", add color for BUW data
           "#ff9896", "#c5b0d5", "#2ca02c",  "#00039b", "#c49c94", "#d62728",
           "#dbdb8d", "#c7c7c7",  "#ffbb78", "#bcbd22", "#8c564b", 
           "#f7b6d2","#e377c2", "#9edae5", "#7f7f7f","#9467bd" , "#DAA520"
@@ -137,7 +137,7 @@ def make_institution_table(
             continue
 
         counts[(label_def(inst)[0], mat, atm, hr)] += 1
-        
+    
     # ---------- Table construction logic ----------
     inst_codes = [code for code in CODES if any(counts.get((code, mat,atm, hr), 0) > 0 for mat in materials for atm in atmospheres for hr in heating_rates)]
     # Case 1: single atmosphere → columns = heating rates

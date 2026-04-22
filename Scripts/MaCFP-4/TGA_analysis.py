@@ -437,6 +437,8 @@ for path in TGA_Data:
 color = {'5K':'blue','10K':'black','20K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))
+average_data = {}
+
 for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
     parts = series.split('_')
     atm, hr  = parts[2:]
@@ -447,7 +449,8 @@ for series in ['Wood_*_N2_5K','Wood_*_N2_10K','Wood_*_N2_20K']:
             df = Calculate_dm_dt(df)
             ax1.plot(df['Temperature (K)'], df['Normalized mass'], '-', color = color[hr], alpha=0.1, linewidth = 0.1, zorder=4)
             ax2.plot(df['Temperature (K)'], df['dm/dt'], '-', color = color[hr], alpha=0.15, linewidth = 0.1, zorder=4)
-    df_average = average_tga_series(series,['UAI','IMT'],temp_filter={'FPL': 400})
+    df_average = average_tga_series(series,['UAI','IMT'],temp_filter={'FPL': 400,'UCantabria': 380})
+    average_data['Wood_'+ atm +'_' + hr] = df_average[['Temperature (K)', 'MLR (1/s)']].copy()
     ax1.plot(df_average['Temperature (K)'], df_average['Normalized Mass'], label = hr + '/min', color = color[hr], zorder = 3)
     ax1.fill_between(df_average['Temperature (K)'], 
                     df_average['Normalized Mass']-2*df_average['unc Normalized Mass'],
@@ -475,6 +478,10 @@ ax2.legend()
 
 fig1.savefig(str(base_dir) + '/TGA/TGA_Average_N2_Mass.{}'.format(ex))
 fig2.savefig(str(base_dir) + '/TGA/TGA_Average_N2_dmdt.{}'.format(ex))
+
+for series, df_data in average_data.items():
+    df_data.to_csv(str(base_dir) + '/TGA/TGA_Average_{}.csv'.format(series), index=False)
+
 plt.close(fig1)
 plt.close(fig2)
 

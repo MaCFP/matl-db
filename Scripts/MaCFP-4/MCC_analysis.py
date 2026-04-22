@@ -491,6 +491,7 @@ plot_hrr_and_onset_vs_peak_temp(Average_values)
 color = {'30K':'blue','45K':'black','60K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))
+average_data = {}
 for series in ['Wood_MCC_N2_30K','Wood_MCC_N2_45K','Wood_MCC_N2_60K']:
     parts = series.split('_')
     atm, hr  = parts[2:]
@@ -501,7 +502,8 @@ for series in ['Wood_MCC_N2_30K','Wood_MCC_N2_45K','Wood_MCC_N2_60K']:
             df = calculate_int_HRR(df)
             ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], '-',linewidth=0.2, color = color[hr], alpha=0.15, zorder=4)
             ax2.plot(df['Temperature (K)'], df['Int HRR'], '-',linewidth=0.2, color = color[hr], alpha=0.15,zorder=4)
-    df_average = average_MCC_series(series, ['TUBS_Wood_MCC_N2_30K','FZJ_Wood_MCC_N2_60K_R8'])
+    df_average = average_MCC_series(series, ['TUBS_Wood_MCC_N2_30K'])
+    average_data[series] = df_average[['Temperature (K)', 'HRR (W/g)']].copy()
     ax1.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'], label = hr+'/min', color = color[hr], zorder = 3)
     ax1.fill_between(df_average['Temperature (K)'], 
                     df_average['HRR (W/g)']-2*df_average['HRR_std'],
@@ -529,6 +531,10 @@ ax2.legend()
 
 fig1.savefig(str(base_dir) + '/MCC/MCC_Average_N2_HRR.{}'.format(ex))
 fig2.savefig(str(base_dir) + '/MCC/MCC_Average_N2_intHRR.{}'.format(ex))
+
+for series, df_data in average_data.items():
+    df_data.to_csv(str(base_dir) + '/MCC/MCC_Average_{}.csv'.format(series), index=False)
+
 plt.close(fig1)
 plt.close(fig2)
 
