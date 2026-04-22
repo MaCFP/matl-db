@@ -10,6 +10,7 @@ import pandas as pd
 from pathlib import Path
 import re
 from scipy.signal import savgol_filter
+from typing import Optional, Union, List, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, format_latex
 from Utils import format_ignition, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
@@ -44,6 +45,15 @@ unique_conditions_cone = { '_'.join(s.split('_')[3:]) for s in Cone_sets}
 unique_conditions_cone_material = sorted(set(name.split('_', 1)[1] for name in Cone_sets if '_' in name))
 unique_conditions_gas = { '_'.join(s.split('_')[3:]) for s in Gas_sets}
 unique_conditions_gas_material = sorted(set(name.split('_', 1)[1] for name in Gas_sets if '_' in name))
+kw_values = set()
+for item in unique_conditions_gas:
+    match = re.search(r'\d+kW', item)
+    if match:
+        kw_values.add(match.group())
+gas_flux = sorted(kw_values)
+
+
+
 
 # Print tables
 print('Cone table')
@@ -97,11 +107,19 @@ set_plot_style()
 # ------------------------------------
 #region functions
 # ------------------------------------
-def average_cone_series(series_name: str)->pd.DataFrame:
+def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None)->pd.DataFrame:
     """Calculate average mass and HRR for a test series."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
+
+    # Apply exclusions
+    if exclude is not None:
+        if not isinstance(exclude, list):
+            exclude = [exclude]  # Convert single string to list
+        
+        for excl in exclude:
+            paths = [p for p in paths if excl not in str(p)]
 
     Dataframes = []
     if len(paths) == 0:
@@ -110,7 +128,6 @@ def average_cone_series(series_name: str)->pd.DataFrame:
     # Read data
 
     for i, path in enumerate(paths):
-        print
         df_raw = pd.read_csv(path)
 
         t_floor = df_raw["Time (s)"].iloc[0]
@@ -168,7 +185,6 @@ def average_Gas_series(series_name: str)->pd.DataFrame:
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Gasification_Data]
-    print(series_name)
     Dataframes = []
     if len(paths) == 0:
         raise Exception((f"No files found for series {series_name}", "red"))
@@ -335,9 +351,9 @@ for idx,set in enumerate(Cone_sets):
         m0 = np.mean(df["Mass (g)"][1:5])
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
-        if path.stem.split('_')[0] == 'UDRI':
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
             A_surf = 0.01
-        else:
+        else: #FPL, IMT, TUBS, UMET
             A_surf = 0.00884
         HOC = A_surf*(df['Int HRR'][index_end]-df['Int HRR'][index_start])/(df['Mass (g)'][index_start]-df['Mass (g)'][index_end])
 
@@ -375,11 +391,13 @@ print(Average_values)
 
 
 
-
 # Average plot for Mass and mass loss rate (averaging over different institutes)
-color = {'30kW':'blue','50kW':'black','60kW':'red'}
+color = {'25kW':'white','30kW':'blue','50kW':'black','60kW':'red','75kW':'white'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
-for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
+average_data = {}
+
+for series in ['Cone_25kW_hor','Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor','Cone_75kW_hor',]:
+#for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
     parts = series.split('_')
     flux, orient  = parts[1:]
     for subset in [item for item in Cone_sets if series in item]:
@@ -388,7 +406,8 @@ for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
-    df_average = average_cone_series(series)
+    df_average = average_cone_series(series, ['UQ'])
+    average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
     ax1.fill_between(df_average['Time (s)'], 
                     df_average['HRR (kW/m2)']-2*df_average['unc HRR (kW/m2)'],
@@ -403,6 +422,11 @@ fig1.tight_layout()
 ax1.legend()
 
 fig1.savefig(str(base_dir) + '/Cone/Cone_Average_HRR.{}'.format(ex))
+
+for series, df_data in average_data.items():
+    df_data.to_csv(str(base_dir) + '/Cone/Cone_Average_{}.csv'.format(series), index=False)
+
+
 plt.close(fig1)
 
 
@@ -483,20 +507,20 @@ for idx,set in enumerate(Cone_sets):
 #region Gasification plots
 # ------------------------------------
 # Mass and mass loss rate plots for all unique atmospheres and heating rates (gasification)
-for series in unique_conditions_gas_material:
+for flux in gas_flux: 
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
-    parts = series.split('_')
-    material, dev, flux, orient  = parts[:4]
-    Gas_subset_paths = [p for p in Gasification_Data if f"{material}" in p.name and f"_{flux}_" in p.name]
+    Gas_subset_paths = [p for p in Gasification_Data if f"Wood" in p.name and f"_{flux}_" in p.name]
     for path in Gas_subset_paths:
         institute = path.stem.split('_')[0]
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
         label, color = label_def(path.stem.split('_')[0])
-        if institute == 'TIFP+UCT':
+        if institute in ['TIFP+UCT', 'UQ', 'Aalto']:
             ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
-        elif institute == 'FSRI':
+        elif institute in ['TUBS']:
+            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00884,41,3),'-', label = label, color=color)
+        elif institute in ['FSRI', 'UMD']:
             ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
         ax2.plot(df['Time (s)'], df['Mass (g)'], '-', label = label, color=color)
 
@@ -516,8 +540,8 @@ for series in unique_conditions_gas_material:
     by_label2 = dict(zip(labels2, handles2))
     ax2.legend(by_label2.values(), by_label2.keys())
 
-    fig1.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_MLR.{}'.format(material, flux,ex))
-    fig2.savefig(str(base_dir) + '/Cone/Gasification_{}_{}_Mass.{}'.format(material, flux,ex))
+    fig1.savefig(str(base_dir) + '/Cone/Gasification_Wood_{}_MLR.{}'.format(flux,ex))
+    fig2.savefig(str(base_dir) + '/Cone/Gasification_Wood_{}_Mass.{}'.format(flux,ex))
 
 
     plt.close(fig1)
@@ -639,12 +663,14 @@ for idx,set in enumerate(Gas_sets):
 
     Duck, color = label_def(set.split('_')[0])
     Conditions = '_'.join(set.split('_')[2:])
-
+    institute = set.split('_')[0]
     # plot average
     # Plot mass (left y-axis)
     if institute in ['TIFP+UCT', 'Aalto', 'UQ']:
         area = 0.01
-    elif institute == 'FSRI':
+    elif institute in ['TUBS']:
+        area = 0.00884
+    elif institute in ['UMD','FSRI']:
         area = 0.00385
     ax.plot(df_average['Time (s)'], savgol_filter(df_average['dm/dt']/area,41,3),
                         label='average MLR', color='limegreen')
