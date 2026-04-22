@@ -11,6 +11,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 from scipy.signal import savgol_filter
+from fnmatch import fnmatch
 from typing import Optional, Union, List, Dict
 import math
 
@@ -95,11 +96,19 @@ def Integral_DSC(df:pd.DataFrame)-> pd.DataFrame:
 
 
 
-def average_dsc_series(series_name: str) -> pd.DataFrame:
+def average_dsc_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None) -> pd.DataFrame:
     
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in DSC_Data]
+    
+    # Apply exclusions
+    if exclude is not None:
+        if not isinstance(exclude, list):
+            exclude = [exclude]  # Convert single string to list
+        
+        for excl in exclude:
+            paths = [p for p in paths if excl not in str(p)]
 
     Dataframes = []
     if len(paths) == 0:
@@ -315,6 +324,61 @@ for series in unique_conditions_material:
     fig2.savefig(str(base_dir) + '/DSC/DSC_{}_{}_{}_iHF_avg.{}'.format(material, atm,hr,ex))
     plt.close(fig1)
     plt.close(fig2)
+
+
+# Average plot for per unique condition (averaging over different institutes)
+color = {'10K':'black'}
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+fig2, ax2 = plt.subplots(figsize=(6, 4))
+average_data = {}
+
+for series in ['Wood_*_N2_10K']:
+    parts = series.split('_')
+    atm, hr  = parts[2:]
+    for subset in [item for item in DSC_sets if fnmatch(item, f'*{series}')]:
+        paths = list(DATA_DIR.glob(f"*/*{subset}_*[rR]*.csv"))
+        for i, path in enumerate(paths):
+            df_raw = pd.read_csv(path)
+            df = Integral_DSC(df_raw)
+            ax1.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], '-', color = color[hr], alpha=0.1, linewidth = 0.1, zorder=4)
+            ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'], '-', color = color[hr], alpha=0.15, linewidth = 0.1, zorder=4)
+    df_average = average_dsc_series(series,['CUG', 'TIFP+UCT'])
+    average_data['Wood_'+ atm +'_' + hr] = df_average[['Temperature (K)', 'Heat Flow Rate (W/g)']].copy()
+    ax1.plot(df_average['Temperature (K)'], df_average['Heat Flow Rate (W/g)'], label = hr + '/min', color = color[hr], zorder = 3)
+    ax1.fill_between(df_average['Temperature (K)'], 
+                    df_average['Heat Flow Rate (W/g)']-2*df_average['unc Heat Flow Rate (W/g)'],
+                    df_average['Heat Flow Rate (W/g)']+2*df_average['unc Heat Flow Rate (W/g)'],
+                    color=color[hr], alpha = 0.3, zorder=2)
+    ax2.plot(df_average['Temperature (K)'], df_average['Int Heat Flow (J/g)'], label = hr + '/min', color = color[hr], zorder = 3)
+    ax2.fill_between(df_average['Temperature (K)'], 
+                    df_average['Int Heat Flow (J/g)']-2*df_average['unc Int Heat Flow (J/g)'],
+                    df_average['Int Heat Flow (J/g)']+2*df_average['unc Int Heat Flow (J/g)'],
+                    color=color[hr], alpha = 0.3, zorder=2)
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(right=1100)
+ax1.set_xlabel('Temperature [K]')
+ax1.set_ylabel('Heat flow [W g$^{-1}$]')
+fig1.tight_layout()
+ax1.legend()
+
+ax2.set_ylim(0,0.0035)
+ax2.set_xlim(right=1100)
+ax2.set_xlabel('Temperature [K]')
+ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
+fig2.tight_layout()
+ax2.legend()
+
+fig1.savefig(str(base_dir) + '/DSC/DSC_Average_N2_HF.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/DSC/DSC_Average_N2_iHF.{}'.format(ex))
+
+for series, df_data in average_data.items():
+    df_data.to_csv(str(base_dir) + '/DSC/DSC_Average_{}.csv'.format(series), index=False)
+
+plt.close(fig1)
+plt.close(fig2)
+
+
 
 
 #------------------------------------
