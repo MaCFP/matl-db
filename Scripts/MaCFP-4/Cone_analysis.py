@@ -406,7 +406,7 @@ for series in ['Cone_25kW_hor','Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor','
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
-    df_average = average_cone_series(series, ['UQ'])
+    df_average = average_cone_series(series, ['UMET','UQ'])
     average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
     ax1.fill_between(df_average['Time (s)'], 
