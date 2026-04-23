@@ -137,3 +137,44 @@ The diffusivity was calculated with the standard Netzsch model (improved Cape-Le
 |FSRI\_Wood\_LFA\_N2\_Perpendicular\_R4 | 106.45 | 2.045 | 12.76 |
 |FSRI\_Wood\_LFA\_N2\_Perpendicular\_R5 | 99.17 | 1.918 | 12.70 |
 |FSRI\_Wood\_LFA\_N2\_Perpendicular\_R6 | 94.82 | 1.835 | 12.73 |
+
+### Experimental Conditions, Spectral Reflectivity (Bruker Invenio R - Bruker A562-G Integrating Sphere)
+
+* FTIR - Integrating Sphere
+* Directional-Hemispherical Reflectance (DHR) measurements
+* Data corrected for 0\% reflectance (Light Trap) and 100\% reflectance (Gold Reference), i.e. Reflectivity = (Sample - Light Trap)/(Gold Reference - Light Trap)
+
+* Data collected on virgin samples, and char samples remaining as residue from CAPA tests conducted with heat fluxes of 20, 40, and 60 kW/m2.
+
+##### Test Summary
+Spectral reflectivity was measured with a Bruker Invenio-R FTIR Spectrometer and a Bruker A562-G gold plated integrating sphere. Reflectance of a light trap (0\% reflectance) and gold reference (100\% reflectance) were measured to correct sample materials reflectance measurements for stray light and instrument drift. The test material was located at the bottom sample port for all measurements. Data uploaded to the repository have been corrected corrected for the zero reflectance signal and scaled by the full reflectance range, i.e. R = (S - T)/(G - T).
+
+Experimental procedures are described in detail in related publications [See: McKinnon and Bellamy, Journal of Fire Sciences, 2024, https://doi.org/10.1177/07349041241235566 and Blake et al., Applied Optics, 2018, https://doi.org/10.1364/AO.57.000432].
+
+All samples were prepared with the grain parallel to the surface being measured.
+
+###### Test Heating Conditions  
+
+|Test Name | Preparation |
+|----------|:------:|
+|FSRI\_Wood\_REFLECTIVITY\_R1 | Virgin Sample |
+|FSRI\_Wood\_REFLECTIVITY\_R2 | Virgin Sample |
+|FSRI\_Wood\_REFLECTIVITY\_R3 | Virgin Sample |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R1 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R2 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R3 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R4 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R5 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R6 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar20\_REFLECTIVITY\_R7 | Char remaining after CAPA Gasification test at 20 kW/m2 |
+|FSRI\_Wood\_CAPAChar40\_REFLECTIVITY\_R1 | Char remaining after CAPA Gasification test at 40 kW/m2 |
+|FSRI\_Wood\_CAPAChar40\_REFLECTIVITY\_R2 | Char remaining after CAPA Gasification test at 40 kW/m2 |
+|FSRI\_Wood\_CAPAChar40\_REFLECTIVITY\_R3 | Char remaining after CAPA Gasification test at 40 kW/m2 |
+|FSRI\_Wood\_CAPAChar40\_REFLECTIVITY\_R4 | Char remaining after CAPA Gasification test at 40 kW/m2 |
+|FSRI\_Wood\_CAPAChar40\_REFLECTIVITY\_R5 | Char remaining after CAPA Gasification test at 40 kW/m2 |
+|FSRI\_Wood\_CAPAChar40\_REFLECTIVITY\_R6 | Char remaining after CAPA Gasification test at 40 kW/m2 |
+|FSRI\_Wood\_CAPAChar60\_REFLECTIVITY\_R1 | Char remaining after CAPA Gasification test at 60 kW/m2 |
+|FSRI\_Wood\_CAPAChar60\_REFLECTIVITY\_R2 | Char remaining after CAPA Gasification test at 60 kW/m2 |
+|FSRI\_Wood\_CAPAChar60\_REFLECTIVITY\_R3 | Char remaining after CAPA Gasification test at 60 kW/m2 |
+|FSRI\_Wood\_CAPAChar60\_REFLECTIVITY\_R4 | Char remaining after CAPA Gasification test at 60 kW/m2 |
+|FSRI\_Wood\_CAPAChar60\_REFLECTIVITY\_R5 | Char remaining after CAPA Gasification test at 60 kW/m2 |
