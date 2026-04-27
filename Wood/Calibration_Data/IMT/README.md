@@ -1,4 +1,7 @@
-# IMT Mines Al�s (IMT)
+# README File for IMT
+IMT Mines Alès (Institut Mines-Télécom), Alès (France).
+
+Experiments were performed by Loïc Dumazert (loic.dumazert@mines-ales.fr). Results data were formatted and uploaded by Arnaud Regazzi (arnaud.regazzi@mines-ales.fr). The testing campaign was supervised by Rodolphe Sonnier (rodolphe.sonnier@mines-ales.fr) and Laurent Ferry (laurent.ferry@mines-ales.fr). For any questions or requests for additional information, please contact rodolphe.sonnier@mines-ales.fr.
 
 ### Experimental Conditions: TGA
 A Perkin Elmer TGA 8000 was used to conduct Thermogravimetric Analysis (TGA) experiments. 
@@ -88,7 +91,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 
 * Test Standard: ISO 5660
 * Extraction flow rate: 24L/s
-* Sample Surface Area: 0.01 m� (nominal) 0.00884 m� (with frame)
+* Sample Surface Area: 0.01 m² (nominal) 0.00884 m² (with frame)
 * Sample holder dimensions:
     - Square pan: 100 mm x 100 mm x 22 mm
     - Retainer frame: 94 mm x 94 mm opening, 53 mm height
@@ -98,7 +101,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 * Thermocouple location: None
 * Ignition Source: Spark ignitor
 
-| Test Name | Heat Flux (kW/m�)| Heater Temperature (K) | Thickness (cm) | t_ign (s)| t_flameout (s) |
+| Test Name | Heat Flux (kW/m²)| Heater Temperature (K) | Thickness (cm) | t_ign (s)| t_flameout (s) |
 |-----------| :--------------: | :--------------------: | :------------: | :------: | :------------: |
 | IMT-Mines-Ales_Wood_Cone_25kW_hor_R1 | 25 | 853 | 2.5 | 126 | 2301 |
 | IMT-Mines-Ales_Wood_Cone_25kW_hor_R2 | 25 | 853 | 2.5 | 304 | 2178 |
