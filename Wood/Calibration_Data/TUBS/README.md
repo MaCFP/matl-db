@@ -3,6 +3,8 @@
 Name of Experimentalist: Felix Armbrust
 Contact: f.armbrust(at)ibmb.tu-braunschweig.de
 
+Please cite this data via the DOI: [10.24355/dbbs.084-202604271326-0](https://doi.org/10.24355/dbbs.084-202604271326-0)
+
 ### Experimental Conditions: TGA/DSC
 A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. 
 
