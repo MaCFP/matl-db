@@ -20,6 +20,8 @@ $$
 f=\frac{\phi_{MLR}}{n_{\Delta t}}\sum\left( \frac{MLR_{exp}}{|MLR_{try} - MLR_{exp}| + \epsilon MLR_{exp}} \right)^\zeta + \frac{\phi_{CML}}{n_{\Delta t}}\sum\left( \frac{CML_{exp}}{|CML_{try} - CML_{exp}| + \epsilon CML_{exp}} \right)^\zeta + \frac{\phi_{T}}{n_{\Delta t}}\sum\left( \frac{T_{exp}}{|T_{try} - T_{exp}| + \epsilon T_{exp}} \right)^\zeta
 $$
 
+Here "exp" and "try" quantities represent the experimental and modeled values at each time point. $\phi$ values represent the weighting for each objective.  
+
 Since the available gasification data was collected using different heating rates and back-face boundary conditions, we run multiple cases with each set of parameters, extract the individual objective values, then combine them into a single objective $\tilde{f} = \sum_{i}f_i$, so as to find the set of parameters that most closely represents all available data.
 
 ## Material Properties
