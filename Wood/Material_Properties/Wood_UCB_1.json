@@ -1,0 +1,100 @@
+{
+    "Material": "MaCFP Wood",
+
+    "Lab": "University of Colorado Boulder",
+    
+    "Calibration": [
+	{
+            "Model": "Gpyro",
+            "Method": "Constrained Optimization By Linear Approximation (COBYLA)",
+            "Scope": "Composition",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "All"
+            }
+        },
+        {
+            "Model": "Gpyro",
+            "Method": "Shuffled Complex Evolution",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [5,10,20,30,40,50]
+                "Source": "All"
+            }
+        },
+        {
+            "Model": "OpenFOAM+Dakota",
+            "Method": "Single Objective Genetic Algorithm (SOGA)",
+            "Scope": [
+		"Conductivity",
+                "Heat Capacity", 
+		"Emissivity",
+                "Heat of Pyrolysis"
+            ],
+            "Data": {
+                "Type": "Gasification",
+                "Heating Rate": [[40,60],[30,60]]
+                "Source": ["FSRI","TIFP+UCT"]
+            }
+        },       
+        {
+            "Method": "Literature",
+            "Scope": [
+		"Density"
+            ]
+        }
+    ],
+    
+    "Composition": {
+        "Number of Components": 6,
+        "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0]
+    },
+    
+    "Kinetics": {
+        "Reactants": [ [0], [1], [2] ],
+        "Products": [ [3], [4], [5] ],
+        "Pre-exponential": [7.339e9,1.245e7,3.918e6],
+        "Activation Energy": [1.457e5,1.031e5,8.402e4],
+        "Reaction Order": [0.844, 4.315, 7.539],
+        "Solid Yield": [0.0861, 0.1514, 0.4555]
+    },
+ 
+    "Thermodynamics": {
+        "Heat Capacity": {
+	    "Equation": "cp=c0*(T/T0)^nc",
+            "Form": "Component Specific",
+            "c0": [2500, 2500, 2500, 1500, 1500, 1500],
+            "nc": [1, 1, 1, 1, 1, 1],
+            "T0": [300, 300, 300, 300, 300, 300]
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [1e5, 1e5, 1e5]
+        },
+        "Density": {
+            "Equation": "constant",
+            "Form": "Single Value",
+            "Value": 380
+        }
+    },
+
+    "Transport": {
+        "Conductivity": {
+            "Equation": "k=k0*(T/T0)^nk",
+            "Form": "Component Specific",
+            "k0": [0.2, 0.2, 0.2, 0.1, 0.1, 0.1],
+	    "nk": [1, 1, 1, 1, 1, 1],
+	    "T0": [300, 300, 300, 300, 300, 300] 
+          
+        },
+        "Emissivity": {
+            "Equation": "constant",
+            "Form": "Component Specific",
+            "Value": [0.8, 0.8, 0.8, 0.9, 0.9, 0.9]
+        }
+    }
+
+}
+
