@@ -20,7 +20,7 @@
             "Scope": "Kinetics",
             "Data": {
                 "Type": "TGA",
-                "Heating Rate": [5,10,20,30,40,50]
+                "Heating Rate": [5,10,20,30,40,50],
                 "Source": "All"
             }
         },
@@ -36,7 +36,7 @@
             ],
             "Data": {
                 "Type": "Gasification",
-                "Heating Rate": [[40,60],[30,60],[20]]
+                "Heating Rate": [[40,60],[30,60],[20]],
                 "Source": ["FSRI","TIFP+UCT","TUBS"]
             }
         },       
@@ -57,8 +57,8 @@
 			"Intermediate Solid1",
 			"Intermediate Solid2",
 			"Intermediate Solid3",
-			"Char1"
-			"Char2"
+			"Char1",
+			"Char2",
 			"Char3"
 		],
         "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -70,7 +70,7 @@
         "Pre-exponential": [1.075e11,4.652e10,1.826e10,3.701e10,4.454e10,3.153e10],
         "Activation Energy": [1.343e5,1.571e5,1.082e5,1.440e5,1.250e5,1.365e5],
         "Reaction Order": [5.991,0.758,2.032,1.622,1.300,4.134],
-        "Solid Yield": [0.5715,0.4955,0.8443,0.2305,0.5017,0.2064]
+        "Solid Yield": [0.604,0.620,0.686,0.258,0.335,0.319]
     },
  
     "Thermodynamics": {
@@ -132,11 +132,11 @@
 				"Char1": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
-				}
+				},
 				"Char2": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
-				}
+				},
 				"Char3": {
 					"parallel": 0.2,
 					"perpendicular": 0.2

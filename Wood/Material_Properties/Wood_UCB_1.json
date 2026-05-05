@@ -20,7 +20,7 @@
             "Scope": "Kinetics",
             "Data": {
                 "Type": "TGA",
-                "Heating Rate": [5,10,20,30,40,50]
+                "Heating Rate": [5,10,20,30,40,50],
                 "Source": "All"
             }
         },
@@ -36,7 +36,7 @@
             ],
             "Data": {
                 "Type": "Gasification",
-                "Heating Rate": [[40,60],[30,60],[20]]
+                "Heating Rate": [[40,60],[30,60],[20]],
                 "Source": ["FSRI","TIFP+UCT","TUBS"]
             }
         },       

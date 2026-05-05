@@ -20,7 +20,7 @@
             "Scope": "Kinetics",
             "Data": {
                 "Type": "TGA",
-                "Heating Rate": [5,10,20,30,40,50]
+                "Heating Rate": [5,10,20,30,40,50],
                 "Source": "All"
             }
         },
@@ -36,7 +36,7 @@
             ],
             "Data": {
                 "Type": "Gasification",
-                "Heating Rate": [[40,60],[30,60],[20]]
+                "Heating Rate": [[40,60],[30,60],[20]],
                 "Source": ["FSRI","TIFP+UCT","TUBS"]
             }
         },       
@@ -69,9 +69,9 @@
     "Kinetics": {
         "Reactants": [ [0], [3], [1], [4], [5], [2], [6], [2] ],
         "Products": [ [3], [7], [4], [5], [8], [6], [9], [10] ],
-        "Pre-exponential": [1.075e11,4.652e10,1.826e10,3.701e10,4.454e10,3.153e10],
-        "Activation Energy": [1.343e5,1.571e5,1.082e5,1.440e5,1.250e5,1.365e5],
-        "Reaction Order": [5.991,0.758,2.032,1.622,1.300,4.134],
+        "Pre-exponential": [1.232e11,4.299e4,4.174e8,4.190e9,4.165e9,3.583e9,7.545e4,7.276e8],
+        "Activation Energy": [1.614e5,9.404e4,1.076e5,1.272e5,1.322e5,1.196e5,9.141e4,1.276e5],
+        "Reaction Order": [1.062,6.763,3.352,0.896,0.949,5.426,1.289,1.262],
         "Solid Yield": [0.194,0.374,0.783,0.609,0.375,0.827,0.603,0.157]
     },
  
@@ -86,14 +86,16 @@
 				"Intermediate Solid1": 2500,
 				"Intermediate Solid2": 2500,
 				"Intermediate Solid3": 2500,
+                "Intermediate Solid4": 2500,
 				"Char1": 2500,
 				"Char2": 2500,
 				"Char3": 2500,
+                "Char4": 2500
 			}
         },
         "Heat of Pyrolysis": {
             "Form": "Reaction Specific", 
-            "Value": [1e5, 1e5, 1e5, 1e5, 1e5, 1e5]
+            "Value": [1e5, 1e5, 1e5, 1e5, 1e5, 1e5, 1e5, 1e5]
         },
         "Density": {
             "Equation": "constant",
@@ -131,15 +133,23 @@
 					"parallel": 0.2,
 					"perpendicular": 0.2
 				},
+                "Intermediate Solid4": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
 				"Char1": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
-				}
+				},
 				"Char2": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
-				}
+				},
 				"Char3": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+                "Char4": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
 				}
@@ -154,9 +164,11 @@
 				"Intermediate Solid1": 0.8,
 				"Intermediate Solid2": 0.8,
 				"Intermediate Solid3": 0.8,
+                "Intermediate Solid4": 0.8,
 				"Char1": 0.8,
 				"Char2": 0.8,
-				"Char3": 0.8
+                "Char3": 0.8,
+				"Char4": 0.8
 			}
         }
     }
