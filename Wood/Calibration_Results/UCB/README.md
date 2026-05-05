@@ -106,7 +106,7 @@ $$
 k(T) = k0\cdot(T/T0)^{n_k}
 $$
 
-Solid wood density is assumed constant, with an initial value of $380~\textrm{kg/m}^3$ []. Solid poduct densities are calculated from the estimed solid fractions in the modeled kinetic schemes. 
+Solid wood density is assumed constant, with an initial value of $380~\textrm{kg/m}^3$ [[4]](#4). Solid poduct densities are calculated from the estimed solid fractions in the modeled kinetic schemes. 
 
 This modeling effort used 1D gasification data from FSRI ($40,60~\textrm{kW/m}^2$) [[7]](#7), TIFP+UCT ($30,60~\textrm{kW/m}^2$) [[8]](#8), and TUBS ($20~\textrm{kW/m}^2$) [[9]](#9).
 
