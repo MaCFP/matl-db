@@ -28,27 +28,36 @@
             "Model": "OpenFOAM+Dakota",
             "Method": "Single Objective Genetic Algorithm (SOGA)",
             "Scope": [
-		"Conductivity",
-                "Heat Capacity", 
-		"Emissivity",
-                "Heat of Pyrolysis"
+				"Conductivity",
+		        "Heat Capacity", 
+				"Emissivity",
+		        "Heat of Pyrolysis",
+				"Composition"
             ],
             "Data": {
                 "Type": "Gasification",
-                "Heating Rate": [[40,60],[30,60]]
-                "Source": ["FSRI","TIFP+UCT"]
+                "Heating Rate": [[40,60],[30,60],[20]]
+                "Source": ["FSRI","TIFP+UCT","TUBS"]
             }
         },       
         {
             "Method": "Literature",
             "Scope": [
-		"Density"
+				"Density"
             ]
         }
     ],
     
     "Composition": {
         "Number of Components": 6,
+		"Component Names": [
+			"Cellulose",
+			"Hemicellulose",
+			"Lignin",
+			"Char1",
+			"Char2",
+			"Char3"	
+		],
         "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0]
     },
     
@@ -65,9 +74,38 @@
         "Heat Capacity": {
 	    "Equation": "cp=c0*(T/T0)^nc",
             "Form": "Component Specific",
-            "c0": [2500, 2500, 2500, 1500, 1500, 1500],
-            "nc": [1, 1, 1, 1, 1, 1],
-            "T0": [300, 300, 300, 300, 300, 300]
+			"Value": {
+				"Cellulose": {
+					"c0":2500,
+					"nc":1,
+					"T0":300
+				},
+				"Hemicellulose": {
+					"c0":2500,
+					"nc":1,
+					"T0":300
+				},
+				"Lignin": {
+					"c0":2500,
+					"nc":1,
+					"T0":300
+				},
+				"Char1": {
+					"c0":2500,
+					"nc":1,
+					"T0":300
+				},
+				"Char2": {
+					"c0":2500,
+					"nc":1,
+					"T0":300
+				},
+				"Char3": {
+					"c0":2500,
+					"nc":1,
+					"T0":300
+				}
+			}
         },
         "Heat of Pyrolysis": {
             "Form": "Reaction Specific", 
@@ -83,16 +121,93 @@
     "Transport": {
         "Conductivity": {
             "Equation": "k=k0*(T/T0)^nk",
-            "Form": "Component Specific",
-            "k0": [0.2, 0.2, 0.2, 0.1, 0.1, 0.1],
-	    "nk": [1, 1, 1, 1, 1, 1],
-	    "T0": [300, 300, 300, 300, 300, 300] 
+            "Form": "Component Specific, Anisotropic",
+			"Value": {
+				"Cellulose": {
+					"parallel": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					},
+					"perpendicular": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					}
+				},
+				"Hemicellulose": {
+					"parallel": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					},
+					"perpendicular": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					}
+				},
+				"Lignin": {
+					"parallel": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					},
+					"perpendicular": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					}
+				},
+				"Char1": {
+					"parallel": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					},
+					"perpendicular": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					}
+				},
+				"Char2": {
+					"parallel": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					},
+					"perpendicular": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					}
+				},
+				"Char3": {
+					"parallel": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					},
+					"perpendicular": {
+						"k0":0.2,
+						"nk":1,
+						"T0":300
+					}
+				}
           
         },
         "Emissivity": {
             "Equation": "constant",
             "Form": "Component Specific",
-            "Value": [0.8, 0.8, 0.8, 0.9, 0.9, 0.9]
+            "Value": {
+				"Cellulose": 0.8,
+				"Hemicellulose": 0.8,
+				"Lignin": 0.8,
+				"Char1": 0.8,
+				"Char2": 0.8,
+				"Char3": 0.8
+			}
         }
     }
 
