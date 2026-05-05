@@ -49,20 +49,24 @@
     ],
     
     "Composition": {
-        "Number of Components": 5,
+        "Number of Components": 9,
 		"Component Names": [
 			"Cellulose",
 			"Hemicellulose",
 			"Lignin",
-			"Intermediate Solid",
-			"Char"
+			"Intermediate Solid1",
+			"Intermediate Solid2",
+			"Intermediate Solid3",
+			"Char1"
+			"Char2"
+			"Char3"
 		],
-        "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0]
+        "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     },
     
     "Kinetics": {
-        "Reactants": [ [0], [1], [2], [3], [3], [3] ],
-        "Products": [ [3], [3], [3], [4], [4], [4] ],
+        "Reactants": [ [0], [1], [2], [3], [4], [5] ],
+        "Products": [ [3], [4], [5], [6], [7], [8] ],
         "Pre-exponential": [1.075e11,4.652e10,1.826e10,3.701e10,4.454e10,3.153e10],
         "Activation Energy": [1.343e5,1.571e5,1.082e5,1.440e5,1.250e5,1.365e5],
         "Reaction Order": [5.991,0.758,2.032,1.622,1.300,4.134],
@@ -77,8 +81,12 @@
 				"Cellulose": 2500,
 				"Hemicellulose": 2500,
 				"Lignin": 2500,
-				"Intermediate Solid": 2500,
-				"Char": 2500,
+				"Intermediate Solid1": 2500,
+				"Intermediate Solid2": 2500,
+				"Intermediate Solid3": 2500,
+				"Char1": 2500,
+				"Char2": 2500,
+				"Char3": 2500,
 			}
         },
         "Heat of Pyrolysis": {
@@ -109,11 +117,27 @@
 					"parallel": 0.2,
 					"perpendicular": 0.2
 				},
-				"Intermediate Solid": {
+				"Intermediate Solid1": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
 				},
-				"Char": {
+				"Intermediate Solid2": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+				"Intermediate Solid3": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+				"Char1": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				}
+				"Char2": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				}
+				"Char3": {
 					"parallel": 0.2,
 					"perpendicular": 0.2
 				}
@@ -125,8 +149,12 @@
 				"Cellulose": 0.8,
 				"Hemicellulose": 0.8,
 				"Lignin": 0.8,
-				"Intermediate Solid": 0.8,
-				"Char": 0.8
+				"Intermediate Solid1": 0.8,
+				"Intermediate Solid2": 0.8,
+				"Intermediate Solid3": 0.8,
+				"Char1": 0.8,
+				"Char2": 0.8,
+				"Char3": 0.8
 			}
         }
     }
