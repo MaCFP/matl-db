@@ -49,13 +49,20 @@
     ],
     
     "Composition": {
-        "Number of Components": 9,
-        "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        "Number of Components": 5,
+		"Component Names": [
+			"Cellulose",
+			"Hemicellulose",
+			"Lignin",
+			"Intermediate Solid",
+			"Char"
+		],
+        "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0]
     },
     
     "Kinetics": {
         "Reactants": [ [0], [1], [2], [3], [4], [5] ],
-        "Products": [ [3], [4], [5], [6], [7], [8] ],
+        "Products": [ [3], [3], [3], [4], [4], [4] ],
         "Pre-exponential": [1.075e11,4.652e10,1.826e10,3.701e10,4.454e10,3.153e10],
         "Activation Energy": [1.343e5,1.571e5,1.082e5,1.440e5,1.250e5,1.365e5],
         "Reaction Order": [5.991,0.758,2.032,1.622,1.300,4.134],
@@ -64,11 +71,15 @@
  
     "Thermodynamics": {
         "Heat Capacity": {
-	    "Equation": "cp=c0*(T/T0)^nc",
+	    "Equation": "constant",
             "Form": "Component Specific",
-            "c0": [2500, 2500, 2500, 2000, 2000, 2000, 1500, 1500, 1500],
-            "nc": [1, 1, 1, 1, 1, 1, 1, 1, 1],
-            "T0": [300, 300, 300, 300, 300, 300, 300, 300, 300]
+			"Value": {
+				"Cellulose": 2500,
+				"Hemicellulose": 2500,
+				"Lignin": 2500,
+				"Intermediate Solid": 2500,
+				"Char": 2500,
+			}
         },
         "Heat of Pyrolysis": {
             "Form": "Reaction Specific", 
@@ -83,19 +94,41 @@
 
     "Transport": {
         "Conductivity": {
-            "Equation": "k=k0*(T/T0)^nk",
-            "Form": "Component Specific",
-            "k0": [0.2, 0.2, 0.2, 0.15, 0.15, 0.15, 0.1, 0.1, 0.1],
-	    "nk": [1, 1, 1, 1, 1, 1, 1, 1, 1],
-	    "T0": [300, 300, 300, 300, 300, 300, 300, 300, 300] 
-          
+            "Equation": "constant",
+            "Form": "Component Specific, Anisotropic",
+			"Value": {
+				"Cellulose": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+				"Hemicellulose": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+				"Lignin": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+				"Intermediate Solid": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				},
+				"Char": {
+					"parallel": 0.2,
+					"perpendicular": 0.2
+				}
         },
         "Emissivity": {
             "Equation": "constant",
             "Form": "Component Specific",
-            "Value": [0.8, 0.8, 0.8, 0.9, 0.9, 0.9, 0.95, 0.95, 0.95]
+            "Value": {
+				"Cellulose": 0.8,
+				"Hemicellulose": 0.8,
+				"Lignin": 0.8,
+				"Intermediate Solid": 0.8,
+				"Char": 0.8
+			}
         }
     }
-
 }
 
