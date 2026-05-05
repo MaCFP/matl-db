@@ -54,16 +54,14 @@
 			"Cellulose",
 			"Hemicellulose",
 			"Lignin",
-			"Char1",
-			"Char2",
-			"Char3"	
+			"Char"
 		],
         "Initial Mass Fraction": [0.5, 0.3, 0.2, 0.0, 0.0, 0.0]
     },
     
     "Kinetics": {
         "Reactants": [ [0], [1], [2] ],
-        "Products": [ [3], [4], [5] ],
+        "Products": [ [3], [3], [3] ],
         "Pre-exponential": [7.339e9,1.245e7,3.918e6],
         "Activation Energy": [1.457e5,1.031e5,8.402e4],
         "Reaction Order": [0.844, 4.315, 7.539],
@@ -90,17 +88,7 @@
 					"nc":1,
 					"T0":300
 				},
-				"Char1": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Char2": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Char3": {
+				"Char": {
 					"c0":2500,
 					"nc":1,
 					"T0":300
@@ -159,7 +147,7 @@
 						"T0":300
 					}
 				},
-				"Char1": {
+				"Char": {
 					"parallel": {
 						"k0":0.2,
 						"nk":1,
@@ -170,32 +158,7 @@
 						"nk":1,
 						"T0":300
 					}
-				},
-				"Char2": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
-				},
-				"Char3": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
-				}
-          
+				}     
         },
         "Emissivity": {
             "Equation": "constant",
@@ -204,9 +167,7 @@
 				"Cellulose": 0.8,
 				"Hemicellulose": 0.8,
 				"Lignin": 0.8,
-				"Char1": 0.8,
-				"Char2": 0.8,
-				"Char3": 0.8
+				"Char": 0.8
 			}
         }
     }
