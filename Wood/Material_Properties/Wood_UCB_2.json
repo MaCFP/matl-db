@@ -28,21 +28,22 @@
             "Model": "OpenFOAM+Dakota",
             "Method": "Single Objective Genetic Algorithm (SOGA)",
             "Scope": [
-		"Conductivity",
+				"Conductivity",
                 "Heat Capacity", 
-		"Emissivity",
-                "Heat of Pyrolysis"
+				"Emissivity",
+                "Heat of Pyrolysis",
+				"Composition"
             ],
             "Data": {
                 "Type": "Gasification",
-                "Heating Rate": [[40,60],[30,60]]
-                "Source": ["FSRI","TIFP+UCT"]
+                "Heating Rate": [[40,60],[30,60],[20]]
+                "Source": ["FSRI","TIFP+UCT","TUBS"]
             }
         },       
         {
             "Method": "Literature",
             "Scope": [
-		"Density"
+				"Density"
             ]
         }
     ],
