@@ -72,39 +72,15 @@
  
     "Thermodynamics": {
         "Heat Capacity": {
-	    "Equation": "cp=c0*(T/T0)^nc",
+	    "Equation": "constant",
             "Form": "Component Specific",
 			"Value": {
-				"Cellulose": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Hemicellulose": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Lignin": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Char1": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Char2": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				},
-				"Char3": {
-					"c0":2500,
-					"nc":1,
-					"T0":300
-				}
+				"Cellulose": 2500,
+				"Hemicellulose": 2500,
+				"Lignin": 2500,
+				"Char1": 2500,
+				"Char2": 2500,
+				"Char3": 2500
 			}
         },
         "Heat of Pyrolysis": {
@@ -120,80 +96,32 @@
 
     "Transport": {
         "Conductivity": {
-            "Equation": "k=k0*(T/T0)^nk",
+            "Equation": "constant",
             "Form": "Component Specific, Anisotropic",
 			"Value": {
 				"Cellulose": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
+					"parallel": 0.2,
+					"perpendicular": 0.2
 				},
 				"Hemicellulose": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
+					"parallel": 0.2,
+					"perpendicular": 0.2
 				},
 				"Lignin": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
+					"parallel": 0.2,
+					"perpendicular": 0.2
 				},
 				"Char1": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
+					"parallel": 0.2,
+					"perpendicular": 0.2
 				},
 				"Char2": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
+					"parallel": 0.2,
+					"perpendicular": 0.2
 				},
 				"Char3": {
-					"parallel": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					},
-					"perpendicular": {
-						"k0":0.2,
-						"nk":1,
-						"T0":300
-					}
+					"parallel": 0.2,
+					"perpendicular": 0.2
 				}
           
         },
