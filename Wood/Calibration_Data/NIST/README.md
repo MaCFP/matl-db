@@ -107,9 +107,9 @@ The elemental composition of virgin wood, gaseous pyrolyzates, and residual char
 
 | Material | Carbon wt. % | Hydrogen wt. % | Nitrogen wt. % | Sulfur wt. % | Oxygen wt. % |
 | --------- | :--------: | :---------: | :---------: | :---------: | :---------: |
-| 'MaCFP Wood'| 48.85 ± 1.96   | 6.13 ± 0.25    | 0.05 ± 0.01    | 0       | 40.69 ± 2.81   |
-| Residual Char |91.17 ± 3.93   | 2.28 ± 0.09    | 0.13 ± 0.01    | 0       | 3.65 ± 2.74    |
-| Gaseous Volatiles| 32.04 ± 3.80   | 7.12 ± 0.43    | 0.00 ± 0.02    | 0       | 56.18 ± 4.67   |
+| 'MaCFP Wood'| 48.77 ± 1.95   | 6.13 ± 0.25    | 0.05 ± 0.01    | 0       | 40.69 ± 2.81   |
+| Residual Char |91.19 ± 3.93   | 2.28 ± 0.09    | 0.13 ± 0.01    | 0       | 3.65 ± 2.74    |
+| Gaseous Volatiles| 31.90 ± 3.80   | 7.12 ± 0.43    | 0.00 ± 0.02    | 0       | 56.18 ± 4.67   |
 
 A heated, non-stirred pressure vessel to determine the average molecular weight of gaseous pyrolyzates. In the pressure vessel, approximately 1 g samples of a material of interest is heated above its decomposition temperature in an inert atmosphere (UHP helium, to prevent combustion). The average molecular weight of the evolved gaseous pyrolyzates was calculated by applying the ideal gas law at steady state based on knowledge of: (1) system volume (assumed constant during heating), (2) system temperature and pressure rise, and (3) the initial and final (solid residue) sample mass. 
 
