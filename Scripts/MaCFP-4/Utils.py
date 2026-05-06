@@ -61,7 +61,7 @@ def device_data(directory:Path, device:str)->List[Path]:
         p
         for p in DATA_DIR.rglob("*.csv")
         if p.is_file()
-        if device in p.name.upper()
+        if '_'+device in p.name.upper()
         if not any(parent.name.startswith("TEMPLATE-INSTITUTE-X") for parent in p.parents)
     ]
     return paths
