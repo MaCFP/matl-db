@@ -106,7 +106,7 @@ $$
 k(T) = k0\cdot(T/T0)^{n_k}
 $$
 
-Thermal conductivity is additionally treated as anisotropic, as results provided by TIFP+UCT [[8]](#8) and TUBS [[9]](#9) show a significant difference in mass loss rates between parallel-grain and perpendicular-grain orientations. Here, we optimize the conductivity separately for each grain orientation, producing a single value (or equation) in each direction.
+Thermal conductivity is additionally treated as anisotropic, as results provided by TIFP+UCT [[8]](#8) and TUBS [[9]](#9) show a significant difference in mass loss rates between parallel-grain and perpendicular-grain orientations. Here, we optimize $k_x$ and $k_z$ as separate parameters, selecting one at a time for comparison with the corresponding experimental data.
 
 Solid wood density is assumed constant, with an initial value of $380~\textrm{kg/m}^3$ [[4]](#4). Solid product densities are calculated via the estimated solid fractions from the kinetic schemes above. 
 
