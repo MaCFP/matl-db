@@ -4,7 +4,7 @@ This folder holds results of University of Colorado Boulder efforts on modeling 
 
 ## Notes on Modeling
 
-* We chose to represent the anaerobic pyrolysis of pine wood via the parallel reaction mechanism of generalized components: cellulose, hemicellulose, and lignin. While this reaction scheme does generally produce a better-fitting model than a single exponential, it does require that we have some a priori knowledge of the component mass fractions for our specific wood, as these values can vary widely. While initial species mass fractions can be determined via optimization, doing so while simultaneously estimating their kinetic parameters is not guaranteed to produce physically meaningful results. In order to determine the initial specie composition, we fit a linear combination of TGA mass loss curves for cellulose, hemicellulose, and lignin at 10K/min [[1]](#1) to the overall mass loss curve of the pine wood. Assuming no moisture, we perform this fit using the Constrained Optimization By Linear Approximation (COBYLA) Method, applying the constraint $Y_C + Y_H + Y_L = 1$.
+* We chose to represent the anaerobic pyrolysis of pine wood via the parallel reaction mechanism of generalized components: cellulose, hemicellulose, and lignin. While this reaction scheme does generally produce a better-fitting model than a single exponential, it does require that we have knowledge of the component mass fractions for our specific wood, as these values can vary widely. While initial species mass fractions can be determined via optimization, doing so while simultaneously estimating their kinetic parameters is not guaranteed to produce physically meaningful results. In order to determine the initial specie compositions prior to estimating reaction paramters, we fit a linear combination of TGA mass loss curves for cellulose, hemicellulose, and lignin at 10K/min [[1]](#1) to the overall mass loss curve of the pine wood. Assuming no moisture, we perform this fit using the Constrained Optimization By Linear Approximation (COBYLA) Method, applying the constraint $Y_C + Y_H + Y_L = 1$.
 
 * As a part of this modeling effort, several different reaction schemes are explored. The first is a single-stage, parallel reaction mechanism whereby individual components are each converted to char through one of three parallel reactions. Here, we track 6 total species, as each reaction produces a different char residue. These individual char species may be lumped together by giving them identical material properties. The second reaction scheme is a multi-stage, parallel reaction mechanism whereby individual components are likewise converted to intermediate solid species, which are then converted to char residue through another set of parallel reactions. This gives a total of 6 reactions and 9 species, a number which may again be reduced by lumping together intermediate solid or char residue species. The final reaction scheme is an attempt at a more generalizable reaction scheme where each component is fit to its own individual reaction scheme, using the TGA mass loss curves for each component provided in [[1]](#1). The best reaction scheme for each component was found through trial and error: cellulose: 2-step serial, hemicellulose: 3-step serial, and lignin: 2-step parallel. These individual component reaction schemes are combined in parallel to form the overall reaction scheme for wood, consisting of 11 species and 8 reactions. Further detail is provided below.
 
@@ -94,7 +94,7 @@ Reaction schemes (1) and (2) use experimental TGA data averaged for each heating
 
 ### Gasification
 
-For each of the estimated reaction schemes, we use the available 1D gasification data to fit the material properties of the wood samples. The material properties that we estimate in this work are the speicific heat capacity, thermal conductivity, and emissivity. Assuming that there may be some variation in composition between the wood powder and sample blocks, we also fit for the initial component mass fractions, with the constraint $Y_C + Y_H + Y_L = 1$.
+For each of the estimated reaction schemes, we use the available 1D gasification data to fit the material properties of the wood samples. The material properties that we estimate in this work are the specific heat capacity, thermal conductivity, and emissivity. Assuming that there may be some variation in composition between the wood powder and sample blocks, we also fit for the initial component mass fractions, with the constraint $Y_C + Y_H + Y_L = 1$.
 
 Properties are either defined as constant or exponential in T:
 
@@ -106,15 +106,20 @@ $$
 k(T) = k0\cdot(T/T0)^{n_k}
 $$
 
-Solid wood density is assumed constant, with an initial value of $380~\textrm{kg/m}^3$ [[4]](#4). Solid poduct densities are calculated from the estimed solid fractions in the modeled kinetic schemes. 
+Thermal conductivity is additionally treated as anisotropic, as results provided by TIFP+UCT [[8]](#8) and TUBS [[9]](#9) show a significant difference in mass loss rates between parallel-grain and perpendicular-grain orientations. Here, we optimize the conductivity separately for each grain orientation, producing a single value (or equation) in each direction.
+
+Solid wood density is assumed constant, with an initial value of $380~\textrm{kg/m}^3$ [[4]](#4). Solid product densities are calculated via the estimated solid fractions from the kinetic schemes above. 
 
 This modeling effort used 1D gasification data from FSRI ($40,60~\textrm{kW/m}^2$) [[7]](#7), TIFP+UCT ($30,60~\textrm{kW/m}^2$) [[8]](#8), and TUBS ($20~\textrm{kW/m}^2$) [[9]](#9).
 
-## Folder Structure
+## Folder Structure and Naming Conventions
 
 Complete Material Property Sets are located in the .json files in the Material Property Folder. Files follow the naming convention "Wood_UCB_{i}.json", where "i" corresponds to the different reaction schemes presented above.
 
-Calbration results using these material properties for cases of 0D and 1D anaerobic pyrolysis are available in Calibration Results/UCB. Files follow similar naming structure of "UCB_Wood_GASIFICATION..._\{i\}.csv" for 1D cases and "UCB_Wood_TGA..._\{i\}.csv" for 0D cases. 
+Calbration results using these material properties for cases of 0D and 1D anaerobic pyrolysis are available in Calibration Results/UCB. Files follow similar naming structure of "UCB_Wood_GASIFICATION..._\{i\}.csv" for 1D cases and "UCB_Wood_TGA..._\{i\}.csv" for 0D cases.  
+
+Property sets are calculated using both constant (CONST) and temperature-dependent (TDEP) material properties- for each heating rate/radiative heat flux, results are provided for both versions. In addition, 1D results are provided for both parallel-grain (PARA) and perpendicular-grain orientations (PERP). Tags are included in filenames to differentiate methods. 
+
 
 ## References
 <a id="1">[1]</a> 
