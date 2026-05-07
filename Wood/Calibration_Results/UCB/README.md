@@ -12,7 +12,7 @@ This folder holds results of University of Colorado Boulder efforts on modeling 
 
 * 1D Modeling was performed with a modified version of the OpenFOAM solver fireFoam called porousFireDyMFoam. This solver includes the ability to solve multiple regions with coupled heat and mass transfer, including reacting gas, reacting porous solid, and non-reacting solid phases. For these simulations, only the reacting porous solid was solved, using a porous biomass pyrolysis model is based on gpyro [[4]](#4). This porous biomass model was shown to produce identical results to gpyro for a tutorial case of 1D anaerobic pyrolysis. While OpenFOAM was chosen for integration with existing code and flexibility in case and boundary condition options, most model parameters are treated identically between the two codes, meaning that for the idealized 1D cases shared here, results should be reproducible in gpyro. Simulation times for a single CPU with a single thread were ~10 s for $60 \textrm{kW/m}^2$ tests (500 s simulation time) and ~20 s for $40 \textrm{kW/m}^2$ tests (1000 s simulation time).
 
-* Property estimation for material properties (1D) was performed by coupling the OpenFOAM solver above with the optimization toolkit Dakota [[5]](#5). For this problem, the Single-Objective Genetic Algorithm (SOGA) was chosen. The initial population contained between 50-100 individuals, and the algorithm was run until the average fitness converged to a relative tolerance of 1e-5 (usually about 300-500 generations).
+* Property estimation for material properties (1D) was performed by coupling the OpenFOAM solver above with the optimization toolkit Dakota [[5]](#5). For this problem, the Single-Objective Genetic Algorithm (SOGA) was chosen. The initial population contained 200 individuals, and the algorithm was run until the average fitness converged to a relative tolerance of 1e-5 (300-500 generations).
 
 * For 1D property estimation, we compare mass loss rate MLR $(\textrm{g/m}^2\textrm{/s})$, cumulative mass loss CML (g), and back face temperature T (K) to experimental values via an objective function [[4]](#4):
   
@@ -94,7 +94,7 @@ Reaction schemes (1) and (2) use experimental TGA data averaged for each heating
 
 ### Gasification
 
-For each of the estimated reaction schemes, we use the available 1D gasification data to fit the material properties of the wood samples. The material properties that we estimate in this work are the specific heat capacity, thermal conductivity, and emissivity. Assuming that there may be some variation in composition between the wood powder and sample blocks, we also fit for the initial component mass fractions, with the constraint $Y_C + Y_H + Y_L = 1$.
+For each of the estimated reaction schemes, we use the available 1D gasification data to fit the material properties of the wood samples. The material properties that we estimate in this work are the specific heat capacity, thermal conductivity, and emissivity. While we did obtain an initial specie composition for the 0D samples above, we chose to refit them here for comparison, with the constraint $Y_C + Y_H + Y_L = 1$.
 
 Properties are either defined as constant or exponential in T:
 
