@@ -17,7 +17,7 @@ This folder holds results of University of Colorado Boulder efforts on modeling 
 * For 1D property estimation, we compare mass loss rate MLR $(\textrm{g/m}^2\textrm{/s})$, cumulative mass loss CML (g), and back face temperature T (K) to experimental values via an objective function [[4]](#4):
   
 $$
-f=\frac{\phi_{MLR}}{n_{\Delta t}}\sum\left( \frac{MLR_{exp}}{|MLR_{try} - MLR_{exp}| + \epsilon MLR_{exp}} \right)^\zeta + \frac{\phi_{CML}}{n_{\Delta t}}\sum\left( \frac{CML_{exp}}{|CML_{try} - CML_{exp}| + \epsilon CML_{exp}} \right)^\zeta + \frac{\phi_{T}}{n_{\Delta t}}\sum\left( \frac{T_{exp}}{|T_{try} - T_{exp}| + \epsilon T_{exp}} \right)^\zeta
+f=\frac{\phi_{MLR}}{N_{\Delta t}}\sum\left( \frac{MLR_{exp}}{|MLR_{try} - MLR_{exp}| + \epsilon MLR_{exp}} \right)^\zeta + \frac{\phi_{CML}}{N_{\Delta t}}\sum\left( \frac{CML_{exp}}{|CML_{try} - CML_{exp}| + \epsilon CML_{exp}} \right)^\zeta + \frac{\phi_{T}}{N_{\Delta t}}\sum\left( \frac{T_{exp}}{|T_{try} - T_{exp}| + \epsilon T_{exp}} \right)^\zeta
 $$
 
 Here "exp" and "try" quantities represent the experimental and modeled values at each time point. $\phi$ values represent the weighting for each objective. Fitness exponent $\zeta$ is set to 2, while parameter $\epsilon=0.1$ is used to prevent division by zero.
