@@ -120,7 +120,7 @@ Calbration results using these material properties for cases of 0D and 1D anaero
 
 Property sets are calculated using both constant (CONST) and temperature-dependent (TDEP) material properties- for each heating rate/radiative heat flux, results are provided for both versions. In addition, 1D results are provided for both parallel-grain (PARALLEL) and perpendicular-grain orientations (PERPENDICULAR). Tags are included in filenames to differentiate methods. 
 
-## Conclusions:
+## Conclusions
 
 Based on objective values obtained at convergence, the Component-Wise Parallel Reaction Scheme (3) does the best job of matching all available experimental data. The related files are:
 
