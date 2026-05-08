@@ -116,16 +116,19 @@ This modeling effort used 1D gasification data from FSRI ($40,60~\textrm{kW/m}^2
 
 Complete Material Property Sets are located in the .json files in the Material Property Folder. Files follow the naming convention "Wood_UCB-{i}.json", where "i" corresponds to the different reaction schemes presented above.
 
-Calbration results using these material properties for cases of 0D and 1D anaerobic pyrolysis are available in Calibration Results/UCB. Files follow similar naming structure of "UCB-\{i\}_Wood_GASIFICATION....csv" for 1D cases and "UCB-\{i\}_Wood_TGA(...).csv" for 0D cases.  
+Calbration results using these material properties for cases of 0D and 1D anaerobic pyrolysis are available in Calibration Results/UCB. Files follow similar naming structure of "UCB-\{i\}_Wood_GASIFICATION..." for 1D cases and "UCB-\{i\}_Wood_TGA..." for 0D cases.  
 
 Property sets are calculated using both constant (CONST) and temperature-dependent (TDEP) material properties- for each heating rate/radiative heat flux, results are provided for both versions. In addition, 1D results are provided for both parallel-grain (PARALLEL) and perpendicular-grain orientations (PERPENDICULAR). Tags are included in filenames to differentiate methods. 
 
 ## Conclusions:
 
 Based on objective values obtained at convergence, the Component-Wise Parallel Reaction Scheme (3) does the best job of matching all available experimental data. The related files are:
+
 Material_Properties/Wood_UCB-3.json
-Calibration_Results/UCB-TDEP-PARALLEL-3(...)
-Calibration_Results/UCB-TDEP-PERPENDICULAR-3(...)
+
+Calibration_Results/UCB-TDEP-PARALLEL-3...
+
+Calibration_Results/UCB-TDEP-PERPENDICULAR-3...
 
 
 ## References
