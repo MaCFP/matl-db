@@ -1,0 +1,152 @@
+{
+    "Material": "MaCFP Wood",
+
+    "Lab": "University of Colorado Boulder",
+    
+    "Calibration": [
+	{
+            "Model": "Gpyro",
+            "Method": "Constrained Optimization By Linear Approximation (COBYLA)",
+            "Scope": "Composition",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "All"
+            }
+        },
+        {
+            "Model": "Gpyro",
+            "Method": "Shuffled Complex Evolution",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [5,10,20,30,40,50],
+                "Source": "All"
+            }
+        },
+        {
+            "Model": "OpenFOAM+Dakota",
+            "Method": "Single Objective Genetic Algorithm (SOGA)",
+            "Scope": [
+				"Conductivity",
+		        "Heat Capacity", 
+				"Emissivity",
+		        "Heat of Pyrolysis",
+				"Composition"
+            ],
+            "Data": {
+                "Type": "Gasification",
+                "Heating Rate": [[40,60],[30,60],[20]],
+                "Source": ["FSRI","TIFP+UCT","TUBS"]
+            }
+        },       
+        {
+            "Method": "Literature",
+            "Scope": [
+				"Density"
+            ]
+        }
+    ],
+    
+    "Composition": {
+        "Number of Components": 6,
+        "Component Names": [
+            "Cellulose",
+            "Hemicellulose",
+            "Lignin",
+            "Char1",
+            "Char2",
+            "Char3"
+        ],
+        "Initial Mass Fraction": [
+            0.653,
+            0.224,
+            0.123,
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    
+    "Kinetics": {
+        "Reactants": [ [0], [1], [2] ],
+        "Products": [ [3], [4], [5] ],
+        "Pre-exponential": [7.339e9,1.245e7,3.918e6],
+        "Activation Energy": [1.457e5,1.031e5,8.402e4],
+        "Reaction Order": [0.844, 4.315, 7.539],
+        "Solid Yield": [0.0861, 0.1514, 0.4555]
+    },
+ 
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Equation": "constant",
+            "Form": "Component Specific",
+            "Value": {
+                "Cellulose": 1472.194,
+                "Hemicellulose": 2188.633,
+                "Lignin": 2484.316,
+                "Char1": 1759.997,
+                "Char2": 1187.794,
+                "Char3": 1730.689
+            }
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific",
+            "Value": [
+                284400.0,
+                23160.0,
+                580900.0
+            ]
+        },
+        "Density": {
+            "Equation": "constant",
+            "Form": "Single Value",
+            "Value": 380
+        }
+    },
+    "Transport": {
+        "Conductivity": {
+            "Equation": "constant",
+            "Form": "Component Specific, Anisotropic",
+            "Value": {
+                "Cellulose": {
+                    "parallel": 0.12,
+                    "perpendicular": 0.101
+                },
+                "Hemicellulose": {
+                    "parallel": 0.22,
+                    "perpendicular": 0.117
+                },
+                "Lignin": {
+                    "parallel": 0.299,
+                    "perpendicular": 0.194
+                },
+                "Char1": {
+                    "parallel": 0.255,
+                    "perpendicular": 0.297
+                },
+                "Char2": {
+                    "parallel": 0.193,
+                    "perpendicular": 0.299
+                },
+                "Char3": {
+                    "parallel": 0.148,
+                    "perpendicular": 0.295
+                }
+            }
+        },
+        "Emissivity": {
+            "Equation": "constant",
+            "Form": "Component Specific",
+            "Value": {
+                "Cellulose": 0.845,
+                "Hemicellulose": 0.664,
+                "Lignin": 0.6,
+                "Char1": 0.8,
+                "Char2": 0.802,
+                "Char3": 0.801
+            }
+        }
+    }
+}
+
