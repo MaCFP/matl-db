@@ -125,8 +125,11 @@ Property sets are calculated using both constant (CONST) and temperature-depende
 Based on objective values obtained at convergence, the Component-Wise Parallel Reaction Scheme (3) does the best job of matching all available experimental data. The related files are:
 
 Material_Properties/Wood_UCB-3.json
+
 Calibration_Results/UCB-TDEP-PARALLEL-3...
+
 Calibration_Results/UCB-TDEP-PERPENDICULAR-3...
+
 Calibration_Results/UCB-3_Wood_TGA...
 
 
