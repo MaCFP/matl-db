@@ -1,0 +1,328 @@
+{
+    "Material": "MaCFP Wood",
+
+    "Lab": "University of Colorado Boulder",
+    
+    "Calibration": [
+	{
+            "Model": "Gpyro",
+            "Method": "Constrained Optimization By Linear Approximation (COBYLA)",
+            "Scope": "Composition",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10,
+                "Source": "All"
+            }
+        },
+        {
+            "Model": "Gpyro",
+            "Method": "Shuffled Complex Evolution",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": [5,10,20,30,40,50],
+                "Source": "All"
+            }
+        },
+        {
+            "Model": "OpenFOAM+Dakota",
+            "Method": "Single Objective Genetic Algorithm (SOGA)",
+            "Scope": [
+				"Conductivity",
+                "Heat Capacity", 
+				"Emissivity",
+                "Heat of Pyrolysis",
+				"Composition"
+            ],
+            "Data": {
+                "Type": "Gasification",
+                "Heating Rate": [[40,60],[30,60],[20]],
+                "Source": ["FSRI","TIFP+UCT","TUBS"]
+            }
+        },       
+        {
+            "Method": "Literature",
+            "Scope": [
+				"Density"
+            ]
+        }
+    ],
+    
+     "Composition": {
+        "Number of Components": 11,
+        "Component Names": [
+            "Cellulose",
+            "Hemicellulose",
+            "Lignin",
+            "Is1",
+            "Is2",
+            "Is3",
+            "Is4",
+            "Char1",
+            "Char2",
+            "Char3",
+            "Char4"
+        ],
+        "Initial Mass Fraction": [
+            0.621,
+            0.261,
+            0.118,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    
+    "Kinetics": {
+        "Reactants": [ [0], [3], [1], [4], [5], [2], [6], [2] ],
+        "Products": [ [3], [7], [4], [5], [8], [6], [9], [10] ],
+        "Pre-exponential": [1.232e11,4.299e4,4.174e8,4.190e9,4.165e9,3.583e9,7.545e4,7.276e8],
+        "Activation Energy": [1.614e5,9.404e4,1.076e5,1.272e5,1.322e5,1.196e5,9.141e4,1.276e5],
+        "Reaction Order": [1.062,6.763,3.352,0.896,0.949,5.426,1.289,1.262],
+        "Solid Yield": [0.194,0.374,0.783,0.609,0.375,0.827,0.603,0.157]
+    },
+ 
+   "Thermodynamics": {
+        "Heat Capacity": {
+            "Equation": "cp=c0*(T/T0)^nc",
+            "Form": "Component Specific",
+            "Value": {
+                "Cellulose": {
+                    "c0": 1120.166,
+                    "nc": 1.575,
+                    "T0": 300
+                },
+                "Hemicellulose": {
+                    "c0": 1120.166,
+                    "nc": 1.575,
+                    "T0": 300
+                },
+                "Lignin": {
+                    "c0": 1120.166,
+                    "nc": 1.575,
+                    "T0": 300
+                },
+                "Is1": {
+                    "c0": 1732.038,
+                    "nc": 0.909,
+                    "T0": 300
+                },
+                "Is2": {
+                    "c0": 1732.038,
+                    "nc": 0.909,
+                    "T0": 300
+                },
+                "Is3": {
+                    "c0": 1732.038,
+                    "nc": 0.909,
+                    "T0": 300
+                },
+                "Is4": {
+                    "c0": 1732.038,
+                    "nc": 0.909,
+                    "T0": 300
+                },
+                "Char1": {
+                    "c0": 1732.687,
+                    "nc": 0.305,
+                    "T0": 300
+                },
+                "Char2": {
+                    "c0": 1732.687,
+                    "nc": 0.305,
+                    "T0": 300
+                },
+                "Char3": {
+                    "c0": 1732.687,
+                    "nc": 0.305,
+                    "T0": 300
+                },
+                "Char4": {
+                    "c0": 1732.687,
+                    "nc": 0.305,
+                    "T0": 300
+                }
+            }
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific",
+            "Value": [
+                631300.0,
+                863400.0,
+                298000.0,
+                10030.0,
+                10380.0,
+                10090.0,
+                286100.0,
+                10010.0
+            ]
+        },
+        "Density": {
+            "Equation": "constant",
+            "Form": "Single Value",
+            "Value": 380
+        }
+    },
+    "Transport": {
+        "Conductivity": {
+            "Equation": "k=k0*(T/T0)^nk",
+            "Form": "Component Specific, Anisotropic",
+            "Value": {
+                "Cellulose": {
+                    "parallel": {
+                        "k0": 0.166,
+                        "nk": 0.181,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.073,
+                        "nk": 0.809,
+                        "T0": 300
+                    }
+                },
+                "Hemicellulose": {
+                    "parallel": {
+                        "k0": 0.166,
+                        "nk": 0.181,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.073,
+                        "nk": 0.809,
+                        "T0": 300
+                    }
+                },
+                "Lignin": {
+                    "parallel": {
+                        "k0": 0.166,
+                        "nk": 0.181,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.073,
+                        "nk": 0.809,
+                        "T0": 300
+                    }
+                },
+                "Is1": {
+                    "parallel": {
+                        "k0": 0.054,
+                        "nk": 0.182,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.067,
+                        "nk": 1.136,
+                        "T0": 300
+                    }
+                },
+                "Is2": {
+                    "parallel": {
+                        "k0": 0.054,
+                        "nk": 0.182,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.067,
+                        "nk": 1.136,
+                        "T0": 300
+                    }
+                },
+                "Is3": {
+                    "parallel": {
+                        "k0": 0.054,
+                        "nk": 0.182,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.067,
+                        "nk": 1.136,
+                        "T0": 300
+                    }
+                },
+                "Is4": {
+                    "parallel": {
+                        "k0": 0.054,
+                        "nk": 0.182,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.067,
+                        "nk": 1.136,
+                        "T0": 300
+                    }
+                },
+                "Char1": {
+                    "parallel": {
+                        "k0": 0.201,
+                        "nk": 1.534,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.26,
+                        "nk": 1.351,
+                        "T0": 300
+                    }
+                },
+                "Char2": {
+                    "parallel": {
+                        "k0": 0.201,
+                        "nk": 1.534,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.26,
+                        "nk": 1.351,
+                        "T0": 300
+                    }
+                },
+                "Char3": {
+                    "parallel": {
+                        "k0": 0.201,
+                        "nk": 1.534,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.26,
+                        "nk": 1.351,
+                        "T0": 300
+                    }
+                },
+                "Char4": {
+                    "parallel": {
+                        "k0": 0.201,
+                        "nk": 1.534,
+                        "T0": 300
+                    },
+                    "perpendicular": {
+                        "k0": 0.26,
+                        "nk": 1.351,
+                        "T0": 300
+                    }
+                }
+            }
+        },
+        "Emissivity": {
+            "Equation": "constant",
+            "Form": "Component Specific",
+            "Value": {
+                "Cellulose": 0.848,
+                "Hemicellulose": 0.848,
+                "Lignin": 0.848,
+                "Is1": 0.764,
+                "Is2": 0.764,
+                "Is3": 0.764,
+                "Is4": 0.764,
+                "Char1": 0.876,
+                "Char2": 0.876,
+                "Char3": 0.876,
+                "Char4": 0.876
+            }
+        }
+    }
+}
