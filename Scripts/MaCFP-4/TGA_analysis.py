@@ -346,18 +346,24 @@ for series in unique_conditions_material:
     for config in plot_configs:
         fig1, ax1 = plt.subplots(figsize=(6, 4))
         fig2, ax2 = plt.subplots(figsize=(6, 4))
+        fig3, ax3 = plt.subplots(figsize=(6, 4))
         for path in TGA_subset_paths:
             df_raw = pd.read_csv(path)
             if 'FPL' in path.stem:
                 df_raw = df_raw[df_raw['Temperature (K)'] > 400]
             df = Calculate_dm_dt(df_raw)
             label, color = label_def(path.stem.split('_')[0])
+            T400_index = df[df['Temperature (K)'] >= 400].index[0]
+            mass400 = df['Normalized mass'].iloc[T400_index]
+            df['Normalized mass 400K'] = df['Normalized mass'] / mass400
             if '40Pa' in path.stem:
                 ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color,linestyle =':')
                 ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color,linestyle =':')
+                ax3.plot(df['Temperature (K)'], df['Normalized mass 400K'], label=label, color=color, linestyle=':')
             else:
                 ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color)
                 ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color)
+                ax3.plot(df['Temperature (K)'], df['Normalized mass 400K'], label=label, color=color)
         # Apply configuration
         ax1.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
         ax1.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
@@ -377,10 +383,22 @@ for series in unique_conditions_material:
         by_label2 = dict(zip(labels2, handles2))
         ax2.legend(by_label2.values(), by_label2.keys())
 
+        ax3.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
+        ax3.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
+        ax3.set_xlabel('Temperature [K]')
+        ax3.set_ylabel('m/m$_{400K}$ [g/g]')
+        fig3.tight_layout()
+
+        handles3, labels3 = ax3.get_legend_handles_labels()
+        by_label3 = dict(zip(labels3, handles3))
+        ax3.legend(by_label3.values(), by_label3.keys())
+
         fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass{config["suffix"]}.{ex}')
         fig2.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_dmdt{config["suffix"]}.{ex}')
+        fig3.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_400Knorm{config["suffix"]}.{ex}')
         plt.close(fig1)
         plt.close(fig2)
+        plt.close(fig3)
 
 
 
@@ -539,6 +557,8 @@ for idx,set in enumerate(TGA_sets):
     m_400_list = []
     m_700_list = []
     m_950_list = []
+    m_700_400_list = []
+    m_950_400_list = []
 
     for path in paths_TGA_set:
         df_raw = pd.read_csv(path)
@@ -550,7 +570,8 @@ for idx,set in enumerate(TGA_sets):
         onset_index = df[(df['dm/dt'] >= 0.1 * peak_mlr) & (df['Temperature (K)'] > 400)].index[0]
         T_onset = df["Temperature (K)"].iloc[onset_index]
         T400_index = df[(df['Temperature (K)'] >=400)].index[0]
-        m400 = 1-df["Normalized mass"].iloc[T400_index]
+        MC400 = 1-df["Normalized mass"].iloc[T400_index] # moisture content
+        m400 = df["Normalized mass"].iloc[T400_index]
         try:
             T700_index = df[(df['Temperature (K)'] >=700)].index[0]
             m700 = df["Normalized mass"].iloc[T700_index]
@@ -562,12 +583,24 @@ for idx,set in enumerate(TGA_sets):
         except:
             m950 = np.nan
 
+        try:
+            m700_400 = m700 / m400
+        except:
+            m700_400 = np.nan
+
+        try:
+            m950_400 = m950 / m400
+        except:
+            m950_400 = np.nan
+
         peak_mlr_list.append(peak_mlr)
         T_peak_list.append(T_peak)
         T_onset_list.append(T_onset)
-        m_400_list.append(m400)
+        m_400_list.append(MC400)
         m_700_list.append(m700)
         m_950_list.append(m950)
+        m_700_400_list.append(m700_400)
+        m_950_400_list.append(m950_400)
 
         ax_mass.plot(df['Temperature (K)'], df['Normalized mass'], '-',linewidth = 0.05, color ='black')
         ax_rate.plot(df['Temperature (K)'], df['dm/dt'],'-',linewidth = 0.05,color='black', markersize=0.5)
@@ -583,6 +616,10 @@ for idx,set in enumerate(TGA_sets):
     Average_values.at[idx, 'std m 700'] = np.std(m_700_list, ddof=1)
     Average_values.at[idx, 'm 950'] = np.mean(m_950_list)
     Average_values.at[idx, 'std m 950'] = np.std(m_950_list, ddof=1)
+    Average_values.at[idx, 'm 700 400Knorm'] = np.mean(m_700_400_list)
+    Average_values.at[idx, 'std m 700 400Knorm'] = np.std(m_700_400_list, ddof=1)
+    Average_values.at[idx, 'm 950 400Knorm'] = np.mean(m_950_400_list)
+    Average_values.at[idx, 'std m 950 400Knorm'] = np.std(m_950_400_list, ddof=1)
 
     # Set lower limits of both y-axes to 0
     ax_mass.set_ylim(bottom=0)
@@ -695,6 +732,17 @@ Average_values_sorted['c950_formatted'] = Average_values_sorted.apply(
     axis=1
 )
 
+# Format char ratio at 700K normalized by mass at 400K
+Average_values_sorted['c700_400_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(100*row['m 700 400Knorm'], 100*row['std m 700 400Knorm']),
+    axis=1
+)
+
+# Format char ratio at 950K normalized by mass at 400K
+Average_values_sorted['c950_400_formatted'] = Average_values_sorted.apply(
+    lambda row: format_temperature(100*row['m 950 400Knorm'], 100*row['std m 950 400Knorm']),
+    axis=1
+)
 
 # Format conditions (convert list to string)
 Average_values_sorted['conditions_formatted'] = Average_values_sorted['conditions'].apply(
@@ -760,3 +808,36 @@ latex_string = '\n'.join(new_lines)
 # Save to file
 with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
     f.write(latex_string)
+
+# Generate separate table for 400K-normalized values
+columns_to_keep_400Knorm = ['Institution_formatted', 'conditions_formatted', 'MC_formatted', 'c700_formatted', 'c950_formatted',
+                            'c700_400_formatted', 'c950_400_formatted','condition_key']
+
+Average_values_table_400Knorm = Average_values_sorted[columns_to_keep_400Knorm].copy()
+
+Average_values_table_400Knorm.columns = ['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)',
+                                         'm/m_{0} at 950~K (\\%)', 'm/m_{400K} at 700~K (\\%)', 'm/m_{400K} at 950~K (\\%)',
+                                         'condition_key']
+
+latex_string_400Knorm = Average_values_table_400Knorm.to_latex(
+    index=False,
+    escape=False,
+    column_format='llccccc',
+    columns=['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)', 'm/m_{0} at 950~K (\\%)',
+             'm/m_{400K} at 700~K (\\%)', 'm/m_{400K} at 950~K (\\%)']
+)
+
+latex_string_400Knorm = latex_string_400Knorm.replace('\\toprule', '\\hline')
+latex_string_400Knorm = latex_string_400Knorm.replace('\\midrule', '\\hline')
+latex_string_400Knorm = latex_string_400Knorm.replace('\\bottomrule', '\\hline')
+
+latex_string_400Knorm = latex_string_400Knorm.replace('Institution', '\\textbf{Institution}')
+latex_string_400Knorm = latex_string_400Knorm.replace('Conditions', '\\textbf{Conditions}')
+latex_string_400Knorm = latex_string_400Knorm.replace('MC (\\%)', '\\textbf{MC (\\%)}')
+latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{0} at 700~K (\\%)', '\\textbf{$m/m_{0}$ at 700~K (\\%)}')
+latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{0} at 950~K (\\%)', '\\textbf{$m/m_{0}$ at 950~K (\\%)}')
+latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{400K} at 700~K (\\%)', '\\textbf{$m/m_{400K}$ at 700~K (\\%)}')
+latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{400K} at 950~K (\\%)', '\\textbf{$m/m_{400K}$ at 950~K (\\%)}')
+
+with open(str(base_dir) + f'/TGA/TGA_Values_400Knorm.tex', 'w') as f:
+    f.write(latex_string_400Knorm)
