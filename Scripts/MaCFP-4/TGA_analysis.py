@@ -7,6 +7,7 @@ Main script for TGA analysis for MaCFP-4
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import math
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -319,7 +320,9 @@ for HR in unique_HR:
             ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
             ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
             fig.tight_layout()
-            ax.legend()
+            handles, labels = ax.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax.legend(by_label.values(), by_label.keys(), ncol=math.ceil(len(by_label) / 6))
             ax.set_xlim(right=1100)
         plt.savefig(str(base_dir) +'/TGA/dTdt_TGA_{}Kmin.{}'.format(HR[:-1], ex))
         plt.close(fig)
