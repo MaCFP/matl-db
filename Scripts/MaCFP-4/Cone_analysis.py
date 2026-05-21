@@ -35,7 +35,7 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 # ------------------------------------
 #region data
 # ------------------------------------
-#This section is used to determine what cone data is available. 
+#This section is used to determine what cone data is available.
 Cone_Data = device_data(DATA_DIR, 'CONE')
 Cone_sets = get_series_names(Cone_Data)
 Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA') + device_data(DATA_DIR, 'FPA')
@@ -107,6 +107,33 @@ set_plot_style()
 # ------------------------------------
 #region functions
 # ------------------------------------
+def get_grain_orientation(path):
+    name = path.stem.lower()
+    if 'perpendicular' in name:
+        return 'Perpendicular'
+    if 'parallel' in name:
+        return 'Parallel'
+    return 'Parallel'
+
+
+def get_cone_grain_series_key(path):
+    stem = re.sub(r'_[Rr]\d+$', '', path.stem)
+
+    if 'perpendicular' in stem.lower() or 'parallel' in stem.lower():
+        return stem
+
+    return stem + '_Parallel'
+
+
+def get_cone_grain_paths(series_name):
+    return [p for p in Cone_Data if get_cone_grain_series_key(p) == series_name]
+
+
+def get_grain_linestyle_from_name(name):
+    if 'perpendicular' in name.lower():
+        return '--'
+    return '-'
+
 def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None,exclude_individual: Optional[Union[str, List[str]]] = None)->pd.DataFrame:
     """Calculate average mass and HRR for a test series.
     Args:
@@ -194,7 +221,63 @@ def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]
 
     return df_average
 
+def average_cone_grain_series(series_name):
+    paths = get_cone_grain_paths(series_name)
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
 
+    Dataframes = []
+    if len(paths) == 0:
+        raise Exception((f"No files found for series {series_name}", "red"))
+
+    for path in paths:
+        df_raw = pd.read_csv(path)
+
+        t_floor = df_raw["Time (s)"].iloc[0]
+        t_ceil = df_raw["Time (s)"].iloc[-1]
+
+        if pd.isna(t_floor) or pd.isna(t_ceil) or t_ceil <= t_floor:
+            print(f"WARNING: Skipping {path} — invalid time range ({t_floor} to {t_ceil})")
+            continue
+
+        t_floor = np.ceil(t_floor)
+        t_ceil = np.floor(t_ceil)
+
+        InterpT = np.arange(t_floor, t_ceil + 1, 1)
+        df_interp = pd.DataFrame(index=range(len(InterpT)))
+
+        for column in df_raw.columns:
+            df_interp[column] = np.interp(InterpT, df_raw["Time (s)"], df_raw[column])
+
+        Dataframes.append(df_interp)
+
+    merged_df = Dataframes[0]
+    for df in Dataframes[1:]:
+        merged_df = pd.merge(
+            merged_df,
+            df,
+            on="Time (s)",
+            how="outer",
+            suffixes=("", f" {int(len(merged_df.columns)/2+0.5)}"),
+        )
+
+    merged_df.rename(columns={'HRR (kW/m2)': "HRR (kW/m2) 1"}, inplace=True)
+
+    HRR_cols = merged_df.filter(regex=r'^HRR \(kW/m2\)').columns
+
+    df_average = pd.DataFrame({'Time (s)': merged_df['Time (s)']})
+
+    n = 2
+    sum_hrr = merged_df[HRR_cols].rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+    cnt_hrr = merged_df[HRR_cols].rolling(2*n+1, min_periods=1, center=True).count().sum(axis=1)
+
+    df_average['HRR (kW/m2)'] = sum_hrr / cnt_hrr
+
+    diff = merged_df[HRR_cols].sub(df_average['HRR (kW/m2)'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+
+    df_average['unc HRR (kW/m2)'] = np.sqrt(sum_diff/(cnt_hrr*(cnt_hrr-1)))
+
+    return df_average
 
 def average_Gas_series(series_name: str)->pd.DataFrame:
     """Calculate average mass and MLR for a test series."""
@@ -280,39 +363,83 @@ def Calculate_dm_dt(df:pd.DataFrame):
 for series in unique_conditions_cone_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
+
     parts = series.split('_')
-    material, dev, flux, orient  = parts[:4]
-    Cone_subset_paths = [p for p in Cone_Data if f"{material}_" in p.name and f"_{flux}_{orient}_" in p.name]
+    material, dev, flux, orient = parts[:4]
+
+    Cone_subset_paths = [p for p in Cone_Data
+                         if f"{material}_" in p.name and f"_{flux}_{orient}_" in p.name]
+
+    orientation_handles = {
+        'Parallel': plt.Line2D([0], [0], color='black', linestyle='-'),
+        'Perpendicular': plt.Line2D([0], [0], color='black', linestyle=(0, (1, 2)))
+    }
+
+    institution_handles = {}
+
     for path in Cone_subset_paths:
         df_raw = pd.read_csv(path)
-        df=df_raw
+        df = df_raw
+
         label, color = label_def(path.stem.split('_')[0])
-        ax1.plot(df['Time (s)'],savgol_filter((-1)*np.gradient(df['Mass (g)'],df['Time (s)']),53,3),'-', label = label, color=color)
-        if path.stem.split('_')[0] =='UMET':
-            zorder =1
+
+        grain_orientation = get_grain_orientation(path)
+        linestyle = '-' if grain_orientation == 'Parallel' else (0, (1, 2))
+
+        institution_handles[label] = plt.Line2D([0], [0],
+                                                color=color,
+                                                linestyle='-')
+
+        ax1.plot(df['Time (s)'],
+                 savgol_filter((-1)*np.gradient(df['Mass (g)'],
+                 df['Time (s)']), 53, 3),
+                 linestyle=linestyle,
+                 color=color)
+
+        if path.stem.split('_')[0] == 'UMET':
+            zorder = 1
         else:
-            zorder =5
-        ax2.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', label = label, color=color, zorder=zorder)
+            zorder = 5
+
+        ax2.plot(df['Time (s)'],
+                 df['HRR (kW/m2)'],
+                 linestyle=linestyle,
+                 color=color,
+                 zorder=zorder)
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
     ax1.set_ylabel('Mass loss rate [g/s]')
     fig1.tight_layout()
-    handles1, labels1 = ax1.get_legend_handles_labels()
-    by_label1 = dict(zip(labels1, handles1))
-    ax1.legend(by_label1.values(), by_label1.keys())
+
+    legend1 = ax1.legend(orientation_handles.values(),
+                         orientation_handles.keys(),
+                         loc='upper right')
+
+    ax1.add_artist(legend1)
+
+    ax1.legend(institution_handles.values(),
+               institution_handles.keys(),
+               loc='center right')
 
     ax2.set_ylim(bottom=0)
     ax2.set_xlabel('Time [s]')
     ax2.set_ylabel('HRR [kW/m$^2$]')
     fig2.tight_layout()
-    handles2, labels2 = ax2.get_legend_handles_labels()
-    by_label2 = dict(zip(labels2, handles2))
-    ax2.legend(by_label2.values(), by_label2.keys())
 
-    fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_Mass.{}'.format(material, flux,orient,ex))
-    fig2.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_HRR.{}'.format(material, flux,orient,ex))
+    legend2 = ax2.legend(orientation_handles.values(),
+                         orientation_handles.keys(),
+                         loc='upper right')
 
+    ax2.add_artist(legend2)
+
+    ax2.legend(institution_handles.values(),
+               institution_handles.keys(),
+               loc='center right')
+
+    fig1.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_Mass.{}'.format(material, flux, orient, ex))
+
+    fig2.savefig(str(base_dir) + '/Cone/Cone_{}_{}_{}_HRR.{}'.format(material, flux, orient, ex))
 
     plt.close(fig1)
     plt.close(fig2)
@@ -749,57 +876,90 @@ final_table_sorted['HOC_formatted'] = final_table_sorted.apply(
 )
 
 
-# Format conditions (keep as is or clean up)
-final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(
-    lambda x: ', '.join(x) if isinstance(x, list) else str(x).replace('_', ' ')
-)
+def format_cone_conditions_without_grain(conditions):
+    if isinstance(conditions, list):
+        parts = conditions.copy()
+    else:
+        parts = str(conditions).replace('_', ' ').split(', ')
+
+    parts = [p for p in parts if p.lower() not in ['parallel', 'perpendicular']]
+    return ', '.join(parts)
+
+
+def format_cone_grain_orientation(conditions):
+    text = ', '.join(conditions) if isinstance(conditions, list) else str(conditions)
+
+    if 'perpendicular' in text.lower():
+        return 'Perpendicular'
+
+    if 'parallel' in text.lower():
+        return 'Parallel'
+
+    return 'Parallel$^*$'
+
+
+final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(format_cone_conditions_without_grain)
+final_table_sorted['grain_orientation_formatted'] = final_table_sorted['conditions'].apply(format_cone_grain_orientation)
 
 # Select and rename columns for the table
-columns_to_keep = ['Duck', 'conditions_formatted', 'ignitiont_formatted', 
-                    'HOC_formatted', 'condition_key']
+columns_to_keep = ['Duck', 'conditions_formatted', 'grain_orientation_formatted',
+                   'ignitiont_formatted', 'HOC_formatted', 'condition_key']
 
 final_latex_table = final_table_sorted[columns_to_keep].copy()
-final_latex_table.columns = ['Institution', 'Conditions','Ignition time (s)', 'HOC (kJ/g)', 'condition_key']
+final_latex_table.columns = ['Institution', 'Conditions', 'Grain orientation',
+                             'Ignition time (s)', 'HOC (kJ/g)', 'condition_key']
 
 # Generate LaTeX
 latex_string = final_latex_table.to_latex(
     index=False,
     escape=False,
     column_format='llcccccc',
-    columns=['Institution', 'Conditions','T onset (K)','Ignition time (s)', 'HOC (kJ/g)']
+    columns=['Institution', 'Conditions', 'Grain orientation', 'Ignition time (s)', 'HOC (kJ/g)']
 )
 
 # Modify the string
 latex_string = latex_string.replace('\\toprule', '\\hline')
 latex_string = latex_string.replace('\\midrule', '\\hline')
 latex_string = latex_string.replace('\\bottomrule', '\\hline')
+latex_string = latex_string.replace(
+    '\\end{tabular}',
+    '\\end{tabular}\n\\\\\n$^*$ Parallel grain orientation assumed when not explicitly specified in the original dataset filenames.'
+)
 
 # Make column headers bold
-for col in ['Institution', 'Conditions','T onset (K)','Ignition time (s)', 'HOC (kJ/g)']:
+for col in ['Institution', 'Conditions', 'Grain orientation', 'Ignition time (s)', 'HOC (kJ/g)']:
     latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
 
 
 # Add blank lines between different condition groups
 lines = latex_string.split('\n')
 new_lines = []
-prev_condition_key = None
+prev_flux = None
 
 # Track condition keys as we iterate through table rows
 condition_keys = final_latex_table['condition_key'].tolist()
 data_row_index = 0
 
 for i, line in enumerate(lines):
-    # Check if this is a data row (contains '&' but not '\textbf')
+
+    # Check if this is a data row
     if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+
         current_condition_key = condition_keys[data_row_index]
-        
-        # If condition key changed and this is not the first data row, add blank line
-        if prev_condition_key is not None and current_condition_key != prev_condition_key:
-            new_lines.append('        \\\\')
-        
-        prev_condition_key = current_condition_key
+
+        # Extract only heat flux (e.g. 25kW, 50kW)
+        if isinstance(current_condition_key, list):
+            current_flux = current_condition_key[0]
+        else:
+            current_flux = current_condition_key.split('_')[0]
+
+        # Add small vertical spacing only when flux changes
+        if prev_flux is not None and current_flux != prev_flux:
+            new_lines.append('\\noalign{\\vskip 6pt}')
+
+        prev_flux = current_flux
         data_row_index += 1
-    
+
     new_lines.append(line)
 
 latex_string = '\n'.join(new_lines)
