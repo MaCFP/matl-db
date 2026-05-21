@@ -98,7 +98,9 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 
 
 
-### Experimental Conditions, FPA
+### Experimental Conditions, FPA 
+
+[Warning: There is an unexpected error in the HRRPUA data from FPA. The files have now been deleted, and we will resubmit them once we have corrected the issue, if possible.]
 
 * Instrument
 
