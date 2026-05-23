@@ -1,4 +1,4 @@
-Time (s),Temperature (K),Mass (mg),Heat Flow (W/g)
+Time (s),Temperature (K),Mass (mg),Heat Flow Rate (W/g)
 0.00,301.901,5.0700,-0.00184
 65.71,302.401,5.0574,0.0812
 79.91,302.901,5.0580,0.12329
