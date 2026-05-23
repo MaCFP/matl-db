@@ -11,8 +11,8 @@ The data was interpolated to match a 0.5 K spacing, as requested by MaCFP.Note t
 ### Experiment Overview
 - Sample
     - Preparation: Powdered, as provided by MaCFP
-    - Initial mass: 5.01 mg ± 0.14 mg
-    - Final mass: 0.78 mg ± 0.34 mg
+    - Initial mass: 5.01 mg ± 0.15 mg
+    - Final mass: 0.82 mg ± 0.32 mg
     - Notes: None
 - Crucible
     - Type: None
@@ -26,9 +26,9 @@ The data was interpolated to match a 0.5 K spacing, as requested by MaCFP.Note t
     - Notes: None
 - Temperature program
     - Heating rates, nominal (K/min): 5, 10, 20, 50
-    - Initial temperature: 298.80 K ± 3.93 K
+    - Initial temperature: 299.32 K ± 4.09 K
     - Initial isotherm: None
-    - Final temperature: 871.80 K ± 1.09 K
+    - Final temperature: 872.02 K ± 1.05 K
     - Final isotherm: None
     - Notes: None
 - Carrier gas
@@ -49,10 +49,8 @@ The data was interpolated to match a 0.5 K spacing, as requested by MaCFP.Note t
 | BUWfd_Wood_STA_N2_5K_R3 | 5.12 | 0.84 | 5 | main measurement |
 | BUWfd_Wood_STA_N2_10K_R1 | 4.88 | 0.23 | 10 | main measurement |
 | BUWfd_Wood_STA_N2_10K_R2 | 5.07 | 0.18 | 10 | main measurement |
-| BUWfd_Wood_STA_N2_10K_R3 | 5.04 | 1.0 | 10 | main measurement |
 | BUWfd_Wood_STA_N2_20K_R1 | 5.12 | 1.1 | 20 | main measurement |
 | BUWfd_Wood_STA_N2_20K_R2 | 4.98 | 1.1 | 20 | main measurement |
-| BUWfd_Wood_STA_N2_20K_R3 | 4.95 | 0.18 | 20 | main measurement |
 | BUWfd_Wood_STA_N2_50K_R1 | 4.85 | 1.0 | 50 | main measurement |
 | BUWfd_Wood_STA_N2_50K_R2 | 5.14 | 0.98 | 50 | main measurement |
 | BUWfd_Wood_STA_N2_50K_R3 | 4.83 | 0.92 | 50 | main measurement |
