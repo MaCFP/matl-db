@@ -221,9 +221,25 @@ def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]
 
     return df_average
 
-def average_cone_grain_series(series_name):
+def average_cone_grain_series(series_name: str, exclude: Optional[Union[str, List[str]]] = None, exclude_individual: Optional[Union[str, List[str]]] = None) -> pd.DataFrame:
     paths = get_cone_grain_paths(series_name)
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
+
+    # Apply institution exclusions
+    if exclude is not None:
+        if not isinstance(exclude, list):
+            exclude = [exclude]
+
+        for excl in exclude:
+            paths = [p for p in paths if excl not in str(p)]
+
+    # Apply individual experiment exclusions
+    if exclude_individual is not None:
+        if not isinstance(exclude_individual, list):
+            exclude_individual = [exclude_individual]
+
+        for excl in exclude_individual:
+            paths = [p for p in paths if excl not in p.stem]
 
     Dataframes = []
     if len(paths) == 0:
@@ -535,7 +551,7 @@ print(Average_values)
 
 
 # Average plot for Mass and mass loss rate (averaging over different institutes)
-color = {'25kW':'white','30kW':'blue','50kW':'black','60kW':'red','75kW':'white'}
+color = {'25kW': 'green', '30kW': 'blue', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 average_data = {}
 
@@ -548,7 +564,7 @@ for series in ['Cone_25kW_hor','Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor','
         for i, path in enumerate(paths):
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
-            ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
+            # ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
     df_average = average_cone_series(series, ['UMET','UQ'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'])
     average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
@@ -566,11 +582,116 @@ ax1.legend()
 
 fig1.savefig(str(base_dir) + '/Cone/Cone_Average_HRR.{}'.format(ex))
 
+
 for series, df_data in average_data.items():
     df_data.to_csv(str(base_dir) + '/Cone/Cone_Average_{}.csv'.format(series), index=False)
 
 
 plt.close(fig1)
+
+# Average HRR plot separated by grain orientation
+
+color = {'25kW': 'green', '30kW': 'blue', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
+linestyle_map = {'Parallel': '-', 'Perpendicular': (0, (1.5, 2))}
+
+fig_grain, ax_grain = plt.subplots(figsize=(6, 4))
+
+for series in ['Cone_25kW_hor', 'Cone_30kW_hor', 'Cone_50kW_hor', 'Cone_60kW_hor', 'Cone_75kW_hor']:
+    flux = series.split('_')[1]
+    for orientation in ['Parallel', 'Perpendicular']:
+
+        paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+        paths = [p for p in paths if "TEMPLATE" not in str(p)]
+        paths = [p for p in paths if p in Cone_Data]
+
+        paths = [p for p in paths if get_grain_orientation(p) == orientation]
+        # print(series, orientation, len(paths))
+
+        paths = [p for p in paths if 'UMET' not in str(p)]
+        paths = [p for p in paths if 'UQ' not in str(p)]
+        paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+        paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+        if len(paths) == 0:
+            continue
+
+        Dataframes = []
+        for path in paths:
+
+            df_raw = pd.read_csv(path)
+            t_floor = np.ceil(df_raw["Time (s)"].iloc[0])
+            t_ceil = np.floor(df_raw["Time (s)"].iloc[-1])
+
+            if pd.isna(t_floor) or pd.isna(t_ceil) or t_ceil <= t_floor:
+                continue
+
+            InterpT = np.arange(t_floor, t_ceil + 1, 1)
+            df_interp = pd.DataFrame(index=range(len(InterpT)))
+
+            for column in df_raw.columns:
+                df_interp[column] = np.interp(InterpT, df_raw["Time (s)"], df_raw[column])
+
+            Dataframes.append(df_interp)
+
+        if len(Dataframes) == 0:
+            continue
+
+        merged_df = Dataframes[0]
+
+        for df in Dataframes[1:]:
+            merged_df = pd.merge(merged_df, df, on="Time (s)", how="outer", suffixes=("", f" {int(len(merged_df.columns)/2+0.5)}"))
+
+        merged_df.rename(columns={'HRR (kW/m2)': "HRR (kW/m2) 1"}, inplace=True)
+        HRR_cols = merged_df.filter(regex=r'^HRR \(kW/m2\)').columns
+        df_average = pd.DataFrame({'Time (s)': merged_df['Time (s)']})
+
+        n = 2
+        sum_hrr = merged_df[HRR_cols].rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+        cnt_hrr = merged_df[HRR_cols].rolling(2*n+1, min_periods=1, center=True).count().sum(axis=1)
+        df_average['HRR (kW/m2)'] = sum_hrr / cnt_hrr
+
+        diff = merged_df[HRR_cols].sub(df_average['HRR (kW/m2)'], axis=0)**2
+
+        sum_diff = diff.rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+
+        df_average['unc HRR (kW/m2)'] = np.sqrt(sum_diff / (cnt_hrr * (cnt_hrr - 1)))
+
+        ax_grain.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], color=color[flux], linestyle=linestyle_map[orientation], label=f'{flux}/m$^2$ {orientation}')
+
+        ax_grain.fill_between(df_average['Time (s)'],
+                              df_average['HRR (kW/m2)'] - 2*df_average['unc HRR (kW/m2)'],
+                              df_average['HRR (kW/m2)'] + 2*df_average['unc HRR (kW/m2)'],
+                              color=color[flux],
+                              alpha=0.2)
+
+ax_grain.set_ylim(bottom=0, top=250)
+ax_grain.set_xlim(right=2500)
+
+ax_grain.set_xlabel('Time [s]')
+ax_grain.set_ylabel('HRR [kW/m$^2$]')
+
+orientation_handles = [
+    plt.Line2D([0], [0], color='black', linestyle='-'),
+    plt.Line2D([0], [0], color='black', linestyle=(0, (1.5, 2)))
+]
+
+orientation_labels = ['Parallel', 'Perpendicular']
+
+flux_handles = [plt.Line2D([0], [0], color=color['25kW'], lw=2), plt.Line2D([0], [0], color=color['30kW'], lw=2),
+    plt.Line2D([0], [0], color=color['50kW'], lw=2), plt.Line2D([0], [0], color=color['60kW'], lw=2),
+    plt.Line2D([0], [0], color=color['75kW'], lw=2)]
+
+flux_labels = ['25 kW/m$^2$','30 kW/m$^2$','50 kW/m$^2$','60 kW/m$^2$','75 kW/m$^2$']
+
+legend1 = ax_grain.legend(orientation_handles, orientation_labels, loc='upper center')
+ax_grain.add_artist(legend1)
+ax_grain.legend(flux_handles, flux_labels, loc='upper right')
+
+fig_grain.tight_layout()
+
+fig_grain.savefig(str(base_dir) + '/Cone/Cone_Average_HRR_grain.{}'.format(ex))
+
+plt.close(fig_grain)
 
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
@@ -964,6 +1085,18 @@ for i, line in enumerate(lines):
 
 latex_string = '\n'.join(new_lines)
 
+# print('\nInstitution label mapping:')
+#
+# institutions = sorted([
+#     p.name for p in DATA_DIR.iterdir()
+#     if p.is_dir() and 'TEMPLATE' not in p.name
+# ])
+#
+# for lab in institutions:
+#     label, color = label_def(lab)
+#     print(f'{lab} -> {label}')
+
 # Save to file
 with open(str(base_dir) + f'/Cone/Cone_Values.tex', 'w') as f:
     f.write(latex_string)
+
