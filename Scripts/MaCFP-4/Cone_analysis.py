@@ -56,6 +56,13 @@ gas_flux = sorted(kw_values)
 
 
 # Print tables
+# print('\nAvailable gasification heat fluxes:')
+# print(sorted(gas_flux))
+#
+# print('\nAvailable gasification conditions:')
+# for item in sorted(unique_conditions_gas):
+#     print(item)
+
 print('Cone table')
 table = make_institution_table(Cone_Data,['Wood'],['25kW','30kW','50kW','60kW','75kW'],['hor'])
 table.loc['Total'] = table.sum(axis=0)
@@ -73,7 +80,8 @@ latex_str = format_latex(Capa,'Incident Heat Flux (kW/m$^2$)')
 with open(str(base_dir) +'/Cone/Capa.tex', 'w') as f:
     f.write(latex_str)
 
-Gasification = make_institution_table(Gasification_Data,['Wood'],['30kW','40kW','60kW'], ['hor'])
+Gasification = make_institution_table(Gasification_Data, ['Wood'], sorted(gas_flux), ['hor'])
+Gasification = Gasification.loc[:, Gasification.sum(axis=0) > 0]
 Gasification.loc['Total'] = Gasification.sum(axis=0)
 print(Gasification)
 latex_str = format_latex(Gasification,'Incident Heat Flux (kW/m$^2$)')
@@ -109,10 +117,10 @@ set_plot_style()
 # ------------------------------------
 def get_grain_orientation(path):
     name = path.stem.lower()
+
     if 'perpendicular' in name:
         return 'Perpendicular'
-    if 'parallel' in name:
-        return 'Parallel'
+
     return 'Parallel'
 
 
@@ -589,6 +597,70 @@ for series, df_data in average_data.items():
 
 plt.close(fig1)
 
+# Initial density versus heat of combustion for individual Cone measurements
+
+volume = 10 * 10 * 2.54
+marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
+
+for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
+
+    fig_hoc, ax_hoc = plt.subplots(figsize=(6, 4))
+    institution_handles = {}
+
+    orientation_handles = [
+        plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
+        plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
+    ]
+
+    series = f'Cone_{flux}_hor'
+    paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in Cone_Data]
+    paths = [p for p in paths if 'UMET' not in str(p)]
+    paths = [p for p in paths if 'UQ' not in str(p)]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    for path in paths:
+        df_raw = pd.read_csv(path)
+
+        if not (df_raw['HRR (kW/m2)'] >= 24).any():
+            continue
+
+        df = calculate_int_HRR(df_raw)
+
+        index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
+        index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
+
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+            A_surf = 0.01
+        else:
+            A_surf = 0.00884
+
+        HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
+
+        m0 = np.mean(df["Mass (g)"][1:5])
+        density = m0 / volume
+
+        label, color_inst = label_def(path.stem.split('_')[0])
+        orientation = get_grain_orientation(path)
+
+        ax_hoc.scatter(density, HOC, color=color_inst, marker=marker_map[orientation], s=45)
+
+        institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
+
+    ax_hoc.set_xlabel('Initial density [g/cm$^3$]')
+    ax_hoc.set_ylabel('Heat of combustion [kJ/g]')
+    ax_hoc.set_title(f'{flux}/m$^2$')
+
+    legend1 = ax_hoc.legend(institution_handles.values(), institution_handles.keys(), loc='upper right', framealpha=0.25)
+    ax_hoc.add_artist(legend1)
+    ax_hoc.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+
+    fig_hoc.tight_layout()
+    fig_hoc.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_HOC_{flux}.{ex}')
+    plt.close(fig_hoc)
+
 # Average HRR plot separated by grain orientation
 
 color = {'25kW': 'green', '30kW': 'blue', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
@@ -693,6 +765,150 @@ fig_grain.savefig(str(base_dir) + '/Cone/Cone_Average_HRR_grain.{}'.format(ex))
 
 plt.close(fig_grain)
 
+# Initial density versus ignition time for individual Cone measurements
+
+volume = 10 * 10 * 2.54
+marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
+
+for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
+
+    fig_density, ax_density = plt.subplots(figsize=(6, 4))
+    institution_handles = {}
+
+    orientation_handles = [
+        plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
+        plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
+    ]
+
+    series = f'Cone_{flux}_hor'
+    paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in Cone_Data]
+    paths = [p for p in paths if 'UMET' not in str(p)]
+    paths = [p for p in paths if 'UQ' not in str(p)]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    for path in paths:
+        df = pd.read_csv(path)
+
+        if not (df['HRR (kW/m2)'] >= 24).any():
+            continue
+
+        ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
+        ignition_time = df["Time (s)"].iloc[ignition_index]
+
+        m0 = np.mean(df["Mass (g)"][1:5])
+        density = m0 / volume
+
+        label, color_inst = label_def(path.stem.split('_')[0])
+        orientation = get_grain_orientation(path)
+
+        ax_density.scatter(density, ignition_time, color=color_inst, marker=marker_map[orientation], s=45)
+
+        institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
+
+    ax_density.set_xlabel('Initial density [g/cm$^3$]')
+    ax_density.set_ylabel('Time to ignition [s]')
+    ax_density.set_title(f'{flux}/m$^2$')
+
+    legend1 = ax_density.legend(institution_handles.values(),
+                                institution_handles.keys(),
+                                loc='upper right',
+                                framealpha=0.25)
+
+    ax_density.add_artist(legend1)
+
+    ax_density.legend(orientation_handles,
+                      ['Parallel', 'Perpendicular'],
+                      loc='upper center',
+                      framealpha=0.25)
+
+    fig_density.tight_layout()
+    fig_density.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_Ignition_{flux}.{ex}')
+    plt.close(fig_density)
+
+# Ignition time versus heat of combustion averaged by institution and grain orientation
+
+marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
+
+for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
+
+    fig_ign_hoc, ax_ign_hoc = plt.subplots(figsize=(6, 4))
+    results = []
+
+    series = f'Cone_{flux}_hor'
+    paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in Cone_Data]
+    paths = [p for p in paths if 'UMET' not in str(p)]
+    paths = [p for p in paths if 'UQ' not in str(p)]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    for path in paths:
+        df_raw = pd.read_csv(path)
+
+        if not (df_raw['HRR (kW/m2)'] >= 24).any():
+            continue
+
+        df = calculate_int_HRR(df_raw)
+
+        ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
+        ignition_time = df["Time (s)"].iloc[ignition_index]
+
+        index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
+        index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
+
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+            A_surf = 0.01
+        else:
+            A_surf = 0.00884
+
+        HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
+
+        institution = path.stem.split('_')[0]
+        label, color = label_def(institution)
+        orientation = get_grain_orientation(path)
+
+        results.append({'Institution': institution, 'Duck': label, 'color': color, 'orientation': orientation, 'ignition time': ignition_time, 'HOC': HOC})
+
+    results_df = pd.DataFrame(results)
+
+    if len(results_df) == 0:
+        plt.close(fig_ign_hoc)
+        continue
+
+    grouped = results_df.groupby(['Institution', 'Duck', 'color', 'orientation'])
+
+    for (institution, duck, color, orientation), group in grouped:
+
+        ax_ign_hoc.errorbar(group['ignition time'].mean(), group['HOC'].mean(),
+                            xerr=group['ignition time'].std(ddof=1),
+                            yerr=group['HOC'].std(ddof=1),
+                            fmt=marker_map[orientation],
+                            capsize=5, capthick=2, markersize=8,
+                            color=color, label=duck)
+
+    ax_ign_hoc.set_xlabel('Ignition time [s]', fontsize=12)
+    ax_ign_hoc.set_ylabel('Heat of combustion [kJ/g]', fontsize=12)
+    ax_ign_hoc.set_title(f'{flux}/m$^2$')
+
+    handles, labels = ax_ign_hoc.get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    legend1 = ax_ign_hoc.legend(by_label.values(), by_label.keys(), loc='best', framealpha=0.25)
+    ax_ign_hoc.add_artist(legend1)
+
+    orientation_handles = [
+        plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
+        plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
+    ]
+
+    ax_ign_hoc.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+
+    fig_ign_hoc.tight_layout()
+    fig_ign_hoc.savefig(str(base_dir) + f'/Cone/Cone_Ignition_vs_HOC_{flux}.{ex}')
+    plt.close(fig_ign_hoc)
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
 linestyle = ['--',':','-']
