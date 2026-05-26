@@ -362,6 +362,58 @@ def average_Gas_series(series_name: str)->pd.DataFrame:
 
     return df_average
 
+def average_gasification_paths(paths):
+
+    Dataframes = []
+
+    for path in paths:
+        df_raw = pd.read_csv(path)
+
+        t_floor = np.ceil(df_raw["Time (s)"].iloc[0])
+        t_ceil = np.floor(df_raw["Time (s)"].iloc[-1])
+
+        if pd.isna(t_floor) or pd.isna(t_ceil) or t_ceil <= t_floor:
+            continue
+
+        InterpT = np.arange(t_floor, t_ceil + 1, 1)
+        df_interp = pd.DataFrame(index=range(len(InterpT)))
+
+        for column in df_raw.columns:
+            df_interp[column] = np.interp(InterpT, df_raw["Time (s)"], df_raw[column])
+
+        df_interp = Calculate_dm_dt(df_interp)
+
+        area = get_gas_area(path)
+        df_interp['MLR'] = df_interp['dm/dt'] / area
+
+        Dataframes.append(df_interp)
+
+    if len(Dataframes) == 0:
+        return None
+
+    merged_df = Dataframes[0]
+
+    for df in Dataframes[1:]:
+        merged_df = pd.merge(merged_df, df, on="Time (s)", how="outer", suffixes=("", f" {int(len(merged_df.columns)/2+0.5)}"))
+
+    merged_df.rename(columns={'MLR': 'MLR 1'}, inplace=True)
+
+    MLR_cols = merged_df.filter(regex=r'^MLR').columns
+
+    df_average = pd.DataFrame({'Time (s)': merged_df['Time (s)']})
+
+    n = 2
+    sum_mlr = merged_df[MLR_cols].rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+    cnt_mlr = merged_df[MLR_cols].rolling(2*n+1, min_periods=1, center=True).count().sum(axis=1)
+
+    df_average['MLR'] = sum_mlr / cnt_mlr
+
+    diff = merged_df[MLR_cols].sub(df_average['MLR'], axis=0)**2
+    sum_diff = diff.rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+
+    df_average['unc MLR'] = np.sqrt(sum_diff / (cnt_mlr * (cnt_mlr - 1)))
+
+    return df_average
 
 def calculate_int_HRR(df:pd.DataFrame)->pd.DataFrame:
     """Calculate integral HRR."""
@@ -379,6 +431,17 @@ def Calculate_dm_dt(df:pd.DataFrame):
     df['dm/dt'] = df['dm/dt'].interpolate(method='linear', limit_direction='both') #avoid nan_values
     return df
 
+def get_gas_area(path):
+    institute = path.stem.split('_')[0]
+
+    if institute in ['TIFP+UCT', 'Aalto', 'UQ']:
+        return 0.01
+    elif institute in ['TUBS']:
+        return 0.00884
+    elif institute in ['UMD', 'FSRI']:
+        return 0.00385
+
+    return np.nan
 
 # ------------------------------------
 #region Cone plots
@@ -764,6 +827,159 @@ fig_grain.tight_layout()
 fig_grain.savefig(str(base_dir) + '/Cone/Cone_Average_HRR_grain.{}'.format(ex))
 
 plt.close(fig_grain)
+
+
+# Average gasification MLR plots
+
+color = {'20kW': 'green', '30kW': 'blue', '40kW': 'orange', '45kW': 'cyan', '50kW': 'black', '60kW': 'red', '70kW': 'purple'}
+
+gas_average_sets = {
+    'All': None,
+    'CAPA': '_CAPA_',
+    'Gasification': '_Gasification_'
+}
+
+for dataset_name, dataset_filter in gas_average_sets.items():
+
+    fig_gas_avg, ax_gas_avg = plt.subplots(figsize=(6, 4))
+
+    for flux in sorted(gas_flux):
+
+        paths = [p for p in Gasification_Data if f'_{flux}_' in p.name]
+        paths = [p for p in paths if 'Wood' in p.name]
+        paths = [p for p in paths if 'TEMPLATE' not in p.name]
+
+        if dataset_filter is not None:
+            paths = [p for p in paths if dataset_filter in p.name]
+
+        # print(f'\nAverage gasification MLR {dataset_name} {flux}')
+        # for p in paths:
+        #     print(p.stem)
+
+        df_average = average_gasification_paths(paths)
+
+        if df_average is None:
+            continue
+
+        ax_gas_avg.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], label=flux)
+
+        ax_gas_avg.fill_between(df_average['Time (s)'], df_average['MLR'] - 2*df_average['unc MLR'], df_average['MLR'] + 2*df_average['unc MLR'], color=color[flux], alpha=0.2)
+
+    ax_gas_avg.set_ylim(bottom=0)
+    ax_gas_avg.set_ylim(top=15)
+    ax_gas_avg.set_xlabel('Time [s]')
+    ax_gas_avg.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+
+    ax_gas_avg.legend()
+
+    fig_gas_avg.tight_layout()
+
+    if dataset_name == 'All':
+        fig_gas_avg.savefig(str(base_dir) + '/Cone/Gasification_Average_MLR.{}'.format(ex))
+    else:
+        fig_gas_avg.savefig(str(base_dir) + f'/Cone/Gasification_Average_MLR_{dataset_name}.{ex}')
+
+    plt.close(fig_gas_avg)
+
+
+
+# Average gasification MLR plot separated by grain orientation
+
+color = {'20kW': 'green', '30kW': 'blue', '40kW': 'orange', '45kW': 'cyan', '50kW': 'black', '60kW': 'red', '70kW': 'purple'}
+linestyle_map = {'Parallel': '-', 'Perpendicular': (0, (1.5, 2))}
+
+fig_gas_grain, ax_gas_grain = plt.subplots(figsize=(6, 4))
+
+for flux in sorted(gas_flux):
+
+    for orientation in ['Parallel', 'Perpendicular']:
+
+        paths = [p for p in Gasification_Data if f'_{flux}_' in p.name]
+        paths = [p for p in paths if 'Wood' in p.name]
+        paths = [p for p in paths if 'TEMPLATE' not in p.name]
+        paths = [p for p in paths if '_Wood_Gasification_' in p.name]
+        paths = [p for p in paths if get_grain_orientation(p) == orientation]
+
+        df_average = average_gasification_paths(paths)
+
+        if df_average is None:
+            continue
+
+        ax_gas_grain.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], linestyle=linestyle_map[orientation], label=f'{flux} {orientation}')
+
+        ax_gas_grain.fill_between(df_average['Time (s)'], df_average['MLR'] - 2*df_average['unc MLR'], df_average['MLR'] + 2*df_average['unc MLR'], color=color[flux], alpha=0.2)
+
+ax_gas_grain.set_ylim(bottom=0)
+ax_gas_grain.set_ylim(top=15)
+ax_gas_grain.set_xlabel('Time [s]')
+ax_gas_grain.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+
+orientation_handles = [
+    plt.Line2D([0], [0], color='black', linestyle='-'),
+    plt.Line2D([0], [0], color='black', linestyle=(0, (1.5, 2)))
+]
+
+orientation_labels = ['Parallel', 'Perpendicular']
+
+used_fluxes = []
+for flux in sorted(gas_flux):
+
+    paths = [p for p in Gasification_Data if f'_{flux}_' in p.name]
+    paths = [p for p in paths if '_Wood_Gasification_' in p.name]
+
+    if len(paths) > 0:
+        used_fluxes.append(flux)
+
+flux_handles = [plt.Line2D([0], [0], color=color[flux], lw=2) for flux in used_fluxes]
+flux_labels = [flux.replace('kW', ' kW/m$^2$') for flux in used_fluxes]
+
+legend1 = ax_gas_grain.legend(orientation_handles, orientation_labels, loc='upper center')
+ax_gas_grain.add_artist(legend1)
+ax_gas_grain.legend(flux_handles, flux_labels, loc='upper right')
+
+fig_gas_grain.tight_layout()
+fig_gas_grain.savefig(str(base_dir) + '/Cone/Gasification_Average_MLR_Gasification_grain.{}'.format(ex))
+plt.close(fig_gas_grain)
+
+
+# Average gasification MLR plots separated by grain orientation for each heat flux
+
+for flux in used_fluxes:
+
+    fig_gas_flux, ax_gas_flux = plt.subplots(figsize=(6, 4))
+
+    ymax = 0
+
+    for orientation in ['Parallel', 'Perpendicular']:
+
+        paths = [p for p in Gasification_Data if f'_{flux}_' in p.name]
+        paths = [p for p in paths if '_Wood_Gasification_' in p.name]
+        paths = [p for p in paths if 'TEMPLATE' not in p.name]
+        paths = [p for p in paths if get_grain_orientation(p) == orientation]
+
+        df_average = average_gasification_paths(paths)
+
+        if df_average is None:
+            continue
+
+        upper = df_average['MLR'] + 2*df_average['unc MLR']
+        ymax = max(ymax, np.nanmax(upper))
+
+        ax_gas_flux.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], linestyle=linestyle_map[orientation], linewidth=2, label=orientation)
+
+        ax_gas_flux.fill_between(df_average['Time (s)'], df_average['MLR'] - 2*df_average['unc MLR'], upper, color=color[flux], alpha=0.2)
+
+    ax_gas_flux.set_ylim(bottom=0, top=1.1*ymax)
+    ax_gas_flux.set_xlabel('Time [s]')
+    ax_gas_flux.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+    ax_gas_flux.set_title(flux.replace('kW', ' kW/m$^2$'))
+    ax_gas_flux.legend(framealpha=0.25)
+
+    fig_gas_flux.tight_layout()
+    fig_gas_flux.savefig(str(base_dir) + f'/Cone/Gasification_Average_MLR_Gasification_grain_{flux}.{ex}')
+    plt.close(fig_gas_flux)
+
+
 
 # Initial density versus ignition time for individual Cone measurements
 
