@@ -48,6 +48,7 @@ unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in DSC_se
 print('Nitrogen table')
 DSC_table_data = DSC_Data + device_data(DATA_DIR, 'TM-DSC')
 table = make_institution_table(DSC_table_data,['Wood'],['N2'],['3K','5K','10K','20K','30K','40K','50K'])
+table.loc['Bali', '10K'] -= 4 # 4 of the STA tests only contain TGA data
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 
