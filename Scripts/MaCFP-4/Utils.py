@@ -29,13 +29,13 @@ DATA_DIR = PROJECT_ROOT / "Wood" / "Calibration_Data"
 # region define labs, corresponding labels and colors
 labs = sorted(d.name for d in DATA_DIR.iterdir() if d.is_dir() and d.name != "TEMPLATE-INSTITUTE-X")
 
-CODES = ["Pekin", "Tufted", "Aylesbury", "Orpington","Rouen", #"Harlequin" add Harlequin in second place once BUW data is commited
+CODES = ["Pekin", "Harlequin", "Tufted", "Aylesbury", "Orpington","Rouen", # add Harlequin in second place once BUW data is commited
          "Saxony", "Ruddy", "Cayuga","Canard", "Redhead", "Buff",  
          "Bali", "Magpie", "Ancona", "Crested", "Call",  
          "Muscovy", "Pomeranian",  "Shetland", "Alabio", "Mallard", "Hardhead"]
 
 
-colors = ["#1f77b4", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", # "#be15f6", add color for BUW data
+colors = ["#1f77b4", "#be15f6", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", # , add color for BUW data
           "#ff9896", "#c5b0d5", "#2ca02c",  "#00039b", "#c49c94", "#d62728",
           "#dbdb8d", "#c7c7c7",  "#ffbb78", "#bcbd22", "#8c564b", 
           "#f7b6d2","#e377c2", "#9edae5", "#7f7f7f","#9467bd" , "#DAA520"
