@@ -52,7 +52,8 @@ for item in unique_conditions_gas:
         kw_values.add(match.group())
 gas_flux = sorted(kw_values)
 
-
+cone_flux = ['25kW', '30kW', '45kW', '50kW', '60kW', '75kW']
+cone_color = {'25kW': 'green', '30kW': 'blue', '45kW': 'cyan', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
 
 
 # Print tables
@@ -64,7 +65,7 @@ gas_flux = sorted(kw_values)
 #     print(item)
 
 print('Cone table')
-table = make_institution_table(Cone_Data,['Wood'],['25kW','30kW','50kW','60kW','75kW'],['hor'])
+table = make_institution_table(Cone_Data,['Wood'],cone_flux,['hor'])
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 latex_str = format_latex(table,'Incident Heat Flux (kW/m$^2$)')
@@ -142,7 +143,7 @@ def get_grain_linestyle_from_name(name):
         return '--'
     return '-'
 
-def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None,exclude_individual: Optional[Union[str, List[str]]] = None)->pd.DataFrame:
+def average_cone_series(series_name: str, exclude: Optional[Union[str, List[str]]] = None, exclude_individual: Optional[Union[str, List[str]]] = None, include_grain_variants: bool = False) -> pd.DataFrame:
     """Calculate average mass and HRR for a test series.
     Args:
         series_name: Name of the test series to search for
@@ -150,7 +151,10 @@ def average_cone_series(series_name: str, exclude:Optional[Union[str, List[str]]
         exclude_individual: String or list of strings to exclude individual experiments (e.g., "R1", "r2")
     """
 
-    paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
+    if include_grain_variants:
+        paths = list(DATA_DIR.glob(f"*/*{series_name}*_[rR]*.csv"))
+    else:
+        paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
 
@@ -622,11 +626,11 @@ print(Average_values)
 
 
 # Average plot for Mass and mass loss rate (averaging over different institutes)
-color = {'25kW': 'green', '30kW': 'blue', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
+color = cone_color
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 average_data = {}
 
-for series in ['Cone_25kW_hor','Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor','Cone_75kW_hor',]:
+for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
 #for series in ['Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor']:
     parts = series.split('_')
     flux, orient  = parts[1:]
@@ -636,7 +640,8 @@ for series in ['Cone_25kW_hor','Cone_30kW_hor','Cone_50kW_hor','Cone_60kW_hor','
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             # ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
-    df_average = average_cone_series(series, ['UMET','UQ'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'])
+    df_average = average_cone_series(series, ['UMET', 'UQ'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'],
+                                 include_grain_variants=True)
     average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
     ax1.fill_between(df_average['Time (s)'], 
@@ -665,7 +670,7 @@ plt.close(fig1)
 volume = 10 * 10 * 2.54
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 
-for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
+for flux in cone_flux:
 
     fig_hoc, ax_hoc = plt.subplots(figsize=(6, 4))
     institution_handles = {}
@@ -726,12 +731,12 @@ for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
 
 # Average HRR plot separated by grain orientation
 
-color = {'25kW': 'green', '30kW': 'blue', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
+color = cone_color
 linestyle_map = {'Parallel': '-', 'Perpendicular': (0, (1.5, 2))}
 
 fig_grain, ax_grain = plt.subplots(figsize=(6, 4))
 
-for series in ['Cone_25kW_hor', 'Cone_30kW_hor', 'Cone_50kW_hor', 'Cone_60kW_hor', 'Cone_75kW_hor']:
+for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
     flux = series.split('_')[1]
     for orientation in ['Parallel', 'Perpendicular']:
 
@@ -812,11 +817,9 @@ orientation_handles = [
 
 orientation_labels = ['Parallel', 'Perpendicular']
 
-flux_handles = [plt.Line2D([0], [0], color=color['25kW'], lw=2), plt.Line2D([0], [0], color=color['30kW'], lw=2),
-    plt.Line2D([0], [0], color=color['50kW'], lw=2), plt.Line2D([0], [0], color=color['60kW'], lw=2),
-    plt.Line2D([0], [0], color=color['75kW'], lw=2)]
+flux_handles = [plt.Line2D([0], [0], color=color[flux], lw=2) for flux in cone_flux]
 
-flux_labels = ['25 kW/m$^2$','30 kW/m$^2$','50 kW/m$^2$','60 kW/m$^2$','75 kW/m$^2$']
+flux_labels = [flux.replace('kW', ' kW/m$^2$') for flux in cone_flux]
 
 legend1 = ax_grain.legend(orientation_handles, orientation_labels, loc='upper center')
 ax_grain.add_artist(legend1)
@@ -827,6 +830,121 @@ fig_grain.tight_layout()
 fig_grain.savefig(str(base_dir) + '/Cone/Cone_Average_HRR_grain.{}'.format(ex))
 
 plt.close(fig_grain)
+
+
+# Average HRR plot separated by grain orientation, only fluxes with both orientations
+
+fig_grain_both, ax_grain_both = plt.subplots(figsize=(6, 4))
+
+cone_flux_both = []
+
+for flux in cone_flux:
+    series = f'Cone_{flux}_hor'
+
+    paths_parallel = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths_parallel = [p for p in paths_parallel if "TEMPLATE" not in str(p)]
+    paths_parallel = [p for p in paths_parallel if p in Cone_Data]
+    paths_parallel = [p for p in paths_parallel if get_grain_orientation(p) == 'Parallel']
+    paths_parallel = [p for p in paths_parallel if 'UMET' not in str(p)]
+    paths_parallel = [p for p in paths_parallel if 'UQ' not in str(p)]
+    paths_parallel = [p for p in paths_parallel if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths_parallel = [p for p in paths_parallel if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    paths_perpendicular = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths_perpendicular = [p for p in paths_perpendicular if "TEMPLATE" not in str(p)]
+    paths_perpendicular = [p for p in paths_perpendicular if p in Cone_Data]
+    paths_perpendicular = [p for p in paths_perpendicular if get_grain_orientation(p) == 'Perpendicular']
+    paths_perpendicular = [p for p in paths_perpendicular if 'UMET' not in str(p)]
+    paths_perpendicular = [p for p in paths_perpendicular if 'UQ' not in str(p)]
+    paths_perpendicular = [p for p in paths_perpendicular if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths_perpendicular = [p for p in paths_perpendicular if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    if len(paths_parallel) > 0 and len(paths_perpendicular) > 0:
+        cone_flux_both.append(flux)
+
+for flux in cone_flux_both:
+    series = f'Cone_{flux}_hor'
+
+    for orientation in ['Parallel', 'Perpendicular']:
+
+        paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+        paths = [p for p in paths if "TEMPLATE" not in str(p)]
+        paths = [p for p in paths if p in Cone_Data]
+        paths = [p for p in paths if get_grain_orientation(p) == orientation]
+        paths = [p for p in paths if 'UMET' not in str(p)]
+        paths = [p for p in paths if 'UQ' not in str(p)]
+        paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+        paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+        if len(paths) == 0:
+            continue
+
+        Dataframes = []
+
+        for path in paths:
+            df_raw = pd.read_csv(path)
+            t_floor = np.ceil(df_raw["Time (s)"].iloc[0])
+            t_ceil = np.floor(df_raw["Time (s)"].iloc[-1])
+
+            if pd.isna(t_floor) or pd.isna(t_ceil) or t_ceil <= t_floor:
+                continue
+
+            InterpT = np.arange(t_floor, t_ceil + 1, 1)
+            df_interp = pd.DataFrame(index=range(len(InterpT)))
+
+            for column in df_raw.columns:
+                df_interp[column] = np.interp(InterpT, df_raw["Time (s)"], df_raw[column])
+
+            Dataframes.append(df_interp)
+
+        if len(Dataframes) == 0:
+            continue
+
+        merged_df = Dataframes[0]
+
+        for df in Dataframes[1:]:
+            merged_df = pd.merge(merged_df, df, on="Time (s)", how="outer", suffixes=("", f" {int(len(merged_df.columns)/2+0.5)}"))
+
+        merged_df.rename(columns={'HRR (kW/m2)': "HRR (kW/m2) 1"}, inplace=True)
+        HRR_cols = merged_df.filter(regex=r'^HRR \(kW/m2\)').columns
+        df_average = pd.DataFrame({'Time (s)': merged_df['Time (s)']})
+
+        n = 2
+        sum_hrr = merged_df[HRR_cols].rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+        cnt_hrr = merged_df[HRR_cols].rolling(2*n+1, min_periods=1, center=True).count().sum(axis=1)
+        df_average['HRR (kW/m2)'] = sum_hrr / cnt_hrr
+
+        diff = merged_df[HRR_cols].sub(df_average['HRR (kW/m2)'], axis=0)**2
+        sum_diff = diff.rolling(2*n+1, min_periods=1, center=True).sum().sum(axis=1)
+        df_average['unc HRR (kW/m2)'] = np.sqrt(sum_diff / (cnt_hrr * (cnt_hrr - 1)))
+
+        ax_grain_both.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], color=cone_color[flux], linestyle=linestyle_map[orientation], label=f'{flux}/m$^2$ {orientation}')
+
+        ax_grain_both.fill_between(df_average['Time (s)'], df_average['HRR (kW/m2)'] - 2*df_average['unc HRR (kW/m2)'], df_average['HRR (kW/m2)'] + 2*df_average['unc HRR (kW/m2)'], color=cone_color[flux], alpha=0.2)
+
+ax_grain_both.set_ylim(bottom=0, top=250)
+ax_grain_both.set_xlim(right=2500)
+ax_grain_both.set_xlabel('Time [s]')
+ax_grain_both.set_ylabel('HRR [kW/m$^2$]')
+
+orientation_handles = [
+    plt.Line2D([0], [0], color='black', linestyle='-'),
+    plt.Line2D([0], [0], color='black', linestyle=(0, (1.5, 2)))
+]
+
+orientation_labels = ['Parallel', 'Perpendicular']
+
+flux_handles = [plt.Line2D([0], [0], color=cone_color[flux], lw=2) for flux in cone_flux_both]
+flux_labels = [flux.replace('kW', ' kW/m$^2$') for flux in cone_flux_both]
+
+legend1 = ax_grain_both.legend(orientation_handles, orientation_labels, loc='upper center')
+ax_grain_both.add_artist(legend1)
+ax_grain_both.legend(flux_handles, flux_labels, loc='upper right')
+
+fig_grain_both.tight_layout()
+fig_grain_both.savefig(str(base_dir) + '/Cone/Cone_Average_HRR_grain_both_orientations.{}'.format(ex))
+plt.close(fig_grain_both)
+
 
 
 # Average gasification MLR plots
@@ -986,7 +1104,7 @@ for flux in used_fluxes:
 volume = 10 * 10 * 2.54
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 
-for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
+for flux in cone_flux:
 
     fig_density, ax_density = plt.subplots(figsize=(6, 4))
     institution_handles = {}
@@ -1048,7 +1166,7 @@ for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
 
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 
-for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
+for flux in cone_flux:
 
     fig_ign_hoc, ax_ign_hoc = plt.subplots(figsize=(6, 4))
     results = []
@@ -1108,6 +1226,7 @@ for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
 
     ax_ign_hoc.set_xlabel('Ignition time [s]', fontsize=12)
     ax_ign_hoc.set_ylabel('Heat of combustion [kJ/g]', fontsize=12)
+    ax_ign_hoc.set_ylim(9, 20)
     ax_ign_hoc.set_title(f'{flux}/m$^2$')
 
     handles, labels = ax_ign_hoc.get_legend_handles_labels()
@@ -1125,6 +1244,105 @@ for flux in ['25kW', '30kW', '50kW', '60kW', '75kW']:
     fig_ign_hoc.tight_layout()
     fig_ign_hoc.savefig(str(base_dir) + f'/Cone/Cone_Ignition_vs_HOC_{flux}.{ex}')
     plt.close(fig_ign_hoc)
+
+
+# Ignition time and heat of combustion versus heat flux
+
+marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
+offset_map = {'Parallel': -0.8, 'Perpendicular': 0.8}
+
+plot_configs = {
+    'ignition time': {
+        'ylabel': 'Ignition time [s]',
+        'filename': 'Cone_Ignition_time_vs_Flux'
+    },
+    'HOC': {
+        'ylabel': 'Heat of combustion [kJ/g]',
+        'filename': 'Cone_HOC_vs_Flux'
+    }
+}
+
+results = []
+
+for flux in cone_flux:
+    series = f'Cone_{flux}_hor'
+    paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in Cone_Data]
+    paths = [p for p in paths if 'UMET' not in str(p)]
+    paths = [p for p in paths if 'UQ' not in str(p)]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    for path in paths:
+        df_raw = pd.read_csv(path)
+
+        if not (df_raw['HRR (kW/m2)'] >= 24).any():
+            continue
+
+        df = calculate_int_HRR(df_raw)
+
+        ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
+        ignition_time = df["Time (s)"].iloc[ignition_index]
+
+        index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
+        index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
+
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+            A_surf = 0.01
+        else:
+            A_surf = 0.00884
+
+        HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
+
+        institution = path.stem.split('_')[0]
+        label, color = label_def(institution)
+        orientation = get_grain_orientation(path)
+
+        results.append({'flux': flux, 'flux_value': int(flux.replace('kW', '')), 'Institution': institution, 'Duck': label, 'color': color, 'orientation': orientation, 'ignition time': ignition_time, 'HOC': HOC})
+
+results_df = pd.DataFrame(results)
+
+if len(results_df) > 0:
+
+    grouped = results_df.groupby(['flux', 'flux_value', 'Institution', 'Duck', 'color', 'orientation'])
+
+    for quantity, config in plot_configs.items():
+
+        fig_flux, ax_flux = plt.subplots(figsize=(6, 4))
+
+        institution_handles = {}
+        orientation_handles = [
+            plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
+            plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
+        ]
+
+        for (flux, flux_value, institution, duck, color, orientation), group in grouped:
+            x = flux_value + offset_map[orientation]
+            y_mean = group[quantity].mean()
+            y_min = group[quantity].min()
+            y_max = group[quantity].max()
+
+            ax_flux.errorbar(x, y_mean, yerr=[[y_mean - y_min], [y_max - y_mean]], fmt=marker_map[orientation], capsize=5, capthick=2, markersize=8, color=color)
+
+            institution_handles[duck] = plt.Line2D([0], [0], color=color, marker='o', linestyle='None', label=duck)
+
+        ax_flux.set_xlabel('Incident heat flux [kW/m$^2$]')
+        ax_flux.set_ylabel(config['ylabel'])
+        ax_flux.set_xticks([int(flux.replace('kW', '')) for flux in cone_flux])
+        ax_flux.set_xticklabels([flux.replace('kW', '') for flux in cone_flux])
+
+        if quantity == 'HOC':
+            ax_flux.set_ylim(9, 20)
+
+        legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='best', framealpha=0.25)
+        ax_flux.add_artist(legend1)
+        ax_flux.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+
+        fig_flux.tight_layout()
+        fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}")
+        plt.close(fig_flux)
+
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
 linestyle = ['--',':','-']
