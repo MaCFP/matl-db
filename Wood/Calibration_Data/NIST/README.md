@@ -128,21 +128,12 @@ Further details regarding system calibration, validation, and quantification of 
 * FTIR - Integrating Sphere
 * Method: Diffuse Reflection , detector: LN-MCT Mid 2x2 
 
-* Data collected on virgin sample, and char samples. Char samples were briefly placed under the cone heater (50 kW/m2) and quenched shortly after ignition. Samples were 25 mm x 25 mm and 3 mm thick. 
+* Data collected on virgin sample, and char samples. Char samples were briefly placed under the cone heater (50 kW/m2) and quenched shortly after ignition. Samples were 25 mm x 25 mm and 3 mm thick. All samples were prepared with the grain parallel to the surface being measured.
 
 ##### Test Summary
 Spectral reflectivity was measured with a Bruker Invenio-R FTIR Spectrometer and a Bruker A562-G gold plated integrating sphere. Reflectance of a light trap (0\% reflectance) and gold reference (100\% reflectance) were measured to correct sample materials reflectance measurements for stray light and instrument drift. The test material was located at the bottom sample port for all measurements. Data uploaded to the repository have been corrected corrected for the zero reflectance signal and scaled by the full reflectance range, i.e. R = (S - T)/(G - T).
 
 Experimental procedures are described in detail in related publications [See: McKinnon and Bellamy, Journal of Fire Sciences, 2024, https://doi.org/10.1177/07349041241235566 and Blake et al., Applied Optics, 2018, https://doi.org/10.1364/AO.57.000432].
-
-All samples were prepared with the grain parallel to the surface being measured.
-
-###### Test Heating Conditions  
-
-|Test Name | Preparation |
-|----------|:------:|
-|NIST\_Wood\_REFLECTIVITY\_R1 | Virgin Sample |
-|NIST\_Wood\_CONE50\_REFLECTIVITY\_R1 | Char remaining after CAPA Gasification test at 20 kW/m2 |
 
 
 
