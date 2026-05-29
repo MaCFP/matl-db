@@ -837,21 +837,21 @@ with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
     f.write(latex_string)
 
 # Generate separate table for 400K-normalized values
-columns_to_keep_400Knorm = ['Institution_formatted', 'conditions_formatted', 'MC_formatted', 'c700_formatted', 'c950_formatted',
-                            'c700_400_formatted', 'c950_400_formatted','condition_key']
+columns_to_keep_400Knorm = ['Institution_formatted', 'conditions_formatted', 'MC_formatted', 'c700_formatted',
+                            'c700_400_formatted', 'c950_formatted', 'c950_400_formatted', 'condition_key']
 
 Average_values_table_400Knorm = Average_values_sorted[columns_to_keep_400Knorm].copy()
 
 Average_values_table_400Knorm.columns = ['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)',
-                                         'm/m_{0} at 950~K (\\%)', 'm/m_{400K} at 700~K (\\%)', 'm/m_{400K} at 950~K (\\%)',
-                                         'condition_key']
+                                         'm/m_{400K} at 700~K (\\%)', 'm/m_{0} at 950~K (\\%)',
+                                         'm/m_{400K} at 950~K (\\%)', 'condition_key']
 
 latex_string_400Knorm = Average_values_table_400Knorm.to_latex(
     index=False,
     escape=False,
     column_format='llccccc',
-    columns=['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)', 'm/m_{0} at 950~K (\\%)',
-             'm/m_{400K} at 700~K (\\%)', 'm/m_{400K} at 950~K (\\%)']
+    columns=['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)', 'm/m_{400K} at 700~K (\\%)',
+             'm/m_{0} at 950~K (\\%)', 'm/m_{400K} at 950~K (\\%)']
 )
 
 latex_string_400Knorm = latex_string_400Knorm.replace('\\toprule', '\\hline')
