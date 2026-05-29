@@ -372,7 +372,17 @@ for series in unique_conditions_material:
         fig1.tight_layout()
         handles1, labels1 = ax1.get_legend_handles_labels()
         by_label1 = dict(zip(labels1, handles1))
-        ax1.legend(by_label1.values(), by_label1.keys())
+
+        if hr == '10K':
+            ax1.legend(by_label1.values(), by_label1.keys(),
+                       fontsize=8,
+                       loc='lower left')
+        else:
+            ax1.legend(by_label1.values(), by_label1.keys())
+        if hr == '10K':
+            ax1.legend(by_label1.values(), by_label1.keys(), fontsize=8, loc='lower left')
+        else:
+            ax1.legend(by_label1.values(), by_label1.keys())
 
         ax2.set_ylim(bottom=config['ylim2'][0], top=config['ylim2'][1])
         ax2.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
@@ -391,7 +401,11 @@ for series in unique_conditions_material:
 
         handles3, labels3 = ax3.get_legend_handles_labels()
         by_label3 = dict(zip(labels3, handles3))
-        ax3.legend(by_label3.values(), by_label3.keys())
+
+        if hr == '10K':
+            ax3.legend(by_label3.values(), by_label3.keys(), fontsize=8, loc='lower left')
+        else:
+            ax3.legend(by_label3.values(), by_label3.keys())
 
         fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass{config["suffix"]}.{ex}')
         fig2.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_dmdt{config["suffix"]}.{ex}')
@@ -650,15 +664,28 @@ print(Average_values)
 fig, ax_mass = plt.subplots(figsize=(6, 4))
 color = {'100kPa':'black', '40Pa':'red'}
 for series in ['TUT_Wood_TGA_N2_10K_40Pa','TUT_Wood_TGA_N2_10K_100kPa']:
-    for path in list(DATA_DIR.glob(f"*/*{series}_*[rR]*.csv")):
+    paths = sorted(list(DATA_DIR.glob(f"*/*{series}_*[rR]*.csv")))
+
+    for i, path in enumerate(paths):
         df_raw = pd.read_csv(path)
         df = Calculate_dm_dt(df_raw)
-        label=series.split('_')[-1]
-        ax_mass.plot(df['Temperature (K)'], df['filtered'],
-                    label=label, color=color[label])
 
+        if series.endswith('100kPa'):
+            if i < 3:
+                label = '100kPa original dataset'
+                linestyle = '--'
+            else:
+                label = '100kPa additional dataset'
+                linestyle = '-'
+            plot_color = 'black'
+        else:
+            label = '40Pa original dataset'
+            linestyle = '--'
+            plot_color = 'red'
 
-    # Set lower limits of both y-axes to 0
+        ax_mass.plot(df['Temperature (K)'], df['filtered'], label=label, color=plot_color, linestyle=linestyle)
+
+# Set lower limits of both y-axes to 0
 ax_mass.set_ylim(bottom=0)
 ax_mass.set_xlim(right=1100)
 ax_rate.set_ylim(bottom=0)
@@ -810,21 +837,21 @@ with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
     f.write(latex_string)
 
 # Generate separate table for 400K-normalized values
-columns_to_keep_400Knorm = ['Institution_formatted', 'conditions_formatted', 'MC_formatted', 'c700_formatted', 'c950_formatted',
-                            'c700_400_formatted', 'c950_400_formatted','condition_key']
+columns_to_keep_400Knorm = ['Institution_formatted', 'conditions_formatted', 'MC_formatted', 'c700_formatted',
+                            'c700_400_formatted', 'c950_formatted', 'c950_400_formatted', 'condition_key']
 
 Average_values_table_400Knorm = Average_values_sorted[columns_to_keep_400Knorm].copy()
 
 Average_values_table_400Knorm.columns = ['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)',
-                                         'm/m_{0} at 950~K (\\%)', 'm/m_{400K} at 700~K (\\%)', 'm/m_{400K} at 950~K (\\%)',
-                                         'condition_key']
+                                         'm/m_{400K} at 700~K (\\%)', 'm/m_{0} at 950~K (\\%)',
+                                         'm/m_{400K} at 950~K (\\%)', 'condition_key']
 
 latex_string_400Knorm = Average_values_table_400Knorm.to_latex(
     index=False,
     escape=False,
     column_format='llccccc',
-    columns=['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)', 'm/m_{0} at 950~K (\\%)',
-             'm/m_{400K} at 700~K (\\%)', 'm/m_{400K} at 950~K (\\%)']
+    columns=['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)', 'm/m_{400K} at 700~K (\\%)',
+             'm/m_{0} at 950~K (\\%)', 'm/m_{400K} at 950~K (\\%)']
 )
 
 latex_string_400Knorm = latex_string_400Knorm.replace('\\toprule', '\\hline')

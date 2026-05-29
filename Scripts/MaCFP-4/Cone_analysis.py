@@ -640,7 +640,7 @@ for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             # ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
-    df_average = average_cone_series(series, ['UMET', 'UQ'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'],
+    df_average = average_cone_series(series, ['UMET'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'],
                                  include_grain_variants=True)
     average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
     ax1.plot(df_average['Time (s)'], df_average['HRR (kW/m2)'], label = flux + '/m$^2$', color = color[flux], zorder = 2)
@@ -685,7 +685,7 @@ for flux in cone_flux:
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
     paths = [p for p in paths if 'UMET' not in str(p)]
-    paths = [p for p in paths if 'UQ' not in str(p)]
+    # paths = [p for p in paths if 'UQ' not in str(p)]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -720,6 +720,10 @@ for flux in cone_flux:
     ax_hoc.set_xlabel('Initial density [g/cm$^3$]')
     ax_hoc.set_ylabel('Heat of combustion [kJ/g]')
     ax_hoc.set_title(f'{flux}/m$^2$')
+    ax_hoc.set_ylim(10, 20)
+    if flux != '25kW':
+        ax_hoc.set_xlim(0.3, 0.5)
+        ax_hoc.set_xticks(np.arange(0.3, 0.51, 0.05))
 
     legend1 = ax_hoc.legend(institution_handles.values(), institution_handles.keys(), loc='upper right', framealpha=0.25)
     ax_hoc.add_artist(legend1)
@@ -728,6 +732,8 @@ for flux in cone_flux:
     fig_hoc.tight_layout()
     fig_hoc.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_HOC_{flux}.{ex}')
     plt.close(fig_hoc)
+
+
 
 # Average HRR plot separated by grain orientation
 
@@ -748,7 +754,7 @@ for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
         # print(series, orientation, len(paths))
 
         paths = [p for p in paths if 'UMET' not in str(p)]
-        paths = [p for p in paths if 'UQ' not in str(p)]
+        # paths = [p for p in paths if 'UQ' not in str(p)]
         paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
         paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -846,7 +852,7 @@ for flux in cone_flux:
     paths_parallel = [p for p in paths_parallel if p in Cone_Data]
     paths_parallel = [p for p in paths_parallel if get_grain_orientation(p) == 'Parallel']
     paths_parallel = [p for p in paths_parallel if 'UMET' not in str(p)]
-    paths_parallel = [p for p in paths_parallel if 'UQ' not in str(p)]
+    # paths_parallel = [p for p in paths_parallel if 'UQ' not in str(p)]
     paths_parallel = [p for p in paths_parallel if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
     paths_parallel = [p for p in paths_parallel if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -855,7 +861,7 @@ for flux in cone_flux:
     paths_perpendicular = [p for p in paths_perpendicular if p in Cone_Data]
     paths_perpendicular = [p for p in paths_perpendicular if get_grain_orientation(p) == 'Perpendicular']
     paths_perpendicular = [p for p in paths_perpendicular if 'UMET' not in str(p)]
-    paths_perpendicular = [p for p in paths_perpendicular if 'UQ' not in str(p)]
+    # paths_perpendicular = [p for p in paths_perpendicular if 'UQ' not in str(p)]
     paths_perpendicular = [p for p in paths_perpendicular if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
     paths_perpendicular = [p for p in paths_perpendicular if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -872,7 +878,7 @@ for flux in cone_flux_both:
         paths = [p for p in paths if p in Cone_Data]
         paths = [p for p in paths if get_grain_orientation(p) == orientation]
         paths = [p for p in paths if 'UMET' not in str(p)]
-        paths = [p for p in paths if 'UQ' not in str(p)]
+        # paths = [p for p in paths if 'UQ' not in str(p)]
         paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
         paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -964,6 +970,10 @@ for dataset_name, dataset_filter in gas_average_sets.items():
     for flux in sorted(gas_flux):
 
         paths = [p for p in Gasification_Data if f'_{flux}_' in p.name]
+        # print(f'\nGasification MLR {flux}')
+        #
+        # for p in paths:
+        #     print(p.stem)
         paths = [p for p in paths if 'Wood' in p.name]
         paths = [p for p in paths if 'TEMPLATE' not in p.name]
 
@@ -1119,7 +1129,7 @@ for flux in cone_flux:
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
     paths = [p for p in paths if 'UMET' not in str(p)]
-    paths = [p for p in paths if 'UQ' not in str(p)]
+    # paths = [p for p in paths if 'UQ' not in str(p)]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -1145,6 +1155,9 @@ for flux in cone_flux:
     ax_density.set_xlabel('Initial density [g/cm$^3$]')
     ax_density.set_ylabel('Time to ignition [s]')
     ax_density.set_title(f'{flux}/m$^2$')
+    if flux != '25kW':
+        ax_density.set_xlim(0.3, 0.5)
+        ax_density.set_xticks(np.arange(0.3, 0.51, 0.05))
 
     legend1 = ax_density.legend(institution_handles.values(),
                                 institution_handles.keys(),
@@ -1176,7 +1189,7 @@ for flux in cone_flux:
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
     paths = [p for p in paths if 'UMET' not in str(p)]
-    paths = [p for p in paths if 'UQ' not in str(p)]
+    # paths = [p for p in paths if 'UQ' not in str(p)]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -1226,7 +1239,7 @@ for flux in cone_flux:
 
     ax_ign_hoc.set_xlabel('Ignition time [s]', fontsize=12)
     ax_ign_hoc.set_ylabel('Heat of combustion [kJ/g]', fontsize=12)
-    ax_ign_hoc.set_ylim(9, 20)
+    ax_ign_hoc.set_ylim(0, 20)
     ax_ign_hoc.set_title(f'{flux}/m$^2$')
 
     handles, labels = ax_ign_hoc.get_legend_handles_labels()
@@ -1251,16 +1264,10 @@ for flux in cone_flux:
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 offset_map = {'Parallel': -0.8, 'Perpendicular': 0.8}
 
-plot_configs = {
-    'ignition time': {
-        'ylabel': 'Ignition time [s]',
-        'filename': 'Cone_Ignition_time_vs_Flux'
-    },
-    'HOC': {
-        'ylabel': 'Heat of combustion [kJ/g]',
-        'filename': 'Cone_HOC_vs_Flux'
-    }
-}
+plot_configs = {'ignition time': {'ylabel': 'Ignition time [s]', 'filename': 'Cone_Ignition_time_vs_Flux'},
+                'HOC': {'ylabel': 'Heat of combustion [kJ/g]', 'filename': 'Cone_HOC_vs_Flux'},
+                'ignition time inv sqrt': {'ylabel': r'Ignition time$^{-1/2}$ [s$^{-1/2}$]',
+                                           'filename': 'Cone_Ignition_time_inv_sqrt_vs_Flux'}}
 
 results = []
 
@@ -1270,7 +1277,7 @@ for flux in cone_flux:
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
     paths = [p for p in paths if p in Cone_Data]
     paths = [p for p in paths if 'UMET' not in str(p)]
-    paths = [p for p in paths if 'UQ' not in str(p)]
+    # paths = [p for p in paths if 'UQ' not in str(p)]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
     paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
 
@@ -1304,7 +1311,7 @@ for flux in cone_flux:
 results_df = pd.DataFrame(results)
 
 if len(results_df) > 0:
-
+    results_df['ignition time inv sqrt'] = results_df['ignition time'] ** (-0.5)
     grouped = results_df.groupby(['flux', 'flux_value', 'Institution', 'Duck', 'color', 'orientation'])
 
     for quantity, config in plot_configs.items():
@@ -1333,7 +1340,7 @@ if len(results_df) > 0:
         ax_flux.set_xticklabels([flux.replace('kW', '') for flux in cone_flux])
 
         if quantity == 'HOC':
-            ax_flux.set_ylim(9, 20)
+            ax_flux.set_ylim(0, 20)
 
         legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='best', framealpha=0.25)
         ax_flux.add_artist(legend1)
