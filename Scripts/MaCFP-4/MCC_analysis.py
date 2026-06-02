@@ -592,7 +592,7 @@ oxygen_levels = {
 o2_colors = {'2%': 'lightblue', '5%': 'blue', '10%': 'orange', '20%': 'red'}
 
 # Define linestyle for different institutes
-o2_linestyle = {'IMT':':', 'NIST':'-'}
+o2_linestyle = {'IMT':':', 'NIST':'-', "Lund": '-.'}
 
 # Create figures for HRR and integral HRR
 fig1, ax1 = plt.subplots(figsize=(6, 4))
