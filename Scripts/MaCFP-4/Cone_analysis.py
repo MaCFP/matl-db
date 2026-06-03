@@ -674,11 +674,7 @@ for flux in cone_flux:
 
     fig_hoc, ax_hoc = plt.subplots(figsize=(6, 4))
     institution_handles = {}
-
-    orientation_handles = [
-        plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
-        plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
-    ]
+    orientations_present = []
 
     series = f'Cone_{flux}_hor'
     paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
@@ -713,7 +709,13 @@ for flux in cone_flux:
         label, color_inst = label_def(path.stem.split('_')[0])
         orientation = get_grain_orientation(path)
 
-        ax_hoc.scatter(density, HOC, color=color_inst, marker=marker_map[orientation], s=45)
+        if orientation not in orientations_present:
+            orientations_present.append(orientation)
+
+        if orientation == 'Perpendicular':
+            ax_hoc.scatter(density, HOC, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
+        else:
+            ax_hoc.scatter(density, HOC, color=color_inst, marker='o', s=70)
 
         institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
 
@@ -721,18 +723,104 @@ for flux in cone_flux:
     ax_hoc.set_ylabel('Heat of combustion [kJ/g]')
     ax_hoc.set_title(f'{flux}/m$^2$')
     ax_hoc.set_ylim(10, 20)
+
     if flux != '25kW':
         ax_hoc.set_xlim(0.3, 0.5)
         ax_hoc.set_xticks(np.arange(0.3, 0.51, 0.05))
 
     legend1 = ax_hoc.legend(institution_handles.values(), institution_handles.keys(), loc='upper right', framealpha=0.25)
     ax_hoc.add_artist(legend1)
-    ax_hoc.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+
+    orientation_handles = []
+    orientation_labels = []
+
+    if 'Parallel' in orientations_present:
+        orientation_handles.append(plt.Line2D([0], [0], color='black', marker='o', linestyle='None'))
+        orientation_labels.append('Parallel')
+
+    if 'Perpendicular' in orientations_present:
+        orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None'))
+        orientation_labels.append('Perpendicular')
+
+    ax_hoc.legend(orientation_handles, orientation_labels, loc='upper center', framealpha=0.25)
 
     fig_hoc.tight_layout()
     fig_hoc.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_HOC_{flux}.{ex}')
     plt.close(fig_hoc)
 
+
+# Initial density versus ignition time for individual Cone measurements
+
+volume = 10 * 10 * 2.54
+marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
+
+for flux in cone_flux:
+
+    fig_density, ax_density = plt.subplots(figsize=(6, 4))
+    institution_handles = {}
+    orientations_present = []
+
+    series = f'Cone_{flux}_hor'
+    paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
+    paths = [p for p in paths if "TEMPLATE" not in str(p)]
+    paths = [p for p in paths if p in Cone_Data]
+    paths = [p for p in paths if 'UMET' not in str(p)]
+    # paths = [p for p in paths if 'UQ' not in str(p)]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
+    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
+
+    for path in paths:
+        df = pd.read_csv(path)
+
+        if not (df['HRR (kW/m2)'] >= 24).any():
+            continue
+
+        ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
+        ignition_time = df["Time (s)"].iloc[ignition_index]
+
+        m0 = np.mean(df["Mass (g)"][1:5])
+        density = m0 / volume
+
+        label, color_inst = label_def(path.stem.split('_')[0])
+        orientation = get_grain_orientation(path)
+
+        if orientation not in orientations_present:
+            orientations_present.append(orientation)
+
+        if orientation == 'Perpendicular':
+            ax_density.scatter(density, ignition_time, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
+        else:
+            ax_density.scatter(density, ignition_time, color=color_inst, marker='o', s=70)
+
+        institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
+
+    ax_density.set_xlabel('Initial density [g/cm$^3$]')
+    ax_density.set_ylabel('Time to ignition [s]')
+    ax_density.set_title(f'{flux}/m$^2$')
+
+    if flux != '25kW':
+        ax_density.set_xlim(0.3, 0.5)
+        ax_density.set_xticks(np.arange(0.3, 0.51, 0.05))
+
+    legend1 = ax_density.legend(institution_handles.values(), institution_handles.keys(), loc='upper right', framealpha=0.25)
+    ax_density.add_artist(legend1)
+
+    orientation_handles = []
+    orientation_labels = []
+
+    if 'Parallel' in orientations_present:
+        orientation_handles.append(plt.Line2D([0], [0], color='black', marker='o', linestyle='None'))
+        orientation_labels.append('Parallel')
+
+    if 'Perpendicular' in orientations_present:
+        orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None'))
+        orientation_labels.append('Perpendicular')
+
+    ax_density.legend(orientation_handles, orientation_labels, loc='upper center', framealpha=0.25)
+
+    fig_density.tight_layout()
+    fig_density.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_Ignition_{flux}.{ex}')
+    plt.close(fig_density)
 
 
 # Average HRR plot separated by grain orientation
@@ -1107,73 +1195,6 @@ for flux in used_fluxes:
     fig_gas_flux.savefig(str(base_dir) + f'/Cone/Gasification_Average_MLR_Gasification_grain_{flux}.{ex}')
     plt.close(fig_gas_flux)
 
-
-
-# Initial density versus ignition time for individual Cone measurements
-
-volume = 10 * 10 * 2.54
-marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
-
-for flux in cone_flux:
-
-    fig_density, ax_density = plt.subplots(figsize=(6, 4))
-    institution_handles = {}
-
-    orientation_handles = [
-        plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
-        plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
-    ]
-
-    series = f'Cone_{flux}_hor'
-    paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
-    paths = [p for p in paths if "TEMPLATE" not in str(p)]
-    paths = [p for p in paths if p in Cone_Data]
-    paths = [p for p in paths if 'UMET' not in str(p)]
-    # paths = [p for p in paths if 'UQ' not in str(p)]
-    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem]
-    paths = [p for p in paths if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem]
-
-    for path in paths:
-        df = pd.read_csv(path)
-
-        if not (df['HRR (kW/m2)'] >= 24).any():
-            continue
-
-        ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
-        ignition_time = df["Time (s)"].iloc[ignition_index]
-
-        m0 = np.mean(df["Mass (g)"][1:5])
-        density = m0 / volume
-
-        label, color_inst = label_def(path.stem.split('_')[0])
-        orientation = get_grain_orientation(path)
-
-        ax_density.scatter(density, ignition_time, color=color_inst, marker=marker_map[orientation], s=45)
-
-        institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
-
-    ax_density.set_xlabel('Initial density [g/cm$^3$]')
-    ax_density.set_ylabel('Time to ignition [s]')
-    ax_density.set_title(f'{flux}/m$^2$')
-    if flux != '25kW':
-        ax_density.set_xlim(0.3, 0.5)
-        ax_density.set_xticks(np.arange(0.3, 0.51, 0.05))
-
-    legend1 = ax_density.legend(institution_handles.values(),
-                                institution_handles.keys(),
-                                loc='upper right',
-                                framealpha=0.25)
-
-    ax_density.add_artist(legend1)
-
-    ax_density.legend(orientation_handles,
-                      ['Parallel', 'Perpendicular'],
-                      loc='upper center',
-                      framealpha=0.25)
-
-    fig_density.tight_layout()
-    fig_density.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_Ignition_{flux}.{ex}')
-    plt.close(fig_density)
 
 # Ignition time versus heat of combustion averaged by institution and grain orientation
 
