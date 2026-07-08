@@ -89,3 +89,60 @@ where the temperature is not yet monotonically increasing, due to noise.
 | FZJ_Wood_MCC_N2_60K_R9 | 3.99 | 0.55 | 60 | main measurement |
 | FZJ_Wood_MCC_N2_60K_R10 | 4.09 | 0.54 | 60 | main measurement |
 
+
+
+## Experimental Conditions, Cone calorimeter
+
+* Test Standard: ISO 5660
+* Extraction flow rate: 24L/s
+* Sample Surface Area: 0.01 m2 (nominal) 
+* Sample holder dimensions:
+    - Square pan: external dimensions: 105mmx105mmx25mm; internal dimensions: 100mmx100mmx 22.5mm 
+    - Retainer frame: None
+    - Retaining grid: None
+* Backing Insulation: Al2O3 ceramic plate
+* Sample preparation: Samples were stored at room temperature and humidity, prior to testing
+Samples stored in a desiccator prior to testing:
+              - FZJ_Wood_Cone_60kW_hor_parallel_R1, 20hrs
+              - FZJ_Wood_Cone_60kW_hor_parallel_R2, 22hrs
+              - FZJ_Wood_Cone_60kW_hor_parallel_R3, 45hrs
+              - FZJ_Wood_Cone_60kW_hor_perpendicular_R1, 333hrs
+              - FZJ_Wood_Cone_60kW_hor_perpendicular_R2, 33hrs
+* Thermocouple location: None
+Experiments with thermocouple type K, d=0.25mm, stapled to the bottom of the sample:
+              - FZJ_Wood_Cone_60kW_hor_parallel_R1
+              - FZJ_Wood_Cone_60kW_hor_parallel_R2
+              - FZJ_Wood_Cone_60kW_hor_parallel_R3 
+              - FZJ_Wood_Cone_60kW_hor_perpendicular_R1 
+              - FZJ_Wood_Cone_60kW_hor_perpendicular_R2 
+
+* Ignition Source: spark ignitor
+
+###### Test Heating Conditions  
+| Run Label | Initial Sample Mass (mg) | Surface area (cm^2) | Thickness (mm) |Time to ignition (s) | 
+| :---- | :---- | :---- | :---- | :---- |
+| FZJ_Wood_Cone_30kW_hor_parallel_R1 | 93.43 | 99.13 | 25.53 | 19 | 
+| FZJ_Wood_Cone_30kW_hor_parallel_R2 | 93.93 | 101.51 | 25.24 | 35 | |
+| FZJ_Wood_Cone_30kW_hor_parallel_R3 | 92.64 | 102.03 | 25.42 | 48 | 
+| FZJ_Wood_Cone_30kW_hor_perpendicular_R1 | 96.13 | 98.30 | 26.00 | 43 | 
+| FZJ_Wood_Cone_30kW_hor_perpendicular_R3 | 117.06 | 99.17 | 26.35 | 56 | 
+| FZJ_Wood_Cone_30kW_hor_perpendicular_R4 | 118.47 | 97.74 | 26.11 | 55 | 
+| FZJ_Wood_Cone_60kW_hor_parallel_R1 | 83.84 | 98.74 | 25.62 | 8 | 
+| FZJ_Wood_Cone_60kW_hor_parallel_R2 | 124.60 | 99.23 | 25.36 | 6 | 
+| FZJ_Wood_Cone_60kW_hor_parallel_R3 | 90.308 | 98.46 | 25.49 | 7 | 
+| FZJ_Wood_Cone_60kW_hor_parallel_R4 | 88.27 | 102.00 | 25.53 | 10 | 
+| FZJ_Wood_Cone_60kW_hor_perpendicular_R1 | 108.12 | 98.59 | 26.07 | 19 | 
+| FZJ_Wood_Cone_60kW_hor_perpendicular_R2 | 82.70 | 97.31 | 25.96 | 11 | 
+| FZJ_Wood_Cone_60kW_hor_perpendicular_R3 | 85.30 | 97.32 | 25.87 | 13 | 
+| FZJ_Wood_Cone_60kW_hor_perpendicular_R4 | 85.19 | 97.24 | 26.05 | 12 | 
+| FZJ_Wood_Cone_60kW_hor_perpendicular_R5 | 86.99 | 98.02 | 26.03 | 13 | 
+| FZJ_Wood_Cone_75kW_hor_parallel_R1 | 96.43 | 98.17 | 25.44 | 5 | 
+| FZJ_Wood_Cone_75kW_hor_parallel_R2 | 96.15 | 102.08 | 25.41 | 5 | 
+| FZJ_Wood_Cone_75kW_hor_parallel_R3 | 92.78 | 99.36 | 25.45 | 5 | 
+| FZJ_Wood_Cone_75kW_hor_perpendicular_R1 | 94.59 | 98.34 | 26.12 | 11 | 
+| FZJ_Wood_Cone_75kW_hor_perpendicular_R2 | 95.22 | 97.65 | 26.10 | 9 | 
+| FZJ_Wood_Cone_75kW_hor_perpendicular_R3 | 96.14 | 98.65 | 26.05 | 12 | 
+| FZJ_Wood_Cone_75kW_hor_perpendicular_R4 | 94.03 | 98.55 | 26.08 | 9 | 
+
+
+
