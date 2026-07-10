@@ -1,7 +1,15 @@
 # README File for IMT
 IMT Mines Alès (Institut Mines-Télécom), Alès (France).
 
-Experiments were performed by Loïc Dumazert (loic.dumazert@mines-ales.fr). Results data were formatted and uploaded by Arnaud Regazzi (arnaud.regazzi@mines-ales.fr). The testing campaign was supervised by Rodolphe Sonnier (rodolphe.sonnier@mines-ales.fr) and Laurent Ferry (laurent.ferry@mines-ales.fr). For any questions or requests for additional information, please contact rodolphe.sonnier@mines-ales.fr.
+### Contributors
+
+| Contribution                | First Name | Last Name | Email address                  | Affiliation             |
+| --------------------------- | ---------- | --------- | ------------------------------ | ----------------------- |
+| Experimentation             | Loïc       | Dumazert  | loic.dumazert@mines-ales.fr    | Polymers Composites and Hybrids (PCH), IMT Mines Ales, Ales, France |
+| Data processing & uploading | Arnaud     | Regazzi   | arnaud.regazzi@mines-ales.fr   | LMGC, Univ Montpellier, IMT Mines Ales, CNRS, Ales, France          |
+| Supervision                 | Rodolphe   | Sonnier   | rodolphe.sonnier@mines-ales.fr | Polymers Composites and Hybrids (PCH), IMT Mines Ales, Ales, France |
+| Supervision                 | Laurent    | Ferry     | laurent.ferry@mines-ales.fr    | Polymers Composites and Hybrids (PCH), IMT Mines Ales, Ales, France |
+
 
 ### Experimental Conditions: TGA
 A Perkin Elmer TGA 8000 was used to conduct Thermogravimetric Analysis (TGA) experiments. 
@@ -75,7 +83,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 | Test Name | O2 volume (Pyrolyser) % | Initial Sample Mass (mg) | Final Sample Mass (mg) | 
 | --------- | :---------------------: | :----------------------: | :--------------------: |
 | IMT-Mines-Ales_MCC_N2_60K_R1 | 0 | 2.82 | 0.23 |
-| IMT-Mines-Ales_MCC_N2_60K_R2 | 0 | 2.2 | 0.24 |
+| IMT-Mines-Ales_MCC_N2_60K_R2 | 0 | 2.20 | 0.24 |
 | IMT-Mines-Ales_MCC_O2-2_60K_R1 | 2 | 2.31 | 0 |
 | IMT-Mines-Ales_MCC_O2-2_60K_R2 | 2 | 2.34 | 0 |
 | IMT-Mines-Ales_MCC_O2-5_60K_R1 | 5 | 2.61 | 0 |
@@ -100,18 +108,19 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 * Backing Insulation: 28 mm thick layer of rock wool
 * Thermocouple location: None
 * Ignition Source: Spark ignitor
+* Wood grain orientation : Uncertain but consistent across all tests
 
-| Test Name | Heat Flux (kW/m²)| Heater Temperature (K) | Thickness (cm) | t_ign (s)| t_flameout (s) |
-|-----------| :--------------: | :--------------------: | :------------: | :------: | :------------: |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R1 | 25 | 853 | 2.5 | 126 | 2301 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R2 | 25 | 853 | 2.5 | 304 | 2178 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R3 | 25 | 853 | 2.5 | 118 | 2273 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R4 | 25 | 853 | 2.5 | 105 | 1788 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R5 | 25 | 853 | 2.5 | 288 | 2155 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R1 | 50 | 1033 | 2.5 | 17 | 1505 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R2 | 50 | 1033 | 2.5 | 12 | 1613 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R3 | 50 | 1033 | 2.5 | 7 | 1673 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R4 | 50 | 1033 | 2.5 | 12 | 1374 |
-| IMT-Mines-Ales_Wood_Cone_75kW_hor_R1 | 75 | 1153 | 2.5 | 3 | 1206 |
-| IMT-Mines-Ales_Wood_Cone_75kW_hor_R2 | 75 | 1153 | 2.5 | 3 | 1159 |
-| IMT-Mines-Ales_Wood_Cone_75kW_hor_R3 | 75 | 1153 | 2.5 | 2 | 1111 |
+| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Initial mass (g) | Thickness (cm) | t_ign (s) | t_flameout (s) |
+|-----------| :---------------: | :--------------------: | :--------------: | :------------: | :-------: | :------------: |
+| IMT-Mines-Ales_Wood_Cone_25kW_hor_R1 | 25 | 853 | 103.2 | 2.5 | 126 | 2301 |
+| IMT-Mines-Ales_Wood_Cone_25kW_hor_R2 | 25 | 853 |  92.8 | 2.5 | 304 | 2178 |
+| IMT-Mines-Ales_Wood_Cone_25kW_hor_R3 | 25 | 853 |  98.8 | 2.5 | 118 | 2273 |
+| IMT-Mines-Ales_Wood_Cone_25kW_hor_R4 | 25 | 853 |  83.2 | 2.5 | 105 | 1788 |
+| IMT-Mines-Ales_Wood_Cone_25kW_hor_R5 | 25 | 853 |  83.7 | 2.5 | 288 | 2155 |
+| IMT-Mines-Ales_Wood_Cone_50kW_hor_R1 | 50 | 1033 | 119.8 | 2.5 | 17 | 1505 |
+| IMT-Mines-Ales_Wood_Cone_50kW_hor_R2 | 50 | 1033 |  96.0 | 2.5 | 12 | 1613 |
+| IMT-Mines-Ales_Wood_Cone_50kW_hor_R3 | 50 | 1033 | 100.6 | 2.5 |  7 | 1673 |
+| IMT-Mines-Ales_Wood_Cone_50kW_hor_R4 | 50 | 1033 |  95.6 | 2.5 | 12 | 1374 |
+| IMT-Mines-Ales_Wood_Cone_75kW_hor_R1 | 75 | 1153 |  97.0 | 2.5 |  3 | 1206 |
+| IMT-Mines-Ales_Wood_Cone_75kW_hor_R2 | 75 | 1153 | 112.2 | 2.5 |  3 | 1159 |
+| IMT-Mines-Ales_Wood_Cone_75kW_hor_R3 | 75 | 1153 |  90.8 | 2.5 |  2 | 1111 |
