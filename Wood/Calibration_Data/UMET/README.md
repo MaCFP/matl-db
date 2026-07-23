@@ -1,4 +1,20 @@
-Experimental Conditions: TGA
+
+
+# Laboratory UMET - Unité de Matériaux et Transformation CNRS UMR 8207 Team ISP – Polymer Systems Engineering team R2Fire (Reaction to Fire and Fire Resistance)
+
+
+
+This README file was prepared by Johan Sarazin. The experimental work was carried out by Anaïs Dhenin and Pierre Bachelet. For any questions or requests for additional information, please contact Johan Sarazin (johan.sarazin@centralelille.fr) or the head of the R2Fire research group, Serge Bourbigot (serge.bourbigot@centralelille.fr).
+
+
+
+Prior to testing, all samples were conditioned in a controlled environment at room temperature (approximately 23 °C) and a relative humidity of approximately 50%.
+
+
+
+
+
+## Experimental Conditions: Thermogravimetric Analysis (TGA)
 
 
 
@@ -49,7 +65,7 @@ UMET\_TGA\_N2\_10K\_R3	0	4.2213
 
 
 
-Experimental Conditions: TGA
+## Experimental Conditions: Thermogravimetric Analysis (TGA)
 
 
 
@@ -99,7 +115,7 @@ UMET\_TGA\_21%O2\_10K\_R3	0	4.7632
 
 
 
-Experimental Conditions: TGA/DSC
+## Experimental Conditions: TGA/DSC
 
 
 
@@ -154,6 +170,7 @@ UMET\_TGASTA\_N2\_3K\_R3		0	2.8869
 conventional system endo up
 
 
+
 Test Name		O2 volume %	Initial Sample Mass (mg)
 UMET\_DSCSTA\_N2\_3K\_R1		0	3.0439
 UMET\_DSCSTA\_N2\_3K\_R2		0	4.1092
@@ -161,7 +178,7 @@ UMET\_DSCSTA\_N2\_3K\_R3		0	2.8869
 
 
 
-Experimental Conditions: DSC
+## Experimental Conditions: DSC
 
 
 
@@ -185,7 +202,7 @@ Temperature Program
 6 : Ramp 3K/min to 473.15K  Modulate Temperature Amplitude 1°C period 60,0s
 7 : Isothermal 10min
 8 : Ramp 3K/min to 313.15K  Modulate Temperature Amplitude 1°C period 60,0s
-n
+
 Initial sample moisture content (%)	NA
 Sample geometry	: powdered  
 Calibration type :
@@ -214,7 +231,7 @@ UMET\_DSC\_N2\_3K\_R3		0	5.3900
 
 
 
-Experimental Conditions: Conductivity
+## Experimental Conditions: Transient Plane Source (TPS) Conductivity
 
 
 
@@ -223,7 +240,8 @@ UMET\_Conductivity\_room\_temperature
 IDENTITY:WOOD
 PROJECT:  MaCFP-4 pyrolysis model calibration exercise
 Temperature Program	20°C
-Initial sample moisture content (%) 296K 50%HR
+Initial sample moisture content (%): NA
+Samples were conditioned in a controlled environment at room temperature (approximately 23 °C) and a relative humidity of approximately 50%.
 SAMPLE MASS /mg:            	NA
 Sample geometry	Solid
 Calibration type, materials used, and frequency	NA
@@ -232,9 +250,17 @@ Calibration type, materials used, and frequency	NA
 Carrier gas and associated flow rate(s)	NA
 Probe	Kapton 8563, Radius 9,868mm
 
+###### Test Conditions/Results
+
+| Test Name | Temperature K | Measurement Time s | Thermal Conductivity W/mK | Thermal Diffusivity mm2/s | Volumetric Specific Heat MJ/m3K |
+|Wood\_TPS\_Sample1 | 303.15 | 160 | 0.147 | 0.407 | 0.362 |
+|Wood\_TPS\_Sample2 | 303.15 | 160  | 0.144 | 0.352 | 0.410 |
 
 
-Experimental Conditions: Diffusivity
+
+
+
+## Experimental Conditions: Diffusivity (LFA)
 
 
 
@@ -243,7 +269,8 @@ UMET\_Diffusivity\_room\_temperature
 IDENTITY:WOOD
 PROJECT:  MaCFP-4 pyrolysis model calibration exercise
 Temperature Program	20°C
-Initial sample moisture content (%) 296K 50%HR
+Initial sample moisture content (%): NA
+Samples were conditioned in a controlled environment at room temperature (approximately 23 °C) and a relative humidity of approximately 50%.
 SAMPLE MASS /mg: NA
 Sample geometry	Solid size : 25.4mm\*24.4mm thickness 0.38mm
 Calibration type, materials used, and frequency	NA
@@ -253,7 +280,17 @@ Carrier gas and associated flow rate(s)	20ml/min (N2)
 
 
 
-Experimental Conditions: Mass Loss Cone
+| Test Name |	Th.diffusivity mm²/s| Result variability (+/-) W/mK|	
+
+| Wood sample 1 | 0.195	| 0.005
+
+| Wood sample 2	| 0.195	| 0.005
+
+
+
+
+
+## Experimental Conditions: Mass Loss Cone
 
 
 
@@ -281,25 +318,28 @@ Thermocouple location: None
 
 Ignition Source: spark ignitor
 
-Initial sample moisture content (%)296K 50%HR
+Initial sample moisture content (%): NA
+Samples were conditioned in a controlled environment at room temperature (approximately 23 °C) and a relative humidity of approximately 50%.
 Sample geometry	Solid size : 100mm\*100mm thickness 3cm +/-0.1cm
 Calibration type, materials used, and frequency	methane (0.5 kW, 1kW, 2kW, 3kW, 4KW) according standards (Calibration every day before testing)
+
 
 
 Distance 35mm (heat source/sample)
 
 Test Heating Conditions
 
-Test Name	Heat Flux (kW/m2)	Heater Temperature (K)	thickness (cm)	t\_ign (s)	t\_flameout (s)
+Test Name	Heat Flux (kW/m2)	Heater Temperature (K)	thickness (cm)	t\_ign (s)	t\_flameout (s)     initial mass (g)
 
-UMET\_Cone\_30KW\_hor\_R1	30		778			2.56		25		2001
+UMET-MLC\_30KW\_R1	30		778			2.56		25		2001			101.3
 
-UMET\_Cone\_30KW\_hor\_R2	30		778			2.56		21		2105
+UMET-MLC\_30KW\_R2	30		778			2.56		21		2105			83.61
 
-UMET\_Cone\_30KW\_hor\_R3	30		778			2.56		15		2020
+UMET-MLC\_30KW\_R3	30		778			2.56		15		2020			110.94
 
-UMET\_Cone\_60KW\_hor\_R1	60		991			2.57		3		1899
+UMET-MLC\_30KW\_R1	60		991			2.57		3		1899			84.67
 
-UMET\_Cone\_60KW\_hor\_R2	60		991			2.57		5		1859
+UMET-MLC\_30KW\_R2	60		991			2.57		5		1859			96.64
 
-UMET\_Cone\_60KW\_hor\_R3	60		991			2.57		5		1854
+UMET-MLC\_30KW\_R3	60		991			2.57		5		1854			85.16
+

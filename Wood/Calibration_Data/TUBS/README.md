@@ -116,6 +116,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Backing Insulation: 27.5mm thick layer of mineal wool.
 * Thermocouple location: None
 * Ignition Source: spark ignitor
+* Sample mass in the cone calorimeter data at time 0 sec is the initial mass of the sample.
 
 ###### Test Heating Conditions  
 
@@ -138,6 +139,7 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Thermocouple location: None
 * Ignition Source: None
 * Target gas atmosphere: 0 vol% oxygen, 100 vol% nitrogen (target nitrogen purge flow rate: 150 L/min)
+* Sample mass in the gasification data at time 0 sec is the initial mass of the sample.
 
 ###### Test Heating Conditions  
 

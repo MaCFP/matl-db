@@ -64,6 +64,7 @@ Data collected from all samples is believed to have an error of ±10% and were c
 * Backing Insulation: (~2.54 cm thick) refractory fiber conforming to ASTM E1354.  
 * Thermocouple location: under wood sample
 * Ignition Source: (spark ignitor)
+* Sample mass in the cone data at time 0 sec is the initial mass of the sample plus aluminium foil taken from the load cell of the cone calorimeter at the beginning of the measurement.
 
 ###### Test Heating Conditions
 
