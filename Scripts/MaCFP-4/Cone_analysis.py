@@ -1334,42 +1334,138 @@ results_df = pd.DataFrame(results)
 if len(results_df) > 0:
     results_df['ignition time inv sqrt'] = results_df['ignition time'] ** (-0.5)
     grouped = results_df.groupby(['flux', 'flux_value', 'Institution', 'Duck', 'color', 'orientation'])
+    regression_table_rows = []
 
     for quantity, config in plot_configs.items():
-
-        fig_flux, ax_flux = plt.subplots(figsize=(6, 4))
-
+        fig_flux, ax_flux = plt.subplots(figsize=(7.5, 4))
         institution_handles = {}
-        orientation_handles = [
-            plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
-            plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
-        ]
 
-        for (flux, flux_value, institution, duck, color, orientation), group in grouped:
-            x = flux_value + offset_map[orientation]
-            y_mean = group[quantity].mean()
-            y_min = group[quantity].min()
-            y_max = group[quantity].max()
+        if quantity == 'ignition time inv sqrt':
+            for _, row in results_df.iterrows():
+                if row['orientation'] == 'Perpendicular':
+                    ax_flux.scatter(row['flux_value'], row[quantity], facecolors='none', edgecolors=row['color'], marker='^', s=70, linewidths=1.5, zorder=4)
+                else:
+                    ax_flux.scatter(row['flux_value'], row[quantity], color=row['color'], marker='o', s=70, zorder=4)
 
-            ax_flux.errorbar(x, y_mean, yerr=[[y_mean - y_min], [y_max - y_mean]], fmt=marker_map[orientation], capsize=5, capthick=2, markersize=8, color=color)
+                institution_handles[row['Duck']] = plt.Line2D([0], [0], color=row['color'], marker='o', linestyle='None', label=row['Duck'])
 
-            institution_handles[duck] = plt.Line2D([0], [0], color=color, marker='o', linestyle='None', label=duck)
+            for (institution, duck, color), institution_subset in results_df.groupby(['Institution', 'Duck', 'color'], sort=False):
+                for orientation, linestyle in [('Parallel', '-'), ('Perpendicular', '--')]:
+                    subset = institution_subset[institution_subset['orientation'] == orientation]
+
+                    if len(subset) < 2 or subset['flux_value'].nunique() < 2:
+                        continue
+
+                    x = subset['flux_value'].to_numpy()
+                    y = subset[quantity].to_numpy()
+                    slope, intercept = np.polyfit(x, y, 1)
+                    y_pred = slope*x + intercept
+                    r_squared = 1 - np.sum((y - y_pred)**2)/np.sum((y - np.mean(y))**2)
+                    zero_flux = -intercept/slope if not np.isclose(slope, 0) else np.nan
+                    sign = '+' if intercept >= 0 else '-'
+                    equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
+
+                    x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
+                    ax_flux.plot(x_fit, slope*x_fit + intercept, color=color, linestyle=linestyle, linewidth=0.8, alpha=0.55, zorder=2)
+
+                    regression_table_rows.append({'Institution': duck, 'Grain orientation': orientation, 'Regression equation': equation, '$R^2$': f'${r_squared:.3f}$', 'Critical heat flux (kW/m$^2$)': f'${zero_flux:.2f}$' if np.isfinite(zero_flux) else '--'})
+
+            for orientation, linestyle in [('Parallel', '-'), ('Perpendicular', '--')]:
+                subset = results_df[results_df['orientation'] == orientation]
+
+                if len(subset) < 2 or subset['flux_value'].nunique() < 2:
+                    continue
+
+                x = subset['flux_value'].to_numpy()
+                y = subset[quantity].to_numpy()
+                slope, intercept = np.polyfit(x, y, 1)
+                y_pred = slope*x + intercept
+                r_squared = 1 - np.sum((y - y_pred)**2)/np.sum((y - np.mean(y))**2)
+                zero_flux = -intercept/slope if not np.isclose(slope, 0) else np.nan
+                sign = '+' if intercept >= 0 else '-'
+                equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
+
+                x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
+                ax_flux.plot(x_fit, slope*x_fit + intercept, color='black', linestyle=linestyle, linewidth=1.8, zorder=3)
+
+                regression_table_rows.append({'Institution': 'All institutions', 'Grain orientation': orientation, 'Regression equation': equation, '$R^2$': f'${r_squared:.3f}$', 'Critical heat flux (kW/m$^2$)': f'${zero_flux:.2f}$' if np.isfinite(zero_flux) else '--'})
+
+            orientation_handles = [
+                plt.Line2D([0], [0], color='black', linestyle='-', marker='o', markerfacecolor='black', markeredgecolor='black', label='Parallel'),
+                plt.Line2D([0], [0], color='black', linestyle='--', marker='^', markerfacecolor='white', markeredgecolor='black', label='Perpendicular')
+            ]
+
+            ax_flux.set_xlim(left=0)
+            ax_flux.set_ylim(bottom=0)
+
+        else:
+            orientation_handles = [
+                plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
+                plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None', label='Perpendicular')
+            ]
+
+            for (flux, flux_value, institution, duck, color, orientation), group in grouped:
+                x = flux_value + offset_map[orientation]
+                y_mean = group[quantity].mean()
+                y_min = group[quantity].min()
+                y_max = group[quantity].max()
+
+                ax_flux.errorbar(x, y_mean, yerr=[[y_mean - y_min], [y_max - y_mean]], fmt=marker_map[orientation], capsize=5, capthick=2, markersize=8, color=color)
+                institution_handles[duck] = plt.Line2D([0], [0], color=color, marker='o', linestyle='None', label=duck)
 
         ax_flux.set_xlabel('Incident heat flux [kW/m$^2$]')
         ax_flux.set_ylabel(config['ylabel'])
-        ax_flux.set_xticks([int(flux.replace('kW', '')) for flux in cone_flux])
-        ax_flux.set_xticklabels([flux.replace('kW', '') for flux in cone_flux])
+        ax_flux.set_xticks([0] + [int(flux.replace('kW', '')) for flux in cone_flux])
+        ax_flux.set_xticklabels(['0'] + [flux.replace('kW', '') for flux in cone_flux])
 
         if quantity == 'HOC':
             ax_flux.set_ylim(0, 20)
 
-        legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='best', framealpha=0.25)
+        legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='upper left', framealpha=0.25)
         ax_flux.add_artist(legend1)
-        ax_flux.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+        ax_flux.legend(handles=orientation_handles, loc='upper center', framealpha=0.25)
 
         fig_flux.tight_layout()
-        fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}")
+        fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}", bbox_inches='tight')
         plt.close(fig_flux)
+
+    regression_table = pd.DataFrame(regression_table_rows)
+
+    latex_string = regression_table.to_latex(index=False, escape=False, column_format='llccc')
+
+    latex_string = latex_string.replace('\\toprule', '\\hline')
+    latex_string = latex_string.replace('\\midrule', '\\hline')
+    latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+    for col in ['Institution', 'Grain orientation', 'Regression equation', '$R^2$', 'Critical heat flux (kW/m$^2$)']:
+        latex_string = latex_string.replace(col, '\\textbf{' + col + '}')
+
+    lines = latex_string.split('\n')
+    new_lines = []
+    previous_institution = None
+
+    for line in lines:
+        if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+            current_institution = line.split('&')[0].strip()
+
+            if previous_institution is not None and current_institution != previous_institution:
+                if current_institution == 'All institutions':
+                    new_lines.append('\\hline')
+                    new_lines.append('\\noalign{\\vskip 6pt}')
+                else:
+                    new_lines.append('\\noalign{\\vskip 6pt}')
+
+            previous_institution = current_institution
+
+        new_lines.append(line)
+
+    latex_string = '\n'.join(new_lines)
+
+    with open(str(base_dir) + '/Cone/Cone_Ignition_time_inv_sqrt_regressions.tex', 'w') as f:
+        f.write(latex_string)
+
+    print('\nIgnition time inverse square root regressions')
+    print(regression_table.to_string(index=False))
 
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
