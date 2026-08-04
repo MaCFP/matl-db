@@ -1077,7 +1077,7 @@ for dataset_name, dataset_filter in gas_average_sets.items():
         if df_average is None:
             continue
 
-        ax_gas_avg.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], label=flux)
+        ax_gas_avg.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], label=flux.replace('kW', ' kW/m$^2$'))
 
         ax_gas_avg.fill_between(df_average['Time (s)'], df_average['MLR'] - 2*df_average['unc MLR'], df_average['MLR'] + 2*df_average['unc MLR'], color=color[flux], alpha=0.2)
 
