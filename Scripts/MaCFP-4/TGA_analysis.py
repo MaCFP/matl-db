@@ -309,24 +309,41 @@ unique_HR = {s.split('_')[4] for s in TGA_sets}
 for HR in unique_HR:
     if 'iso' in HR:
         continue
-    else:
-        fig, ax = plt.subplots(figsize=(6, 4))
-        TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21') + device_subset(TGA_sets, HR, 'O2-20')
-        for set in TGA_sub_set:
-            average = average_HR_tga_series(set)
-            label, color = label_def(set.split('_')[0])
-            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '-', label = label, color=color)
-            ax.set_xlabel('Temperature [K]')
-            ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
-            ax.set_title('dT/dt in TGA tests at {} K/min'.format(HR[:-1]))
-            fig.tight_layout()
-            handles, labels = ax.get_legend_handles_labels()
-            by_label = dict(zip(labels, handles))
-            ax.legend(by_label.values(), by_label.keys(), ncol=math.ceil(len(by_label) / 6))
-            ax.set_xlim(right=1100)
-        plt.savefig(str(base_dir) +'/TGA/dTdt_TGA_{}Kmin.{}'.format(HR[:-1], ex))
-        plt.close(fig)
 
+    fig, ax = plt.subplots(figsize=(6, 4))
+    fig_ranges, ax_ranges = plt.subplots(figsize=(6, 4))
+    TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21') + device_subset(TGA_sets, HR, 'O2-20')
+
+    for set in TGA_sub_set:
+        average = average_HR_tga_series(set)
+        label, color = label_def(set.split('_')[0])
+
+        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'], '-', label=label, color=color)
+        ax_ranges.plot(average['Temperature (K)'], average['dTdt (K/min)'], '-', label=label, color=color)
+
+    for current_ax in [ax, ax_ranges]:
+        current_ax.set_xlabel('Temperature [K]')
+        current_ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
+        current_ax.set_xlim(right=1100)
+        handles, labels = current_ax.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        current_ax.legend(by_label.values(), by_label.keys(), ncol=math.ceil(len(by_label)/6))
+
+    ax.text(0.97, 0.05, f'N$_{2}$,$\,${HR[:-1]} K/min', transform=ax.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+
+    ax_ranges.axvspan(348, 398, color='deepskyblue', alpha=0.20, zorder=0)
+    ax_ranges.axvspan(500, 800, color='orange', alpha=0.15, zorder=0)
+    ax_ranges.text(0.97, 0.05, f'N$_{2}$,$\,${HR[:-1]} K/min', transform=ax_ranges.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+
+    fig.tight_layout()
+    fig_ranges.tight_layout()
+
+    fig.savefig(str(base_dir) + '/TGA/dTdt_TGA_{}Kmin.{}'.format(HR[:-1], ex))
+    fig_ranges.savefig(str(base_dir) + '/TGA/dTdt_TGA_{}Kmin_ranges.{}'.format(HR[:-1], ex))
+
+    plt.close(fig)
+    plt.close(fig_ranges)
+#--------------------------------------------------------
 
 
 # Mass and mass loss rate plots for all unique atmospheres and heating rates 
@@ -413,8 +430,7 @@ for series in unique_conditions_material:
         plt.close(fig1)
         plt.close(fig2)
         plt.close(fig3)
-
-
+#--------------------------------------------------------
 
 
 
@@ -463,8 +479,7 @@ for path in TGA_Data:
     fig.tight_layout()
     fig.savefig(str(base_dir) + f'/TGA/Individual/{path.stem}.{ex}')
     plt.close(fig)
-
-
+#--------------------------------------------------------
 
 
 
