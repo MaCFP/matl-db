@@ -14,6 +14,7 @@ from pathlib import Path
 from scipy.signal import savgol_filter
 from fnmatch import fnmatch
 from typing import Optional, Union, List, Dict
+from matplotlib.patches import Ellipse
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation, format_latex
 from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
@@ -329,11 +330,11 @@ for HR in unique_HR:
         by_label = dict(zip(labels, handles))
         current_ax.legend(by_label.values(), by_label.keys(), ncol=math.ceil(len(by_label)/6))
 
-    ax.text(0.97, 0.05, f'N$_{2}$,$\,${HR[:-1]} K/min', transform=ax.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+    ax.text(0.97, 0.05, f'N$_{2}$,$\\,${HR[:-1]} K/min', transform=ax.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
     ax_ranges.axvspan(348, 398, color='deepskyblue', alpha=0.20, zorder=0)
     ax_ranges.axvspan(500, 800, color='orange', alpha=0.15, zorder=0)
-    ax_ranges.text(0.97, 0.05, f'N$_{2}$,$\,${HR[:-1]} K/min', transform=ax_ranges.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+    ax_ranges.text(0.97, 0.05, f'N$_{2}$,$\\,${HR[:-1]} K/min', transform=ax_ranges.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
     fig.tight_layout()
     fig_ranges.tight_layout()
@@ -356,6 +357,14 @@ plot_configs = [
 for series in unique_conditions_material:
     parts = series.split('_')
     material, dev, atm, hr  = parts[:4]
+    if atm == 'N2':
+        atmosphere_label = 'N$_2$'
+    elif atm == 'O2-20':
+        atmosphere_label = '20% O$_2$'
+    elif atm == 'O2-21':
+        atmosphere_label = '21% O$_2$'
+    else:
+        atmosphere_label = atm
     TGA_subset_paths = [p for p in TGA_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
     if atm == 'O2-21':
         TGA_subset_paths += [p for p in TGA_Data if f"{material}_" in p.name and f"_O2-20_{hr}_" in p.name]
@@ -390,17 +399,23 @@ for series in unique_conditions_material:
         handles1, labels1 = ax1.get_legend_handles_labels()
         by_label1 = dict(zip(labels1, handles1))
 
-        if hr == '10K':
-            ax1.legend(by_label1.values(), by_label1.keys(),
-                       fontsize=8,
-                       loc='lower left')
+        if config['suffix'] == '_zoom2':
+            if hr == '10K':
+                ax1.legend(by_label1.values(), by_label1.keys(), fontsize=8, loc='upper left', ncol=3, columnspacing=0.9)
+            else:
+                ax1.legend(by_label1.values(), by_label1.keys(), loc='upper left', ncol=3, columnspacing=0.9)
+        elif config['suffix'] == '_zoom1' and hr == '10K':
+            ax1.legend(by_label1.values(), by_label1.keys(), fontsize=8, loc='upper left', ncol=3, columnspacing=0.9)
+        elif config['suffix'] == '_zoom1':
+            ax1.legend(by_label1.values(), by_label1.keys(), loc='lower left', ncol=2)
         else:
-            ax1.legend(by_label1.values(), by_label1.keys())
-        if hr == '10K':
-            ax1.legend(by_label1.values(), by_label1.keys(), fontsize=8, loc='lower left')
-        else:
-            ax1.legend(by_label1.values(), by_label1.keys())
+            if hr == '10K':
+                ax1.legend(by_label1.values(), by_label1.keys(), fontsize=8, loc='lower left')
+            else:
+                ax1.legend(by_label1.values(), by_label1.keys(), loc='lower left')
 
+        ax1.text(0.97, 0.95, f'{atmosphere_label},$\\,${hr[:-1]} K/min', transform=ax1.transAxes, ha='right', va='top',
+                 fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
         ax2.set_ylim(bottom=config['ylim2'][0], top=config['ylim2'][1])
         ax2.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
         ax2.set_xlabel('Temperature [K]')
@@ -408,7 +423,14 @@ for series in unique_conditions_material:
         fig2.tight_layout()
         handles2, labels2 = ax2.get_legend_handles_labels()
         by_label2 = dict(zip(labels2, handles2))
-        ax2.legend(by_label2.values(), by_label2.keys())
+
+        if hr == '10K':
+            ax2.legend(by_label2.values(), by_label2.keys(), fontsize=8, loc='upper right')
+        else:
+            ax2.legend(by_label2.values(), by_label2.keys(), loc='upper right')
+
+        ax2.text(0.03, 0.95, f'{atmosphere_label},$\\,${hr[:-1]} K/min', transform=ax2.transAxes, ha='left', va='top',
+                 fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
         ax3.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
         ax3.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
@@ -419,14 +441,74 @@ for series in unique_conditions_material:
         handles3, labels3 = ax3.get_legend_handles_labels()
         by_label3 = dict(zip(labels3, handles3))
 
-        if hr == '10K':
-            ax3.legend(by_label3.values(), by_label3.keys(), fontsize=8, loc='lower left')
+        if config['suffix'] == '_zoom2':
+            if hr == '10K':
+                ax3.legend(by_label3.values(), by_label3.keys(), fontsize=8, loc='upper left', ncol=3, columnspacing=0.9)
+            else:
+                ax3.legend(by_label3.values(), by_label3.keys(), loc='upper left', ncol=3, columnspacing=0.9)
+        elif config['suffix'] == '_zoom1':
+            if hr == '10K':
+                ax3.legend(by_label3.values(), by_label3.keys(), fontsize=8, loc='lower left', ncol=2)
+            else:
+                ax3.legend(by_label3.values(), by_label3.keys(), loc='lower left', ncol=2)
         else:
-            ax3.legend(by_label3.values(), by_label3.keys())
+            if hr == '10K':
+                ax3.legend(by_label3.values(), by_label3.keys(), fontsize=8, loc='lower left')
+            else:
+                ax3.legend(by_label3.values(), by_label3.keys(), loc='lower left')
+
+        ax3.text(0.97, 0.95, f'{atmosphere_label},$\\,${hr[:-1]} K/min', transform=ax3.transAxes, ha='right', va='top',
+                 fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
         fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass{config["suffix"]}.{ex}')
+
+        if material == 'Wood' and atm == 'N2' and hr == '10K' and config['suffix'] == '':
+
+            # BEFORE
+            before_ellipse = Ellipse((410, 0.97), width=250, height=0.14, fill=False, edgecolor='black', linewidth=2.0,
+                                     zorder=10)
+            ax1.add_patch(before_ellipse)
+            before_text = ax1.text(0.55, 0.95, 'before', transform=ax1.transAxes, ha='right', va='top', fontsize=14)
+
+            fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_before.{ex}')
+
+            before_ellipse.remove()
+            before_text.remove()
+
+            # MARKED REGIONS
+            black_ellipse = Ellipse((340, 0.97), width=160, height=0.14, fill=False, edgecolor='black', linewidth=2.0,
+                                    zorder=10)
+            blue_ellipse = Ellipse((660, 0.26), width=65, height=0.32, fill=False, edgecolor='dodgerblue',
+                                   linewidth=2.0, zorder=10)
+            red_ellipse = Ellipse((950, 0.13), width=65, height=0.26, fill=False, edgecolor='red', linewidth=2.0,
+                                  zorder=10)
+
+            ax1.add_patch(black_ellipse)
+            ax1.add_patch(blue_ellipse)
+            ax1.add_patch(red_ellipse)
+
+            fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_marked_regions.{ex}')
+
+            # AFTER
+            after_ellipse = Ellipse((410, 1.02), width=250, height=0.17, fill=False, edgecolor='black', linewidth=2.0,
+                                    zorder=10)
+            ax3.add_patch(after_ellipse)
+
+            after_text = ax3.text(0.55, 0.95, 'after', transform=ax3.transAxes, ha='right', va='top', fontsize=14)
+
+            fig3.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_400Knorm_after.{ex}')
+
+            after_ellipse.remove()
+            after_text.remove()
+
+        elif material == 'Wood' and atm == 'N2' and hr == '10K' and config['suffix'] == '_zoom1':
+            ax1.axvline(400, color='black', linestyle=':', linewidth=2, zorder=10)
+
+            fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_zoom1_marked.{ex}')
+
         fig2.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_dmdt{config["suffix"]}.{ex}')
         fig3.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_400Knorm{config["suffix"]}.{ex}')
+
         plt.close(fig1)
         plt.close(fig2)
         plt.close(fig3)
