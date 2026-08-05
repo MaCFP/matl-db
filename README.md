@@ -18,6 +18,8 @@ Please visit our [wiki pages](https://github.com/MaCFP/matl-db/wiki/How-to-Contr
 
 #### Presentations for previous MaCFP workshops can be found on online:
 
+[**MaCFP-4 (La Rochelle, 2026)**](https://github.com/MaCFP/macfp-db/releases/tag/macfp-4.0)
+
 [**MaCFP-3 (Tsukuba, 2023)**](https://github.com/MaCFP/macfp-db/releases/tag/macfp-3.0)
 
 [**MaCFP-2 (Waterloo, 2021)**](https://github.com/MaCFP/matl-db/releases/tag/v1.1.0)

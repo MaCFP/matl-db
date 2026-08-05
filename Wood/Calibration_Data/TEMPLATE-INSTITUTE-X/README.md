@@ -1,4 +1,7 @@
 # Template README File for Institute X
+Institute X, Springfield (United States of America)
+
+Experiments were performed by Jane Placeholder, John Example, and Alex Template. For any questions or requests for additional information, please contact replace.this@institutex.example.
 
 ### Experimental Conditions: TGA/DSC
 A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments. 
@@ -84,14 +87,14 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: |
-|INSTITUTE-X\_Cone\_30KW\_hor\_R1 | 30| 900 | 2.53 | 20|2200|
-|INSTITUTE-X\_Cone\_30KW\_hor\_R2 | 30| 900 | 2.53 | 21|2000|
-|INSTITUTE-X\_Cone\_30KW\_hor\_R3 | 30| 900 | 2.53 | 32|2100|
-|INSTITUTE-X\_Cone\_60KW\_hor\_R1 | 60| 1200 | 2.52 | 8|1500|
-|INSTITUTE-X\_Cone\_60KW\_hor\_R2 | 60| 1200 | 2.56 | 10|1500|
-|INSTITUTE-X\_Cone\_60KW\_hor\_R3 | 60| 1200 | 2.55 | 7|1400|
+| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Thickness (cm) | Grain orientation (-) | t_ign (s) | t_flameout (s) |
+|---|---:|---:|---:|:---:|---:|---:|
+| INSTITUTE-X_Cone_30KW_hor_parallel_R1 | 30 | 900 | 2.53 | parallel | 20 | 2200 |
+| INSTITUTE-X_Cone_30KW_hor_parallel_R2 | 30 | 900 | 2.53 | parallel | 21 | 2000 |
+| INSTITUTE-X_Cone_30KW_hor_parallel_R3 | 30 | 900 | 2.53 | parallel | 32 | 2100 |
+| INSTITUTE-X_Cone_60KW_hor_perpendicular_R1 | 60 | 1200 | 2.52 | perpendicular | 8 | 1500 |
+| INSTITUTE-X_Cone_60KW_hor_perpendicular_R2 | 60 | 1200 | 2.56 | perpendicular | 10 | 1500 |
+| INSTITUTE-X_Cone_60KW_hor_perpendicular_R3 | 60 | 1200 | 2.55 | perpendicular | 7 | 1400 |
 
 ##### Test Summary
 Three repeated pyrolysis tests were conducted to measure the mass loss and front surface temperature of pyrolysis tests in nitrogen environment at external heat flux of 25 and 65 kW/m2, respectively. The sample has a circular shape, with a diameter of 9.52 cm (3.75 in.) and thickness of 0.6 cm. The sample was insulated both on the side and bottom.
