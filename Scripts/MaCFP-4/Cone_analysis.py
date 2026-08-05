@@ -1077,7 +1077,7 @@ for dataset_name, dataset_filter in gas_average_sets.items():
         if df_average is None:
             continue
 
-        ax_gas_avg.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], label=flux)
+        ax_gas_avg.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], label=flux.replace('kW', ' kW/m$^2$'))
 
         ax_gas_avg.fill_between(df_average['Time (s)'], df_average['MLR'] - 2*df_average['unc MLR'], df_average['MLR'] + 2*df_average['unc MLR'], color=color[flux], alpha=0.2)
 
@@ -1334,42 +1334,138 @@ results_df = pd.DataFrame(results)
 if len(results_df) > 0:
     results_df['ignition time inv sqrt'] = results_df['ignition time'] ** (-0.5)
     grouped = results_df.groupby(['flux', 'flux_value', 'Institution', 'Duck', 'color', 'orientation'])
+    regression_table_rows = []
 
     for quantity, config in plot_configs.items():
-
-        fig_flux, ax_flux = plt.subplots(figsize=(6, 4))
-
+        fig_flux, ax_flux = plt.subplots(figsize=(7.5, 4))
         institution_handles = {}
-        orientation_handles = [
-            plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
-            plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
-        ]
 
-        for (flux, flux_value, institution, duck, color, orientation), group in grouped:
-            x = flux_value + offset_map[orientation]
-            y_mean = group[quantity].mean()
-            y_min = group[quantity].min()
-            y_max = group[quantity].max()
+        if quantity == 'ignition time inv sqrt':
+            for _, row in results_df.iterrows():
+                if row['orientation'] == 'Perpendicular':
+                    ax_flux.scatter(row['flux_value'], row[quantity], facecolors='none', edgecolors=row['color'], marker='^', s=70, linewidths=1.5, zorder=4)
+                else:
+                    ax_flux.scatter(row['flux_value'], row[quantity], color=row['color'], marker='o', s=70, zorder=4)
 
-            ax_flux.errorbar(x, y_mean, yerr=[[y_mean - y_min], [y_max - y_mean]], fmt=marker_map[orientation], capsize=5, capthick=2, markersize=8, color=color)
+                institution_handles[row['Duck']] = plt.Line2D([0], [0], color=row['color'], marker='o', linestyle='None', label=row['Duck'])
 
-            institution_handles[duck] = plt.Line2D([0], [0], color=color, marker='o', linestyle='None', label=duck)
+            for (institution, duck, color), institution_subset in results_df.groupby(['Institution', 'Duck', 'color'], sort=False):
+                for orientation, linestyle in [('Parallel', '-'), ('Perpendicular', '--')]:
+                    subset = institution_subset[institution_subset['orientation'] == orientation]
+
+                    if len(subset) < 2 or subset['flux_value'].nunique() < 2:
+                        continue
+
+                    x = subset['flux_value'].to_numpy()
+                    y = subset[quantity].to_numpy()
+                    slope, intercept = np.polyfit(x, y, 1)
+                    y_pred = slope*x + intercept
+                    r_squared = 1 - np.sum((y - y_pred)**2)/np.sum((y - np.mean(y))**2)
+                    zero_flux = -intercept/slope if not np.isclose(slope, 0) else np.nan
+                    sign = '+' if intercept >= 0 else '-'
+                    equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
+
+                    x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
+                    ax_flux.plot(x_fit, slope*x_fit + intercept, color=color, linestyle=linestyle, linewidth=0.8, alpha=0.55, zorder=2)
+
+                    regression_table_rows.append({'Institution': duck, 'Grain orientation': orientation, 'Regression equation': equation, '$R^2$': f'${r_squared:.3f}$', 'Critical heat flux (kW/m$^2$)': f'${zero_flux:.2f}$' if np.isfinite(zero_flux) else '--'})
+
+            for orientation, linestyle in [('Parallel', '-'), ('Perpendicular', '--')]:
+                subset = results_df[results_df['orientation'] == orientation]
+
+                if len(subset) < 2 or subset['flux_value'].nunique() < 2:
+                    continue
+
+                x = subset['flux_value'].to_numpy()
+                y = subset[quantity].to_numpy()
+                slope, intercept = np.polyfit(x, y, 1)
+                y_pred = slope*x + intercept
+                r_squared = 1 - np.sum((y - y_pred)**2)/np.sum((y - np.mean(y))**2)
+                zero_flux = -intercept/slope if not np.isclose(slope, 0) else np.nan
+                sign = '+' if intercept >= 0 else '-'
+                equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
+
+                x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
+                ax_flux.plot(x_fit, slope*x_fit + intercept, color='black', linestyle=linestyle, linewidth=1.8, zorder=3)
+
+                regression_table_rows.append({'Institution': 'All institutions', 'Grain orientation': orientation, 'Regression equation': equation, '$R^2$': f'${r_squared:.3f}$', 'Critical heat flux (kW/m$^2$)': f'${zero_flux:.2f}$' if np.isfinite(zero_flux) else '--'})
+
+            orientation_handles = [
+                plt.Line2D([0], [0], color='black', linestyle='-', marker='o', markerfacecolor='black', markeredgecolor='black', label='Parallel'),
+                plt.Line2D([0], [0], color='black', linestyle='--', marker='^', markerfacecolor='white', markeredgecolor='black', label='Perpendicular')
+            ]
+
+            ax_flux.set_xlim(left=0)
+            ax_flux.set_ylim(bottom=0)
+
+        else:
+            orientation_handles = [
+                plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'),
+                plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None', label='Perpendicular')
+            ]
+
+            for (flux, flux_value, institution, duck, color, orientation), group in grouped:
+                x = flux_value + offset_map[orientation]
+                y_mean = group[quantity].mean()
+                y_min = group[quantity].min()
+                y_max = group[quantity].max()
+
+                ax_flux.errorbar(x, y_mean, yerr=[[y_mean - y_min], [y_max - y_mean]], fmt=marker_map[orientation], capsize=5, capthick=2, markersize=8, color=color)
+                institution_handles[duck] = plt.Line2D([0], [0], color=color, marker='o', linestyle='None', label=duck)
 
         ax_flux.set_xlabel('Incident heat flux [kW/m$^2$]')
         ax_flux.set_ylabel(config['ylabel'])
-        ax_flux.set_xticks([int(flux.replace('kW', '')) for flux in cone_flux])
-        ax_flux.set_xticklabels([flux.replace('kW', '') for flux in cone_flux])
+        ax_flux.set_xticks([0] + [int(flux.replace('kW', '')) for flux in cone_flux])
+        ax_flux.set_xticklabels(['0'] + [flux.replace('kW', '') for flux in cone_flux])
 
         if quantity == 'HOC':
             ax_flux.set_ylim(0, 20)
 
-        legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='best', framealpha=0.25)
+        legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='upper left', framealpha=0.25)
         ax_flux.add_artist(legend1)
-        ax_flux.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+        ax_flux.legend(handles=orientation_handles, loc='upper center', framealpha=0.25)
 
         fig_flux.tight_layout()
-        fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}")
+        fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}", bbox_inches='tight')
         plt.close(fig_flux)
+
+    regression_table = pd.DataFrame(regression_table_rows)
+
+    latex_string = regression_table.to_latex(index=False, escape=False, column_format='llccc')
+
+    latex_string = latex_string.replace('\\toprule', '\\hline')
+    latex_string = latex_string.replace('\\midrule', '\\hline')
+    latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+    for col in ['Institution', 'Grain orientation', 'Regression equation', '$R^2$', 'Critical heat flux (kW/m$^2$)']:
+        latex_string = latex_string.replace(col, '\\textbf{' + col + '}')
+
+    lines = latex_string.split('\n')
+    new_lines = []
+    previous_institution = None
+
+    for line in lines:
+        if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+            current_institution = line.split('&')[0].strip()
+
+            if previous_institution is not None and current_institution != previous_institution:
+                if current_institution == 'All institutions':
+                    new_lines.append('\\hline')
+                    new_lines.append('\\noalign{\\vskip 6pt}')
+                else:
+                    new_lines.append('\\noalign{\\vskip 6pt}')
+
+            previous_institution = current_institution
+
+        new_lines.append(line)
+
+    latex_string = '\n'.join(new_lines)
+
+    with open(str(base_dir) + '/Cone/Cone_Ignition_time_inv_sqrt_regressions.tex', 'w') as f:
+        f.write(latex_string)
+
+    print('\nIgnition time inverse square root regressions')
+    print(regression_table.to_string(index=False))
 
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
@@ -1778,3 +1874,192 @@ latex_string = '\n'.join(new_lines)
 with open(str(base_dir) + f'/Cone/Cone_Values.tex', 'w') as f:
     f.write(latex_string)
 
+# =============================================================================
+# ASTM E1354 repeatability assessment
+# =============================================================================
+
+required_columns = ['Duck', 'conditions', 'condition_key', 'ignition time', 'std ignition time', 'HOC', 'std HOC']
+missing_columns = [col for col in required_columns if col not in final_table_sorted.columns]
+
+if missing_columns:
+    raise KeyError(f'Missing columns for ASTM repeatability table: {missing_columns}')
+
+astm_table = final_table_sorted.copy()
+
+astm_table['conditions_formatted'] = astm_table['conditions'].apply(format_cone_conditions_without_grain)
+astm_table['grain_orientation_formatted'] = astm_table['conditions'].apply(format_cone_grain_orientation)
+astm_table['heat_flux'] = astm_table['conditions_formatted'].str.extract(r'(\d+)\s*kW', expand=False)
+
+astm_table['r_exp_tig'] = 2.8*astm_table['std ignition time']
+astm_table['r_ASTM_tig'] = 4.1 + 0.125*astm_table['ignition time']
+astm_table['tig_passed'] = np.where(astm_table['r_exp_tig'].isna() | astm_table['r_ASTM_tig'].isna(), 'N/A', np.where(astm_table['r_exp_tig'] <= astm_table['r_ASTM_tig'], 'Yes', 'No'))
+
+astm_table['r_exp_HOC'] = 2.8*astm_table['std HOC']
+astm_table['r_ASTM_HOC'] = 1.23 + 0.050*astm_table['HOC']
+astm_table['HOC_passed'] = np.where(astm_table['r_exp_HOC'].isna() | astm_table['r_ASTM_HOC'].isna(), 'N/A', np.where(astm_table['r_exp_HOC'] <= astm_table['r_ASTM_HOC'], 'Yes', 'No'))
+
+astm_table['tig_formatted'] = astm_table.apply(lambda row: f"${row['ignition time']:.1f} \\pm {row['std ignition time']:.1f}$" if pd.notna(row['ignition time']) and pd.notna(row['std ignition time']) else '--', axis=1)
+astm_table['HOC_formatted'] = astm_table.apply(lambda row: f"${row['HOC']:.1f} \\pm {row['std HOC']:.1f}$" if pd.notna(row['HOC']) and pd.notna(row['std HOC']) else '--', axis=1)
+astm_table['r_exp_tig_formatted'] = astm_table['r_exp_tig'].apply(lambda value: f"${value:.1f}$" if pd.notna(value) else '--')
+astm_table['r_ASTM_tig_formatted'] = astm_table['r_ASTM_tig'].apply(lambda value: f"${value:.1f}$" if pd.notna(value) else '--')
+astm_table['r_exp_HOC_formatted'] = astm_table['r_exp_HOC'].apply(lambda value: f"${value:.1f}$" if pd.notna(value) else '--')
+astm_table['r_ASTM_HOC_formatted'] = astm_table['r_ASTM_HOC'].apply(lambda value: f"${value:.1f}$" if pd.notna(value) else '--')
+
+columns_to_keep = ['Duck', 'heat_flux', 'grain_orientation_formatted', 'tig_formatted', 'r_exp_tig_formatted', 'r_ASTM_tig_formatted', 'tig_passed', 'HOC_formatted', 'r_exp_HOC_formatted', 'r_ASTM_HOC_formatted', 'HOC_passed', 'condition_key']
+
+final_astm_table = astm_table[columns_to_keep].copy()
+final_astm_table.columns = ['Institution', 'Heat flux', 'Grain', 'tig', 'r_exp_tig', 'r_ASTM_tig', 'tig passed', 'HOC', 'r_exp_HOC', 'r_ASTM_HOC', 'HOC passed', 'condition_key']
+
+latex_string = final_astm_table.to_latex(index=False, escape=False, column_format='lrlcccccccc', columns=['Institution', 'Heat flux', 'Grain', 'tig', 'r_exp_tig', 'r_ASTM_tig', 'tig passed', 'HOC', 'r_exp_HOC', 'r_ASTM_HOC', 'HOC passed'])
+
+latex_string = latex_string.replace('\\toprule', '\\hline')
+latex_string = latex_string.replace('\\midrule', '\\hline')
+latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+header_lines = [
+    r'\textbf{Institution} & \textbf{Heat flux} & \textbf{Grain} & \multicolumn{4}{c}{$\boldsymbol{t_{\mathrm{ig}}}$} & \multicolumn{4}{c}{\textbf{HOC}} \\',
+    r' & \textbf{(kW/m$^2$)} & & \textbf{(s)} & $\boldsymbol{r_{\mathrm{exp},t_{\mathrm{ig}}}}$ & $\boldsymbol{r_{\mathrm{ASTM},t_{\mathrm{ig}}}}$ & \textbf{passed} & \textbf{(kJ/g)} & $\boldsymbol{r_{\mathrm{exp,HOC}}}$ & $\boldsymbol{r_{\mathrm{ASTM,HOC}}}$ & \textbf{passed} \\'
+]
+
+lines = latex_string.split('\n')
+header_index = next(i for i, line in enumerate(lines) if line.startswith('Institution &'))
+lines[header_index:header_index + 1] = header_lines
+
+condition_keys = final_astm_table['condition_key'].tolist()
+new_lines = []
+previous_flux = None
+data_row_index = 0
+
+for line in lines:
+    if '&' in line and '\\textbf' not in line and '\\boldsymbol' not in line and '\\multicolumn' not in line and '\\hline' not in line:
+        current_condition_key = condition_keys[data_row_index]
+
+        if isinstance(current_condition_key, list):
+            current_flux = current_condition_key[0]
+        else:
+            current_flux = str(current_condition_key).split('_')[0]
+
+        if previous_flux is not None and current_flux != previous_flux:
+            new_lines.append('\\noalign{\\vskip 6pt}')
+
+        previous_flux = current_flux
+        data_row_index += 1
+
+    new_lines.append(line)
+
+latex_string = '\n'.join(new_lines)
+latex_string = latex_string.replace('\\end{tabular}', '\\end{tabular}\n\\\\\n$^*$ Parallel grain orientation assumed when not explicitly specified in the original dataset filenames.')
+
+with open(str(base_dir) + '/Cone/Cone_ASTM_Repeatability.tex', 'w') as f:
+    f.write(latex_string)
+
+# =============================================================================
+# ASTM E1354 repeatability summary
+# =============================================================================
+
+summary_table = pd.DataFrame({
+    'Quantity': ['Ignition time', 'Heat of combustion', 'Both simultaneously'],
+    'Passed': [
+        (astm_table['tig_passed'] == 'Yes').sum(),
+        (astm_table['HOC_passed'] == 'Yes').sum(),
+        ((astm_table['tig_passed'] == 'Yes') & (astm_table['HOC_passed'] == 'Yes')).sum()
+    ],
+    'Total': [
+        astm_table['tig_passed'].isin(['Yes', 'No']).sum(),
+        astm_table['HOC_passed'].isin(['Yes', 'No']).sum(),
+        (astm_table['tig_passed'].isin(['Yes', 'No']) & astm_table['HOC_passed'].isin(['Yes', 'No'])).sum()
+    ]
+})
+
+summary_table['Fraction'] = summary_table.apply(lambda row: f'{100*row["Passed"]/row["Total"]:.1f} \\%' if row['Total'] > 0 else '--', axis=1)
+
+summary_latex = summary_table.to_latex(index=False, escape=False, column_format='lccc')
+
+summary_latex = summary_latex.replace('\\toprule', '\\hline')
+summary_latex = summary_latex.replace('\\midrule', '\\hline')
+summary_latex = summary_latex.replace('\\bottomrule', '\\hline')
+
+for col in ['Quantity', 'Passed', 'Total', 'Fraction']:
+    summary_latex = summary_latex.replace(col, '\\textbf{' + col + '}')
+
+summary_latex = (
+    '\\begin{table}[ht]\n'
+    '\\centering\n'
+    '\\caption{Comparison to ASTM E1354-23 interlaboratory trials repeatability.}\n'
+    '\\label{tab:astm_repeatability_summary}\n'
+    + summary_latex +
+    '\\end{table}'
+)
+
+with open(str(base_dir) + '/Cone/Cone_ASTM_Repeatability_Summary.tex', 'w') as f:
+    f.write(summary_latex)
+
+# =============================================================================
+# Comparison to MaCFP2 reported ranges
+# =============================================================================
+
+macfp2_ranges = {
+    '25': {'tig': '99--148', 'HOC': '22.0--24.9'},
+    '50': {'tig': '24--28', 'HOC': '24.2--24.8'},
+    '60--65': {'tig': '12--30', 'HOC': '22.3--26.1'}
+}
+
+comparison_rows = []
+
+for heat_flux_label, macfp4_flux in [('25', 25), ('50', 50), ('60--65', 60)]:
+    subset = astm_table[pd.to_numeric(astm_table['heat_flux'], errors='coerce') == macfp4_flux]
+
+    tig_values = subset['ignition time'].dropna()
+    hoc_values = subset['HOC'].dropna()
+
+    tig_range = f'{tig_values.min():.1f}--{tig_values.max():.1f}' if len(tig_values) > 0 else '--'
+    hoc_range = f'{hoc_values.min():.1f}--{hoc_values.max():.1f}' if len(hoc_values) > 0 else '--'
+
+    comparison_rows.append({
+        'Heat flux': heat_flux_label,
+        'MaCFP 4 tig': tig_range,
+        'MaCFP 2 tig': macfp2_ranges[heat_flux_label]['tig'],
+        'MaCFP 4 HOC': hoc_range,
+        'MaCFP 2 HOC': macfp2_ranges[heat_flux_label]['HOC']
+    })
+
+comparison_table = pd.DataFrame(comparison_rows)
+
+comparison_latex = comparison_table.to_latex(index=False, escape=False, column_format='lcccc')
+
+comparison_latex = comparison_latex.replace('\\toprule', '\\hline')
+comparison_latex = comparison_latex.replace('\\midrule', '\\hline')
+comparison_latex = comparison_latex.replace('\\bottomrule', '\\hline')
+
+lines = comparison_latex.split('\n')
+header_index = next(i for i, line in enumerate(lines) if line.startswith('Heat flux &'))
+
+header_lines = [
+    r'\textbf{Heat flux} & \multicolumn{2}{c}{\textbf{Average (lab) $t_{\mathrm{ig}}$ [s]}} & \multicolumn{2}{c}{\textbf{Average (lab) HOC [kJ g$^{-1}$]}} \\',
+    r'\textbf{[kW m$^{-2}$]} & \textbf{MaCFP 4} & \textbf{MaCFP 2} & \textbf{MaCFP 4} & \textbf{MaCFP 2} \\'
+]
+
+lines[header_index:header_index + 1] = header_lines
+comparison_latex = '\n'.join(lines)
+
+comparison_latex = (
+    '\\begin{table}[ht]\n'
+    '\\centering\n'
+    '\\caption{Comparison to MaCFP2 reported ranges.}\n'
+    '\\label{tab:macfp2_ranges}\n'
+    + comparison_latex +
+    '\\end{table}'
+)
+
+with open(str(base_dir) + '/Cone/Cone_MaCFP2_Range_Comparison.tex', 'w') as f:
+    f.write(comparison_latex)
+
+
+# print('\nASTM E1354 repeatability assessment')
+# print(final_astm_table.drop(columns='condition_key').to_string(index=False))
+
+# print('\nASTM repeatability summary')
+# print(summary_table.to_string(index=False))
+
+print('\nComparison to MaCFP2 reported ranges')
+print(comparison_table.to_string(index=False))
