@@ -868,3 +868,42 @@ latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{400K} at 950~K (\\%)
 
 with open(str(base_dir) + f'/TGA/TGA_Values_400Knorm.tex', 'w') as f:
     f.write(latex_string_400Knorm)
+
+
+# =============================================================================
+# Comparison of MaCFP4 and MaCFP2 TGA repeatability and reproducibility
+# =============================================================================
+
+tga_comparison_latex = r'''
+\begin{table}[ht]
+\centering
+\caption{Comparison of MaCFP4 and MaCFP2 TGA repeatability and reproducibility.}
+\label{tab:tga_macfp2_comparison}
+\begin{tabular}{|c|c|c|}
+\hline
+ & \textbf{MaCFP4} & \textcolor{red}{\textbf{MaCFP2}} \\
+\hline
+\multirow{4}{*}{\shortstack{Intralab\\min--max\\repeatability}}
+& \multicolumn{2}{c|}{\textbf{Peak temperature difference}} \\
+\cline{2-3}
+& $\sim 5$ K & \textcolor{red}{$\sim 5$ K} \\
+\cline{2-3}
+& \multicolumn{2}{c|}{\textbf{Peak MLR}} \\
+\cline{2-3}
+& $\sim 0.0002$ s$^{-1}$ ($<15\,\%$) & \textcolor{red}{$\sim 0.0002$ s$^{-1}$ ($<10\,\%$)} \\
+\hline
+\multirow{4}{*}{\shortstack{Interlab\\min--max\\reproducibility}}
+& \multicolumn{2}{c|}{\textbf{Peak temperature difference}} \\
+\cline{2-3}
+& $\sim 10$ K (excl.\ outlier) & \textcolor{red}{$\sim 15$ K (excl.\ outlier)} \\
+\cline{2-3}
+& \multicolumn{2}{c|}{\textbf{Peak MLR}} \\
+\cline{2-3}
+& $\sim 0.0004$ s$^{-1}$ ($30\,\%$) & \textcolor{red}{$\sim 0.0005$ s$^{-1}$ ($20\,\%$)} \\
+\hline
+\end{tabular}
+\end{table}
+'''
+
+with open(str(base_dir) + '/TGA/TGA_MaCFP2_Comparison.tex', 'w') as f:
+    f.write(tga_comparison_latex)
