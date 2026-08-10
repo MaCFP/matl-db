@@ -469,6 +469,17 @@ for path in TGA_Data:
 
 
 # Average plot for Mass and mass loss rate per unique condition (averaging over different institutes)
+'''
+Data excluded from average
+(1) All data from a certain institution is excluded
+- UAI: custom thermogravimetric set-up, data submitted at 20 K/min, but during test actual heating rate curve is not 20 K/min 
+- IMT: peak temperature consistently higher than all other submission, considered as an outlier, therefore not included in average. 
+(2) Data from a certain institution is excluded before a certain temperature:
+- FPL (400K): Exclude sharp decrease in mass at beginning of test due to isotherm. 
+- Ucantabria (380K): Avoid sudden drop in mass loss at the beginning of the test (causes very high dm/dt in first seconds of test), especially for the 5K/min tests.
+'''
+
+
 color = {'5K':'blue','10K':'black','20K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))
