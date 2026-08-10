@@ -57,11 +57,11 @@ Type: Nitrogen
 Flow rate: 40ml/min
 
 
-
-Test Name	O2 volume %	Initial Sample Mass (mg)
-UMET\_TGA\_N2\_10K\_R1	0	4.0488
-UMET\_TGA\_N2\_10K\_R2	0	3.4049
-UMET\_TGA\_N2\_10K\_R3	0	4.2213
+| Test Name | O2 volume % | Initial Sample Mass (mg) |
+|---|---:|---:|
+| UMET_TGA_N2_10K_R1 | 0 | 4.0488 |
+| UMET_TGA_N2_10K_R2 | 0 | 3.4049 |
+| UMET_TGA_N2_10K_R3 | 0 | 4.2213 |
 
 
 
@@ -108,10 +108,12 @@ Type: Nitrogen + Oxygen
 
 Flow rate: 100ml/min
 
-Test Name	O2 volume %	Initial Sample Mass (mg)
-UMET\_TGA\_21%O2\_10K\_R1	0	2.3484
-UMET\_TGA\_21%O2\_10K\_R2	0	4.0253
-UMET\_TGA\_21%O2\_10K\_R3	0	4.7632
+
+| Test Name | O2 volume % | Initial Sample Mass (mg) |
+|---|---:|---:|
+| UMET_TGA_21%O2_10K_R1 | 0 | 2.3484 |
+| UMET_TGA_21%O2_10K_R2 | 0 | 4.0253 |
+| UMET_TGA_21%O2_10K_R3 | 0 | 4.7632 |
 
 
 
@@ -159,23 +161,12 @@ Type: Nitrogen
 Flow rate: 60ml/min
 
 
-
-Test Name		O2 volume %	Initial Sample Mass (mg)
-UMET\_TGASTA\_N2\_3K\_R1		0	3.0439
-UMET\_TGASTA\_N2\_3K\_R2		0	4.1092
-UMET\_TGASTA\_N2\_3K\_R3		0	2.8869
-
-
-
 conventional system endo up
-
-
-
-Test Name		O2 volume %	Initial Sample Mass (mg)
-UMET\_DSCSTA\_N2\_3K\_R1		0	3.0439
-UMET\_DSCSTA\_N2\_3K\_R2		0	4.1092
-UMET\_DSCSTA\_N2\_3K\_R3		0	2.8869
-
+| Test Name | O2 volume % | Initial Sample Mass (mg) |
+|---|---:|---:|
+| UMET_TGASTA_N2_3K_R1 | 0 | 3.0439 |
+| UMET_TGASTA_N2_3K_R2 | 0 | 4.1092 |
+| UMET_TGASTA_N2_3K_R3 | 0 | 2.8869 |
 
 
 ## Experimental Conditions: DSC
@@ -224,10 +215,11 @@ Flow rate: 350ml/min (purge)
 
 
 conventional system endo up
-Test Name		O2 volume %	Initial Sample Mass (mg)
-UMET\_DSC\_N2\_3K\_R1		0	2.1300
-UMET\_DSC\_N2\_3K\_R2		0	3.9700
-UMET\_DSC\_N2\_3K\_R3		0	5.3900
+| Test Name | O2 volume % | Initial Sample Mass (mg) |
+|---|---:|---:|
+| UMET_DSC_N2_3K_R1 | 0 | 2.1300 |
+| UMET_DSC_N2_3K_R2 | 0 | 3.9700 |
+| UMET_DSC_N2_3K_R3 | 0 | 5.3900 |
 
 
 
@@ -253,11 +245,9 @@ Probe	Kapton 8563, Radius 9,868mm
 ###### Test Conditions/Results
 
 | Test Name | Temperature K | Measurement Time s | Thermal Conductivity W/mK | Thermal Diffusivity mm2/s | Volumetric Specific Heat MJ/m3K |
-|Wood\_TPS\_Sample1 | 303.15 | 160 | 0.147 | 0.407 | 0.362 |
-|Wood\_TPS\_Sample2 | 303.15 | 160  | 0.144 | 0.352 | 0.410 |
-
-
-
+|---|---:|---:|---:|---:|---:|
+| Wood_TPS_Sample1 | 303.15 | 160 | 0.147 | 0.407 | 0.362 |
+| Wood_TPS_Sample2 | 303.15 | 160 | 0.144 | 0.352 | 0.410 |
 
 
 ## Experimental Conditions: Diffusivity (LFA)
@@ -279,14 +269,10 @@ Calibration type, materials used, and frequency	NA
 Carrier gas and associated flow rate(s)	20ml/min (N2)
 
 
-
-| Test Name |	Th.diffusivity mm²/s| Result variability (+/-) W/mK|	
-
-| Wood sample 1 | 0.195	| 0.005
-
-| Wood sample 2	| 0.195	| 0.005
-
-
+| Test Name | Th. diffusivity (mm²/s) | Result variability (±) (mm²/s) |
+|---|---:|---:|
+| Wood sample 1 | 0.195 | 0.005 |
+| Wood sample 2 | 0.195 | 0.005 |
 
 
 
@@ -329,17 +315,13 @@ Distance 35mm (heat source/sample)
 
 Test Heating Conditions
 
-Test Name	Heat Flux (kW/m2)	Heater Temperature (K)	thickness (cm)	t\_ign (s)	t\_flameout (s)     initial mass (g)
+| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Thickness (cm) | t_ign (s) | t_flameout (s) | Initial Mass (g) |
+|---|---:|---:|---:|---:|---:|---:|
+| UMET_MLC_30KW_R1 | 30 | 778 | 2.56 | 25 | 2001 | 101.30 |
+| UMET_MLC_30KW_R2 | 30 | 778 | 2.56 | 21 | 2105 | 83.61 |
+| UMET_MLC_30KW_R3 | 30 | 778 | 2.56 | 15 | 2020 | 110.94 |
+| UMET_MLC_60KW_R1 | 60 | 991 | 2.57 | 3 | 1899 | 84.67 |
+| UMET_MLC_60KW_R2 | 60 | 991 | 2.57 | 5 | 1859 | 96.64 |
+| UMET_MLC_60KW_R3 | 60 | 991 | 2.57 | 5 | 1854 | 85.16 |
 
-UMET-MLC\_30KW\_R1	30		778			2.56		25		2001			101.3
-
-UMET-MLC\_30KW\_R2	30		778			2.56		21		2105			83.61
-
-UMET-MLC\_30KW\_R3	30		778			2.56		15		2020			110.94
-
-UMET-MLC\_30KW\_R1	60		991			2.57		3		1899			84.67
-
-UMET-MLC\_30KW\_R2	60		991			2.57		5		1859			96.64
-
-UMET-MLC\_30KW\_R3	60		991			2.57		5		1854			85.16
 
