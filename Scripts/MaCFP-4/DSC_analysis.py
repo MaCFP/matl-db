@@ -433,6 +433,14 @@ for path in DSC_Data:
 
     heating_rate = next((part for part in parts if re.fullmatch(r'\d+K', part)), 'Unknown')
     repetition = next((part for part in parts if re.fullmatch(r'[Rr]\d+', part)), 'Unknown').upper()
+    if atmosphere == 'N2':
+        atmosphere_label = 'N$_2$'
+    elif atmosphere == 'O2-20':
+        atmosphere_label = '20% O$_2$'
+    elif atmosphere == 'O2-21':
+        atmosphere_label = '21% O$_2$'
+    else:
+        atmosphere_label = atmosphere
 
     label, color = label_def(institution)
 
@@ -504,6 +512,8 @@ for path in DSC_Data:
     ax.set_xlabel('Temperature [K]')
     ax.set_ylabel('Heat flow [W g$^{-1}$]')
     ax.legend(loc='best')
+    ax.text(0.97, 0.05, f'{atmosphere_label},$\\,${heating_rate[:-1]} K/min', transform=ax.transAxes, ha='right',
+            va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.45))
     fig.tight_layout()
 
     filename = f'{institution}_{material}_{device}_{atmosphere}_{heating_rate}_{repetition}'
