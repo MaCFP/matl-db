@@ -1513,20 +1513,36 @@ for series in unique_conditions_cone_material:
 linestyle = ['-',':','-.']
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', "#a686c4", '#8c564b']
 for idx,set in enumerate(Cone_sets):
-    fig1, ax1 = plt.subplots(figsize=(6, 4))
     paths_CONE_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+
+    has_temperature_data = False
+    for path in paths_CONE_set:
+        df = pd.read_csv(path)
+        temp_cols = [col for col in ['TC back 1 (K)', 'TC back 2 (K)', 'TC back 3 (K)', 'TC Top (K)'] if col in df.columns]
+        if any(df[col].notna().any() for col in temp_cols):
+            has_temperature_data = True
+            break
+
+    if not has_temperature_data:
+        continue
+
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
     color_counter = 0
     Duck,x = label_def(set.split('_')[0])
     Conditions = '_'.join(set.split('_')[2:])
+
     for path in paths_CONE_set:
         label, color = label_def(path.stem.split('_')[0])
         df = pd.read_csv(path)
-        for i in range(1, 4):  # Check for Temperature 1, 2, 3
+
+        for i in range(1, 4):
             temp_col = f'TC back {i} (K)'
             if temp_col in df.columns:
-                ax1.plot(df['Time (s)'], df[temp_col], label=label, color=colors[color_counter], linestyle = linestyle[i-1])
+                ax1.plot(df['Time (s)'], df[temp_col], label=label, color=colors[color_counter], linestyle=linestyle[i-1])
+
         if 'TC Top (K)' in df.columns:
             ax1.plot(df['Time (s)'], df['TC Top (K)'], label=label, color=colors[color_counter], dashes=[5, 10])
+
         color_counter = color_counter+1
 
     ax1.set_ylim(bottom=250, top=1200)
@@ -1535,9 +1551,10 @@ for idx,set in enumerate(Cone_sets):
 
     # Figure title
     ax1.set_title(Duck+"\n"+Conditions)
+
     fig1.tight_layout()
     fig1.savefig(str(base_dir) + '/Cone/Individual/Cone_{}_BackT.{}'.format(set,ex))
- 
+
     plt.close(fig1)
 
 
@@ -1664,33 +1681,50 @@ for flux in [30,60]:
 #  Back side temperature plots for all unique institutions, atmospheres and heating rates (when available)
 linestyle = ['-',':','-.']
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', "#a686c4", '#8c564b']
+
 for idx,set in enumerate(Gas_sets):
-    fig1, ax1 = plt.subplots(figsize=(6, 4))
     paths_Gas_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+
+    has_temperature_data = False
+    for path in paths_Gas_set:
+        df = pd.read_csv(path)
+        temp_cols = [col for col in ['TC back 1 (K)', 'TC back 2 (K)', 'TC back 3 (K)', 'TC Top (K)'] if col in df.columns]
+        if any(df[col].notna().any() for col in temp_cols):
+            has_temperature_data = True
+            break
+
+    if not has_temperature_data:
+        continue
+
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
     color_counter = 0
     Duck,x = label_def(set.split('_')[0])
     Conditions = '_'.join(set.split('_')[2:])
+
     for path in paths_Gas_set:
         label, color = label_def(path.stem.split('_')[0])
         df = pd.read_csv(path)
-        for i in range(1, 4):  # Check for Temperature 1, 2, 3
+
+        for i in range(1, 4):
             temp_col = f'TC back {i} (K)'
             if temp_col in df.columns:
-                ax1.plot(df['Time (s)'], df[temp_col], label=label, color=colors[color_counter], linestyle = linestyle[i-1])
+                ax1.plot(df['Time (s)'], df[temp_col], label=label, color=colors[color_counter], linestyle=linestyle[i-1])
+
         if 'TC Top (K)' in df.columns:
             ax1.plot(df['Time (s)'], df['TC Top (K)'], label=label, color=colors[color_counter], dashes=[1, 1])
+
         color_counter = color_counter+1
 
     ax1.set_ylim(bottom=250, top=1200)
     ax1.set_xlabel('Time [s]')
     ax1.set_ylabel('Temperature [K]')
-    
+
     # Figure title
     ax1.set_title(Duck+"\n"+Conditions)
 
     fig1.tight_layout()
     fig1.savefig(str(base_dir) + '/Cone/Individual/Gasification_{}_BackT.{}'.format(set,ex))
- 
+
     plt.close(fig1)
 
 
