@@ -76,3 +76,4 @@ Data collected from all samples is believed to have an error of ±10% and were c
 |UDRI\_Cone\_60KW\_hor-R1 | 60| Not Recorded | 2.52 | 8|1440|
 |UDRI\_Cone\_60KW\_hor-R2 | 60| Not Recorded | 2.56 | 11.0|1500|
 |UDRI\_Cone\_60KW\_hor-R3 | 60| Not Recorded | 2.55 | 4.5|1380|
+|UDRI\_Cone\_60KW\_hor-R4 | 60| Not Recorded | 2.54 | 4.0|1380|
