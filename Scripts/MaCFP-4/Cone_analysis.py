@@ -55,6 +55,13 @@ gas_flux = sorted(kw_values)
 cone_flux = ['25kW', '30kW', '45kW', '50kW', '60kW', '75kW']
 cone_color = {'25kW': 'green', '30kW': 'blue', '45kW': 'cyan', '50kW': 'black', '60kW': 'red', '75kW': 'purple'}
 
+def get_grain_orientation(path):
+    name = path.stem.lower()
+
+    if 'perpendicular' in name:
+        return 'Perpendicular'
+
+    return 'Parallel'
 
 # Print tables
 # print('\nAvailable gasification heat fluxes:')
@@ -65,28 +72,70 @@ cone_color = {'25kW': 'green', '30kW': 'blue', '45kW': 'cyan', '50kW': 'black', 
 #     print(item)
 
 print('Cone table')
-table = make_institution_table(Cone_Data,['Wood'],cone_flux,['hor'])
-table.loc['Total'] = table.sum(axis=0)
+
+table_original = make_institution_table(Cone_Data, ['Wood'], cone_flux, ['hor'])
+
+Cone_Data_parallel = [p for p in Cone_Data if get_grain_orientation(p) == 'Parallel']
+Cone_Data_perpendicular = [p for p in Cone_Data if get_grain_orientation(p) == 'Perpendicular']
+
+table_parallel = make_institution_table(Cone_Data_parallel, ['Wood'], cone_flux, ['hor'])
+table_perpendicular = make_institution_table(Cone_Data_perpendicular, ['Wood'], cone_flux, ['hor'])
+
+table_parallel, table_perpendicular = table_parallel.align(table_perpendicular, fill_value=0)
+
+table_parallel = table_parallel.reindex(table_original.index, fill_value=0)
+table_perpendicular = table_perpendicular.reindex(table_original.index, fill_value=0)
+
+table = table_parallel.astype(str) + '/' + table_perpendicular.astype(str)
+table.loc['Total'] = table_parallel.sum(axis=0).astype(str) + '/' + table_perpendicular.sum(axis=0).astype(str)
 print(table)
-latex_str = format_latex(table,'Incident Heat Flux (kW/m$^2$)')
-with open(str(base_dir) +'/Cone/Cone_hor.tex', 'w') as f:
+
+latex_str = format_latex(table, 'Incident Heat Flux (kW/m$^2$)')
+with open(str(base_dir) + '/Cone/Cone_hor.tex', 'w') as f:
     f.write(latex_str)
 
 
 print('Gasification table')
-Capa = make_institution_table(Gasification_Data,['Wood'],['N2'],['30kW','40kW','50kW','60kW','70kW'])
-Capa.loc['Total'] = Capa.sum(axis=0)
+Capa_original = make_institution_table(Gasification_Data, ['Wood'], ['N2'], ['30kW', '40kW', '50kW', '60kW', '70kW'])
+
+Gasification_Data_parallel = [p for p in Gasification_Data if get_grain_orientation(p) == 'Parallel']
+Gasification_Data_perpendicular = [p for p in Gasification_Data if get_grain_orientation(p) == 'Perpendicular']
+
+Capa_parallel = make_institution_table(Gasification_Data_parallel, ['Wood'], ['N2'], ['30kW', '40kW', '50kW', '60kW', '70kW'])
+Capa_perpendicular = make_institution_table(Gasification_Data_perpendicular, ['Wood'], ['N2'], ['30kW', '40kW', '50kW', '60kW', '70kW'])
+
+Capa_parallel, Capa_perpendicular = Capa_parallel.align(Capa_perpendicular, fill_value=0)
+
+Capa_parallel = Capa_parallel.reindex(Capa_original.index, fill_value=0)
+Capa_perpendicular = Capa_perpendicular.reindex(Capa_original.index, fill_value=0)
+
+Capa = Capa_parallel.astype(int).astype(str) + '/' + Capa_perpendicular.astype(int).astype(str)
+Capa.loc['Total'] = Capa_parallel.sum(axis=0).astype(int).astype(str) + '/' + Capa_perpendicular.sum(axis=0).astype(int).astype(str)
+
 print(Capa)
-latex_str = format_latex(Capa,'Incident Heat Flux (kW/m$^2$)')
-with open(str(base_dir) +'/Cone/Capa.tex', 'w') as f:
+latex_str = format_latex(Capa, 'Incident Heat Flux (kW/m$^2$)')
+with open(str(base_dir) + '/Cone/Capa.tex', 'w') as f:
     f.write(latex_str)
 
-Gasification = make_institution_table(Gasification_Data, ['Wood'], sorted(gas_flux), ['hor'])
-Gasification = Gasification.loc[:, Gasification.sum(axis=0) > 0]
-Gasification.loc['Total'] = Gasification.sum(axis=0)
+
+Gasification_original = make_institution_table(Gasification_Data, ['Wood'], sorted(gas_flux), ['hor'])
+Gasification_original = Gasification_original.loc[:, Gasification_original.sum(axis=0) > 0]
+
+Gasification_parallel = make_institution_table(Gasification_Data_parallel, ['Wood'], sorted(gas_flux), ['hor'])
+Gasification_perpendicular = make_institution_table(Gasification_Data_perpendicular, ['Wood'], sorted(gas_flux), ['hor'])
+
+Gasification_parallel, Gasification_perpendicular = Gasification_parallel.align(Gasification_perpendicular, fill_value=0)
+
+Gasification_parallel = Gasification_parallel.reindex(index=Gasification_original.index, columns=Gasification_original.columns, fill_value=0)
+Gasification_perpendicular = Gasification_perpendicular.reindex(index=Gasification_original.index, columns=Gasification_original.columns, fill_value=0)
+
+Gasification = Gasification_parallel.astype(str) + '/' + Gasification_perpendicular.astype(str)
+Gasification.loc['Total'] = Gasification_parallel.sum(axis=0).astype(str) + '/' + Gasification_perpendicular.sum(axis=0).astype(str)
+
 print(Gasification)
-latex_str = format_latex(Gasification,'Incident Heat Flux (kW/m$^2$)')
-with open(str(base_dir) +'/Cone/Gasification.tex', 'w') as f:
+
+latex_str = format_latex(Gasification, 'Incident Heat Flux (kW/m$^2$)')
+with open(str(base_dir) + '/Cone/Gasification.tex', 'w') as f:
     f.write(latex_str)
 
 
@@ -116,15 +165,6 @@ set_plot_style()
 # ------------------------------------
 #region functions
 # ------------------------------------
-def get_grain_orientation(path):
-    name = path.stem.lower()
-
-    if 'perpendicular' in name:
-        return 'Perpendicular'
-
-    return 'Parallel'
-
-
 def get_cone_grain_series_key(path):
     stem = re.sub(r'_[Rr]\d+$', '', path.stem)
 
