@@ -516,10 +516,88 @@ def get_reported_ignition_time(path):
 
     return np.nan
 
-
 for path in Cone_Data:
     reported_ignition = get_reported_ignition_time(path)
     # print(path.stem, reported_ignition)
+
+# =============================================================================
+# Reported versus calculated ignition time
+# =============================================================================
+
+fig_ign_compare, ax_ign_compare = plt.subplots(figsize=(6, 6))
+
+institution_handles = {}
+orientations_present = []
+all_values = []
+
+for path in Cone_Data:
+    if "TEMPLATE" in str(path):
+        continue
+    if 'UMET' in str(path):
+        continue
+    if 'IMT_Wood_Cone_25kW_hor_R2' in path.stem:
+        continue
+    if 'IMT_Wood_Cone_25kW_hor_R5' in path.stem:
+        continue
+
+    df = pd.read_csv(path)
+
+    if not (df['HRR (kW/m2)'] >= 24).any():
+        continue
+
+    ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
+    ignition_time_calculated = df['Time (s)'].iloc[ignition_index]
+    ignition_time_reported = get_reported_ignition_time(path)
+
+    if pd.isna(ignition_time_reported):
+        continue
+
+    institution = path.stem.split('_')[0]
+    label, color_inst = label_def(institution)
+    orientation = get_grain_orientation(path)
+
+    if orientation not in orientations_present:
+        orientations_present.append(orientation)
+
+    if orientation == 'Perpendicular':
+        ax_ign_compare.scatter(ignition_time_calculated, ignition_time_reported, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
+    else:
+        ax_ign_compare.scatter(ignition_time_calculated, ignition_time_reported, color=color_inst, marker='o', s=70)
+
+    institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
+
+    all_values.extend([ignition_time_calculated, ignition_time_reported])
+
+if all_values:
+    axis_min = 0
+    axis_max = 1.05 * max(all_values)
+
+    ax_ign_compare.plot([axis_min, axis_max], [axis_min, axis_max], 'k--', linewidth=1)
+
+    ax_ign_compare.set_xlim(axis_min, axis_max)
+    ax_ign_compare.set_ylim(axis_min, axis_max)
+
+ax_ign_compare.set_xlabel('Calculated time to ignition [s]')
+ax_ign_compare.set_ylabel('Reported time to ignition [s]')
+
+if institution_handles:
+    legend1 = ax_ign_compare.legend(institution_handles.values(), institution_handles.keys(), loc='upper left', framealpha=0.25)
+    ax_ign_compare.add_artist(legend1)
+
+orientation_handles = []
+
+if 'Parallel' in orientations_present:
+    orientation_handles.append(plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'))
+
+if 'Perpendicular' in orientations_present:
+    orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None', label='Perpendicular'))
+
+if orientation_handles:
+    ax_ign_compare.legend(handles=orientation_handles, loc='lower right', framealpha=0.25)
+
+fig_ign_compare.tight_layout()
+fig_ign_compare.savefig(str(base_dir) + f'/Cone/Cone_Ignition_time_calculated_vs_reported.{ex}')
+plt.close(fig_ign_compare)
 
 # ------------------------------------
 #region Cone plots
