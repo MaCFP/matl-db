@@ -85,15 +85,17 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 * Side Insulation: 3 mm layer of Superwool® Prime Paper with aluminum foil tape.
 * Thermocouple location: Back surface
 * Ignition Source: Spark ignitor
+* Sample mass: Initial sample mass reported in table below was weighed before the experiment and corresponds to timber block itself. The software also forces this value as the mass at t=0.
+
 * Responsible: Wenxuan Wu (wenxuan.wu@uq.edu.au)
 
 ###### Test Heating Conditions
 
-| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Final Thickness (cm) | t_ign (s) | t_flameout (s) |
-|---|---:|---:|---:|---:|---:|
-| UQ_Wood_Cone_60kW_hor_Parallel_R1 | 60 | 1033 | 2.15 | 15 | 908 |
-| UQ_Wood_Cone_60kW_hor_Parallel_R2 | 60 | 1033 | 2.20 | 10 | 920 |
-| UQ_Wood_Cone_60kW_hor_Parallel_R3 | 60 | 1033 | 2.15 | 14 | 918 |
+| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Initial sample mass (g) | Final Thickness (cm) | t_ign (s) | t_flameout (s) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| UQ_Wood_Cone_60kW_hor_Parallel_R1 | 60 | 1033 | 86.9 | 2.15 | 15 | 908 |
+| UQ_Wood_Cone_60kW_hor_Parallel_R2 | 60 | 1033 | 88.65 | 2.20 | 10 | 920 |
+| UQ_Wood_Cone_60kW_hor_Parallel_R3 | 60 | 1033 | 91.42 | 2.15 | 14 | 918 |
 
 * Notes: Tests conducted at 30 KWm-2 encountered issues of the pilot. Test data was therefore not included. Mass measurements from tests conducted at 60 KWm-2 exhibited unexpected fluctuations.
 
