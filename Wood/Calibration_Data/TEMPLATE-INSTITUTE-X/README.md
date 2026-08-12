@@ -15,7 +15,8 @@ A [Brand/Model Number]was used to simultaneously conduct Thermogravimetric Analy
   - Final Isotherm: None
 * Sample mass: 5 mg +/- 0.1 mg
 * Sample geometry: Powdered
-* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 12 months (or 100 tests, whichever is sooner) using a set of 6 reference materials with melting temperatures between 60-820 C
+* Calibration type: Temperature/Heat flow calibration were performed every 12 months (or 100 tests, whichever is sooner) using a set of 6 reference materials with melting temperatures between 60-820 C
+* Baseline: Before each experiment, a baseline test was performed using an empty crucible. The reported Heat Flow Rate (W/g) data are normalized by the initial sample mass, and the baseline has already been subtracted. (If this is not the case, please also provide the corresponding baseline measurement.)
 * Crucible
   - Type: Pt-Rh
   - Volume: 85 uL
