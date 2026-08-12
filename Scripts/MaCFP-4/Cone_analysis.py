@@ -1456,7 +1456,9 @@ for flux in cone_flux:
             plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
         ]
 
-        ax.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='upper center', framealpha=0.25)
+        ax.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='lower center', framealpha=0.25)
+
+        ax.text(0.02, 0.03, r'Error bars: $\pm$1 SD', transform=ax.transAxes, ha='left', va='bottom', fontsize=9)
 
     fig_ign_hoc_calculated.tight_layout()
     fig_ign_hoc_reported.tight_layout()
@@ -1602,6 +1604,8 @@ if len(results_df) > 0:
                                  framealpha=0.25)
         ax_flux.add_artist(legend1)
         ax_flux.legend(handles=orientation_handles, loc='upper center', framealpha=0.25)
+
+        ax_flux.text(0.02, 0.03, 'Error bars: min–max', transform=ax_flux.transAxes, ha='left', va='bottom', fontsize=9)
 
         fig_flux.tight_layout()
         fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}", bbox_inches='tight')
