@@ -42,14 +42,14 @@ A Perkin Elmer TGA 8000 was used to conduct Thermogravimetric Analysis (TGA) exp
 
 | Test Name | O2 volume (%) |  Heating rate (K/min) | Initial mass (mg) |
 | --------- | :-----------: | :-------------------: | :---------------: |
-| IMT-Mines-Ales_TGA_N2_2K_R1 | 0 | 2 | 4.984 |
-| IMT-Mines-Ales_TGA_N2_5K_R1 | 0 | 5 | 4.884 |
-| IMT-Mines-Ales_TGA_N2_10K_R1 | 0 | 10 | 4.929 |
-| IMT-Mines-Ales_TGA_N2_20K_R1 | 0 | 20 | 5.115 |
-| IMT-Mines-Ales_TGA_O2-20_2K_R1 | 20 | 2 | 4.987 |
-| IMT-Mines-Ales_TGA_O2-20_5K_R1 | 20 | 5 | 4.620 |
-| IMT-Mines-Ales_TGA_O2-20_10K_R1 | 20 | 10 | 5.010 |
-| IMT-Mines-Ales_TGA_O2-20_20K_R1 | 20 | 20 | 4.305 |
+| IMT_Wood_TGA_N2_2K_R1 | 0 | 2 | 4.984 |
+| IMT_Wood_TGA_N2_5K_R1 | 0 | 5 | 4.884 |
+| IMT_Wood_TGA_N2_10K_R1 | 0 | 10 | 4.929 |
+| IMT_Wood_TGA_N2_20K_R1 | 0 | 20 | 5.115 |
+| IMT_Wood_TGA_O2-20_2K_R1 | 20 | 2 | 4.987 |
+| IMT_Wood_TGA_O2-20_5K_R1 | 20 | 5 | 4.620 |
+| IMT_Wood_TGA_O2-20_10K_R1 | 20 | 10 | 5.010 |
+| IMT_Wood_TGA_O2-20_20K_R1 | 20 | 20 | 4.305 |
 
 
 ### Experimental Conditions: MCC
@@ -82,16 +82,16 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 
 | Test Name | O2 volume (Pyrolyser) % | Initial Sample Mass (mg) | Final Sample Mass (mg) | 
 | --------- | :---------------------: | :----------------------: | :--------------------: |
-| IMT-Mines-Ales_MCC_N2_60K_R1 | 0 | 2.82 | 0.23 |
-| IMT-Mines-Ales_MCC_N2_60K_R2 | 0 | 2.20 | 0.24 |
-| IMT-Mines-Ales_MCC_O2-2_60K_R1 | 2 | 2.31 | 0 |
-| IMT-Mines-Ales_MCC_O2-2_60K_R2 | 2 | 2.34 | 0 |
-| IMT-Mines-Ales_MCC_O2-5_60K_R1 | 5 | 2.61 | 0 |
-| IMT-Mines-Ales_MCC_O2-5_60K_R2 | 5 | 2.62 | 0 |
-| IMT-Mines-Ales_MCC_O2-10_60K_R1 | 10 | 3.19 | 0 |
-| IMT-Mines-Ales_MCC_O2-10_60K_R2 | 10 | 2.45 | 0 |
-| IMT-Mines-Ales_MCC_O2-20_60K_R1 | 20 | 2.39 | 0 |
-| IMT-Mines-Ales_MCC_O2-20_60K_R2 | 20 | 2.30 | 0 |
+| IMT_Wood_MCC_N2_60K_R1 | 0 | 2.82 | 0.23 |
+| IMT_Wood_MCC_N2_60K_R2 | 0 | 2.20 | 0.24 |
+| IMT_Wood_MCC_O2-2_60K_R1 | 2 | 2.31 | 0 |
+| IMT_Wood_MCC_O2-2_60K_R2 | 2 | 2.34 | 0 |
+| IMT_Wood_MCC_O2-5_60K_R1 | 5 | 2.61 | 0 |
+| IMT_Wood_MCC_O2-5_60K_R2 | 5 | 2.62 | 0 |
+| IMT_Wood_MCC_O2-10_60K_R1 | 10 | 3.19 | 0 |
+| IMT_Wood_MCC_O2-10_60K_R2 | 10 | 2.45 | 0 |
+| IMT_Wood_MCC_O2-20_60K_R1 | 20 | 2.39 | 0 |
+| IMT_Wood_MCC_O2-20_60K_R2 | 20 | 2.30 | 0 |
 
 
 
@@ -112,15 +112,15 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments. The
 
 | Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Initial mass (g) | Thickness (cm) | t_ign (s) | t_flameout (s) |
 |-----------| :---------------: | :--------------------: | :--------------: | :------------: | :-------: | :------------: |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R1 | 25 | 853 | 103.2 | 2.5 | 126 | 2301 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R2 | 25 | 853 |  92.8 | 2.5 | 304 | 2178 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R3 | 25 | 853 |  98.8 | 2.5 | 118 | 2273 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R4 | 25 | 853 |  83.2 | 2.5 | 105 | 1788 |
-| IMT-Mines-Ales_Wood_Cone_25kW_hor_R5 | 25 | 853 |  83.7 | 2.5 | 288 | 2155 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R1 | 50 | 1033 | 119.8 | 2.5 | 17 | 1505 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R2 | 50 | 1033 |  96.0 | 2.5 | 12 | 1613 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R3 | 50 | 1033 | 100.6 | 2.5 |  7 | 1673 |
-| IMT-Mines-Ales_Wood_Cone_50kW_hor_R4 | 50 | 1033 |  95.6 | 2.5 | 12 | 1374 |
-| IMT-Mines-Ales_Wood_Cone_75kW_hor_R1 | 75 | 1153 |  97.0 | 2.5 |  3 | 1206 |
-| IMT-Mines-Ales_Wood_Cone_75kW_hor_R2 | 75 | 1153 | 112.2 | 2.5 |  3 | 1159 |
-| IMT-Mines-Ales_Wood_Cone_75kW_hor_R3 | 75 | 1153 |  90.8 | 2.5 |  2 | 1111 |
+| IMT_Wood_Cone_25kW_hor_R1 | 25 | 853 | 103.2 | 2.5 | 126 | 2301 |
+| IMT_Wood_Cone_25kW_hor_R2 | 25 | 853 |  92.8 | 2.5 | 304 | 2178 |
+| IMT_Wood_Cone_25kW_hor_R3 | 25 | 853 |  98.8 | 2.5 | 118 | 2273 |
+| IMT_Wood_Cone_25kW_hor_R4 | 25 | 853 |  83.2 | 2.5 | 105 | 1788 |
+| IMT_Wood_Cone_25kW_hor_R5 | 25 | 853 |  83.7 | 2.5 | 288 | 2155 |
+| IMT_Wood_Cone_50kW_hor_R1 | 50 | 1033 | 119.8 | 2.5 | 17 | 1505 |
+| IMT_Wood_Cone_50kW_hor_R2 | 50 | 1033 |  96.0 | 2.5 | 12 | 1613 |
+| IMT_Wood_Cone_50kW_hor_R3 | 50 | 1033 | 100.6 | 2.5 |  7 | 1673 |
+| IMT_Wood_Cone_50kW_hor_R4 | 50 | 1033 |  95.6 | 2.5 | 12 | 1374 |
+| IMT_Wood_Cone_75kW_hor_R1 | 75 | 1153 |  97.0 | 2.5 |  3 | 1206 |
+| IMT_Wood_Cone_75kW_hor_R2 | 75 | 1153 | 112.2 | 2.5 |  3 | 1159 |
+| IMT_Wood_Cone_75kW_hor_R3 | 75 | 1153 |  90.8 | 2.5 |  2 | 1111 |
