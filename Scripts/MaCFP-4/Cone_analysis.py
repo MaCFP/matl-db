@@ -602,7 +602,7 @@ for path in Cone_Data:
     if orientation == 'Perpendicular':
         ax_ign_compare.scatter(ignition_time_calculated, ignition_time_reported, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
     else:
-        ax_ign_compare.scatter(ignition_time_calculated, ignition_time_reported, color=color_inst, marker='o', s=70)
+        ax_ign_compare.scatter(ignition_time_calculated, ignition_time_reported, color=color_inst, marker='x', s=70)
 
     institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
 
@@ -1748,8 +1748,11 @@ if len(results_df) > 0:
     }
 
     regression_results = {}
+    regression_results_mean = {}
 
     for quantity, config in inverse_configs.items():
+
+        # Individual measurements
 
         fig_flux, ax_flux = plt.subplots(figsize=(7.5, 4))
         institution_handles = {}
@@ -1762,7 +1765,8 @@ if len(results_df) > 0:
                 ax_flux.scatter(row['flux_value'], row[quantity], facecolors='none', edgecolors=row['color'],
                                 marker='^', s=70, linewidths=1.5, zorder=4)
             else:
-                ax_flux.scatter(row['flux_value'], row[quantity], color=row['color'], marker='o', s=70, zorder=4)
+                ax_flux.scatter(row['flux_value'], row[quantity], color=row['color'], marker='x', s=70, linewidths=1,
+                                zorder=4)
 
             institution_handles[row['Duck']] = plt.Line2D([0], [0], color=row['color'], marker='o', linestyle='None',
                                                           label=row['Duck'])
@@ -1795,10 +1799,7 @@ if len(results_df) > 0:
                 key = (duck, orientation)
 
                 if key not in regression_results:
-                    regression_results[key] = {
-                        'Institution': duck,
-                        'Grain orientation': orientation
-                    }
+                    regression_results[key] = {'Institution': duck, 'Grain orientation': orientation}
 
                 regression_results[key][f"{config['label']} equation"] = equation
                 regression_results[key][f"{config['label']} R2"] = f'${r_squared:.3f}$' if np.isfinite(
@@ -1825,23 +1826,19 @@ if len(results_df) > 0:
             equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
 
             x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
-            ax_flux.plot(x_fit, slope * x_fit + intercept, color='black', linestyle=linestyle, linewidth=1.8, zorder=3)
+            ax_flux.plot(x_fit, slope * x_fit + intercept, color='black', linestyle=linestyle, linewidth=1.2, zorder=3)
 
             key = ('All institutions', orientation)
 
             if key not in regression_results:
-                regression_results[key] = {
-                    'Institution': 'All institutions',
-                    'Grain orientation': orientation
-                }
+                regression_results[key] = {'Institution': 'All institutions', 'Grain orientation': orientation}
 
             regression_results[key][f"{config['label']} equation"] = equation
             regression_results[key][f"{config['label']} R2"] = f'${r_squared:.3f}$' if np.isfinite(r_squared) else '--'
             regression_results[key][f"{config['label']} CHF"] = f'${zero_flux:.2f}$' if np.isfinite(zero_flux) else '--'
 
         orientation_handles = [
-            plt.Line2D([0], [0], color='black', linestyle='-', marker='o', markerfacecolor='black',
-                       markeredgecolor='black', label='Parallel'),
+            plt.Line2D([0], [0], color='black', linestyle='-', marker='x', label='Parallel'),
             plt.Line2D([0], [0], color='black', linestyle='--', marker='^', markerfacecolor='white',
                        markeredgecolor='black', label='Perpendicular')
         ]
@@ -1861,6 +1858,130 @@ if len(results_df) > 0:
         fig_flux.tight_layout()
         fig_flux.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}", bbox_inches='tight')
         plt.close(fig_flux)
+
+        # Mean values with standard deviation
+
+        mean_results = valid_results.groupby(['Institution', 'Duck', 'color', 'orientation', 'flux_value'],
+                                             as_index=False, sort=False).agg(
+            mean_value=(quantity, 'mean'),
+            std_value=(quantity, lambda x: x.std(ddof=1))
+        )
+
+        fig_flux_mean, ax_flux_mean = plt.subplots(figsize=(7.5, 4))
+        institution_handles = {}
+
+        for _, row in mean_results.iterrows():
+
+            if pd.notna(row['std_value']):
+                ax_flux_mean.errorbar(row['flux_value'], row['mean_value'], yerr=row['std_value'],
+                                      fmt='x' if row['orientation'] == 'Parallel' else '^',
+                                      markerfacecolor='none' if row['orientation'] == 'Perpendicular' else row['color'],
+                                      markeredgecolor=row['color'], color=row['color'], capsize=5, capthick=1.0,
+                                      markersize=8, linewidth=1, zorder=4)
+            else:
+                if row['orientation'] == 'Perpendicular':
+                    ax_flux_mean.scatter(row['flux_value'], row['mean_value'], facecolors='none',
+                                         edgecolors=row['color'], marker='^', s=70, linewidths=1.5, zorder=4)
+                else:
+                    ax_flux_mean.scatter(row['flux_value'], row['mean_value'], color=row['color'], marker='x', s=70,
+                                         linewidths=1, zorder=4)
+
+            institution_handles[row['Duck']] = plt.Line2D([0], [0], color=row['color'], marker='o', linestyle='None',
+                                                          label=row['Duck'])
+
+        for (institution, duck, color), institution_subset in mean_results.groupby(['Institution', 'Duck', 'color'],
+                                                                                   sort=False):
+
+            for orientation, linestyle in [('Parallel', '-'), ('Perpendicular', '--')]:
+
+                subset = institution_subset[institution_subset['orientation'] == orientation]
+
+                if len(subset) < 2 or subset['flux_value'].nunique() < 2:
+                    continue
+
+                x = subset['flux_value'].to_numpy()
+                y = subset['mean_value'].to_numpy()
+
+                slope, intercept = np.polyfit(x, y, 1)
+                y_pred = slope * x + intercept
+                denominator = np.sum((y - np.mean(y)) ** 2)
+                r_squared = 1 - np.sum((y - y_pred) ** 2) / denominator if denominator > 0 else np.nan
+                zero_flux = -intercept / slope if not np.isclose(slope, 0) else np.nan
+                sign = '+' if intercept >= 0 else '-'
+                equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
+
+                x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
+                ax_flux_mean.plot(x_fit, slope * x_fit + intercept, color=color, linestyle=linestyle, linewidth=0.8,
+                                  alpha=0.55, zorder=2)
+
+                key = (duck, orientation)
+
+                if key not in regression_results_mean:
+                    regression_results_mean[key] = {'Institution': duck, 'Grain orientation': orientation}
+
+                regression_results_mean[key][f"{config['label']} equation"] = equation
+                regression_results_mean[key][f"{config['label']} R2"] = f'${r_squared:.3f}$' if np.isfinite(
+                    r_squared) else '--'
+                regression_results_mean[key][f"{config['label']} CHF"] = f'${zero_flux:.2f}$' if np.isfinite(
+                    zero_flux) else '--'
+
+        for orientation, linestyle in [('Parallel', '-'), ('Perpendicular', '--')]:
+
+            subset = mean_results[mean_results['orientation'] == orientation]
+
+            if len(subset) < 2 or subset['flux_value'].nunique() < 2:
+                continue
+
+            x = subset['flux_value'].to_numpy()
+            y = subset['mean_value'].to_numpy()
+
+            slope, intercept = np.polyfit(x, y, 1)
+            y_pred = slope * x + intercept
+            denominator = np.sum((y - np.mean(y)) ** 2)
+            r_squared = 1 - np.sum((y - y_pred) ** 2) / denominator if denominator > 0 else np.nan
+            zero_flux = -intercept / slope if not np.isclose(slope, 0) else np.nan
+            sign = '+' if intercept >= 0 else '-'
+            equation = f'$y = {slope:.5f}x {sign} {abs(intercept):.5f}$'
+
+            x_fit = np.linspace(0, results_df['flux_value'].max(), 100)
+            ax_flux_mean.plot(x_fit, slope * x_fit + intercept, color='black', linestyle=linestyle, linewidth=1.2,
+                              zorder=3)
+
+            key = ('All institutions', orientation)
+
+            if key not in regression_results_mean:
+                regression_results_mean[key] = {'Institution': 'All institutions', 'Grain orientation': orientation}
+
+            regression_results_mean[key][f"{config['label']} equation"] = equation
+            regression_results_mean[key][f"{config['label']} R2"] = f'${r_squared:.3f}$' if np.isfinite(
+                r_squared) else '--'
+            regression_results_mean[key][f"{config['label']} CHF"] = f'${zero_flux:.2f}$' if np.isfinite(
+                zero_flux) else '--'
+
+        orientation_handles = [
+            plt.Line2D([0], [0], color='black', linestyle='-', marker='x', label='Parallel'),
+            plt.Line2D([0], [0], color='black', linestyle='--', marker='^', markerfacecolor='white',
+                       markeredgecolor='black', label='Perpendicular')
+        ]
+
+        ax_flux_mean.set_xlabel('Incident heat flux [kW/m$^2$]')
+        ax_flux_mean.set_ylabel(config['ylabel'])
+        ax_flux_mean.set_xticks([0] + [int(flux.replace('kW', '')) for flux in cone_flux])
+        ax_flux_mean.set_xticklabels(['0'] + [flux.replace('kW', '') for flux in cone_flux])
+        ax_flux_mean.set_xlim(left=0)
+        ax_flux_mean.set_ylim(0, 1)
+        ax_flux_mean.text(0.98, 0.03, r'Error bars: $\pm$1 SD', transform=ax_flux_mean.transAxes, ha='right',
+                          va='bottom', fontsize=9)
+
+        legend1 = ax_flux_mean.legend(institution_handles.values(), institution_handles.keys(), loc='upper left',
+                                      framealpha=0.25)
+        ax_flux_mean.add_artist(legend1)
+        ax_flux_mean.legend(handles=orientation_handles, loc='upper center', framealpha=0.25)
+
+        fig_flux_mean.tight_layout()
+        fig_flux_mean.savefig(str(base_dir) + f"/Cone/{config['filename'].replace('_vs_Flux', '_mean_vs_Flux')}.{ex}",
+                              bbox_inches='tight')
+        plt.close(fig_flux_mean)
 
     # Generate combined calculated and reported inverse-square-root regression table
 
@@ -1931,6 +2052,77 @@ if len(results_df) > 0:
 
     print('\nCalculated and reported ignition time inverse square root regressions')
     print(regression_table.to_string(index=False))
+
+
+# Generate combined calculated and reported inverse-square-root regression table based on mean values
+regression_table_mean = pd.DataFrame(regression_results_mean.values())
+
+columns = [
+    'Institution',
+    'Grain orientation',
+    'Calculated equation',
+    'Calculated R2',
+    'Calculated CHF',
+    'Reported equation',
+    'Reported R2',
+    'Reported CHF'
+]
+
+for col in columns:
+    if col not in regression_table_mean.columns:
+        regression_table_mean[col] = '--'
+
+regression_table_mean = regression_table_mean[columns].fillna('--')
+
+latex_string_mean = regression_table_mean.to_latex(index=False, escape=False, header=False, column_format='llcccccc')
+
+header = (
+    '\\hline\n'
+    '\\textbf{Institution} & \\textbf{Grain orientation} & '
+    '\\multicolumn{3}{c}{\\textbf{Calculated ignition time}} & '
+    '\\multicolumn{3}{c}{\\textbf{Reported ignition time}} \\\\\n'
+    '\\cline{3-8}\n'
+    ' & & '
+    '\\textbf{Regression equation} & '
+    '\\textbf{$R^2$} & '
+    '\\textbf{Critical heat flux (kW/m$^2$)} & '
+    '\\textbf{Regression equation} & '
+    '\\textbf{$R^2$} & '
+    '\\textbf{Critical heat flux (kW/m$^2$)} \\\\\n'
+    '\\hline'
+)
+
+latex_string_mean = latex_string_mean.replace('\\toprule', header)
+latex_string_mean = latex_string_mean.replace('\\bottomrule', '\\hline')
+
+lines = latex_string_mean.split('\n')
+new_lines = []
+previous_institution = None
+
+for line in lines:
+
+    if '&' in line and '\\multicolumn' not in line and '\\textbf' not in line and '\\hline' not in line and '\\cline' not in line:
+        current_institution = line.split('&')[0].strip()
+
+        if previous_institution is not None and current_institution != previous_institution:
+            if current_institution == 'All institutions':
+                new_lines.append('\\hline')
+                new_lines.append('\\noalign{\\vskip 6pt}')
+            else:
+                new_lines.append('\\noalign{\\vskip 6pt}')
+
+        previous_institution = current_institution
+
+    new_lines.append(line)
+
+latex_string_mean = '\n'.join(new_lines)
+
+with open(str(base_dir) + '/Cone/Cone_Ignition_time_inv_sqrt_regressions_mean.tex', 'w') as f:
+    f.write(latex_string_mean)
+
+print('\nCalculated and reported ignition time inverse square root regressions based on mean values')
+print(regression_table_mean.to_string(index=False))
+
 
 
 #  Back side temperature plots for all unique atmospheres and heating rates (when available)
