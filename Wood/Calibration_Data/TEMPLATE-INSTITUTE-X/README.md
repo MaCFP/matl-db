@@ -85,17 +85,19 @@ A [Brand/Model Number] microscale combustion calorimeter was used to conduct MCC
 * Backing Insulation: One inch thick (2.54 cm) layer of Kaowool Blanket. Density = 128 kg/m3. Thermal Conductivity 0.06, 0.012, 0.21, 0.3 W/m-K (at 260, 538, 816, 1093 C, respectively)
 * Thermocouple location: None
 * Ignition Source: (spark ignitor, flame, no pilot) ??
+* Sample mass: Initial sample mass reported in table below was weighed before the experiment; does not include the wrapping, insulation or the thermocouples. Sample mass in the cone data csv files at time 0 sec is the initial mass of the sample plus aluminium foil taken from the load cell of the cone calorimeter at the beginning of the measurement.
+
 
 ###### Test Heating Conditions  
 
-| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Thickness (cm) | Grain orientation (-) | t_ign (s) | t_flameout (s) |
-|---|---:|---:|---:|:---:|---:|---:|
-| INSTITUTE-X_Cone_30KW_hor_parallel_R1 | 30 | 900 | 2.53 | parallel | 20 | 2200 |
-| INSTITUTE-X_Cone_30KW_hor_parallel_R2 | 30 | 900 | 2.53 | parallel | 21 | 2000 |
-| INSTITUTE-X_Cone_30KW_hor_parallel_R3 | 30 | 900 | 2.53 | parallel | 32 | 2100 |
-| INSTITUTE-X_Cone_60KW_hor_perpendicular_R1 | 60 | 1200 | 2.52 | perpendicular | 8 | 1500 |
-| INSTITUTE-X_Cone_60KW_hor_perpendicular_R2 | 60 | 1200 | 2.56 | perpendicular | 10 | 1500 |
-| INSTITUTE-X_Cone_60KW_hor_perpendicular_R3 | 60 | 1200 | 2.55 | perpendicular | 7 | 1400 |
+| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Initial sample mass (g) | Thickness (cm) | Grain orientation (-) | t_ign (s) | t_flameout (s) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| INSTITUTE-X_Cone_30KW_hor_parallel_R1 | 30 | 900 | 95 | 2.53 | parallel | 20 | 2200 |
+| INSTITUTE-X_Cone_30KW_hor_parallel_R2 | 30 | 900 | 98 |2.53 | parallel | 21 | 2000 |
+| INSTITUTE-X_Cone_30KW_hor_parallel_R3 | 30 | 900 | 101 |2.53 | parallel | 32 | 2100 |
+| INSTITUTE-X_Cone_60KW_hor_perpendicular_R1 | 60 | 1200 | 100 | 2.52 | perpendicular | 8 | 1500 |
+| INSTITUTE-X_Cone_60KW_hor_perpendicular_R2 | 60 | 1200 | 92 | 2.56 | perpendicular | 10 | 1500 |
+| INSTITUTE-X_Cone_60KW_hor_perpendicular_R3 | 60 | 1200 | 86 | 2.55 | perpendicular | 7 | 1400 |
 
 ##### Test Summary
 Three repeated pyrolysis tests were conducted to measure the mass loss and front surface temperature of pyrolysis tests in nitrogen environment at external heat flux of 25 and 65 kW/m2, respectively. The sample has a circular shape, with a diameter of 9.52 cm (3.75 in.) and thickness of 0.6 cm. The sample was insulated both on the side and bottom.
