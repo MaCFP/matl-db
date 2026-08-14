@@ -1127,9 +1127,9 @@ for flux in cone_flux:
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
 
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
             A_surf = 0.01
-        else:
+        else: #FPL, IMT, TUBS, UMET
             A_surf = 0.00884
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
@@ -1858,9 +1858,9 @@ for flux in cone_flux:
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
 
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
             A_surf = 0.01
-        else:
+        else: #FPL, IMT, TUBS, UMET
             A_surf = 0.00884
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
@@ -1960,6 +1960,115 @@ for flux in cone_flux:
 
 
 
+# =============================================================================
+# Calculated versus reported heat of combustion
+# =============================================================================
+
+hoc_comparison_data = []
+
+for path in Cone_Data:
+    if "TEMPLATE" in str(path):
+        continue
+    if 'UMET' in str(path):
+        continue
+    if 'IMT_Wood_Cone_25kW_hor_R2' in path.stem:
+        continue
+    if 'IMT_Wood_Cone_25kW_hor_R5' in path.stem:
+        continue
+
+    df_raw = pd.read_csv(path)
+
+    if not (df_raw['HRR (kW/m2)'] >= 24).any():
+        continue
+
+    ignition_time_reported = get_reported_ignition_time(path)
+
+    if pd.isna(ignition_time_reported):
+        continue
+
+    df = calculate_int_HRR(df_raw)
+
+    index_start_calculated = df[df['HRR (kW/m2)'] >= 24].index[0]
+    index_start_reported = (df['Time (s)'] - ignition_time_reported).abs().idxmin()
+    index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
+
+    if index_start_reported >= index_end:
+        continue
+
+    if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
+        A_surf = 0.01
+    else:  # FPL, IMT, TUBS, UMET
+        A_surf = 0.00884
+
+    HOC_calculated = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start_calculated]) / (df['Mass (g)'][index_start_calculated] - df['Mass (g)'][index_end])
+    HOC_reported = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start_reported]) / (df['Mass (g)'][index_start_reported] - df['Mass (g)'][index_end])
+
+    institution = path.stem.split('_')[0]
+    label, color_inst = label_def(institution)
+    orientation = get_grain_orientation(path)
+
+    hoc_comparison_data.append({
+        'HOC calculated': HOC_calculated,
+        'HOC reported': HOC_reported,
+        'label': label,
+        'color': color_inst,
+        'orientation': orientation
+    })
+
+fig_hoc_compare, ax_hoc_compare = plt.subplots(figsize=(6, 6))
+
+institution_handles = {}
+orientations_present = []
+all_hoc_values = []
+
+for item in hoc_comparison_data:
+    if item['orientation'] not in orientations_present:
+        orientations_present.append(item['orientation'])
+
+    if item['orientation'] == 'Perpendicular':
+        ax_hoc_compare.scatter(item['HOC calculated'], item['HOC reported'], facecolors='none', edgecolors=item['color'], marker='^', s=70, linewidths=1.5)
+    else:
+        ax_hoc_compare.scatter(item['HOC calculated'], item['HOC reported'], color=item['color'], marker='x', s=70)
+
+    institution_handles[item['label']] = plt.Line2D([0], [0], color=item['color'], marker='o', linestyle='None', label=item['label'])
+    all_hoc_values.extend([item['HOC calculated'], item['HOC reported']])
+
+if all_hoc_values:
+    data_min = min(all_hoc_values)
+    data_max = max(all_hoc_values)
+    margin = 0.05 * (data_max - data_min)
+
+    axis_min = data_min - margin
+    axis_max = data_max + margin
+
+    ax_hoc_compare.plot([axis_min, axis_max], [axis_min, axis_max], 'k--', linewidth=1)
+    ax_hoc_compare.set_xlim(axis_min, axis_max)
+    ax_hoc_compare.set_ylim(axis_min, axis_max)
+
+ax_hoc_compare.set_xlabel('Calculated heat of combustion [kJ/g]')
+ax_hoc_compare.set_ylabel('Reported heat of combustion [kJ/g]')
+
+if institution_handles:
+    legend1 = ax_hoc_compare.legend(institution_handles.values(), institution_handles.keys(), loc='upper left', framealpha=0.25)
+    ax_hoc_compare.add_artist(legend1)
+
+orientation_handles = []
+
+if 'Parallel' in orientations_present:
+    orientation_handles.append(plt.Line2D([0], [0], color='black', marker='x', linestyle='None', label='Parallel'))
+
+if 'Perpendicular' in orientations_present:
+    orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None', label='Perpendicular'))
+
+if orientation_handles:
+    ax_hoc_compare.legend(handles=orientation_handles, loc='lower right', framealpha=0.25)
+
+fig_hoc_compare.tight_layout()
+fig_hoc_compare.savefig(str(base_dir) + f'/Cone/Cone_HOC_calculated_vs_reported.{ex}')
+plt.close(fig_hoc_compare)
+
+
+
 # ------------------------------------
 # region ignition time and heat of combustion versus heat flux
 # ------------------------------------
@@ -2002,9 +2111,9 @@ for flux in cone_flux:
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
 
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
             A_surf = 0.01
-        else:
+        else: #FPL, IMT, TUBS, UMET
             A_surf = 0.00884
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
@@ -2087,7 +2196,11 @@ if len(results_df) > 0:
             ax_flux.set_ylim(ignition_ymin, ignition_ymax)
 
         if quantity == 'HOC':
-            ax_flux.set_ylim(0, 20)
+            hoc_values = results_df['HOC'].dropna()
+            hoc_min = hoc_values.min()
+            hoc_max = hoc_values.max()
+            hoc_margin = 0.05 * (hoc_max - hoc_min)
+            ax_flux.set_ylim(hoc_min - hoc_margin, hoc_max + hoc_margin)
 
         legend1 = ax_flux.legend(institution_handles.values(), institution_handles.keys(), loc='upper left',
                                  framealpha=0.25)
