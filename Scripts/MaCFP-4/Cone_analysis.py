@@ -1827,13 +1827,9 @@ for flux in used_fluxes:
 
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 
+ignition_hoc_results = []
+
 for flux in cone_flux:
-
-    fig_ign_hoc_calculated, ax_ign_hoc_calculated = plt.subplots(figsize=(6, 4))
-    fig_ign_hoc_reported, ax_ign_hoc_reported = plt.subplots(figsize=(6, 4))
-
-    results = []
-
     series = f'Cone_{flux}_hor'
     paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
@@ -1869,7 +1865,8 @@ for flux in cone_flux:
         label, color = label_def(institution)
         orientation = get_grain_orientation(path)
 
-        results.append({
+        ignition_hoc_results.append({
+            'flux': flux,
             'Institution': institution,
             'Duck': label,
             'color': color,
@@ -1879,7 +1876,20 @@ for flux in cone_flux:
             'HOC': HOC
         })
 
-    results_df = pd.DataFrame(results)
+ignition_hoc_df = pd.DataFrame(ignition_hoc_results)
+
+hoc_values = ignition_hoc_df['HOC'].dropna()
+hoc_min = hoc_values.min()
+hoc_max = hoc_values.max()
+hoc_margin = 0.05 * (hoc_max - hoc_min)
+hoc_ylim = (hoc_min - hoc_margin, hoc_max + hoc_margin)
+
+for flux in cone_flux:
+
+    fig_ign_hoc_calculated, ax_ign_hoc_calculated = plt.subplots(figsize=(6, 4))
+    fig_ign_hoc_reported, ax_ign_hoc_reported = plt.subplots(figsize=(6, 4))
+
+    results_df = ignition_hoc_df[ignition_hoc_df['flux'] == flux]
 
     if len(results_df) == 0:
         plt.close(fig_ign_hoc_calculated)
@@ -1896,8 +1906,11 @@ for flux in cone_flux:
             xerr=group['ignition time calculated'].std(ddof=1),
             yerr=group['HOC'].std(ddof=1),
             fmt=marker_map[orientation],
-            capsize=5, capthick=2, markersize=8,
-            color=color, label=duck
+            capsize=5,
+            capthick=2,
+            markersize=8,
+            color=color,
+            label=duck
         )
 
         reported_group = group.dropna(subset=['ignition time reported'])
@@ -1909,18 +1922,21 @@ for flux in cone_flux:
                 xerr=reported_group['ignition time reported'].std(ddof=1),
                 yerr=reported_group['HOC'].std(ddof=1),
                 fmt=marker_map[orientation],
-                capsize=5, capthick=2, markersize=8,
-                color=color, label=duck
+                capsize=5,
+                capthick=2,
+                markersize=8,
+                color=color,
+                label=duck
             )
 
     ax_ign_hoc_calculated.set_xlabel('Calculated time to ignition [s]', fontsize=12)
     ax_ign_hoc_calculated.set_ylabel('Heat of combustion [kJ/g]', fontsize=12)
-    ax_ign_hoc_calculated.set_ylim(0, 20)
+    ax_ign_hoc_calculated.set_ylim(hoc_ylim)
     ax_ign_hoc_calculated.set_title(f'{flux}/m$^2$')
 
     ax_ign_hoc_reported.set_xlabel('Reported time to ignition [s]', fontsize=12)
     ax_ign_hoc_reported.set_ylabel('Heat of combustion [kJ/g]', fontsize=12)
-    ax_ign_hoc_reported.set_ylim(0, 20)
+    ax_ign_hoc_reported.set_ylim(hoc_ylim)
     ax_ign_hoc_reported.set_title(f'{flux}/m$^2$')
 
     xmin_calculated, xmax_calculated = ax_ign_hoc_calculated.get_xlim()
@@ -1937,7 +1953,8 @@ for flux in cone_flux:
         by_label = dict(zip(labels, handles))
 
         if by_label:
-            legend1 = ax.legend(by_label.values(), by_label.keys(), loc='best', framealpha=0.25)
+            legend_loc = 'upper right' if flux == '30kW' and ax is ax_ign_hoc_reported else 'best'
+            legend1 = ax.legend(by_label.values(), by_label.keys(), loc=legend_loc, framealpha=0.25)
             ax.add_artist(legend1)
 
         orientation_handles = [
@@ -1945,7 +1962,7 @@ for flux in cone_flux:
             plt.Line2D([0], [0], color='black', marker='^', linestyle='None', label='Perpendicular')
         ]
 
-        ax.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='lower center', framealpha=0.25)
+        ax.legend(orientation_handles, ['Parallel', 'Perpendicular'], loc='lower right', framealpha=0.25)
 
         ax.text(0.02, 0.03, r'Error bars: $\pm$1 SD', transform=ax.transAxes, ha='left', va='bottom', fontsize=9)
 
