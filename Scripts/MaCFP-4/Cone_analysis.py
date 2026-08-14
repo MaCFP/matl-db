@@ -37,6 +37,10 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 # ------------------------------------
 #This section is used to determine what cone data is available.
 Cone_Data = device_data(DATA_DIR, 'CONE')
+
+# Exclude BUWfd R1 measurement with non-physical mass signal.
+Cone_Data = [p for p in Cone_Data if 'BUWfd_Wood_Cone_50kW_hor_R1' not in p.stem]
+
 Cone_sets = get_series_names(Cone_Data)
 Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA') + device_data(DATA_DIR, 'FPA')
 Gas_sets = get_series_names(Gasification_Data)
@@ -560,6 +564,235 @@ for path in Cone_Data:
     reported_ignition = get_reported_ignition_time(path)
     # print(path.stem, reported_ignition)
 
+def get_reported_initial_mass(path):
+    readme_files = list(path.parent.glob('README*'))
+
+    if len(readme_files) == 0:
+        return np.nan
+
+    readme_path = readme_files[0]
+
+    with open(readme_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    def normalize_header(text):
+        return re.sub(r'[^a-z0-9]', '', text.lower())
+
+    def normalize_name(text):
+        text = text.replace('\\', '').replace('.csv', '').lower().strip()
+        text = text.replace('-', '_')
+        text = text.replace('imt_mines_ales', 'imt')
+
+        if text.startswith('umet_mlc_'):
+            text = text.replace('umet_mlc_', 'umet_cone_').replace('_r', '_hor_r')
+
+        parts = [p for p in text.split('_') if p != 'wood']
+        orientation = next((p for p in parts if p in ['parallel', 'perpendicular']), None)
+        parts = [p for p in parts if p not in ['parallel', 'perpendicular']]
+
+        if orientation is not None:
+            parts.append(orientation)
+
+        return '_'.join(parts)
+
+    target_name = normalize_name(path.stem)
+
+    for i, line in enumerate(lines):
+        if not line.strip().startswith('|'):
+            continue
+
+        headers = [item.strip() for item in line.strip().strip('|').split('|')]
+        normalized_headers = [normalize_header(header) for header in headers]
+
+        test_name_idx = next((j for j, header in enumerate(normalized_headers) if
+                              'testname' in header or 'filetestname' in header or 'runlabel' in header), None)
+        mass_idx = next((j for j, header in enumerate(normalized_headers) if
+                         header.startswith('initialmass') or header.startswith(
+                             'initialsamplemass') or header == 'massg'), None)
+
+        if test_name_idx is None or mass_idx is None:
+            continue
+
+        for row in lines[i+2:]:
+            if not row.strip().startswith('|'):
+                break
+
+            values = [item.strip() for item in row.strip().strip('|').split('|')]
+
+            if len(values) <= max(test_name_idx, mass_idx):
+                continue
+
+            if normalize_name(values[test_name_idx]) != target_name:
+                continue
+
+            value = values[mass_idx].strip()
+
+            if value in ['', '-', '–', '—']:
+                return np.nan
+
+            try:
+                return float(value)
+            except ValueError:
+                return np.nan
+
+    return np.nan
+
+for path in Cone_Data:
+    reported_initial_mass = get_reported_initial_mass(path)
+    # print(path.stem, reported_initial_mass)
+
+# Reported initial mass definitions:
+# Aalto (Pekin): Wood specimen only, measured before placing it in the sample holder.
+# FPL (Orpington): Not explicitly defined in the README.
+# FSRI (Rouen): Not explicitly defined in the README.
+# FZJ (Saxony): Not explicitly defined in the README. Initial sample mass is labelled as mg in the README table, but the reported values are evidently in g.
+# IMT (Cayuga): Not explicitly defined in the README.
+# TUBS (Crested): Not explicitly defined in the README.
+# UDRI (Shetland): Initial sample mass includes the wood sample and aluminium foil.
+# UMET (Mallard): Not explicitly defined in the README.
+# UQ (Hardhead): Initial sample mass corresponds to the timber block itself, weighed before the experiment.
+
+def read_cone_data(path):
+    df = pd.read_csv(path)
+    # FZJ is the only institution reporting the mass signal as a change relative to the initial mass.
+    # Their Mass (g) therefore starts at zero and becomes negative during mass loss.
+
+    # Add the reported initial sample mass to reconstruct the absolute mass used by the other institutions.
+    if path.stem.split('_')[0] == 'FZJ':
+        reported_initial_mass = get_reported_initial_mass(path)
+
+        if pd.notna(reported_initial_mass):
+            df['Mass (g)'] = df['Mass (g)'] + reported_initial_mass
+        else:
+            print(f'WARNING: Reported initial mass not found for {path.stem}')
+
+    return df
+
+
+for path in Cone_Data:
+    reported_initial_mass = get_reported_initial_mass(path)
+    # print(path.stem, reported_initial_mass)
+
+
+# =============================================================================
+# Reported versus measured initial mass
+# =============================================================================
+
+mass_comparison_data = []
+
+for path in Cone_Data:
+    if "TEMPLATE" in str(path):
+        continue
+
+    df = read_cone_data(path)
+    reported_initial_mass = get_reported_initial_mass(path)
+
+    if pd.isna(reported_initial_mass):
+        continue
+
+    mass_t0 = df['Mass (g)'].iloc[0]
+    mass_average = np.mean(df['Mass (g)'][1:5])
+
+    institution = path.stem.split('_')[0]
+    label, color_inst = label_def(institution)
+    orientation = get_grain_orientation(path)
+
+    mass_comparison_data.append({
+        'mass_t0': mass_t0,
+        'mass_average': mass_average,
+        'reported_initial_mass': reported_initial_mass,
+        'label': label,
+        'color': color_inst,
+        'orientation': orientation
+    })
+
+all_mass_values = []
+
+for item in mass_comparison_data:
+    all_mass_values.extend([
+        item['mass_t0'],
+        item['mass_average'],
+        item['reported_initial_mass']
+    ])
+
+if all_mass_values:
+    data_min = min(all_mass_values)
+    data_max = max(all_mass_values)
+    margin = 0.05 * (data_max - data_min)
+
+    axis_min = data_min - margin
+    axis_max = data_max + margin
+
+    mass_configs = {
+        'mass_t0': {
+            'xlabel': 'Initial mass at $t = 0$ s [g]',
+            'filename': 'Cone_Initial_mass_t0_vs_reported'
+        },
+        'mass_average': {
+            'xlabel': 'Average initial mass [g]',
+            'filename': 'Cone_Initial_mass_average_vs_reported'
+        }
+    }
+
+    for quantity, config in mass_configs.items():
+
+        fig_mass_compare, ax_mass_compare = plt.subplots(figsize=(6, 6))
+
+        institution_handles = {}
+        orientations_present = []
+
+        for item in mass_comparison_data:
+
+            if item['orientation'] not in orientations_present:
+                orientations_present.append(item['orientation'])
+
+            if item['orientation'] == 'Perpendicular':
+                ax_mass_compare.scatter(item[quantity], item['reported_initial_mass'], facecolors='none',
+                                        edgecolors=item['color'], marker='^', s=70, linewidths=1.5)
+            else:
+                ax_mass_compare.scatter(item[quantity], item['reported_initial_mass'], color=item['color'],
+                                        marker='x', s=70)
+
+            institution_handles[item['label']] = plt.Line2D([0], [0], color=item['color'], marker='o',
+                                                             linestyle='None', label=item['label'])
+
+        ax_mass_compare.plot([axis_min, axis_max], [axis_min, axis_max], 'k--', linewidth=1)
+
+        ax_mass_compare.set_xlim(axis_min, axis_max)
+        ax_mass_compare.set_ylim(axis_min, axis_max)
+
+        ax_mass_compare.set_xlabel(config['xlabel'])
+        ax_mass_compare.set_ylabel('Reported initial mass [g]')
+
+        if institution_handles:
+            legend1 = ax_mass_compare.legend(institution_handles.values(), institution_handles.keys(),
+                                             loc='upper left', framealpha=0.25)
+            ax_mass_compare.add_artist(legend1)
+
+        orientation_handles = []
+
+        if 'Parallel' in orientations_present:
+            orientation_handles.append(plt.Line2D([0], [0], color='black', marker='x', linestyle='None',
+                                                   label='Parallel'))
+
+        if 'Perpendicular' in orientations_present:
+            orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none',
+                                                   linestyle='None', label='Perpendicular'))
+
+        if orientation_handles:
+            ax_mass_compare.legend(handles=orientation_handles, loc='lower right', framealpha=0.25)
+
+        fig_mass_compare.tight_layout()
+        fig_mass_compare.savefig(str(base_dir) + f"/Cone/{config['filename']}.{ex}")
+        plt.close(fig_mass_compare)
+
+# Comment on outliers:
+# Aalto (Pekin): Cone reported initial mass slightly higher compared to mass measured before inserting sample into holder likely due to thermocouples.
+# FSRI (Rouen): Two measurements contain unphysically large spike in mass within the first 3 seconds
+# FZJ (Saxony): Two measurements contain significant increase in mass within the first 10s seconds
+
+
+
 # =============================================================================
 # Reported versus calculated ignition time
 # =============================================================================
@@ -627,7 +860,7 @@ if institution_handles:
 orientation_handles = []
 
 if 'Parallel' in orientations_present:
-    orientation_handles.append(plt.Line2D([0], [0], color='black', marker='o', linestyle='None', label='Parallel'))
+    orientation_handles.append(plt.Line2D([0], [0], color='black', marker='x', linestyle='None', label='Parallel'))
 
 if 'Perpendicular' in orientations_present:
     orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None', label='Perpendicular'))
@@ -779,7 +1012,7 @@ for idx,set in enumerate(Cone_sets):
         m0 = np.mean(df["Mass (g)"][1:5])
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'UDRI', 'UQ']:
+        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
             A_surf = 0.01
         else: #FPL, IMT, TUBS, UMET
             A_surf = 0.00884
@@ -871,12 +1104,9 @@ plt.close(fig1)
 volume = 10 * 10 * 2.54
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 
+density_hoc_results = []
+
 for flux in cone_flux:
-
-    fig_hoc, ax_hoc = plt.subplots(figsize=(6, 4))
-    institution_handles = {}
-    orientations_present = []
-
     series = f'Cone_{flux}_hor'
     paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
@@ -904,32 +1134,100 @@ for flux in cone_flux:
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
 
-        m0 = np.mean(df["Mass (g)"][1:5])
-        density = m0 / volume
+        # Reported initial mass is preferred because it is not affected by initial load-cell noise
+        # and is more likely to represent the specimen mass independently of thermocouples, wrapping, or other setup components.
+        # m0 = np.mean(df["Mass (g)"][1:5])
+        m0 = get_reported_initial_mass(path)
+        if pd.isna(m0):
+            m0 = np.mean(df["Mass (g)"][1:5])
 
+        density = m0 / volume
         label, color_inst = label_def(path.stem.split('_')[0])
         orientation = get_grain_orientation(path)
 
-        if orientation not in orientations_present:
-            orientations_present.append(orientation)
+        density_hoc_results.append({
+            'flux': flux,
+            'density': density,
+            'HOC': HOC,
+            'mass': m0,
+            'label': label,
+            'color': color_inst,
+            'orientation': orientation
+        })
 
-        if orientation == 'Perpendicular':
-            ax_hoc.scatter(density, HOC, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
+density_values = [item['density'] for item in density_hoc_results]
+hoc_values = [item['HOC'] for item in density_hoc_results]
+
+density_margin = 0.05 * (max(density_values) - min(density_values))
+hoc_margin = 0.05 * (max(hoc_values) - min(hoc_values))
+
+density_xlim = (min(density_values) - density_margin, max(density_values) + density_margin)
+hoc_ylim = (min(hoc_values) - hoc_margin, max(hoc_values) + hoc_margin)
+
+institution_legend_loc = {
+    '30kW': 'upper left',
+    '60kW': 'lower right'
+}
+
+orientation_legend_loc = {
+    '25kW': 'lower center'
+}
+
+annotation_positions = {
+    '30kW': {
+        'min': ((12, 12), 'left', 'bottom')
+    },
+    '50kW': {
+        'min': ((-12, -12), 'right', 'top'),
+        'max': ((-12, -12), 'right', 'top')
+    },
+    '60kW': {
+        'max': ((-12, -12), 'right', 'top')
+    }
+}
+
+default_annotation_positions = {
+    'min': ((12, -16), 'left', 'top'),
+    'max': ((12, 10), 'left', 'bottom')
+}
+
+for flux in cone_flux:
+
+    fig_hoc, ax_hoc = plt.subplots(figsize=(6, 4))
+    institution_handles = {}
+    orientations_present = []
+
+    flux_results = [item for item in density_hoc_results if item['flux'] == flux]
+
+    for item in flux_results:
+
+        if item['orientation'] not in orientations_present:
+            orientations_present.append(item['orientation'])
+
+        if item['orientation'] == 'Perpendicular':
+            ax_hoc.scatter(item['density'], item['HOC'], facecolors='none', edgecolors=item['color'], marker='^', s=70, linewidths=1.5)
         else:
-            ax_hoc.scatter(density, HOC, color=color_inst, marker='o', s=70)
+            ax_hoc.scatter(item['density'], item['HOC'], color=item['color'], marker='o', s=70)
 
-        institution_handles[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
+        institution_handles[item['label']] = plt.Line2D([0], [0], color=item['color'], marker='o', linestyle='None', label=item['label'])
+
+    if flux_results:
+        min_point = min(flux_results, key=lambda x: x['density'])
+        max_point = max(flux_results, key=lambda x: x['density'])
+
+        for point_name, point in [('min', min_point), ('max', max_point)]:
+            position = annotation_positions.get(flux, {}).get(point_name, default_annotation_positions[point_name])
+            offset, ha, va = position
+
+            ax_hoc.annotate(f"{point['mass']:.0f} g", (point['density'], point['HOC']), xytext=offset, textcoords='offset points', ha=ha, va=va, fontsize=9, arrowprops=dict(arrowstyle='->', linewidth=0.8))
 
     ax_hoc.set_xlabel('Initial density [g/cm$^3$]')
     ax_hoc.set_ylabel('Heat of combustion [kJ/g]')
     ax_hoc.set_title(f'{flux}/m$^2$')
-    ax_hoc.set_ylim(10, 20)
+    ax_hoc.set_xlim(density_xlim)
+    ax_hoc.set_ylim(hoc_ylim)
 
-    if flux != '25kW':
-        ax_hoc.set_xlim(0.3, 0.5)
-        ax_hoc.set_xticks(np.arange(0.3, 0.51, 0.05))
-
-    legend1 = ax_hoc.legend(institution_handles.values(), institution_handles.keys(), loc='upper right', framealpha=0.25)
+    legend1 = ax_hoc.legend(institution_handles.values(), institution_handles.keys(), loc=institution_legend_loc.get(flux, 'upper right'), framealpha=0.25)
     ax_hoc.add_artist(legend1)
 
     orientation_handles = []
@@ -943,7 +1241,7 @@ for flux in cone_flux:
         orientation_handles.append(plt.Line2D([0], [0], color='black', marker='^', markerfacecolor='none', linestyle='None'))
         orientation_labels.append('Perpendicular')
 
-    ax_hoc.legend(orientation_handles, orientation_labels, loc='upper center', framealpha=0.25)
+    ax_hoc.legend(orientation_handles, orientation_labels, loc=orientation_legend_loc.get(flux, 'upper center'), framealpha=0.25)
 
     fig_hoc.tight_layout()
     fig_hoc.savefig(str(base_dir) + f'/Cone/Cone_Density_vs_HOC_{flux}.{ex}')
@@ -955,16 +1253,9 @@ for flux in cone_flux:
 volume = 10 * 10 * 2.54
 marker_map = {'Parallel': 'o', 'Perpendicular': '^'}
 
+density_ignition_results = []
+
 for flux in cone_flux:
-
-    fig_density_calculated, ax_density_calculated = plt.subplots(figsize=(6, 4))
-    fig_density_reported, ax_density_reported = plt.subplots(figsize=(6, 4))
-
-    institution_handles_calculated = {}
-    institution_handles_reported = {}
-    orientations_present_calculated = []
-    orientations_present_reported = []
-
     series = f'Cone_{flux}_hor'
     paths = list(DATA_DIR.glob(f"*/*{series}*_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
@@ -977,59 +1268,148 @@ for flux in cone_flux:
     for path in paths:
         df = pd.read_csv(path)
 
-        m0 = np.mean(df["Mass (g)"][1:5])
-        density = m0 / volume
+        # Reported initial mass is preferred because it is not affected by initial load-cell noise
+        # and is more likely to represent the specimen mass independently of thermocouples, wrapping, or other setup components.
+        # m0 = np.mean(df["Mass (g)"][1:5])
+        m0 = get_reported_initial_mass(path)
+        if pd.isna(m0):
+            m0 = np.mean(df["Mass (g)"][1:5])
 
+        density = m0 / volume
         label, color_inst = label_def(path.stem.split('_')[0])
         orientation = get_grain_orientation(path)
 
+        ignition_time_calculated = np.nan
         if (df['HRR (kW/m2)'] >= 24).any():
             ignition_index = df[df['HRR (kW/m2)'] >= 24].index[0]
             ignition_time_calculated = df["Time (s)"].iloc[ignition_index]
 
-            if orientation not in orientations_present_calculated:
-                orientations_present_calculated.append(orientation)
-
-            if orientation == 'Perpendicular':
-                ax_density_calculated.scatter(density, ignition_time_calculated, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
-            else:
-                ax_density_calculated.scatter(density, ignition_time_calculated, color=color_inst, marker='o', s=70)
-
-            institution_handles_calculated[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
-
         ignition_time_reported = get_reported_ignition_time(path)
 
-        if pd.notna(ignition_time_reported):
-            if orientation not in orientations_present_reported:
-                orientations_present_reported.append(orientation)
+        density_ignition_results.append({
+            'flux': flux,
+            'density': density,
+            'mass': m0,
+            'ignition_calculated': ignition_time_calculated,
+            'ignition_reported': ignition_time_reported,
+            'label': label,
+            'color': color_inst,
+            'orientation': orientation
+        })
 
-            if orientation == 'Perpendicular':
-                ax_density_reported.scatter(density, ignition_time_reported, facecolors='none', edgecolors=color_inst, marker='^', s=70, linewidths=1.5)
-            else:
-                ax_density_reported.scatter(density, ignition_time_reported, color=color_inst, marker='o', s=70)
+density_values = [item['density'] for item in density_ignition_results]
 
-            institution_handles_reported[label] = plt.Line2D([0], [0], color=color_inst, marker='o', linestyle='None', label=label)
+density_margin = 0.05 * (max(density_values) - min(density_values))
+density_xlim = (min(density_values) - density_margin, max(density_values) + density_margin)
+
+institution_legend_loc = {
+    '30kW': 'lower right',
+    '60kW': 'upper left'
+}
+
+orientation_legend_loc = {
+    '25kW': 'lower center',
+    '45kW': 'upper left',
+    '60kW': 'lower left',
+    '75kW': 'upper left'
+}
+
+annotation_positions = {
+    '25kW': {
+        'min': ((-12, -12), 'right', 'top')
+    },
+    '50kW': {
+        'min': ((-12, -12), 'right', 'top')
+    },
+    '60kW': {
+        'max': ((-12, -12), 'right', 'top')
+    },
+    '75kW': {
+        'min': ((-12, 12), 'right', 'bottom')
+    }
+}
+
+default_annotation_positions = {
+    'min': ((12, -16), 'left', 'top'),
+    'max': ((12, 10), 'left', 'bottom')
+}
+
+for flux in cone_flux:
+
+    fig_density_calculated, ax_density_calculated = plt.subplots(figsize=(6, 4))
+    fig_density_reported, ax_density_reported = plt.subplots(figsize=(6, 4))
+
+    institution_handles_calculated = {}
+    institution_handles_reported = {}
+    orientations_present_calculated = []
+    orientations_present_reported = []
+
+    flux_results = [item for item in density_ignition_results if item['flux'] == flux]
+
+    calculated_results = [item for item in flux_results if pd.notna(item['ignition_calculated'])]
+    reported_results = [item for item in flux_results if pd.notna(item['ignition_reported'])]
+
+    for item in calculated_results:
+        if item['orientation'] not in orientations_present_calculated:
+            orientations_present_calculated.append(item['orientation'])
+
+        if item['orientation'] == 'Perpendicular':
+            ax_density_calculated.scatter(item['density'], item['ignition_calculated'], facecolors='none', edgecolors=item['color'], marker='^', s=70, linewidths=1.5)
+        else:
+            ax_density_calculated.scatter(item['density'], item['ignition_calculated'], color=item['color'], marker='o', s=70)
+
+        institution_handles_calculated[item['label']] = plt.Line2D([0], [0], color=item['color'], marker='o', linestyle='None', label=item['label'])
+
+    for item in reported_results:
+        if item['orientation'] not in orientations_present_reported:
+            orientations_present_reported.append(item['orientation'])
+
+        if item['orientation'] == 'Perpendicular':
+            ax_density_reported.scatter(item['density'], item['ignition_reported'], facecolors='none', edgecolors=item['color'], marker='^', s=70, linewidths=1.5)
+        else:
+            ax_density_reported.scatter(item['density'], item['ignition_reported'], color=item['color'], marker='o', s=70)
+
+        institution_handles_reported[item['label']] = plt.Line2D([0], [0], color=item['color'], marker='o', linestyle='None', label=item['label'])
+
+    for ax, results, quantity in [
+        (ax_density_calculated, calculated_results, 'ignition_calculated'),
+        (ax_density_reported, reported_results, 'ignition_reported')
+    ]:
+        if results:
+            min_point = min(results, key=lambda x: x['density'])
+            max_point = max(results, key=lambda x: x['density'])
+
+            for point_name, point in [('min', min_point), ('max', max_point)]:
+                offset, ha, va = annotation_positions.get(flux, {}).get(point_name, default_annotation_positions[point_name])
+                ax.annotate(f"{point['mass']:.0f} g", (point['density'], point[quantity]), xytext=offset, textcoords='offset points', ha=ha, va=va, fontsize=9, arrowprops=dict(arrowstyle='->', linewidth=0.8))
 
     ax_density_calculated.set_xlabel('Initial density [g/cm$^3$]')
     ax_density_calculated.set_ylabel('Calculated time to ignition [s]')
     ax_density_calculated.set_title(f'{flux}/m$^2$')
+    ax_density_calculated.set_xlim(density_xlim)
+    ax_density_calculated.xaxis.set_major_locator(plt.MultipleLocator(0.05))
+    ax_density_calculated.xaxis.set_major_formatter(plt.FormatStrFormatter('%.2f'))
 
     ax_density_reported.set_xlabel('Initial density [g/cm$^3$]')
     ax_density_reported.set_ylabel('Reported time to ignition [s]')
     ax_density_reported.set_title(f'{flux}/m$^2$')
+    ax_density_reported.set_xlim(density_xlim)
+    ax_density_reported.xaxis.set_major_locator(plt.MultipleLocator(0.05))
+    ax_density_reported.xaxis.set_major_formatter(plt.FormatStrFormatter('%.2f'))
 
-    if flux != '25kW':
-        ax_density_calculated.set_xlim(0.3, 0.5)
-        ax_density_calculated.set_xticks(np.arange(0.3, 0.51, 0.05))
-        ax_density_reported.set_xlim(0.3, 0.5)
-        ax_density_reported.set_xticks(np.arange(0.3, 0.51, 0.05))
+    flux_ignition_values = [item['ignition_calculated'] for item in calculated_results] + [item['ignition_reported'] for item in reported_results]
+
+    if flux_ignition_values:
+        ignition_max = max(flux_ignition_values)
+        ax_density_calculated.set_ylim(0, 1.05 * ignition_max)
+        ax_density_reported.set_ylim(0, 1.05 * ignition_max)
 
     if institution_handles_calculated:
-        legend1 = ax_density_calculated.legend(institution_handles_calculated.values(), institution_handles_calculated.keys(), loc='upper right', framealpha=0.25)
+        legend1 = ax_density_calculated.legend(institution_handles_calculated.values(), institution_handles_calculated.keys(), loc=institution_legend_loc.get(flux, 'upper right'), framealpha=0.25)
         ax_density_calculated.add_artist(legend1)
 
     if institution_handles_reported:
-        legend1 = ax_density_reported.legend(institution_handles_reported.values(), institution_handles_reported.keys(), loc='upper right', framealpha=0.25)
+        legend1 = ax_density_reported.legend(institution_handles_reported.values(), institution_handles_reported.keys(), loc=institution_legend_loc.get(flux, 'upper right'), framealpha=0.25)
         ax_density_reported.add_artist(legend1)
 
     orientation_handles_calculated = []
@@ -1055,19 +1435,10 @@ for flux in cone_flux:
         orientation_labels_reported.append('Perpendicular')
 
     if orientation_handles_calculated:
-        ax_density_calculated.legend(orientation_handles_calculated, orientation_labels_calculated, loc='upper center', framealpha=0.25)
+        ax_density_calculated.legend(orientation_handles_calculated, orientation_labels_calculated, loc=orientation_legend_loc.get(flux, 'upper center'), framealpha=0.25)
 
     if orientation_handles_reported:
-        ax_density_reported.legend(orientation_handles_reported, orientation_labels_reported, loc='upper center', framealpha=0.25)
-
-    ymin_calculated, ymax_calculated = ax_density_calculated.get_ylim()
-    ymin_reported, ymax_reported = ax_density_reported.get_ylim()
-
-    ymin = min(ymin_calculated, ymin_reported)
-    ymax = max(ymax_calculated, ymax_reported)
-
-    ax_density_calculated.set_ylim(ymin, ymax)
-    ax_density_reported.set_ylim(ymin, ymax)
+        ax_density_reported.legend(orientation_handles_reported, orientation_labels_reported, loc=orientation_legend_loc.get(flux, 'upper center'), framealpha=0.25)
 
     fig_density_calculated.tight_layout()
     fig_density_reported.tight_layout()

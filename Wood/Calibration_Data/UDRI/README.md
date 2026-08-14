@@ -68,12 +68,12 @@ Data collected from all samples is believed to have an error of ±10% and were c
 
 ###### Test Heating Conditions
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm)|t\_ign (s)|t\_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: |
-|UDRI\_Cone\_30KW\_hor-R1 | 30| Not Recorded | 2.53 | 17.8|2250|
-|UDRI\_Cone\_30KW\_hor-R2 | 30| Not Recorded | 2.53 | 19.8|2010|
-|UDRI\_Cone\_30KW\_hor-R3 | 30| Not Recorded | 2.53 | 53.8|1920|
-|UDRI\_Cone\_60KW\_hor-R1 | 60| Not Recorded | 2.52 | 8|1440|
-|UDRI\_Cone\_60KW\_hor-R2 | 60| Not Recorded | 2.56 | 11.0|1500|
-|UDRI\_Cone\_60KW\_hor-R3 | 60| Not Recorded | 2.55 | 4.5|1380|
-|UDRI\_Cone\_60KW\_hor-R4 | 60| Not Recorded | 2.54 | 4.0|1380|
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) | Initial sample mass (g) | Thickness (cm)|t\_ign (s)|t\_flameout (s)|
+|----------|:------:| :---: |:------:|:------:| :---: | :---: |
+|UDRI\_Cone\_30KW\_hor-R1 | 30| Not Recorded | 110.44 | 2.53 | 17.8|2250|
+|UDRI\_Cone\_30KW\_hor-R2 | 30| Not Recorded | 106.04 | 2.53 | 19.8|2010|
+|UDRI\_Cone\_30KW\_hor-R3 | 30| Not Recorded | 110.8 | 2.53 | 53.8|1920|
+|UDRI\_Cone\_60KW\_hor-R1 | 60| Not Recorded | 115.44 | 2.52 | 8|1440|
+|UDRI\_Cone\_60KW\_hor-R2 | 60| Not Recorded | 112.48 | 2.56 | 11.0|1500|
+|UDRI\_Cone\_60KW\_hor-R3 | 60| Not Recorded | 111.47 | 2.55 | 4.5|1380|
+|UDRI\_Cone\_60KW\_hor-R4 | 60| Not Recorded | 110.9 | 2.54 | 4.0|1380|
