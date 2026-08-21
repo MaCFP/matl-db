@@ -1074,6 +1074,9 @@ for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             # ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
+    # Exluded data: 
+    # UMET: HRR determined from mass loss cone, not from oxygen consumption
+    # IMT_Wood_Cone_25 kW_hor_R2, IMT_Wood_Cone_25 kW_hor_R5: IMT submitted 5 dattasets at 25 kW. These two have significantly different ignition times, which makes the average not realistic if we include them. 
     df_average = average_cone_series(series, ['UMET'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'],
                                  include_grain_variants=True)
     average_data[series] = df_average[['Time (s)', 'HRR (kW/m2)']].copy()
