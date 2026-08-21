@@ -109,7 +109,7 @@ Samples stored in a desiccator prior to testing:
               - FZJ_Wood_Cone_60kW_hor_perpendicular_R1, 333hrs
               - FZJ_Wood_Cone_60kW_hor_perpendicular_R2, 33hrs
 * Thermocouple location: None
-Experiments with thermocouple type K, d=0.25mm, stapled to the bottom of the sample:
+Experiments with thermocouple type K, d=0.25mm, stapled to the center on the bottom of the sample (could not be timed correctly, therefore the data is not included):
               - FZJ_Wood_Cone_60kW_hor_parallel_R1
               - FZJ_Wood_Cone_60kW_hor_parallel_R2
               - FZJ_Wood_Cone_60kW_hor_parallel_R3 
