@@ -18,11 +18,10 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 * Responsible: Zeinab Darabi (z.darabi@uq.edu.au)
 
 ###### Test Conditions/Results
-
-| Test Name | Temperature K | Measurement Time s | Thermal Conductivity W/mK | Thermal Diffusivity mm2/s | Volumetric Specific Heat MJ/m3K |
-|UQ\_Wood\_TPS\_R1 | 303.15 | 160 | 0.142 | 0.350 | 0.406 |
-|UQ\_Wood\_TPS\_R2 | 303.15 | 80  | 0.134 | 0.312 | 0.430 |
-
+| Test Name | Temperature (K) | Measurement Time (s)| Thermal Conductivity (W/mK) | Thermal Diffusivity (mm²/s) | Volumetric Specific Heat (MJ/m³K) |
+|---|---:|---:|---:|---:|---:|
+| UQ_Wood_TPS_R1 | 303.15 | 160 | 0.142 | 0.350 | 0.406 |
+| UQ_Wood_TPS_R2 | 303.15 | 80 | 0.134 | 0.312 | 0.430 |
 
 
 ### Experimental Conditions: Thermogravimetric Analysis (TGA)
@@ -55,13 +54,14 @@ All samples were stored in an environment at room temperature ~23 °C and approx
   * Flow rate: 100 ml/min
 * Responsible: Wenxuan Wu (wenxuan.wu@uq.edu.au)
 
-| Test Name | O2 volume % |  Initial Sample Mass (mg) |
-|UQ\_Wood\_TGA\_N2\_10K\_R1 | 0 | 5.3|  
-|UQ\_Wood\_TGA\_N2\_10K\_R2 | 0 | 5.5|  
-|UQ\_Wood\_TGA\_N2\_10K\_R3 | 0 | 4.7|
-|UQ\_Wood\_TGA\_Air\_10K\_R1 | 21 | 5.1|
-|UQ\_Wood\_TGA\_Air\_10K\_R2 | 21 | 5.1|
-|UQ\_Wood\_TGA\_Air\_10K\_R3 | 21 | 5.5|
+| Test Name | O2 volume % | Initial Sample Mass (mg) |
+|---|---:|---:|
+| UQ_Wood_TGA_N2_10K_R1 | 0 | 5.3 |
+| UQ_Wood_TGA_N2_10K_R2 | 0 | 5.5 |
+| UQ_Wood_TGA_N2_10K_R3 | 0 | 4.7 |
+| UQ_Wood_TGA_Air_10K_R1 | 21 | 5.1 |
+| UQ_Wood_TGA_Air_10K_R2 | 21 | 5.1 |
+| UQ_Wood_TGA_Air_10K_R3 | 21 | 5.5 |
 
 
 
@@ -85,14 +85,17 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 * Side Insulation: 3 mm layer of Superwool® Prime Paper with aluminum foil tape.
 * Thermocouple location: Back surface
 * Ignition Source: Spark ignitor
+* Sample mass: Initial sample mass reported in table below was weighed before the experiment and corresponds to timber block itself. The software also forces this value as the mass at t=0.
+
 * Responsible: Wenxuan Wu (wenxuan.wu@uq.edu.au)
 
 ###### Test Heating Conditions
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |Final thickness (cm)|t\_ign (s)|t\_flameout (s)|
-|UQ\_Wood\_Cone\_60kW\_hor\_Parallel\_R1 | 60| 1033 | 2.15 | 15|908|
-|UQ\_Wood\_Cone\_60kW\_hor\_Parallel\_R2 | 60| 1033 | 2.2 | 10|920|
-|UQ\_Wood\_Cone\_60kW\_hor\_Parallel\_R3 | 60| 1033 | 2.15 | 14|918|
+| Test Name | Heat Flux (kW/m²) | Heater Temperature (K) | Initial sample mass (g) | Final Thickness (cm) | t_ign (s) | t_flameout (s) |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| UQ_Wood_Cone_60kW_hor_Parallel_R1 | 60 | 1033 | 86.9 | 2.15 | 15 | 908 |
+| UQ_Wood_Cone_60kW_hor_Parallel_R2 | 60 | 1033 | 88.65 | 2.20 | 10 | 920 |
+| UQ_Wood_Cone_60kW_hor_Parallel_R3 | 60 | 1033 | 91.42 | 2.15 | 14 | 918 |
 
 * Notes: Tests conducted at 30 KWm-2 encountered issues of the pilot. Test data was therefore not included. Mass measurements from tests conducted at 60 KWm-2 exhibited unexpected fluctuations.
 
@@ -125,13 +128,14 @@ All samples were stored in an environment at room temperature ~23 °C and approx
 
 ###### Sample Mass and Test Heating Conditions
 
-|Test Name | Heat Flux (kW/m2)| Heater Lamp Control VAC |Thickness (cm)|t\_ign (s)|t\_flameout (s)|
-|UQ\_Wood\_FPA\_30kW\_Parallel\_R1 | 30| 44.7 | 2.53 | 150|493|
-|UQ\_Wood\_FPA\_30kW\_Parallel\_R2 | 30| 44.7 | 2.53 | 186|709|
-|UQ\_Wood\_FPA\_30kW\_Parallel\_R3 | 30| 44.7 | 2.53 | 140|990|
-|UQ\_Wood\_FPA\_60kW\_Parallel\_R1 | 60| 66.1 | 2.53 | 37|763|
-|UQ\_Wood\_FPA\_60kW\_Parallel\_R2 | 60| 66.1 | 2.53 | 35|696|
-|UQ\_Wood\_FPA\_60kW\_Parallel\_R3 | 60| 66.1 | 2.53 | 45|776|
+| Test Name | Heat Flux (kW/m²) | Heater Lamp Control (VAC) | Thickness (cm) | t_ign (s) | t_flameout (s) |
+|---|---:|---:|---:|---:|---:|
+| UQ_Wood_FPA_30kW_Parallel_R1 | 30 | 44.7 | 2.53 | 150 | 493 |
+| UQ_Wood_FPA_30kW_Parallel_R2 | 30 | 44.7 | 2.53 | 186 | 709 |
+| UQ_Wood_FPA_30kW_Parallel_R3 | 30 | 44.7 | 2.53 | 140 | 990 |
+| UQ_Wood_FPA_60kW_Parallel_R1 | 60 | 66.1 | 2.53 | 37 | 763 |
+| UQ_Wood_FPA_60kW_Parallel_R2 | 60 | 66.1 | 2.53 | 35 | 696 |
+| UQ_Wood_FPA_60kW_Parallel_R3 | 60 | 66.1 | 2.53 | 45 | 776 |
 
 * Notes: Smoothing was NOT applied to the raw HRRPUA. Mass measurements from tests conducted at 60 KWm-2 exhibited unexpected fluctuations. Side/rear flaming occurred at 'UQ\_Wood\_FPA\_60kW\_R2'.
 

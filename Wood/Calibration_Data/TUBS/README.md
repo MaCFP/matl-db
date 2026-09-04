@@ -116,14 +116,15 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Backing Insulation: 27.5mm thick layer of mineal wool.
 * Thermocouple location: None
 * Ignition Source: spark ignitor
+* Sample mass in the cone calorimeter data at time 0 sec is the initial mass of the sample.
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: |:---: |
-|TUBS\_Wood\_Cone\_30KW\_hor\_R1 | 30 | - | 2.55 | parallel | 26 | -|
-|TUBS\_Wood\_Cone\_30KW\_hor\_R2 | 30 | - | 2.55 | parallel | 27 | -|
-|TUBS\_Wood\_Cone\_30KW\_hor\_R3 | 30 | - | 2.55 | parallel | 25 | -|
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) | Initial sample mass (g) | Thickness (cm) | Grain orientation (-) | t_ign (s)| t_flameout (s)|
+|----------|:------:| :---: |:------:|:------:| :---: | :---: |:---: |
+|TUBS\_Wood\_Cone\_30KW\_hor\_R1 | 30 | - | 88.16 | 2.55 | parallel | 26 | -|
+|TUBS\_Wood\_Cone\_30KW\_hor\_R2 | 30 | - | 85.97 | 2.55 | parallel | 27 | -|
+|TUBS\_Wood\_Cone\_30KW\_hor\_R3 | 30 | - | 80.18 | 2.55 | parallel | 25 | -|
 
 ### Experimental Conditions: Controlled Atmosphere Cone calorimeter
 
@@ -138,14 +139,15 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Thermocouple location: None
 * Ignition Source: None
 * Target gas atmosphere: 0 vol% oxygen, 100 vol% nitrogen (target nitrogen purge flow rate: 150 L/min)
+* Sample mass in the gasification data at time 0 sec is the initial mass of the sample.
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | actual oxygen concentration (vol%)|
-|----------|:------:| :---: |:------:| :---: | :---: |
-|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R1 | 20 | - | 2.57 | parallel | 0.08 | 
-|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R2 | 20 | - | 2.58 | parallel | 0.13 | 
-|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R3 | 20 | - | 2.57 | parallel | 0.18 | 
-|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R1 | 20 | - | 2.57 | perpendicular | 0.18 |
-|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R2 | 20 | - | 2.57 | perpendicular | 0.19 |
-|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R3 | 20 | - | 2.57 | perpendicular | 0.14 |
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) | Initial sample mass (g) | Thickness (cm) | Grain orientation (-) | Actual oxygen concentration (vol%)|
+|----------|:------:| :---: |:------:|:------:| :---: | :---: |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R1 | 20 | - | 78.72 | 2.57 | parallel | 0.08 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R2 | 20 | - | 85.0 | 2.58 | parallel | 0.13 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R3 | 20 | - | 85.87 | 2.57 | parallel | 0.18 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R1 | 20 | - | 111.69 | 2.57 | perpendicular | 0.18 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R2 | 20 | - | 110.92 | 2.57 | perpendicular | 0.19 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R3 | 20 | - | 110.9 | 2.57 | perpendicular | 0.14 |

@@ -96,32 +96,36 @@ Total cone/gasification tests: **27**
 ### Cone/gasification test matrix and specimen details
 All specimen dimensions are reported as measured prior to the test (planform dimensions in mm; thickness in mm). “After burn thickness” is the remaining thickness after the test.
 
-| File / test name | Heat flux (kW/m²) | Condition | Grain orientation | Heater temp (°C) | Initial mass (g) | Initial thickness (mm) | Planform (mm × mm) | Test timing / duration | Final thickness (mm) | Notes |
-|---|---:|---|---|---:|---:|---:|---|---|---:|---|
-| Aalto_Wood_Cone_30kW_hor_parallel_R1.csv | 30 | cone (air) | parallel | 565 | 119.30 | 26.40 | 99.70 × 99.60 | start 0:38, finish 30:54 | 21.27 |  |
-| Aalto_Wood_Cone_30kW_hor_parallel_R2.csv | 30 | cone (air) | parallel | 565 | 87.28 | 26.12 | 100.14 × 99.17 | start 0:54, finish 22:06 | 22.50 |  |
-| Aalto_Wood_Cone_30kW_hor_parallel_R3.csv | 30 | cone (air) | parallel | 565 | 114.12 | 25.51 | 101.66 × 101.50 | start 0:43, finish 35:56 | 19.69 |  |
-| Aalto_Wood_Cone_45kW_hor_parallel_R1.csv | 45 | cone (air) | parallel | 650 | 112.80 | 26.23 | 99.44 × 99.82 | start 0:13, finish 25:00 | 19.91 |  |
-| Aalto_Wood_Cone_45kW_hor_parallel_R2.csv | 45 | cone (air) | parallel | 650 | 103.92 | 25.96 | 100.31 × 100.45 | start 0:34, finish 22:00 | 21.09 |  |
-| Aalto_Wood_Cone_45kW_hor_parallel_R3.csv | 45 | cone (air) | parallel | 650 | 116.38 | 25.92 | 101.64 × 101.32 | start 0:18, finish 30:09 | 19.88 |  |
-| Aalto_Wood_Cone_60kW_hor_parallel_R1.csv | 60 | cone (air) | parallel | 730 | 99.93 | 25.62 | 101.72 × 101.53 | start 0:12, finish 24:52 | 18.40 |  |
-| Aalto_Wood_Cone_60kW_hor_parallel_R2.csv | 60 | cone (air) | parallel | 730 | 103.23 | 26.01 | 100.15 × 100.21 | start 0:16, finish 18:10 | 19.43 |  |
-| Aalto_Wood_Cone_60kW_hor_parallel_R3.csv | 60 | cone (air) | parallel | 730 | 106.09 | 26.11 | 99.80 × 99.66 | start 0:11, finish 20:31 | 18.54 |  |
-| Aalto_Wood_Gasification_30kW_hor_parallel_R1.csv | 30 | gasification (N₂) | parallel | 565 | 123.80 | 25.52 | 101.42 × 101.98 | duration 50 min | 16.19 |  |
-| Aalto_Wood_Gasification_30kW_hor_parallel_R2.csv | 30 | gasification (N₂) | parallel | 555 | 107.23 | 25.62 | 101.90 × 101.55 | duration 45 min | 18.10 |  |
-| Aalto_Wood_Gasification_30kW_hor_parallel_R3.csv | 30 | gasification (N₂) | parallel | 555 | 125.32 | 26.68 | 99.36 × 99.60 | duration 50 min | 18.26 |  |
-| Aalto_Wood_Gasification_45kW_hor_parallel_R1.csv | 45 | gasification (N₂) | parallel | 640 | 96.04 | 26.19 | 99.34 × 99.36 | duration 30 min | 19.20 |  |
-| Aalto_Wood_Gasification_45kW_hor_parallel_R2.csv | 45 | gasification (N₂) | parallel | 640 | 111.65 | 25.52 | 101.38 × 101.99 | duration 31 min | 19.59 |  |
-| Aalto_Wood_Gasification_45kW_hor_parallel_R3.csv | 45 | gasification (N₂) | parallel | 640 | 86.34 | 26.24 | 100.69 × 98.11 | duration 25 min | 17.96 |  |
-| Aalto_Wood_Gasification_60kW_hor_parallel_R1.csv | 60 | gasification (N₂) | parallel | 715 | 106.24 | 25.39 | 102.13 × 101.66 | duration 27 min | 18.85 |  |
-| Aalto_Wood_Gasification_60kW_hor_parallel_R2.csv | 60 | gasification (N₂) | parallel | 715 | 109.49 | 25.61 | 101.26 × 101.96 | duration 27 min | 17.94 |  |
-| Aalto_Wood_Gasification_60kW_hor_parallel_R3.csv | 60 | gasification (N₂) | parallel | 715 | 108.98 | 25.59 | 101.57 × 101.68 | duration not recorded | 18.32 |  |
-| Aalto_Wood_Gasification_30kW_hor_perpendicular_R1.csv | 30 | gasification (N₂) | perpendicular | 555 | 106.86 | 25.59 | 102.13 × 101.35 | duration 46 min | 17.80 |  |
-| Aalto_Wood_Gasification_30kW_hor_perpendicular_R2.csv | 30 | gasification (N₂) | perpendicular | 555 | 91.64 | 25.56 | 101.58 × 101.82 | duration 40 min | 17.71 |  |
-| Aalto_Wood_Gasification_30kW_hor_perpendicular_R3.csv | 30 | gasification (N₂) | perpendicular | 555 | 127.45 | 25.56 | 101.30 × 101.85 | duration 47 min | 17.70 |  |
-| Aalto_Wood_Gasification_45kW_hor_perpendicular_R1.csv | 45 | gasification (N₂) | perpendicular | 640 | 142.32 | 25.73 | 101.56 × 101.99 | duration 35 min | 17.09 | specimen split into two pieces |
-| Aalto_Wood_Gasification_45kW_hor_perpendicular_R2.csv | 45 | gasification (N₂) | perpendicular | 640 | 93.35 | 25.66 | 101.56 × 101.42 | duration 35 min | 18.40 |  |
-| Aalto_Wood_Gasification_45kW_hor_perpendicular_R3.csv | 45 | gasification (N₂) | perpendicular | 640 | 131.75 | 25.45 | 101.09 × 102.54 | duration 36 min | 18.36 |  |
-| Aalto_Wood_Gasification_60kW_hor_perpendicular_R1.csv | 60 | gasification (N₂) | perpendicular | 715 | 130.04 | 25.54 | 101.72 × 101.66 | duration 27 min | 17.89 |  |
-| Aalto_Wood_Gasification_60kW_hor_perpendicular_R2.csv | 60 | gasification (N₂) | perpendicular | 715 | 111.27 | 25.43 | 101.27 × 101.15 | duration 27 min | 17.72 |  |
-| Aalto_Wood_Gasification_60kW_hor_perpendicular_R3.csv | 60 | gasification (N₂) | perpendicular | 715 | 152.51 | 25.63 | 101.43 × 101.92 | duration 30 min | 19.54 |  |
+The reported **initial mass** is the mass of the wood specimen measured separately **before the specimen was placed in the sample holder**. It therefore excludes the holder, thermocouples, and backing insulation.
+
+For cone tests in air, **t_ign (s)** is the ignition time and **t_flameout (s)** is the flameout time, both measured from the start of data acquisition. Gasification tests under N₂ do not have ignition or flameout times; their total test duration is reported instead.
+
+| File / test name | Heat flux (kW/m²) | Condition | Grain orientation | Heater temp (°C) | Initial mass (g) | Initial thickness (mm) | Planform (mm × mm) | t_ign (s) | t_flameout (s) | Test duration (min) | Final thickness (mm) | Notes |
+|---|---:|---|---|---:|---:|---:|---|---:|---:|---:|---:|---|
+| Aalto_Wood_Cone_30kW_hor_parallel_R1.csv | 30 | cone (air) | parallel | 565 | 119.30 | 26.40 | 99.70 × 99.60 | 38 | 1854 |  | 21.27 |  |
+| Aalto_Wood_Cone_30kW_hor_parallel_R2.csv | 30 | cone (air) | parallel | 565 | 87.28 | 26.12 | 100.14 × 99.17 | 54 | 1326 |  | 22.50 |  |
+| Aalto_Wood_Cone_30kW_hor_parallel_R3.csv | 30 | cone (air) | parallel | 565 | 114.12 | 25.51 | 101.66 × 101.50 | 43 | 2156 |  | 19.69 |  |
+| Aalto_Wood_Cone_45kW_hor_parallel_R1.csv | 45 | cone (air) | parallel | 650 | 112.80 | 26.23 | 99.44 × 99.82 | 13 | 1500 |  | 19.91 |  |
+| Aalto_Wood_Cone_45kW_hor_parallel_R2.csv | 45 | cone (air) | parallel | 650 | 103.92 | 25.96 | 100.31 × 100.45 | 34 | 1320 |  | 21.09 |  |
+| Aalto_Wood_Cone_45kW_hor_parallel_R3.csv | 45 | cone (air) | parallel | 650 | 116.38 | 25.92 | 101.64 × 101.32 | 18 | 1809 |  | 19.88 |  |
+| Aalto_Wood_Cone_60kW_hor_parallel_R1.csv | 60 | cone (air) | parallel | 730 | 99.93 | 25.62 | 101.72 × 101.53 | 12 | 1492 |  | 18.40 |  |
+| Aalto_Wood_Cone_60kW_hor_parallel_R2.csv | 60 | cone (air) | parallel | 730 | 103.23 | 26.01 | 100.15 × 100.21 | 16 | 1090 |  | 19.43 |  |
+| Aalto_Wood_Cone_60kW_hor_parallel_R3.csv | 60 | cone (air) | parallel | 730 | 106.09 | 26.11 | 99.80 × 99.66 | 11 | 1231 |  | 18.54 |  |
+| Aalto_Wood_Gasification_30kW_hor_parallel_R1.csv | 30 | gasification (N₂) | parallel | 565 | 123.80 | 25.52 | 101.42 × 101.98 |  |  | 50 | 16.19 |  |
+| Aalto_Wood_Gasification_30kW_hor_parallel_R2.csv | 30 | gasification (N₂) | parallel | 555 | 107.23 | 25.62 | 101.90 × 101.55 |  |  | 45 | 18.10 |  |
+| Aalto_Wood_Gasification_30kW_hor_parallel_R3.csv | 30 | gasification (N₂) | parallel | 555 | 125.32 | 26.68 | 99.36 × 99.60 |  |  | 50 | 18.26 |  |
+| Aalto_Wood_Gasification_45kW_hor_parallel_R1.csv | 45 | gasification (N₂) | parallel | 640 | 96.04 | 26.19 | 99.34 × 99.36 |  |  | 30 | 19.20 |  |
+| Aalto_Wood_Gasification_45kW_hor_parallel_R2.csv | 45 | gasification (N₂) | parallel | 640 | 111.65 | 25.52 | 101.38 × 101.99 |  |  | 31 | 19.59 |  |
+| Aalto_Wood_Gasification_45kW_hor_parallel_R3.csv | 45 | gasification (N₂) | parallel | 640 | 86.34 | 26.24 | 100.69 × 98.11 |  |  | 25 | 17.96 |  |
+| Aalto_Wood_Gasification_60kW_hor_parallel_R1.csv | 60 | gasification (N₂) | parallel | 715 | 106.24 | 25.39 | 102.13 × 101.66 |  |  | 27 | 18.85 |  |
+| Aalto_Wood_Gasification_60kW_hor_parallel_R2.csv | 60 | gasification (N₂) | parallel | 715 | 109.49 | 25.61 | 101.26 × 101.96 |  |  | 27 | 17.94 |  |
+| Aalto_Wood_Gasification_60kW_hor_parallel_R3.csv | 60 | gasification (N₂) | parallel | 715 | 108.98 | 25.59 | 101.57 × 101.68 |  |  | 27 | 18.32 |  |
+| Aalto_Wood_Gasification_30kW_hor_perpendicular_R1.csv | 30 | gasification (N₂) | perpendicular | 555 | 106.86 | 25.59 | 102.13 × 101.35 |  |  | 46 | 17.80 |  |
+| Aalto_Wood_Gasification_30kW_hor_perpendicular_R2.csv | 30 | gasification (N₂) | perpendicular | 555 | 91.64 | 25.56 | 101.58 × 101.82 |  |  | 40 | 17.71 |  |
+| Aalto_Wood_Gasification_30kW_hor_perpendicular_R3.csv | 30 | gasification (N₂) | perpendicular | 555 | 127.45 | 25.56 | 101.30 × 101.85 |  |  | 47 | 17.70 |  |
+| Aalto_Wood_Gasification_45kW_hor_perpendicular_R1.csv | 45 | gasification (N₂) | perpendicular | 640 | 142.32 | 25.73 | 101.56 × 101.99 |  |  | 35 | 17.09 | specimen split into two pieces |
+| Aalto_Wood_Gasification_45kW_hor_perpendicular_R2.csv | 45 | gasification (N₂) | perpendicular | 640 | 93.35 | 25.66 | 101.56 × 101.42 |  |  | 35 | 18.40 |  |
+| Aalto_Wood_Gasification_45kW_hor_perpendicular_R3.csv | 45 | gasification (N₂) | perpendicular | 640 | 131.75 | 25.45 | 101.09 × 102.54 |  |  | 36 | 18.36 |  |
+| Aalto_Wood_Gasification_60kW_hor_perpendicular_R1.csv | 60 | gasification (N₂) | perpendicular | 715 | 130.04 | 25.54 | 101.72 × 101.66 |  |  | 27 | 17.89 |  |
+| Aalto_Wood_Gasification_60kW_hor_perpendicular_R2.csv | 60 | gasification (N₂) | perpendicular | 715 | 111.27 | 25.43 | 101.27 × 101.15 |  |  | 27 | 17.72 |  |
+| Aalto_Wood_Gasification_60kW_hor_perpendicular_R3.csv | 60 | gasification (N₂) | perpendicular | 715 | 152.51 | 25.63 | 101.43 × 101.92 |  |  | 30 | 19.54 |  |
