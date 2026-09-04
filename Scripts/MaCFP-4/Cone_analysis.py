@@ -479,10 +479,20 @@ def Calculate_dm_dt(df:pd.DataFrame):
     df['dm/dt'] = df['dm/dt'].interpolate(method='linear', limit_direction='both') #avoid nan_values
     return df
 
+def get_cone_area(path):
+    institute = path.stem.split('_')[0]
+
+    if institute in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
+        return 0.01
+    elif institute in ['FPL', 'IMT', 'TUBS', 'UMET']:
+        return 0.00884
+
+    return np.nan
+
 def get_gas_area(path):
     institute = path.stem.split('_')[0]
 
-    if institute in ['TIFP+UCT', 'Aalto', 'UQ']:
+    if institute in ['TIFP+UCT', 'Aalto']:
         return 0.01
     elif institute in ['TUBS']:
         return 0.00884
@@ -1012,10 +1022,8 @@ for idx,set in enumerate(Cone_sets):
         m0 = np.mean(df["Mass (g)"][1:5])
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
-            A_surf = 0.01
-        else: #FPL, IMT, TUBS, UMET
-            A_surf = 0.00884
+        A_surf = get_cone_area(path)
+
         HOC = A_surf*(df['Int HRR'][index_end]-df['Int HRR'][index_start])/(df['Mass (g)'][index_start]-df['Mass (g)'][index_end])
 
         ignition_time_calculated_list.append(ignition_time_calculated)
@@ -1074,7 +1082,7 @@ for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
             df = pd.read_csv(path)
             df = calculate_int_HRR(df)
             # ax1.plot(df['Time (s)'], df['HRR (kW/m2)'], '-', color = color[flux], alpha=0.2, linewidth = 0.1, zorder=5)
-    # Exluded data: 
+    # Excluded data:
     # UMET: HRR determined from mass loss cone, not from oxygen consumption
     # IMT_Wood_Cone_25 kW_hor_R2, IMT_Wood_Cone_25 kW_hor_R5: IMT submitted 5 dattasets at 25 kW. These two have significantly different ignition times, which makes the average not realistic if we include them. 
     df_average = average_cone_series(series, ['UMET'], ['IMT_Wood_Cone_25kW_hor_R2', 'IMT_Wood_Cone_25kW_hor_R5'],
@@ -1130,10 +1138,7 @@ for flux in cone_flux:
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
 
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
-            A_surf = 0.01
-        else: #FPL, IMT, TUBS, UMET
-            A_surf = 0.00884
+        A_surf = get_cone_area(path)
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
 
@@ -1857,10 +1862,7 @@ for flux in cone_flux:
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
 
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
-            A_surf = 0.01
-        else: #FPL, IMT, TUBS, UMET
-            A_surf = 0.00884
+        A_surf = get_cone_area(path)
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
 
@@ -2015,10 +2017,7 @@ for path in Cone_Data:
     if index_start_reported >= index_end:
         continue
 
-    if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
-        A_surf = 0.01
-    else:  # FPL, IMT, TUBS, UMET
-        A_surf = 0.00884
+    A_surf = get_cone_area(path)
 
     HOC_calculated = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start_calculated]) / (df['Mass (g)'][index_start_calculated] - df['Mass (g)'][index_end])
     HOC_reported = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start_reported]) / (df['Mass (g)'][index_start_reported] - df['Mass (g)'][index_end])
@@ -2131,10 +2130,7 @@ for flux in cone_flux:
         index_start = df[df['HRR (kW/m2)'] >= 24].index[0]
         index_end = df[df['HRR (kW/m2)'] >= 24].index[-1]
 
-        if path.stem.split('_')[0] in ['Aalto', 'FSRI', 'FZJ', 'UDRI', 'UQ']:
-            A_surf = 0.01
-        else: #FPL, IMT, TUBS, UMET
-            A_surf = 0.00884
+        A_surf = get_cone_area(path)
 
         HOC = A_surf * (df['Int HRR'][index_end] - df['Int HRR'][index_start]) / (df['Mass (g)'][index_start] - df['Mass (g)'][index_end])
 
@@ -2732,12 +2728,8 @@ for flux in gas_flux:
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
         label, color = label_def(path.stem.split('_')[0])
-        if institute in ['TIFP+UCT', 'UQ', 'Aalto']:
-            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color)
-        elif institute in ['TUBS']:
-            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00884,41,3),'-', label = label, color=color)
-        elif institute in ['FSRI', 'UMD']:
-            ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.00385,41,3),'-', label = label, color=color)
+        area = get_gas_area(path)
+        ax1.plot(df['Time (s)'], savgol_filter(df['dm/dt'] / area, 41, 3), '-', label=label, color=color)
         ax2.plot(df['Time (s)'], df['Mass (g)'], '-', label = label, color=color)
 
     ax1.set_ylim(bottom=0)
@@ -2775,9 +2767,10 @@ for flux in [30,60]:
     for path in Cone_subset_paths:
         label = path.stem.split('_')[5]
         df_raw = pd.read_csv(path)
-        df=Calculate_dm_dt(df_raw)
-        ax1.plot(df['Time (s)'],savgol_filter(df['dm/dt']/0.01,41,3),'-', label = label, color=color[label])
-        ax2.plot(df['Time (s)'], df['Mass (g)'],'-', label = label, color=color[label])
+        df = Calculate_dm_dt(df_raw)
+        area = get_gas_area(path)
+        ax1.plot(df['Time (s)'], savgol_filter(df['dm/dt'] / area, 41, 3), '-', label=label, color=color[label])
+        ax2.plot(df['Time (s)'], df['Mass (g)'], '-', label=label, color=color[label])
 
     ax1.set_ylim(bottom=0)
     ax1.set_xlabel('Time [s]')
@@ -2899,12 +2892,8 @@ for idx,set in enumerate(Gas_sets):
     institute = set.split('_')[0]
     # plot average
     # Plot mass (left y-axis)
-    if institute in ['TIFP+UCT', 'Aalto', 'UQ']:
-        area = 0.01
-    elif institute in ['TUBS']:
-        area = 0.00884
-    elif institute in ['UMD','FSRI']:
-        area = 0.00385
+    paths_Gas_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    area = get_gas_area(paths_Gas_set[0])
     ax.plot(df_average['Time (s)'], savgol_filter(df_average['dm/dt']/area,41,3),
                         label='average MLR', color='limegreen')
     ax.fill_between(df_average['Time (s)'], 
@@ -2914,7 +2903,6 @@ for idx,set in enumerate(Gas_sets):
 
 
     #plot individual
-    paths_Gas_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
     for path in paths_Gas_set:
         df_raw = pd.read_csv(path)
         df=Calculate_dm_dt(df_raw)
