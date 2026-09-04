@@ -11,7 +11,7 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
   - Final Isotherm: 1800 s (hold at 1098 K for 1800 s)  
 * Sample mass: 4 mg +/- 0.3 mg
 * Sample geometry: Powdered
-* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 2 months (or 100 tests, whichever is sooner) using a set of 8 reference materials with transition temperature between 312-1081 K
+* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 2 months (or 100 tests, whichever is sooner) using a set of 8 reference materials (biphenyl, benzoic acid, RbNO3, KClO4, Ag2SO4, CsCl, K2CrO4, BaCO3) with transition temperatures between 342 and 1080 K
 * Crucible
   - Type: Pt-Rh
   - Volume: 85 uL
@@ -30,11 +30,66 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
 
 | Test Name | O2 volume % |  Initial External Sample Mass (mg) | Sample Mass Prior to Heating Ramp (mg) |
 | --------- | :---------: | :------------------------: | :------------------------: |
-|UMD\_STA\_N2\_10K\_R1 | 0 | 4.301| 4.066
-|UMD\_STA\_N2\_10K\_R2 | 0 | 4.062| 3.842
-|UMD\_STA\_N2\_10K\_R3 | 0 | 3.942| 3.904
+|UMD\_Wood\_TGA\_N2\_10K\_R1 | 0 | 4.301| 4.066
+|UMD\_Wood\_TGA\_N2\_10K\_R2 | 0 | 4.062| 3.842
+|UMD\_Wood\_TGA\_N2\_10K\_R3 | 0 | 3.942| 3.904
 
-**Notes:** **Initial External Sample Mass** refers to the mass of the sample before being inserted into the instrument. **Sample Mass Prior to Heating Ramp** refers to the mass of the sample at the beginning of the dynamic heating segment of the test. The discrepancy reflects moisture lost before the measurement begins and during the 1800 s isothermal segment prior to the heating ramp.
+**Notes:** **Initial External Sample Mass** refers to the mass of the sample before being inserted into the instrument. **Sample Mass Prior to Heating Ramp** refers to the mass of the sample at the beginning of the dynamic heating segment of the test. The discrepancy reflects moisture lost before the measurement begins and during the 1800 s isothermal segment prior to the heating ramp. The nitrogen data files contain Time (s), Temperature (K), and Mass (mg) only; time is zero at the start of the heating ramp.
+
+### Experimental Conditions: STA (Oxidative)
+A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments in oxidative atmospheres: a heating-rate series at 21 % O2 and an oxygen-concentration series at 10 K/min.
+
+* Heating Rates: 2.5, 5, 10, and 20 K/min at 21 % O2; 10 K/min at 10, 6, and 3 % O2
+* Temperature program
+  - Initial Temperature: ambient (297-303 K)
+  - Initial Isotherm: 1800 s at ambient temperature
+  - Maximum Temperature (program setpoint), 21 % O2: 813 K (2.5 K/min), 803 K (5 K/min), 853 K (10 K/min), 873 K (20 K/min)
+  - Maximum Temperature (program setpoint), 10 K/min: 833 K (10 % O2), 863 K (6 % O2), 883 K (3 % O2)
+  - Final Isotherm: 1200 s at the maximum temperature (1800 s for the 2.5 K/min tests)
+  - Note: the first replicate at 5 K/min ramped to 893 K and the first replicate at 20 K/min to 913 K; all replicates are complete over the common temperature range and all samples were fully oxidized (final residue 0.8 % on average, range 0.0-2.3 %, of the sample mass prior to the heating ramp) before the maximum temperature was reached
+* Sample mass: 2.0 mg +/- 0.1 mg (2.5, 5, 10 K/min, all O2 concentrations); 1.0 mg +/- 0.02 mg (20 K/min)
+* Sample geometry: Powdered
+* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 2 months (or 100 tests, whichever is sooner) for each heating rate in the same crucible type as the tests. The 2.5, 5, and 20 K/min calibrations used a set of 5 metal reference materials (In, Sn, Bi, Zn, Al) with melting temperatures between 430 and 933 K. The 10 K/min calibration used a set of 13 reference materials (In, Sn, Bi, Zn, Al, biphenyl, benzoic acid, RbNO3, KClO4, Ag2SO4, CsCl, K2CrO4, BaCO3) with transition temperatures between 342 and 1080 K
+* Crucible
+  - Type: Al2O3
+  - Volume: 85 uL
+  - Mass: 133.6 mg
+  - Lid: False (open crucible)
+* Carrier Gas
+  - Type: Oxygen/nitrogen blend
+  - Flow rate: 70 ml/min total in every test: oxygen + nitrogen purge = 50 ml/min, plus 20 ml/min nitrogen protective flow
+  - Oxygen flow (nitrogen purge): 15 ml/min (35 ml/min) for 21 % O2; 7 ml/min (43 ml/min) for 10 % O2; 4 ml/min (46 ml/min) for 6 % O2; 2 ml/min (48 ml/min) for 3 % O2
+  - Oxygen concentration by volume of the total gas flow: 15/70 = 21.4 %, 7/70 = 10.0 %, 4/70 = 5.7 %, 2/70 = 2.9 %; the nominal values 21, 10, 6, and 3 % are used in the test names
+* Instrument
+  - Type: NETZSCH STA 449 F3 Jupiter
+  - Furnace Type: Platinum
+  - Notes: None
+* Heat flow sign convention: exothermic down (negative); endothermic effects appear as positive heat flow
+
+| Test Name | O2 volume % | Initial External Sample Mass (mg) | Sample Mass Prior to Heating Ramp (mg) |
+| --------- | :---------: | :------------------------: | :------------------------: |
+|UMD\_Wood\_STA\_O2-21\_2.5K\_R1 | 21 | 2.082| 1.895
+|UMD\_Wood\_STA\_O2-21\_2.5K\_R2 | 21 | 2.041| 1.886
+|UMD\_Wood\_STA\_O2-21\_2.5K\_R3 | 21 | 2.056| 1.912
+|UMD\_Wood\_STA\_O2-21\_5K\_R1 | 21 | 2.051| 1.926
+|UMD\_Wood\_STA\_O2-21\_5K\_R2 | 21 | 2.036| 1.913
+|UMD\_Wood\_STA\_O2-21\_5K\_R3 | 21 | 2.043| 1.898
+|UMD\_Wood\_STA\_O2-21\_10K\_R1 | 21 | 2.005| 1.896
+|UMD\_Wood\_STA\_O2-21\_10K\_R2 | 21 | 2.034| 1.901
+|UMD\_Wood\_STA\_O2-21\_10K\_R3 | 21 | 2.004| 1.882
+|UMD\_Wood\_STA\_O2-21\_20K\_R1 | 21 | 1.022| 0.949
+|UMD\_Wood\_STA\_O2-21\_20K\_R2 | 21 | 1.015| 0.929
+|UMD\_Wood\_STA\_O2-21\_20K\_R3 | 21 | 0.985| 0.928
+|UMD\_Wood\_STA\_O2-10\_10K\_R1 | 10 | 1.994| 1.856
+|UMD\_Wood\_STA\_O2-10\_10K\_R2 | 10 | 1.990| 1.834
+|UMD\_Wood\_STA\_O2-6\_10K\_R1 | 6 | 2.028| 1.887
+|UMD\_Wood\_STA\_O2-6\_10K\_R2 | 6 | 2.001| 1.861
+|UMD\_Wood\_STA\_O2-3\_10K\_R1 | 3 | 2.001| 1.854
+|UMD\_Wood\_STA\_O2-3\_10K\_R2 | 3 | 2.031| 1.849
+
+**Notes:** **Initial External Sample Mass** refers to the mass of the sample before being inserted into the instrument. **Sample Mass Prior to Heating Ramp** refers to the mass of the sample at the beginning of the dynamic heating segment of the test. The discrepancy reflects moisture lost before the measurement begins and during the 1800 s isothermal segment prior to the heating ramp. Heat flow is normalized by the **Sample Mass Prior to Heating Ramp**.
+
+**Data files:** Each file contains Time (s), Temperature (K), Mass (mg), and Heat Flow Rate (W/g) for the heating-ramp segment only (initial and final isotherms excluded), interpolated onto a 0.5 K sample-temperature grid. Time is zero at the start of the heating ramp. Mass is the absolute sample mass, offset so that the final mass matches the post-test residue weighed on an external balance. Heat flow is baseline-corrected (empty-crucible run subtracted) and expressed per gram of the **Sample Mass Prior to Heating Ramp**, exothermic down.
 
 ### Experimental Conditions, Gasification (CAPA)
 *Reference: More information is available at:
