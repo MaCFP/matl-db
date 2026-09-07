@@ -24,6 +24,9 @@ ex = 'pdf' #options 'pdf' or 'png
 '../../../matl-db-organizing-committee/' #with
 '../../Documents/'
 
+# NOTE: Sample areas are currently defined manually in get_cone_area() and get_gas_area() because the relevant
+# information is not reported consistently in the submitted README files.
+# These definitions should be reviewed if existing datasets are updated or new institutions are added.
 
 #region create subdirectories to save plots. 
 base_dir = Path('../../Documents/SCRIPT_FIGURES')
@@ -44,6 +47,9 @@ Cone_Data = [p for p in Cone_Data if 'BUWfd_Wood_Cone_50kW_hor_R1' not in p.stem
 Cone_sets = get_series_names(Cone_Data)
 Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR, 'CAPA') + device_data(DATA_DIR, 'FPA')
 Gas_sets = get_series_names(Gasification_Data)
+
+print('NOTE: Cone and gasification sample areas are manually defined in get_cone_area() and get_gas_area(). '
+      'Review these definitions if existing datasets are updated or new institutions are added.')
 
 unique_conditions_cone = { '_'.join(s.split('_')[3:]) for s in Cone_sets}
 unique_conditions_cone_material = sorted(set(name.split('_', 1)[1] for name in Cone_sets if '_' in name))
