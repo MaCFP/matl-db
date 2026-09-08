@@ -61,16 +61,19 @@ with open(str(base_dir) +'/TGA/TGA_Nitrogen.tex', 'w') as f:
 
 
 print('Oxygen table')
-table = make_institution_table(TGA_Data,['Wood'],['O2-20','O2-21'],['2K','5K','10K','20K','30K'])
+oxygen_atmospheres = sorted({s.split('_')[3] for s in TGA_sets if s.split('_')[3].startswith('O2-')}, key=lambda x: float(x.split('-')[1]))
+oxygen_heating_rates = sorted({s.split('_')[4] for s in TGA_sets if s.split('_')[3].startswith('O2-')}, key=lambda x: float(x[:-1]))
+
+table = make_institution_table(TGA_Data, ['Wood'], oxygen_atmospheres, oxygen_heating_rates)
+
+# Remove condition columns without any measurements
+table = table.loc[:, table.sum(axis=0) > 0]
+
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 
-#resort table for latex document
-table = table.T.groupby(level='Heating Rate').sum().T
-table.columns.name = None
-table = table[['2K', '5K', '10K', '20K', '30K']]
 latex_str = format_latex(table)
-with open(str(base_dir) +'/TGA/TGA_O2-20.tex', 'w') as f:
+with open(str(base_dir) +'/TGA/TGA_Oxygen.tex', 'w') as f:
     f.write(latex_str)
 
 # ------------------------------------
@@ -228,17 +231,23 @@ def average_tga_series(series_name: str, exclude:Optional[Union[str, List[str]]]
     cnt = merged_df[mass_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
     df_average['Normalized Mass'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
 
-    diff = merged_df[mass_cols].sub(df_average['Normalized Mass'], axis=0)**2
-    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
-    df_average['unc Normalized Mass'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+    diff = merged_df[mass_cols].sub(df_average['Normalized Mass'], axis=0) ** 2
+    sum_diff = diff.rolling(2 * n + 1, min_periods=1, center=True).sum().sum(axis=1)
+    variance = (sum_diff / (cnt * (cnt - 1))).where(cnt > 1)
+    variance = variance.mask((variance < 0) & (variance > -1e-15), 0)
+    df_average['unc Normalized Mass'] = np.sqrt(variance)
 
-    sum = merged_df[dmdt_cols].rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
-    cnt = merged_df[dmdt_cols].rolling(2*n+1, min_periods=1,center=True).count().sum(axis=1)
+    sum = merged_df[dmdt_cols].rolling(2 * n + 1, min_periods=1, center=True).sum().sum(axis=1)
+    cnt = merged_df[dmdt_cols].rolling(2 * n + 1, min_periods=1, center=True).count().sum(axis=1)
+
     df_average['MLR (1/s)'] = sum / cnt  # Series: mean of all non-NaN values in rows i-2..i+2 across all columns
+    diff = merged_df[dmdt_cols].sub(df_average['MLR (1/s)'], axis=0) ** 2
+    sum_diff = diff.rolling(2 * n + 1, min_periods=1, center=True).sum().sum(axis=1)
 
-    diff = merged_df[dmdt_cols].sub(df_average['MLR (1/s)'], axis=0)**2
-    sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
-    df_average['unc MLR (1/s)'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+    variance = (sum_diff / (cnt * (cnt - 1))).where(cnt > 1)
+    variance = variance.mask((variance < 0) & (variance > -1e-15), 0)
+    df_average['unc MLR (1/s)'] = np.sqrt(variance)
+
     return df_average
 
 
@@ -307,13 +316,18 @@ def plot_average_values(df):
 #--------------------------------------------------------
 # HR plots for all unique HR
 unique_HR = {s.split('_')[4] for s in TGA_sets}
+
+# print('All TGA sets:')
+# for s in sorted(TGA_sets):
+#     print(s)
+
 for HR in unique_HR:
     if 'iso' in HR:
         continue
 
     fig, ax = plt.subplots(figsize=(6, 4))
     fig_ranges, ax_ranges = plt.subplots(figsize=(6, 4))
-    TGA_sub_set = device_subset(TGA_sets, HR, 'N2') + device_subset(TGA_sets, HR, 'O2-21') + device_subset(TGA_sets, HR, 'O2-20')
+    TGA_sub_set = [s for s in TGA_sets if s.split('_')[4] == HR]
 
     for set in TGA_sub_set:
         average = average_HR_tga_series(set)
@@ -330,11 +344,11 @@ for HR in unique_HR:
         by_label = dict(zip(labels, handles))
         current_ax.legend(by_label.values(), by_label.keys(), ncol=math.ceil(len(by_label)/6))
 
-    ax.text(0.97, 0.05, f'N$_{2}$,$\\,${HR[:-1]} K/min', transform=ax.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+    ax.text(0.97, 0.05, f'{HR[:-1]} K/min', transform=ax.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
     ax_ranges.axvspan(348, 398, color='deepskyblue', alpha=0.20, zorder=0)
     ax_ranges.axvspan(500, 800, color='orange', alpha=0.15, zorder=0)
-    ax_ranges.text(0.97, 0.05, f'N$_{2}$,$\\,${HR[:-1]} K/min', transform=ax_ranges.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+    ax_ranges.text(0.97, 0.05, f'{HR[:-1]} K/min', transform=ax_ranges.transAxes, ha='right', va='bottom', fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
     fig.tight_layout()
     fig_ranges.tight_layout()
@@ -356,16 +370,25 @@ plot_configs = [
 
 for series in unique_conditions_material:
     parts = series.split('_')
-    material, dev, atm, hr  = parts[:4]
+    material, dev, atm, hr = parts[:4]
+
     if atm == 'N2':
         atmosphere_label = 'N$_2$'
-    elif atm == 'O2-20':
-        atmosphere_label = '20% O$_2$'
     elif atm == 'O2-21':
-        atmosphere_label = '21% O$_2$'
+        atmosphere_label = '20–21% O$_2$'
+    elif atm.startswith('O2-'):
+        oxygen_concentration = atm.split('-', 1)[1]
+        atmosphere_label = f'{oxygen_concentration}% O$_2$'
     else:
         atmosphere_label = atm
+
+    if hr.endswith('Kiso'):
+        condition_label = f'{hr[:-4]} K, isothermal'
+    else:
+        condition_label = f'{hr[:-1]} K/min'
+
     TGA_subset_paths = [p for p in TGA_Data if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
+
     if atm == 'O2-21':
         TGA_subset_paths += [p for p in TGA_Data if f"{material}_" in p.name and f"_O2-20_{hr}_" in p.name]
 
@@ -414,7 +437,7 @@ for series in unique_conditions_material:
             else:
                 ax1.legend(by_label1.values(), by_label1.keys(), loc='lower left')
 
-        ax1.text(0.97, 0.95, f'{atmosphere_label},$\\,${hr[:-1]} K/min', transform=ax1.transAxes, ha='right', va='top',
+        ax1.text(0.97, 0.95, f'{atmosphere_label}, {condition_label}', transform=ax1.transAxes, ha='right', va='top',
                  fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
         ax2.set_ylim(bottom=config['ylim2'][0], top=config['ylim2'][1])
         ax2.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
@@ -429,7 +452,7 @@ for series in unique_conditions_material:
         else:
             ax2.legend(by_label2.values(), by_label2.keys(), loc='upper right')
 
-        ax2.text(0.03, 0.95, f'{atmosphere_label},$\\,${hr[:-1]} K/min', transform=ax2.transAxes, ha='left', va='top',
+        ax2.text(0.03, 0.95, f'{atmosphere_label}, {condition_label}', transform=ax2.transAxes, ha='left', va='top',
                  fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
         ax3.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
@@ -457,7 +480,7 @@ for series in unique_conditions_material:
             else:
                 ax3.legend(by_label3.values(), by_label3.keys(), loc='lower left')
 
-        ax3.text(0.97, 0.95, f'{atmosphere_label},$\\,${hr[:-1]} K/min', transform=ax3.transAxes, ha='right', va='top',
+        ax3.text(0.97, 0.95, f'{atmosphere_label}, {condition_label}', transform=ax3.transAxes, ha='right', va='top',
                  fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
         fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass{config["suffix"]}.{ex}')
@@ -726,24 +749,25 @@ for idx,set in enumerate(TGA_sets):
         m_700_400_list.append(m700_400)
         m_950_400_list.append(m950_400)
 
-        ax_mass.plot(df['Temperature (K)'], df['Normalized mass'], '-',linewidth = 0.05, color ='black')
-        ax_rate.plot(df['Temperature (K)'], df['dm/dt'],'-',linewidth = 0.05,color='black', markersize=0.5)
+        ax_mass.plot(df['Temperature (K)'], df['Normalized mass'], '-', linewidth=0.05, color='black')
+        ax_rate.plot(df['Temperature (K)'], df['dm/dt'], '-', linewidth=0.05, color='black', markersize=0.5)
+
     Average_values.at[idx, 'peak MLR'] = np.mean(peak_mlr_list)
-    Average_values.at[idx, 'std peak MLR'] = np.std(peak_mlr_list, ddof=1)
+    Average_values.at[idx, 'std peak MLR'] = np.std(peak_mlr_list, ddof=1) if len(peak_mlr_list) > 1 else np.nan
     Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)
-    Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
+    Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1) if len(T_peak_list) > 1 else np.nan
     Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
-    Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
+    Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1) if len(T_onset_list) > 1 else np.nan
     Average_values.at[idx, 'm 400'] = np.mean(m_400_list)
-    Average_values.at[idx, 'std m 400'] = np.std(m_400_list, ddof=1)
+    Average_values.at[idx, 'std m 400'] = np.std(m_400_list, ddof=1) if len(m_400_list) > 1 else np.nan
     Average_values.at[idx, 'm 700'] = np.mean(m_700_list)
-    Average_values.at[idx, 'std m 700'] = np.std(m_700_list, ddof=1)
+    Average_values.at[idx, 'std m 700'] = np.std(m_700_list, ddof=1) if len(m_700_list) > 1 else np.nan
     Average_values.at[idx, 'm 950'] = np.mean(m_950_list)
-    Average_values.at[idx, 'std m 950'] = np.std(m_950_list, ddof=1)
+    Average_values.at[idx, 'std m 950'] = np.std(m_950_list, ddof=1) if len(m_950_list) > 1 else np.nan
     Average_values.at[idx, 'm 700 400Knorm'] = np.mean(m_700_400_list)
-    Average_values.at[idx, 'std m 700 400Knorm'] = np.std(m_700_400_list, ddof=1)
+    Average_values.at[idx, 'std m 700 400Knorm'] = np.std(m_700_400_list, ddof=1) if len(m_700_400_list) > 1 else np.nan
     Average_values.at[idx, 'm 950 400Knorm'] = np.mean(m_950_400_list)
-    Average_values.at[idx, 'std m 950 400Knorm'] = np.std(m_950_400_list, ddof=1)
+    Average_values.at[idx, 'std m 950 400Knorm'] = np.std(m_950_400_list, ddof=1) if len(m_950_400_list) > 1 else np.nan
 
     # Set lower limits of both y-axes to 0
     ax_mass.set_ylim(bottom=0)
