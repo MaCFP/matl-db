@@ -57,7 +57,20 @@ with open(str(base_dir) + '/DSC/DSC_Nitrogen.tex', 'w') as f:
     f.write(latex_str)
 
 print('Oxygen table')
-print(make_institution_table(DSC_Data,['Wood'],['O2-21'],['3K','5K','10K','20K','30K','40K','50K']))
+oxygen_atmospheres = sorted({s.split('_')[3] for s in DSC_sets if s.split('_')[3].startswith('O2-')}, key=lambda x: float(x.split('-')[1]))
+oxygen_heating_rates = sorted({s.split('_')[4] for s in DSC_sets if s.split('_')[3].startswith('O2-')}, key=lambda x: float(x[:-1]))
+
+table = make_institution_table(DSC_Data, ['Wood'], oxygen_atmospheres, oxygen_heating_rates)
+
+# Remove condition columns without any measurements
+table = table.loc[:, table.sum(axis=0) > 0]
+
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+
+latex_str = format_latex(table)
+with open(str(base_dir) + '/DSC/DSC_Oxygen.tex', 'w') as f:
+    f.write(latex_str)
 
 
 
@@ -181,7 +194,8 @@ for series in unique_conditions_material:
         ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'], label = label, color=color)
 
     #ax1.set_xlim(400,800)
-    ax1.set_ylim(bottom=-0.5)
+    if atm == 'N2':
+        ax1.set_ylim(bottom=-0.5)
     ax1.set_xlabel('Temperature [K]')
     ax1.set_ylabel('Heat flow [W g$^{-1}$]')
     fig1.tight_layout()
@@ -189,7 +203,8 @@ for series in unique_conditions_material:
     by_label1 = dict(zip(labels1, handles1))
     ax1.legend(by_label1.values(), by_label1.keys())
 
-    ax2.set_ylim(bottom=-500)
+    if atm == 'N2':
+        ax2.set_ylim(bottom=-500)
     ax2.set_xlabel('Temperature [K]')
     ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
     fig2.tight_layout()
@@ -431,14 +446,13 @@ for path in DSC_Data:
     else:
         atmosphere = next((part for part in parts if part.startswith('O2-')), 'Unknown')
 
-    heating_rate = next((part for part in parts if re.fullmatch(r'\d+K', part)), 'Unknown')
+    heating_rate = next((part for part in parts if re.fullmatch(r'\d+(?:\.\d+)?K', part)), 'Unknown')
     repetition = next((part for part in parts if re.fullmatch(r'[Rr]\d+', part)), 'Unknown').upper()
     if atmosphere == 'N2':
         atmosphere_label = 'N$_2$'
-    elif atmosphere == 'O2-20':
-        atmosphere_label = '20% O$_2$'
-    elif atmosphere == 'O2-21':
-        atmosphere_label = '21% O$_2$'
+    elif atmosphere.startswith('O2-'):
+        oxygen_concentration = atmosphere.split('-', 1)[1]
+        atmosphere_label = f'{oxygen_concentration}% O$_2$'
     else:
         atmosphere_label = atmosphere
 
@@ -446,7 +460,7 @@ for path in DSC_Data:
 
     fig, ax = plt.subplots(figsize=(6, 4))
 
-    if device == 'STA':
+    if device == 'STA' and atmosphere == 'N2':
         df = Integral_DSC(df_raw)
         ax.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], color=color, label=label)
 
@@ -525,7 +539,7 @@ for path in DSC_Data:
 # region heats of reactions
 #------------------------------------
 # only for STA data
-STA_Data = device_data(DATA_DIR, 'STA')
+STA_Data = [p for p in device_data(DATA_DIR, 'STA') if '_N2_' in p.name]
 
 # Initialize list to store results
 results = []
@@ -611,7 +625,7 @@ for exp in STA_Data:
 results_df = pd.DataFrame(results)
 
 results_df['Institution'] = results_df['Experiment'].str.split('_').str[0].apply(lambda x: label_def(x)[0])
-results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d+)K_')[0].astype(int)
+results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d+(?:\.\d+)?)K_')[0].astype(float)
 
 # Group by institution and conditions, number the repetitions
 results_df['Repetition'] = results_df.groupby(['Institution', 'Heating Rate (K/min)']).cumcount() + 1
