@@ -35,7 +35,7 @@ CODES = ["Pekin", "Harlequin", "Tufted", "Aylesbury", "Orpington","Rouen", # add
          "Muscovy", "Pomeranian",  "Shetland", "Alabio", "Mallard", "Hardhead"]
 
 
-colors = ["#1f77b4", "#be15f6", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", # , add color for BUW data
+colors = ["#1f77b4", "#be15f6", "#98df8a", "#17becf", "#ff7f0e", "#aec7e8", 
           "#ff9896", "#c5b0d5", "#2ca02c",  "#00039b", "#c49c94", "#d62728",
           "#dbdb8d", "#c7c7c7",  "#ffbb78", "#bcbd22", "#8c564b", 
           "#f7b6d2","#e377c2", "#9edae5", "#7f7f7f","#9467bd" , "#DAA520"
@@ -298,3 +298,16 @@ def get_condition_key(conditions):
     if isinstance(conditions, list):
         return tuple(conditions[:2]) if len(conditions) >= 2 else tuple(conditions)
     return ()
+
+#function to sort O2 conditions numerically. 
+def extract_o2_number(condition):
+    """Extract numeric value from condition string for sorting"""
+    # Check if it's an O2 condition
+    match = re.search(r'O2-(\d+)', str(condition))
+    if match:
+        return int(match.group(1))
+    # For N2 conditions, return -1 so they come first
+    elif 'N2' in str(condition):
+        return -1
+    else:
+        return 0

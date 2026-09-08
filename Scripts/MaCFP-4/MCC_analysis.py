@@ -12,7 +12,7 @@ from typing import Optional, Union, List, Dict
 
 from Utils import device_data, get_series_names, make_institution_table, \
                   device_subset, label_def, interpolation, format_latex
-from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere
+from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, extract_o2_number
 from Utils import DATA_DIR
 
 #region Save plots as pdf or png
@@ -667,7 +667,8 @@ Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosp
 Average_values['condition_key'] = Average_values['conditions']
 
 # Sort by atmosphere, then heating rate, then Duck (institution)
-final_table_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Duck'])
+Average_values['sort_key'] = Average_values['atmosphere'].apply(extract_o2_number)
+final_table_sorted = Average_values.sort_values(['sort_key', 'heating_rate', 'Duck'])
 
 # Add superscript A if std is NaN (single sample) - check std peak HRR
 final_table_sorted['Duck_formatted'] = final_table_sorted.apply(
@@ -712,7 +713,7 @@ final_table_sorted['char_formatted'] = final_table_sorted.apply(
 )
 
 
-# Format conditions (keep as is or clean up)
+# Format conditions 
 final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(
     lambda x: str(x).replace('_', ' ')  # Optional: replace underscores with spaces
 )
