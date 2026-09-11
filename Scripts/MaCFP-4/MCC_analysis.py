@@ -3,12 +3,23 @@
 Main script for MCC analysis for MaCFP-4
 
 """
+# linear function for fitting
+def func(x, a, b):
+    return a * x + b
+
+def func_5(x, abc):
+    # return abc[-5]*x**4+abc[-4]*x**3 + abc[-3]*x**2 + abc[-2]*x + abc[-1]
+    return abc[-4] * x**3 + abc[-3] * x**2 + abc[-2] * x + abc[-1]
+    # return abc[-2]*x + abc[-1]
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pathlib import Path
 from typing import Optional, Union, List, Dict
+from scipy.integrate import simpson
+from scipy.optimize import curve_fit
+from scipy.signal import savgol_filter
 
 from Utils import device_data, get_series_names, make_institution_table, \
                   device_subset, label_def, interpolation, format_latex
@@ -796,6 +807,237 @@ for table_key in ['_Wood','_PS_']:
 #-----------------------------------------------
 
 MCC_raw = device_data(DATA_DIR, 'MCC-raw')
+
 print('Raw data table')
 table = make_institution_table(MCC_raw,['Wood'],['N2'],['30K','45K','60K'])
 print(table)
+
+
+for series in unique_conditions_material:
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    parts = series.split('_')
+    material, dev, atm, hr,  = parts[:4]
+    MCC_subset_paths = [p for p in MCC_raw if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
+    for path in MCC_subset_paths:
+        df_raw = pd.read_csv(path)
+        #df_interp = interpolation(df_raw)
+        #df = calculate_int_HRR(df_interp)
+        label, color = label_def(path.stem.split('_')[0])
+        ax1.plot(df_raw['Temperature (C)'], df_raw['HRR (W/g)'], label = label, color=color)
+
+    ax1.set_ylim(bottom=0)
+    ax1.set_xlim(right=900)
+    ax1.set_xlabel('Temperature [C]')
+    ax1.set_ylabel('HRR [W g$^{-1}$]')
+    fig1.tight_layout()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
+
+
+    fig1.savefig(str(base_dir) + '/MCC/MCC_{}_{}_{}_HRR-raw.{}'.format(material,atm,hr,ex))
+    plt.close(fig1)
+    plt.close(fig2)
+
+
+
+
+#check baseline finder
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+MCC_subset_paths = [p for p in MCC_raw if f"{material}_" in p.name and f"_N2_60K_" in p.name]
+for path in MCC_subset_paths:
+    print(path)
+    df = pd.read_csv(path)
+    #region try baseline
+    df['Temperature (K)'] = df['Temperature (C)'] + 273.15
+    df.drop('Temperature (C)',axis=1)
+
+    # Finds where data becomes flat after initial rise
+    difference = df["HRR (W/g)"][2:].diff()
+    local_max = np.max(difference[0:10])  # changed from 10 to 20
+    local_max_index = np.where(difference == local_max)[0][0]
+    index = np.min(np.where(difference[local_max_index:] < 0.01)[0])
+
+    df = df.iloc[index:]
+
+    # Find maximum HRR and corresponding metrics
+    maxi = np.max(df["HRR (W/g)"])
+    index_max = df.index[df["HRR (W/g)"] == maxi]
+    peak_T = df["Temperature (K)"][index_max]
+
+    point_before = np.min(df.index[df["HRR (W/g)"] > 0.04 * maxi].tolist())
+    if point_before < 100:
+        point_before = np.min(df.index[df["HRR (W/g)"] > 0.06 * maxi].tolist())
+        if point_before < 100:
+            point_before = np.min(df.index[df["HRR (W/g)"] > 0.1 * maxi].tolist())
+            if point_before < 100: # if still does not work very conservative. 
+                point_before = np.min(df.index[df["HRR (W/g)"] > 0.3 * maxi].tolist())
+
+    
+    #   Point after
+    point_after = np.min(
+        df[
+            (df["HRR (W/g)"] < 0.09 * maxi) 
+            & (df["Temperature (K)"] > float(peak_T.iloc[0]))
+        ].index
+    )
+    # Exception point_after not found for IMT_R2
+    if np.isnan(point_after):
+        print('Except point_after')
+        point_after = np.min(
+                    df[
+                        (df["HRR (W/g)"] < 0.15 * maxi) #changed 0.09 to 0.10 
+                        & (df["Temperature (K)"] > float(peak_T.iloc[0]))
+                    ].index
+                )
+    # note: non of the data has a second maximum --> not included in baseline algoritm
+  
+    # Calculate index_adter
+    # OPTION 1
+    max_index = df[df["Temperature (K)"] == np.max(df["Temperature (K)"])].index.values[
+        0
+    ]
+    slopes = [0]
+    temp = []
+    difference = []
+    m = 0
+    for idx in np.arange(point_after, max_index - 100, 1):
+        xdata = df["Temperature (K)"][idx : idx + 50]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = savgol_filter(df["HRR (W/g)"][idx : idx + 50], 19, 1)
+        popt, _ = curve_fit(func, xdata, ydata)
+        slopes = slopes + [popt[0]]
+        difference = difference + [slopes[m - 1] - slopes[m]]
+        m = m + 1
+
+    difference = savgol_filter(np.array(difference[2:]), 15, 1)
+    try:
+        index_after_1 = np.min(np.where(np.abs(difference) < 0.00005)[0] + point_after) #changed from 0.001 to 0.00005
+    except: 
+        index_after_1 = np.min(np.where(np.abs(difference) < 0.001)[0] + point_after)
+
+    # OPTION 2
+    index_after_2 = point_after  # Initialize before loop
+    for idx in np.arange(point_after, max_index - 100, 1):
+        xdata = df["Temperature (K)"][idx : idx + 50]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = savgol_filter(df["HRR (W/g)"][idx : idx + 50], 19, 1)
+        popt, _ = curve_fit(func, xdata, ydata)
+        index_after_2 = idx
+        if (popt[0] > -0.01) & (popt[0] < 0.001):
+            break
+
+    # FINAL POINT
+    index_after = max(index_after_1, index_after_2)
+
+
+    # # -------------------------
+    # # FIND 1st BASELINE POINT
+    # # -------------------------
+
+    # Moving average of HRR
+    window_size = 7
+    df["SMA"] = df["HRR (W/g)"].rolling(window=window_size).mean()
+
+    # OPTION 1
+    slopes = [0]
+    temp = []
+    difference = []
+    m = 0
+    for idx in np.arange(100, point_before, 1):
+        xdata = df["Temperature (K)"][idx - 90 : idx]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = df["SMA"][idx - 90 : idx]
+        popt, _ = curve_fit(func, xdata, ydata)
+        slopes = slopes + [popt[0]]
+        difference = difference + [slopes[m - 1] - slopes[m]]
+        m = m + 1
+
+    try:
+        index_before_1 = np.max(np.where(np.abs(difference) < 0.001)[0])
+    except ValueError:
+        try:
+            index_before_1 = np.max(np.where(np.abs(difference) < 0.01)[0])
+        except ValueError:
+            index_before_1 = np.max(np.where(np.abs(difference) < 0.1)[0])
+
+    # OPTION 2
+    index_before_2 = 100  # Initialize before loop
+    for idx in np.arange(100, point_before, 1):
+        xdata = df["Temperature (K)"][idx - 90 : idx]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = df["SMA"][idx - 90 : idx]
+        popt, _ = curve_fit(func, xdata, ydata)
+        index_before_2 = idx
+        if (popt[0] > -0.015) & (popt[0] < 0.015):
+            break
+
+    plt.plot(df['Temperature (K)'],df['HRR (W/g)'])
+    plt.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
+    plt.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
+    plt.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
+    plt.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_after+100], '^', color='black')
+    plt.title(str(path.stem))
+    plt.show()
+
+    # -------------------------
+    # DETERMINE BASELINE + parameters
+    # -------------------------
+    order = 3
+    index_end = max_index - 50
+
+    
+    # OPTION 3: Baseline using points [index_before_2, index_before_1] and [point_after, point_after+100] --> works for non-char
+    if index_before_1 > index_before_2:
+        x = np.concatenate(
+            [
+                df["Temperature (K)"][index_before_2:index_before_1].to_numpy(),
+                df["Temperature (K)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        y = np.concatenate(
+            [
+                df["HRR (W/g)"][index_before_2:index_before_1].to_numpy(),
+                df["HRR (W/g)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        index_before = [index_before_2, index_before_1]
+    else:
+        x = np.concatenate(
+            [
+                df["Temperature (K)"][index_before_1:index_before_2].to_numpy(),
+                df["Temperature (K)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        y = np.concatenate(
+            [
+                df["HRR (W/g)"][index_before_1:index_before_2].to_numpy(),
+                df["HRR (W/g)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        index_before = [index_before_1, index_before_2]
+
+    abc = np.polyfit(x, y, order)
+    y_fit = func_5(df["Temperature (K)"], abc)
+    df["HRR (W/g)"] = (df["HRR (W/g)"] - y_fit).round(3)
+    # Only keep data between baseline points
+    df = df.iloc[int(index_before[0]) : int(index_end + 1)]
+    df.drop("SMA", axis=1, inplace=True)
+    label, color = label_def(path.stem.split('_')[0])
+
+    ax1.plot(df['Temperature (C)'], df['HRR (W/g)'], label = label, color=color)
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(right=900)
+ax1.set_xlabel('Temperature [K]')
+ax1.set_ylabel('HRR [W g$^{-1}$]')
+fig1.tight_layout()
+handles1, labels1 = ax1.get_legend_handles_labels()
+by_label1 = dict(zip(labels1, handles1))
+ax1.legend(by_label1.values(), by_label1.keys())
+
+
+fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_N2_60K_HRR-raw-corrected.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)
