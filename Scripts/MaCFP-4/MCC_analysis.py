@@ -70,8 +70,12 @@ with open(str(base_dir) +'/MCC/MCC_Oxygen.tex', 'w') as f:
 
 
 print('Char table')
-print(make_institution_table(MCC_Data,['Wood-char'],['O2-20', 'O2-21'],['60K']))
-
+table = make_institution_table(MCC_Data,['Wood-char'],['O2-20'],['60K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table,'Oxygen concentration (Vol\\%)')
+with open(str(base_dir) +'/MCC/MCC_Char.tex', 'w') as f:
+    f.write(latex_str)
 
 
 # ------------------------------------
@@ -847,7 +851,6 @@ for series in unique_conditions_material:
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 MCC_subset_paths = [p for p in MCC_raw if f"{material}_" in p.name and f"_N2_60K_" in p.name]
 for path in MCC_subset_paths:
-    print(path)
     df = pd.read_csv(path)
     #region try baseline
     df['Temperature (K)'] = df['Temperature (C)'] + 273.15
@@ -884,7 +887,6 @@ for path in MCC_subset_paths:
     )
     # Exception point_after not found for IMT_R2
     if np.isnan(point_after):
-        print('Except point_after')
         point_after = np.min(
                     df[
                         (df["HRR (W/g)"] < 0.15 * maxi) #changed 0.09 to 0.10 
@@ -973,13 +975,13 @@ for path in MCC_subset_paths:
         if (popt[0] > -0.015) & (popt[0] < 0.015):
             break
 
-    plt.plot(df['Temperature (K)'],df['HRR (W/g)'])
-    plt.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
-    plt.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
-    plt.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
-    plt.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_after+100], '^', color='black')
-    plt.title(str(path.stem))
-    plt.show()
+    # plt.plot(df['Temperature (K)'],df['HRR (W/g)'])
+    # plt.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
+    # plt.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
+    # plt.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
+    # plt.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_after+100], '^', color='black')
+    # plt.title(str(path.stem))
+    # plt.show()
 
     # -------------------------
     # DETERMINE BASELINE + parameters
