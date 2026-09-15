@@ -11,6 +11,7 @@
 \usepackage[section]{placeins}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
+\usepackage{makecell}
 
 \usepackage{tocloft}
 \usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography and index in the ToC
@@ -108,30 +109,30 @@ Version 1.0 -- Released: March 30, 2026\\
 Isaac Leventon and Karen De Lannoye\\
 (National Institute of Standards and Technology, NIST) \\
 \textbf{Experimental Results Submitted by:}\\
-Sina Bazrpash, Simo Hostikka; Aalto University. 
+Sina Bazrpash, Simo Hostikka; Aalto University \\
 %Nicolas Cabaret, Bertrand Girardin; Centre d’Essais au Feu (CERIB). 
-Yan Ding; China University of Geosciences. 
-Lukas Arnold, Alex Belt, Tristan Hehnen; Forschungszentrum Jülich. 
-Shaorun Lin, Xinyan Huang; Hong Kong Polytechnical University. 
-Rodolphe Sonnier; IMT Mines Alès. 
-Gilles Parent; Université de Lorraine (LEMTA). 
-Konrad Wilkens; Lund University. 
-Nathan Kahla, Sara McAllister; Missoula Fire Sciences Lab (MFSL). 
-Ryan Greene, Karen De Lannoye, Isaac Leventon; National Institute of Standards and Technology (NIST). 
-Lucie Hasalová; Technical Institute of Fire Protection in Prague (TIFP). 
-Vojtech Salek; University of Chemistry and Technology in Prague (UCT)
-Felix Armbrust; Technische Universität Braunschweig. 
-Yuji NAKAMURA; Toyohashi University of Technology. 
-Pedro Reszka; Universidad Adolfo Ibáñez (UAI). 
-David Lázaro Urrutia; Universidad de Cantabria. 
-Mark McKinnon; UL Fire Safety Research Institute (UL FSRI). 
-Alexander Morgan; University of Dayton Research Institute (UDRI).  
-Serge Bourbigot, Johan Sarazin; Université de Lille (UMET). 
-Grayson Bellamy, Stanislav Stoliarov; University of Maryland (UMD). 
-Marc Poisson, Benjamin Batiot, Thomas Rogaume; Université de Poitiers. 
-Björn Beele, Frauke Binder, Adam Slabon, Fabian Brännström; University of Wuppertal.
-Laura Hasburgh; USDA Forest Products Laboratory. 
-Wenxuan Wu, David Morrisset; The University of Queensland (UQ).
+Yan Ding; China University of Geosciences \\
+Lukas Arnold, Alex Belt, Tristan Hehnen; Forschungszentrum Jülich \\
+Shaorun Lin, Xinyan Huang; Hong Kong Polytechnical University \\
+Rodolphe Sonnier; IMT Mines Alès \\
+Gilles Parent; Université de Lorraine (LEMTA) \\
+Konrad Wilkens; Lund University \\
+Nathan Kahla, Sara McAllister; Missoula Fire Sciences Lab (MFSL) \\
+Ryan Greene, Karen De Lannoye, Isaac Leventon; \\ National Institute of Standards and Technology (NIST) \\
+Lucie Hasalová; Technical Institute of Fire Protection in Prague (TIFP) \\
+Vojtěch Šálek; University of Chemistry and Technology in Prague (UCT) \\
+Felix Armbrust; Technische Universität Braunschweig (TUB) \\
+Yuji Nakamura; Toyohashi University of Technology (TUT) \\
+Pedro Reszka; Universidad Adolfo Ibáñez (UAI) \\
+David Lázaro Urrutia; Universidad de Cantabria \\
+Mark McKinnon; UL Fire Safety Research Institute (UL FSRI) \\
+Alexander Morgan; University of Dayton Research Institute (UDRI) \\ 
+Serge Bourbigot, Johan Sarazin; Université de Lille (UMET) \\
+Grayson Bellamy, Stanislav Stoliarov; University of Maryland (UMD) \\
+Marc Poisson, Benjamin Batiot, Thomas Rogaume; Université de Poitiers \\
+Björn Beele, Frauke Binder, Adam Slabon, Fabian Brännström; \\ University of Wuppertal \\
+Laura Hasburgh; USDA Forest Products Laboratory \\
+Wenxuan Wu, David Morrisset; The University of Queensland (UQ) \\
 
 \end{flushright}
 \end{minipage}
@@ -210,7 +211,7 @@ Université de Lorraine (LEMTA) 			& Nancy, France \\ \hline
 Lund University~\textsuperscript{A}     & Lund, Sweden \\ \hline
 Missoula Fire Sciences Lab (MFSL)		& Montana, USA \\ \hline
 National Institute of Standards and Technology (NIST)               & Maryland, USA \\ \hline
-Technical Institute of Fire Protection in Prague (TIFP+UCT)             & Prague, Czech Republic \\ \hline
+\makecell[l]{Technical Institute of Fire Protection in Prague \\ \& University of Chemistry and Technology, Prague (TIFP+UCT)} & Prague, Czech Republic \\ \hline
 Technische Universität Braunschweig (TUBS)		& Braunschweig, Germany\\ \hline
 Toyohashi University of Technology (TUT)			& Toyohashi, Japan\\ \hline
 Universidad Adolfo Ibáñez (UAI)			& Santiago, Chile \\ \hline
@@ -228,13 +229,31 @@ USDA Forest Products Laboratory			& Wisconsin, USA \\ \hline
 \end{table}
 
 \begin{figure}[h]
+
   \centering
 
-  \includegraphics[width=6in]{../FIGURES/MaCFP-4_Experimentalists.png}
-  \caption{Locations of institutions that have committed to providing experimental measurements for the 2025 Condensed Phase MaCFP Workshop. Black symbols highlight institutions that have submitted data that has been incorporated into the Github repository at the time of this document's release. The green symbol in North America indicates the source location of the Eastern White Pine distributed 
-  as `MaCFP Wood'.}
+  \fbox{
+    \parbox[c][3.8in][c]{5.8in}{
+      \centering
+      Placeholder for institution map figure\\[1em]
+      \texttt{MaCFP-4\_Experimentalists.png}\\[1em]
+      Figure to be added in a future revision
+    }
+  }
+
+  \caption{Locations of institutions that have committed to providing experimental measurements for the 2025 Condensed Phase MaCFP Workshop. Black symbols highlight institutions that have submitted data that has been incorporated into the Github repository at the time of this document's release. The green symbol in North America indicates the source location of the Eastern White Pine distributed as `MaCFP Wood'.}
+
   \label{Fig:MaCFP4_Map}
+
 \end{figure}
+
+% \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=6in]{../FIGURES/MaCFP-4_Experimentalists.png}
+%   \caption{Locations of institutions that have committed to providing experimental measurements for the 2025 Condensed Phase MaCFP Workshop. Black symbols highlight institutions that have submitted data that has been incorporated into the Github repository at the time of this document's release. The green symbol in North America indicates the source location of the Eastern White Pine distributed 
+%   as `MaCFP Wood'.}
+%   \label{Fig:MaCFP4_Map}
+% \end{figure}
 \newpage
 \section{Reporting of Results: The MaCFP Repository}
 
@@ -303,11 +322,13 @@ Recall: to allow for impartial review of the preliminary measurement data submit
 \label{mg_tests}
 
 \subsection{Thermogravimetric Analysis (TGA)}
-In TGA experiments, small samples (typically 3~mg to 10~mg) are heated at a constant rate (5~K/min$ \le\beta\le20$~K/min) or maintained at constant elevated temperature in a carefully controlled gaseous environment (either inert or oxidative). Time-resolved measurements of sample mass and temperature are recorded. Care should be taken to ensure that crucibles and thermocouples selected for use in TGA tests are both compatible with the sample and test conditions of interest and that the instrument is calibrated for use under those specific test conditions (i.e., atmosphere and heating rate). At the start of each day’s testing, a baseline correction should also be performed to account for artificial changes in measured sample mass due to changes in buoyancy during the heating program. Further detail regarding the principles and practices of TGA is available elsewhere \cite{coats1963thermogravimetric}.
+In TGA experiments, small samples (typically 3~mg to 10~mg) are heated at a constant rate (2~K/min$ \le\beta\le50$~K/min) or maintained at constant elevated temperature in a carefully controlled gaseous environment (either inert or oxidative). Time-resolved measurements of sample mass and temperature are recorded. Care should be taken to ensure that crucibles and thermocouples selected for use in TGA tests are both compatible with the sample and test conditions of interest and that the instrument is calibrated for use under those specific test conditions (i.e., atmosphere and heating rate). Particular attention should be paid to temperature calibration, which should cover the full temperature range of the experiments for each heating rate. Blank or baseline measurements can also be used to correct for apparent changes in sample mass associated with buoyancy and instrumental drift during the heating program. Further detail regarding the principles and practices of TGA is available elsewhere \cite{coats1963thermogravimetric}.
 
 The combination of small sample size and relatively low heating rate used in TGA experiments allows for the assumption of infinitely fast transport processes, decoupling thermal degradation reactions from heat and mass transfer effects. Analysis of TGA mass and mass loss rate data thus allows for the study of condensed-phase thermal decomposition reaction mechanisms and the determination of the kinetics of these reactions.
 
-Fourteen unique institutions submitted TGA measurements from tests conducted in two different gaseous environments at eight different heating rates at 2 different pressures. One institution also provided TGA data from isothermal tests conducted at 593K. For each of these experiments, powdered samples between 1~mg and 15~mg were loaded into crucibles, weighed, and then heated (from ambient temperature through their primary decomposition reactions) at a constant rate between 2~K/min and 50~K/min. Prior to heating, some samples were loaded and kept under isothermal conditions for approximately 2~min to 30~min. After heating, some samples were kept under isothermal conditions for approximately 1~min to 30~min. More information, including apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available on the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_TGA_N2} and \ref{Table:Matrix_TGA_O2} show the number of TGA tests conducted under each combination of test conditions.
+Seventeen unique institutions submitted TGA measurements conducted in inert and oxidative gaseous environments. Tests in inert conditions were performed in nitrogen, while oxidative experiments were conducted in oxygen-nitrogen mixtures containing 3, 6, 10, 20, or 21 \% oxygen. Measurements were performed at nine different heating rates ranging from 2~K/min to 50~K/min and, for selected experiments, at two different pressures. One institution also provided TGA data from isothermal tests conducted at 593~K. For each of these experiments, powdered samples between 1~mg and 15~mg were loaded into crucibles, weighed, and then heated from ambient temperature through their primary decomposition reactions at a constant rate. Prior to heating, some samples were held isothermally for approximately 2~min to 30~min to allow the sample and instrument to approach thermal equilibrium and the balance signal to stabilise. In some experiments, this conditioning step was performed at elevated temperature, which may have affected the initial sample moisture content. After heating, some samples were kept under isothermal conditions for approximately 1~min to 30~min.
+
+More information, including apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedures, is provided in the README files for each experiment. This documentation is available on the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_TGA_N2} and \ref{Table:Matrix_TGA_O2} show the number of TGA tests conducted under each combination of test conditions in nitrogen and oxygen-nitrogen atmospheres, respectively. By far the largest interlaboratory dataset was obtained for a heating rate of 10~K/min in nitrogen, for which measurements from 15 institutions are available. Thirteen of these institutions provided at least three replicate measurements, making this condition particularly suitable for assessing interlaboratory variability.
 
 \begin{table}[ht]
 	\caption{Test Matrix of TGA Tests Conducted in Nitrogen; table values indicate number of tests conducted under listed test conditions}
@@ -327,13 +348,13 @@ Fourteen unique institutions submitted TGA measurements from tests conducted in 
 \end{table}
 
 \subsection{Differential Scanning Calorimetry (DSC)}
-In DSC experiments, a small material sample is placed in a crucible of high thermal conductivity and heated at a constant rate alongside a reference crucible in a carefully controlled gaseous environment. Unlike TGA, sample mass is not measured; rather, time-resolved measurements of sample temperature and heat flow are recorded. Heat flow to the sample can be measured in two ways: (1) power compensation DSC, in which the energy (supplied by electric current) needed to maintain the sample crucible at the same temperature as the reference crucible is directly measured, or (2) heat flux DSC, in which the temperature difference between the sample and reference pans is carefully measured during heating and prior calibration of the instrument allows for the determination of heat flux as a function of this temperature difference. Further detail regarding the principles and practices of differential scanning calorimetry is available elsewhere \cite{mcnaughton2003differential}.
+In DSC experiments, a small material sample is placed in a crucible of high thermal conductivity and heated at a constant rate alongside a reference crucible in a carefully controlled gaseous environment. Unlike TGA, sample mass is not continuously measured during the experiment; rather, the initial sample mass is determined prior to the test, while time-resolved measurements of sample temperature and heat flow are recorded. Heat flow to the sample can be measured in two ways: (1) power compensation DSC, in which the energy (supplied by electric current) needed to maintain the sample crucible at the same temperature as the reference crucible is directly measured, or (2) heat flux DSC, in which the temperature difference between the sample and reference pans is carefully measured during heating and prior calibration of the instrument allows for the determination of heat flux as a function of this temperature difference. Further detail regarding the principles and practices of differential scanning calorimetry is available elsewhere \cite{mcnaughton2003differential}.
 
-DSC can be used to quantify the heat capacities of materials as well as heats of reaction of endo- or exothermic condensed-phase reactions and the temperatures at which they occur. These features of interest can be determined based on the deviations of measured heat flow to the sample versus from the baseline (heat flow to empty crucibles). In DSC tests, the baseline is not necessarily easy to establish. The baseline itself may deviate from zero for a variety of reasons including a mismatch of the thermal properties of the sample and the reference material, poor positioning of crucibles themselves or of the samples within their crucible, and/or asymmetry in the construction of sample and reference holders. Excellent thermal contact between the sample, the reference pans, and the instrument and careful calibration of the instrument for the exact test conditions used in each experiment is essential to obtaining accurate measurements of sample heat capacity or heats of decomposition.
+DSC is primarily used to identify and characterize endothermic and exothermic thermal events, including the temperatures at which they occur and the associated heats of reaction or transition. Under appropriately controlled and calibrated conditions, DSC can also be used to determine the heat capacity of a material. These features of interest can be determined based on the deviations of measured heat flow to the sample versus from the baseline (heat flow to empty crucibles). In DSC tests, the baseline is not necessarily easy to establish. The baseline itself may deviate from zero for a variety of reasons including a mismatch of the thermal properties of the sample and the reference material, poor positioning of crucibles themselves or of the samples within their crucible, and/or asymmetry in the construction of sample and reference holders. Excellent thermal contact between the sample, the reference pans, and the instrument and careful calibration of the instrument for the exact test conditions used in each experiment is essential to obtaining accurate measurements of sample heat capacity or heats of decomposition. In addition to temperature calibration (similar to TGA), DSC also requires calibration of the heat-flow sensitivity, which relates the measured instrument response to the actual heat flow. This sensitivity calibration can be particularly challenging at high heating rates. Both temperature and sensitivity calibrations should cover the relevant temperature ranges and heating rates used in the experiments.
 
-Four institutions submitted DSC measurements. These tests conducted in one gaseous environments at five different heating rates. For most of these experiments, powdered samples between 4~mg and 7~mg were loaded into metallic crucibles, weighed, and then heated (from ambient temperature through complete thermal decomposition) at a constant rate between 3~K/min and 30~K/min. 
+Seven institutions submitted DSC measurements. Six institutions provided measurements conducted in pure nitrogen, while one institution also provided measurements in oxygen-nitrogen atmospheres containing 3, 6, 10, or 21 \% oxygen. All submitted DSC measurements were obtained in Simultaneous Thermal Analysis (STA) mode described below, meaning that sample mass was recorded simultaneously with heat flow. Thus, in addition to the DSC signal, corresponding thermogravimetric data are available for these experiments, which is not inherent to conventional DSC measurements. Across all experiments, measurements were conducted at heating rates between 2.5~K/min and 50~K/min. For most of these experiments, powdered samples between 3~mg and 11~mg were loaded into metallic crucibles, weighed, and then heated from ambient temperature through complete thermal decomposition at a constant heating rate.
 
-More information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Table~\ref{Table:Matrix_DSC} shows the number of DSC tests conducted by each institution under each combination of test conditions.
+More information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment. This documentation is available in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_DSC_N2} and \ref{Table:Matrix_DSC_O2} show the number of DSC tests conducted under each combination of test conditions in pure nitrogen and oxygen-nitrogen atmospheres, respectively.
 
 \begin{table}[ht]
 	\caption{Test Matrix of DSC Tests Conducted in Pure Nitrogen; table values indicate number of tests conducted under listed test conditions}
@@ -365,7 +386,7 @@ A key advantage of TM-DSC is its ability to deconvolute reversable (e.g., sensib
 One institution, ‘Mallard’, provided TM-DSC data in which samples were heated and cooled (three times in each test) from 267~K to 467~K. Tests were repeated three times (3x) using a heating rates of $\beta=3$~K/min. In this report (and on the Github repository), `Reversing' and `Non-Reversing' heat flow signals are identified as such; however, total heat flow measured during these TM-DSC tests is simply identified as `Heat Flow (W/g)', consistent with traditional DSC measurements.
 
 \subsubsection*{Simultaneous Thermal Analysis (STA)}
-In STA experiments, a small material sample is placed in a crucible of high thermal conductivity and heated at a constant rate alongside a reference crucible in a carefully controlled gaseous environment. In these tests, both sample mass (TGA) heat flow to the sample (DSC) are recorded during a single, combined experiment. In this report, these results are presented and analyzed separately, along with TGA or DSC tests conducted under similar conditions (e.g., heating rate, gaseous environment).
+In STA experiments, a small material sample is placed in a crucible of high thermal conductivity and heated at a constant rate alongside a reference crucible in a carefully controlled gaseous environment. In these tests, both sample mass (TGA) heat flow to the sample (DSC) are recorded during a single, combined experiment. In this report, the thermogravimetric signal obtained from STA experiments is combined with data from conventional TGA measurements conducted under corresponding test conditions. The heat-flow signal is treated as DSC data; in the present dataset, all submitted DSC measurements were obtained using STA instruments.
 
 \subsection{Microscale Combustion Calorimetry (MCC)}
 In MCC experiments, mg-scale samples are heated in a carefully controlled (typically anaerobic) gaseous environment, similar to TGA tests. Gaseous pyrolyzates produced by the sample are transported in an inert gas stream to a high-temperature furnace where they are mixed with excess oxygen and allowed to burn to completion. Measurement of total gas flow and oxygen concentration downstream of the furnace allows for the calculation of sample heat release rate due to this non-flaming combustion, based on the principle of oxygen consumption calorimetry. The heat of complete combustion is obtained from the time integral of this heat release rate and measurements of initial and final sample mass. Further detail regarding the principles and practices of MCC is available elsewhere \cite{lyon2013principles}.
@@ -396,14 +417,14 @@ Five institutions provided measurement data from repeated MCC tests conducted in
 \label{g_tests}
 \subsection{Cone Calorimeter}
 \label{g_tests_cone}
-In cone calorimetry experiments, gram-scale samples (typically 10~cm square, 6~mm thick) are placed on a layer of thermal insulation inside of a steel holder and exposed to a conical, radiant heater capable of providing an external heat flux of 10~kW/m$^2$ to 75~kW/m$^2$. Samples can be supported in either the horizontal or vertical configuration (typically horizontal) with or without a spark igniter. This provides (nominally) a one-dimensional heating scenario where sample slabs can burn freely in well-ventilated, open-atmosphere conditions. Samples are supported above a load cell and positioned beneath a well-instrumented exhaust hood, capable of providing oxygen consumption measurements. Thus, the apparatus produces time-resolved measurements of sample mass loss and heat release rates. Further detail regarding the operating principles, best practices, complete capabilities, and analysis techniques of cone calorimetry is available elsewhere \cite{babrauskas1984development, SFPEHandbookCone, astm1354standard, twilley1988user}.
+In cone calorimetry experiments, gram-scale samples (typically 10~cm square) are placed on a layer of thermal insulation inside of a steel holder and exposed to a conical, radiant heater capable of providing an external heat flux of 10~kW/m$^2$ to 75~kW/m$^2$. Samples can be supported in either the horizontal or vertical configuration (typically horizontal) with or without a spark igniter.  This provides (nominally) a one-dimensional heating scenario where sample slabs can burn freely in well-ventilated, open-atmosphere conditions. Samples are supported above a load cell and positioned beneath a well-instrumented exhaust hood, capable of providing oxygen consumption measurements. Thus, the apparatus produces time-resolved measurements of sample mass loss and heat release rates. Additional test conditions, such as specimen thickness and conditioning, type and thickness of backing insulation, wrapping, or metal frame, may vary between experimental setups and can significantly affect the measured response. These conditions should therefore be clearly documented when reporting cone calorimetry results. Further detail regarding the operating principles, best practices, complete capabilities, and analysis techniques of cone calorimetry is available elsewhere \cite{babrauskas1984development, SFPEHandbookCone, astm1354standard, twilley1988user}.
 
 Cone calorimeter test results can be used to determine a material's heat of combustion ($\Delta H_{\rm{c}}$ [kJ/g]) and representative burning behavior of a cross-section of a material or product in response to known heating conditions. In this pyrolysis model calibration exercise, some experimentalists were able to repeat cone calorimeter experiments in which the wood grain orientation was aligned parallel or perpendicular to the sample's top surface (different sample types were provided, cut from different cross sections of boards otherwise obtained from the same trees). Multiple labs also repeated experiments including measurements of back, front, and/or in-depth temperature temperature rise of wood samples during heating.
 
-Five institutions submitted experimental measurements from 28 unique cone calorimeter tests conducted using an applied external heat flux of 25~kW/m$^2$, 30~kW/m$^2$, 50~kW/m$^2$, 60~kW/m$^2$ or 75~kW/m$^2$. For all of these tests, samples were 25~mm thick and 10~cm square. Tests were conducted both with and without frames (to keep samples in place within their holders) using a variety of backing insulation layers. Both of these features may impact the burning behavior of samples during experiments. Additional information, including apparatus specifications and calibration details, backing insulation thermal conductivity, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Table~\ref{Table:Cone_Matrix} lists the number of cone calorimeter experiments conducted under each combination of test conditions.
+Ten institutions submitted experimental measurements from 91 unique cone calorimeter tests conducted using an applied external heat flux of 25, 30, 45, 50, 60, and 75~kW/m$^2$. For all of these tests, samples were 25~mm thick and 10~cm square. Tests were conducted both with and without frames (to keep samples in place within their holders) using a variety of backing insulation layers. Both of these features may impact the burning behavior of samples during experiments. Additional information, including apparatus specifications and calibration details, backing insulation thermal conductivity, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Table~\ref{Table:Cone_Matrix} lists the number of cone calorimeter experiments conducted under each combination of test conditions.
 
 \begin{table}[ht]
-\caption{Test Matrix of Cone Calorimeter Experiments; table values indicate number of tests conducted under listed test conditions}
+\caption{Test Matrix of Cone Calorimeter Experiments; table values indicate the number of tests conducted under the listed test conditions, reported as parallel/perpendicular grain orientations}
 \label{Table:Cone_Matrix}
 \begin{center}
 	\input{../SCRIPT_FIGURES/Cone/Cone_hor.tex}\\
@@ -412,12 +433,13 @@ Five institutions submitted experimental measurements from 28 unique cone calori
 
 \subsection{Anaerobic Gasification}
 \label{g_tests_gasification}
-Two institutions performed anaerobic gasification tests on `MaCFP-Wood'. One institution conducted a total of 12 anaerobic gasification experiments using a Controlled Atmosphere Cone Calorimeter. This apparatus produces a nominally one-dimensional heating of gram-scale samples (here, 25~mm thick) in an anaerobic environment. The second institution conducted a total of 4 experiments using 9~mm thick samples in a Controlled Atmosphere Pyrolysis Apparatus (CAPA).
+Five institutions performed anaerobic gasification tests on `MaCFP-Wood' using two different experimental apparatuses. Three institutions conducted a total of 36 experiments using Controlled Atmosphere Cone Calorimeters, with samples approximately 25~mm thick. Two institutions conducted a total of 14 experiments using Controlled Atmosphere Pyrolysis Apparatuses (CAPA), with samples approximately 9~mm thick. Both apparatuses provide nominally one-dimensional heating of samples under controlled anaerobic conditions.
+
 Table~\ref{Table:Gasification_Matrix} lists the number of gasification experiments conducted under each combination of apparatus type and test conditions. Each dataset includes time-resolved measurements of total sample mass as well as back- and/or top-surface temperature measurements.
 
 
 \begin{table}[ht]
-	\caption{Test Matrix of Gasification Experiments; table values indicate number of tests conducted under listed test conditions}
+	\caption{Test Matrix of Anaerobic Gasification Experiments; table values indicate the number of tests conducted under the listed test conditions, reported as parallel/perpendicular grain orientations}
 	\label{Table:Gasification_Matrix}
 	\begin{center}
 		\begin{tabular}{cc}
@@ -433,7 +455,6 @@ Table~\ref{Table:Gasification_Matrix} lists the number of gasification experimen
 			\end{minipage}
 		\end{tabular}
 	\end{center}
-	\small{Ancona: Experiments were conducted on samples with perpendicular and parallel grain orientation (3 each).}
 \end{table}
 
 
@@ -452,7 +473,9 @@ The most recent version of this apparatus, CAPA~II, was used to obtain the repor
 
 \subsection{Thermal Conductivity and Diffusivity}
 \label{g_tests_conductivity}
-``Direct measurements'' of thermal conductivity and diffusivity were provided by two institutions, using two separate apparatus: TPS hot disk \cite{gustafsson1991transient} and Laser Flash \cite{NeztschLFA}. Thermal diffusivity was measured using a Netzsch LFA 467 HT Hyperflash. The LFA 467 HT Hyperflash uses a xenon light source and an InSb infrared detector. Experiments were conducted on virgin wood samples either at room temperature or at temperature intervals from 298 K (25 C) up to 623 K (350 C). Thermal diffusivity measurements were also repeated on wood samples for which the grain orientation was aligned parallel or perpendicular to the sample's top surface to quantify the impact of grain orientation on heat transfer through the material. The reader is referred to the technical reference guides and/or user’s manuals of each of these instruments for further information regarding their operating principles and related test procedures.
+“Direct measurements” of thermal conductivity were provided by two institutions, while thermal diffusivity measurements were provided by three institutions. Two measurement techniques were used: the Transient Plane Source (TPS) Hot Disk method \cite{gustafsson1991transient} and the Laser Flash method \cite{NeztschLFA}. Thermal conductivity was measured using TPS Hot Disk apparatuses, whereas thermal diffusivity was determined using both TPS Hot Disk and a Netzsch LFA 467 HT Hyperflash. The LFA 467 HT Hyperflash uses a xenon light source and an InSb infrared detector.
+
+Experiments were conducted on virgin wood samples either at room temperature or over a temperature range from 298 K (25 °C) to 573 K (300 °C). Thermal diffusivity measurements were performed for samples with the grain oriented both parallel and perpendicular to the sample surface, allowing the effect of grain orientation on heat transfer through the material to be assessed. A pronounced influence of grain orientation was observed. The reader is referred to the technical reference guides and user manuals of the respective instruments for further information on their operating principles and test procedures.
 
 %\subsection{Fourier Transform Infrared (FTIR)}
 
@@ -468,7 +491,11 @@ An experimental method was developed to identify the average molecular formula o
 
 \subsection{Sample Reflectivity and Emissivity}
 \label{optical_tests}
-Measurements of spectrally-dependent sample reflectivity were determined using an experimental apparatus consisting of an FTIR spectrometer coupled with a detector and an integrating sphere. First, a reference measurement is first performed in the sphere without a sample (system sealed with the same gold coating), then the flux reflected by the sample is measured, and finally the sample reflectivity is calculated as the ratio between reflected flux and reference flux. Various combinations of sources, detectors, and integrating spheres can be used for sample reflectivity measurements. Here, a single institution provided reflectivity data using a Bruker VERTEX spectrometer (4 cm$^{-1}$ resolution, based on the averaging of 1000 scans for each measurement), a gold-coated integrating sphere, and a liquid-nitrogen-cooled Mercury Cadmium Telluride (MCT) detector, manufactured by Kolmar technologies. In these tests, directional-hemispherical reflectivity ($\rho$) is measured at wavelengths between 1.4~$\mu$m and 10~$\mu$m. As wood samples are opaque, their transmissivities are assumed equal to 0 and their absortivities are calculated as the complement of reflectivity to 1: $\alpha=1-\rho$. More information about this experimental technique is available elsewhere~\cite{boulet2012characterization}.
+Measurements of spectrally-dependent sample reflectivity were determined using experimental apparatuses consisting of an FTIR spectrometer coupled with a detector and an integrating sphere. First, a reference measurement is performed in the sphere without a sample, using reference surfaces representing low and high reflectance, followed by measurement of the flux reflected by the sample. Sample reflectivity is then calculated from the corrected ratio between the sample and reference signals. Various combinations of spectrometers, detectors, and integrating spheres can be used for sample reflectivity measurements.
+
+Here, three institutions provided reflectivity data for virgin wood samples, and two institutions also provided data for charred wood samples. The char samples were obtained from specimens previously exposed in CAPA or cone calorimeter experiments at known incident heat fluxes. The measurements included directional-hemispherical reflectivity and were performed using FTIR systems equipped with gold-coated integrating spheres; among the reported setups were Bruker Invenio spectrometers with Bruker A562-G integrating spheres and liquid-nitrogen-cooled MCT detection. Reflectivity measurements were corrected using low- and high-reflectance references, such as a light trap and a gold reference. All available char and virgin wood samples were measured with the grain oriented parallel to the measured surface where reported.
+
+As wood samples are opaque, their transmissivities are assumed equal to 0 and their absorptivities are calculated as the complement of reflectivity to 1: $\alpha=1-\rho$. The measured spectral reflectivity was further used to calculate temperature-dependent total emissivity by weighting the reflectivity with the blackbody spectral distribution. More information about this experimental technique is available elsewhere~\cite{boulet2012characterization}.
 
 \chapter{Experimental Results}
 \label{exp_results}
@@ -1128,7 +1155,7 @@ Figures~\ref{Fig:Gasification_30kW_dmdt}, \ref{Fig:Gasification_40kW_dmdt}, and 
 
 \begin{figure}
   \centering
-  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_N2_MLR.pdf}
+  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_40kW_MLR.pdf}
   \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 40 kW/m$^2$. Individual experiments are plotted.}
   \label{Fig:Gasification_40kW_dmdt}
 \end{figure}
@@ -1283,10 +1310,11 @@ Figure~\ref{Fig:Reflectivity} plots the average (20 replicate measurements) refl
 
 Here, $T$ is absolute temperature and $\rho(\nu)$ is equal to the measured reflectivity at wavenumber, $\nu$. The final terms represent Planck's constant ($h = 6.626 \times 10^{-34}$ J$\cdot$s), the speed of light ($c = 3.000 \times 10^{8}$ m/s), and Boltzmann's constant ($k_B = 1.381 \times 10^{-23}$ J/K). The effective broadband emissivity of `MaCFP Wood' is calculated at a range of temperatures between 293~K and 453~K; these values are provided in Table~\ref{tab:emissivity}.
 \begin{figure}[t!]
-	\centering
-	\includegraphics[width=4in]{../SCRIPT_FIGURES/Reflectivity/Average/Avg_reflectivity.pdf}
-	\caption{Reflectivity of `MaCFP Wood'}
-	\label{Fig:Reflectivity}
+\centering
+\includegraphics[width=4in]{../SCRIPT_FIGURES/Reflectivity/Wood_Average_reflectivity_all.pdf}
+\includegraphics[width=4in]{../SCRIPT_FIGURES/Reflectivity/Wood-char_Average_reflectivity_all.pdf}
+\caption{Measured spectral reflectivity of `MaCFP Wood' and corresponding char samples. The upper panel shows the average reflectivity of the virgin wood measured by participating institutions, while the lower panel shows the reflectivity of char samples produced under different heating conditions.}
+\label{Fig:Reflectivity}
 \end{figure}
 
 

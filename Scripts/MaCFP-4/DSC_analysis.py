@@ -45,6 +45,17 @@ unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in DSC_se
 
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
+def bold_total_row(latex_str):
+    lines = latex_str.splitlines()
+
+    for i, line in enumerate(lines):
+        if line.strip().startswith('Total'):
+            cells = line.rstrip().removesuffix(r'\\').split('&')
+            cells = [f'\\textbf{{{cell.strip()}}}' for cell in cells]
+            lines[i] = ' & '.join(cells) + r' \\'
+
+    return '\n'.join(lines)
+
 print('Nitrogen table')
 DSC_table_data = DSC_Data + device_data(DATA_DIR, 'TM-DSC')
 table = make_institution_table(DSC_table_data,['Wood'],['N2'],['3K','5K','10K','20K','30K','40K','50K'])
@@ -52,7 +63,7 @@ table.loc['Bali', '10K'] -= 4 # 4 of the STA tests only contain TGA data
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 
-latex_str = format_latex(table)
+latex_str = bold_total_row(format_latex(table))
 with open(str(base_dir) + '/DSC/DSC_Nitrogen.tex', 'w') as f:
     f.write(latex_str)
 
@@ -64,11 +75,12 @@ table = make_institution_table(DSC_Data, ['Wood'], oxygen_atmospheres, oxygen_he
 
 # Remove condition columns without any measurements
 table = table.loc[:, table.sum(axis=0) > 0]
+table = table.rename(columns={atm: f'{atm.split("-")[1]}\\% O$_2$' for atm in oxygen_atmospheres}, level=0)
 
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 
-latex_str = format_latex(table)
+latex_str = bold_total_row(format_latex(table))
 with open(str(base_dir) + '/DSC/DSC_Oxygen.tex', 'w') as f:
     f.write(latex_str)
 
