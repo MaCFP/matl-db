@@ -107,13 +107,15 @@ Version 1.0 -- Released: March 30, 2026\\
 \textbf{ Document Prepared by:} \\
 Isaac Leventon and Karen De Lannoye\\
 (National Institute of Standards and Technology, NIST) \\
+Vojtech Salek; University of Chemistry and Technology in Prague (UCT)\\
+Lucie Hasalová; Technical Institute of Fire Protection in Prague (TIFP).
 \textbf{Experimental Results Submitted by:}\\
-Sina Bazrpash, Simo Hostikka; Aalto University. 
-%Nicolas Cabaret, Bertrand Girardin; Centre d’Essais au Feu (CERIB). 
+Sina Bazrpash, Simo Hostikka; Aalto University.
+Nicolas Cabaret, Bertrand Girardin; Centre d’Essais au Feu (CERIB). 
 Yan Ding; China University of Geosciences. 
 Lukas Arnold, Alex Belt, Tristan Hehnen; Forschungszentrum Jülich. 
-Shaorun Lin, Xinyan Huang; Hong Kong Polytechnical University. 
-Rodolphe Sonnier; IMT Mines Alès. 
+%Shaorun Lin, Xinyan Huang; Hong Kong Polytechnical University. 
+Loïc Dumazert, Arnaud Regazzi, Rodolphe Sonnier, Laurent Ferry; IMT Mines Alès. 
 Gilles Parent; Université de Lorraine (LEMTA). 
 Konrad Wilkens; Lund University. 
 Nathan Kahla, Sara McAllister; Missoula Fire Sciences Lab (MFSL). 
@@ -126,11 +128,11 @@ Pedro Reszka; Universidad Adolfo Ibáñez (UAI).
 David Lázaro Urrutia; Universidad de Cantabria. 
 Mark McKinnon; UL Fire Safety Research Institute (UL FSRI). 
 Alexander Morgan; University of Dayton Research Institute (UDRI).  
-Serge Bourbigot, Johan Sarazin; Université de Lille (UMET). 
 Grayson Bellamy, Stanislav Stoliarov; University of Maryland (UMD). 
-Marc Poisson, Benjamin Batiot, Thomas Rogaume; Université de Poitiers. 
+Serge Bourbigot, Johan Sarazin; Université de Lille (UMET). 
+%Marc Poisson, Benjamin Batiot, Thomas Rogaume; Université de Poitiers. 
 Björn Beele, Frauke Binder, Adam Slabon, Fabian Brännström; University of Wuppertal.
-Laura Hasburgh; USDA Forest Products Laboratory. 
+Laura Hasburgh, Eleanor Lazarcik; USDA Forest Products Laboratory. 
 Wenxuan Wu, David Morrisset; The University of Queensland (UQ).
 
 \end{flushright}
@@ -204,10 +206,10 @@ Aalto University                      	& Espoo, Finland \\ \hline
 Centre d’Essais au Feu (CERIB)~\textsuperscript{A} 			& Epernon, France\\ \hline
 China University of Geosciences			& Wuhan, China\\ \hline
 Forschungszentrum Jülich				& Jülich, Germany \\ \hline
-Hong Kong Polytechnic University      	& Hong Kong, China \\ \hline
+%Hong Kong Polytechnic University      	& Hong Kong, China \\ \hline
 IMT Mines Alès							& Alès, France \\ \hline
 Université de Lorraine (LEMTA) 			& Nancy, France \\ \hline
-Lund University~\textsuperscript{A}     & Lund, Sweden \\ \hline
+Lund University						    & Lund, Sweden \\ \hline
 Missoula Fire Sciences Lab (MFSL)		& Montana, USA \\ \hline
 National Institute of Standards and Technology (NIST)               & Maryland, USA \\ \hline
 Technical Institute of Fire Protection in Prague (TIFP+UCT)             & Prague, Czech Republic \\ \hline
@@ -219,10 +221,10 @@ University of Dayton Research Institute (UDRI)	& Ohio, USA \\ \hline
 UL Fire Safety Research Institute (UL FSRI)	& Maryland, USA \\ \hline
 University of Maryland (UMD)            & Maryland, USA \\ \hline
 Université de Lille - Unité Matériaux et Transformations (UMET)     & Lille, France \\ \hline
-Université de Poitiers					& Poitiers, France \\ \hline
-University of Queensland~\textsuperscript{A}                                    	& Queensland, Australia \\ \hline
+%Université de Poitiers					& Poitiers, France \\ \hline
+University of Queensland                                    	& Queensland, Australia \\ \hline
 USDA Forest Products Laboratory			& Wisconsin, USA \\ \hline
-\multicolumn{2}{l}{\footnotesize{\textsuperscript{A} Institution has commited to performing experiments but this data has not yet been incorporated into the repository or this report.}}
+%\multicolumn{2}{l}{\footnotesize{\textsuperscript{A} Institution has commited to performing experiments but this data has not yet been incorporated into the repository or this report.}}
 \end{tabular}
 \end{center}
 \end{table}
@@ -370,11 +372,11 @@ In STA experiments, a small material sample is placed in a crucible of high ther
 \subsection{Microscale Combustion Calorimetry (MCC)}
 In MCC experiments, mg-scale samples are heated in a carefully controlled (typically anaerobic) gaseous environment, similar to TGA tests. Gaseous pyrolyzates produced by the sample are transported in an inert gas stream to a high-temperature furnace where they are mixed with excess oxygen and allowed to burn to completion. Measurement of total gas flow and oxygen concentration downstream of the furnace allows for the calculation of sample heat release rate due to this non-flaming combustion, based on the principle of oxygen consumption calorimetry. The heat of complete combustion is obtained from the time integral of this heat release rate and measurements of initial and final sample mass. Further detail regarding the principles and practices of MCC is available elsewhere \cite{lyon2013principles}.
 
-Five institutions provided measurement data from repeated MCC tests conducted in five different gaseous environments at three different heating rates. In each test, powdered samples between 1~mg and 12~mg were loaded into ceramic crucibles, weighed, and then introduced into the MCC pyrolyzer. Often, samples/crucibles are held in the pyrolyzer for 10~min at approximately 350~K (to allow for equilibrium conditions: system temperature and gaseous environment) and then heated from this temperature through complete thermal decomposition at a constant heating rate. Additional information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_MCC_N2}  and ~\ref{Table:Matrix_DSC} show the number of MCC tests conducted by each institution under each combination of test conditions.
+Six institutions provided measurement data from repeated MCC tests conducted in five different gaseous environments at three different heating rates. Additionally, two institutions conducted MCC experiments on char (formed in MCC tests under nitrogen atmosphere) in air atmosphere. In each test, powdered samples between 1~mg and 12~mg were loaded into ceramic crucibles, weighed, and then introduced into the MCC pyrolyzer. Often, samples/crucibles are held in the pyrolyzer for 10~min at approximately 350~K (to allow for equilibrium conditions: system temperature and gaseous environment) and then heated from this temperature through complete thermal decomposition at a constant heating rate. Additional information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_MCC_N2}, \ref{Table:Matrix_MCC_O2}  and ~\ref{Table:Matrix_MCC_char} show the number of MCC tests conducted by each institution under each combination of test conditions.
 
 
 \begin{table}[ht]
-	\caption{Test Matrix of MCC Tests Conducted in Nitrogen; table values indicate number of tests conducted under listed test conditions}
+	\caption{Test Matrix of MCC Tests conducted in Nitrogen; table values indicate number of tests conducted under listed test conditions}
 	\label{Table:Matrix_MCC_N2}
 	\begin{center}
 		\input{../SCRIPT_FIGURES/MCC/MCC_Nitrogen.tex}\\
@@ -382,10 +384,18 @@ Five institutions provided measurement data from repeated MCC tests conducted in
 \end{table}
 
 \begin{table}[ht]
-	\caption{Test Matrix of MCC Tests Conducted in different atmosphere at a heating rate of 60~K/min; table values indicate number of tests conducted under listed test conditions}
+	\caption{Test Matrix of MCC Tests conducted in different atmosphere at a heating rate of 60~K/min; table values indicate number of tests conducted under listed test conditions}
 	\label{Table:Matrix_MCC_O2}
 	\begin{center}
 		\input{../SCRIPT_FIGURES/MCC/MCC_Oxygen.tex}\\
+	\end{center}
+\end{table}
+
+\begin{table}[ht]
+	\caption{Test Matrix of MCC Tests conducted on char in 20 Vol\% oxygen at a heating rate of 60~K/min; table values indicate number of tests conducted under listed test conditions}
+	\label{Table:Matrix_MCC_char}
+	\begin{center}
+		\input{../SCRIPT_FIGURES/MCC/MCC_Char.tex}\\
 	\end{center}
 \end{table}
 
@@ -468,7 +478,7 @@ An experimental method was developed to identify the average molecular formula o
 
 \subsection{Sample Reflectivity and Emissivity}
 \label{optical_tests}
-Measurements of spectrally-dependent sample reflectivity were determined using an experimental apparatus consisting of an FTIR spectrometer coupled with a detector and an integrating sphere. First, a reference measurement is first performed in the sphere without a sample (system sealed with the same gold coating), then the flux reflected by the sample is measured, and finally the sample reflectivity is calculated as the ratio between reflected flux and reference flux. Various combinations of sources, detectors, and integrating spheres can be used for sample reflectivity measurements. Here, a single institution provided reflectivity data using a Bruker VERTEX spectrometer (4 cm$^{-1}$ resolution, based on the averaging of 1000 scans for each measurement), a gold-coated integrating sphere, and a liquid-nitrogen-cooled Mercury Cadmium Telluride (MCT) detector, manufactured by Kolmar technologies. In these tests, directional-hemispherical reflectivity ($\rho$) is measured at wavelengths between 1.4~$\mu$m and 10~$\mu$m. As wood samples are opaque, their transmissivities are assumed equal to 0 and their absortivities are calculated as the complement of reflectivity to 1: $\alpha=1-\rho$. More information about this experimental technique is available elsewhere~\cite{boulet2012characterization}.
+Measurements of spectrally-dependent sample reflectivity were determined using an experimental apparatus consisting of an FTIR spectrometer coupled with a detector and an integrating sphere. First, a reference measurement is first performed in the sphere without a sample (system sealed with the same gold coating), then the flux reflected by the sample is measured, and finally the sample reflectivity is calculated as the ratio between reflected flux and reference flux. Various combinations of sources, detectors, and integrating spheres can be used for sample reflectivity measurements. Here, three institutions provided reflectivity data. Additionally, two institutions provided data on wood char. Additional information, including experimental set-up and calibration details, is provided in the README file of each experiment.  In these tests, directional-hemispherical reflectivity ($\rho$) is measured at wavelengths between 1.4~$\mu$m and 10~$\mu$m. As wood samples are opaque, their transmissivities are assumed equal to 0 and their absortivities are calculated as the complement of reflectivity to 1: $\alpha=1-\rho$. More information about this experimental technique is available elsewhere~\cite{boulet2012characterization}.
 
 \chapter{Experimental Results}
 \label{exp_results}
