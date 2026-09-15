@@ -50,12 +50,23 @@ unique_conditions = { '_'.join(s.split('_')[3:]) for s in TGA_sets}
 unique_conditions_material = sorted(set(name.split('_', 1)[1] for name in TGA_sets if '_' in name))
 
 #Print tables with Institute name (Duck version) and amount of repetition experiments
+def bold_total_row(latex_str):
+    lines = latex_str.splitlines()
+
+    for i, line in enumerate(lines):
+        if line.strip().startswith('Total'):
+            cells = line.rstrip().removesuffix(r'\\').split('&')
+            cells = [f'\\textbf{{{cell.strip()}}}' for cell in cells]
+            lines[i] = ' & '.join(cells) + r' \\'
+
+    return '\n'.join(lines)
+
 print('Nitrogen table')
 table_N2 = make_institution_table(TGA_Data,['Wood'],['N2'],['2K','3K','5K','10K','20K','30K','40K','50K'])
 table_N2.loc['Total'] = table_N2.sum(axis=0)
 print(table_N2)
 
-latex_str = format_latex(table_N2)
+latex_str = bold_total_row(format_latex(table_N2))
 with open(str(base_dir) +'/TGA/TGA_Nitrogen.tex', 'w') as f:
     f.write(latex_str)
 
@@ -69,11 +80,14 @@ table = make_institution_table(TGA_Data, ['Wood'], oxygen_atmospheres, oxygen_he
 # Remove condition columns without any measurements
 table = table.loc[:, table.sum(axis=0) > 0]
 
+# Rename atmosphere headers for the LaTeX table
+table = table.rename(columns={atm: f'{atm.split("-")[1]}\\% O$_2$' for atm in oxygen_atmospheres}, level=0)
+
 table.loc['Total'] = table.sum(axis=0)
 print(table)
 
-latex_str = format_latex(table)
-with open(str(base_dir) +'/TGA/TGA_Oxygen.tex', 'w') as f:
+latex_str = bold_total_row(format_latex(table))
+with open(str(base_dir) + '/TGA/TGA_Oxygen.tex', 'w') as f:
     f.write(latex_str)
 
 # ------------------------------------
