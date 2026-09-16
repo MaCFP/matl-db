@@ -1,3 +1,7 @@
+#### How to Compile a Predicisional Draft Report Summarizing Experimental Measurements Submitted to the 2026 MaCFP Workshop
+1. Add description to run scripts, compuile experimental and modeling reports.
+
+
 #### How to Compile a Predicisional Draft Report Summarizing Experimental Measurements Submitted to the 2021 MaCFP Workshop
 
 
