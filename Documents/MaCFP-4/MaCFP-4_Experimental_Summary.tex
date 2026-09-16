@@ -507,11 +507,11 @@ Measurements of spectrally-dependent sample reflectivity were determined using e
 
 \chapter{Experimental Results}
 \label{exp_results}
-In this section, experimental measurements from both mg- and g-scale tests are presented. When tests were conducted under the same nominal experimental conditions (e.g., heating rate, incident heat flux, and/or gaseous environment) and when data provided by different institutions showed qualitative agreement, average curves (e.g., heat release rate or mass loss rate vs. time or temperature) were calculated; these mean values are identified throughout the text by symbols with overbars. Type A uncertainties~\cite{taylor1994nist} of these mean values are reported for all data as two standard deviations of the mean calculated over at least three independent observations, unless otherwise stated.
+In this section, experimental measurements from both mg- and g-scale tests are presented. When tests were conducted under the same nominal experimental conditions (e.g., heating rate, incident heat flux, and/or gaseous environment) and when data provided by different institutions showed qualitative agreement, average curves (e.g., heat release rate or mass loss rate vs. time or temperature) were calculated; these mean values are identified throughout the text by symbols with overbars. Type A uncertainties~\cite{taylor1994nist} of these mean values are reported for all data as two standard errors of the mean calculated over at least three independent observations, unless otherwise stated.
 
-It should be noted that some variations between datasets are simply stochastic (i.e., random, unavoidable noise in repeated tests); however, others may result from systematic causes such as calibration differences in mg-scale experiments or sample holder and/or insulation type in g-scale experiments. Consequently, although clear outliers are not considered when calculating average curves (see further discussion throughout this section on how outliers are identified), care should be taken to understand if/how underlying differences in test conditions or procedure may have impacted the response of samples during experiments and thus how this may affect the final averaged dataset. Ultimately, average curves represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted).
+It should be noted that some variations between datasets are simply stochastic (i.e., random, unavoidable noise in repeated tests); however, others may result from systematic causes. For mg-scale experiments, these may include differences in temperature and sensitivity calibration, actual heating rate, crucible configuration, purge-gas conditions, sample mass, or initial moisture content. For g-scale experiments, systematic differences may arise from incident heat-flux calibration, spatial non-uniformity of the imposed heat flux, specimen density, moisture content, backing insulation, sample holder or frame configuration, grain orientation, and ignition procedure. Consequently, although clear outliers are not considered when calculating average curves (see further discussion throughout this section on how outliers are identified), care should be taken to understand if/how underlying differences in test conditions or procedure may have impacted the response of samples during experiments and thus how this may affect the final averaged dataset. Ultimately, average curves represent the aggregate of data as received, some of which may require corrections by the original submitting institution (e.g., if a dataset was incorrectly labeled or submitted).
 
-The measurement data presented here is provided with limited processing and should be considered as a preliminary summary to highlight the information that is available in \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{the MaCFP repository} as of January 28, 2026. Further analysis of these results, including determination if correlation or causation of similarities or differences in datasets submitted by different institutions can be found (e.g., due to variations in instrument design, calibration or test procedure, and/or sample holder), will be provided in a future report.
+The measurement data presented here reflect the status of the MaCFP database as of September 16, 2026. The analysis builds on the preliminary results presented in June 2026 in La Rochelle, France, where several approaches to interlaboratory comparison were introduced, including assessment of repeatability and reproducibility and evaluation of systematic differences between datasets. Since then, the database has been expanded with additional measurements and contributions from several institutions, and the analyses have been updated accordingly. The data treatment presented in this report reflects the current outcome of the discussions within the MaCFP community and the analyses considered most useful for interpretation of the available dataset. While this report represents the final summary of the present MaCFP-4 experimental analysis, it should not be regarded as defining the full extent of analyses that can be performed using the database. The underlying data may support further or alternative analyses in the future where these are scientifically justified or respond to specific needs of the community. The measurement data remain available in \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{the MaCFP repository}.
 
 \section{Milligram-Scale Tests}
 
@@ -520,45 +520,82 @@ The measurement data presented here is provided with limited processing and shou
 
 \subsubsection{Heating Rate}
 
-All TGA experiments submitted to this workshop were performed at constant heating rates between 2~K/min and 50~K/min. In practice, actual heating rate may vary throughout the course of experiments (especially at their start, while the TGA furnace is heating up). Figures~\ref{Fig:TGA_5K_dTdt},~\ref{Fig:TGA_10K_dTdt} and \ref{Fig:TGA_20K_dTdt} show actual time-resolved heating rates in tests conducted, nominally, at $\beta$ = 5 K/min, 10 K/min and 20 K/min, respectively. In either figure, each curve represents the mean instantaneous heating rate as calculated from repeated experiments conducted by the same institution, under the same gaseous environment and target heating rate. When multiple curves are shown for the same institution on Fig.~\ref{Fig:TGA_10K_dTdt}, they represent average heating rates measured in tests conducted under different gaseous environments (e.g., pure nitrogen, 21 vol.~\% oxygen in nitrogen or different pressure e.g. 40Pa versus 100kPa).
+All TGA experiments submitted to this workshop were performed at constant nominal heating rates between 2~K/min and 50~K/min. In practice, the actual heating rate may vary from the prescribed value throughout the course of an experiment, especially during its initial stage while the TGA furnace is approaching the programmed heating rate. Figure~\ref{Fig:TGA_dTdt} shows actual time-resolved heating rates in tests conducted nominally at $\beta$ = 5~K/min, 10~K/min, 20~K/min, and 30~K/min. Each curve represents the mean instantaneous heating rate calculated from repeated experiments conducted by the same institution under the same test conditions. When multiple curves are shown for the same institution, they represent average heating rates measured under different test conditions, such as different gaseous environments (e.g., pure nitrogen or 21~vol.~% oxygen in nitrogen) or pressures (e.g., 40~Pa and 100~kPa).
 
-As shown here, the actual heating rate can vary significantly during the early stages of testing (i.e., as samples are first heated from 50~K to 150~K above their initial temperature) before the heating rate, $\beta$, finally reaches its target value. In most cases, this variability simply reflects physical limitations of the instrument furnace. For a smaller number of tests, 
-Typically, heating rate stabilized prior to notable sample decomposition; however, this non-steady heating rate may significantly impact apparent heat flow in DSC and STA tests, and thus calibrated values of sample heat capacity. For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments, no systematic differences in time-resolved heating rates were observed (i.e., sample heating was highly repeatable in replicate tests submitted by the same institution).
-\begin{figure} [h!]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=5.5in]{../SCRIPT_FIGURES/TGA/dTdt_TGA_5Kmin.pdf}
-	\caption{Average (of repeated experiments conducted by a single institution) reported instantaneous heating rate during TGA experiments conducted at a nominal heating rate of $\beta=5$ K/min; all tests conducted in pure nitrogen.}
-	\label{Fig:TGA_5K_dTdt}
+
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/dTdt_TGA_5Kmin.pdf}
+		\label{Fig:TGA_5K_dTdt}
+	\end{subfigure}
+	\hspace{-0.01\textwidth}
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/dTdt_TGA_10Kmin.pdf}
+		\label{Fig:TGA_10K_dTdt}
+	\end{subfigure}
+
+	\vspace{-0.1cm}
+
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/dTdt_TGA_20Kmin.pdf}
+		\label{Fig:TGA_20K_dTdt}
+	\end{subfigure}
+	\hspace{-0.01\textwidth}
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/dTdt_TGA_30Kmin.pdf}
+		\label{Fig:TGA_30K_dTdt}
+	\end{subfigure}
+
+    \caption{Average reported instantaneous heating rate during TGA experiments conducted at nominal heating rates of $\beta=5$, 10, 20, and 30 K/min. Each curve represents the average of repeated experiments conducted by a single institution under the same test conditions. Repeated curves for the same institution represent measurements conducted under different test conditions, such as gaseous environment or pressure. The discontinuity observed for `Orpington' at $\beta=10$ K/min arises from rapid heating to 373~K followed by an extended isothermal hold at this temperature for sample drying prior to decomposition at the nominal heating rate.}
+    \label{Fig:TGA_dTdt}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/TGA/dTdt_TGA_10Kmin.pdf}
-  \caption{Average (of repeated experiments conducted by a single institution in the same gaseous environment) instantaneous heating rate during TGA experiments conducted at a nominal heating rate of $\beta=10$ K/min. Repeated curves for the same institution represent measurement data from tests conducted in different gaseous environments. The discontinuity in heating rate for `Orpington' tests arises due to a rapid heating to 373~K followed by an extended isothermal hold at this temperature (sample drying) prior to decomposition at $\beta=10$ K/min.}
-  \label{Fig:TGA_10K_dTdt}
-\end{figure}
+As shown in Figure~\ref{Fig:TGA_dTdt}, the actual heating rate can vary significantly during the early stages of testing, typically within approximately the first 50--150~K of temperature increase, before approaching its nominal value. In most cases, this behaviour reflects the dynamic response of the instrument furnace and its temperature-control system and is therefore strongly instrument dependent. Such deviations are difficult to eliminate completely, as they depend on factors such as furnace design, controller settings, and the prescribed temperature program. The effect generally becomes more pronounced at higher nominal heating rates, where the furnace and control system must respond more rapidly to maintain the programmed temperature increase. For a smaller number of tests, more pronounced departures from the nominal heating programme, including temporary overshoots, undershoots, or discontinuities, were observed. Some of these features arise from intentionally programmed steps in the experimental procedure; for example, the discontinuity observed for `Orpington' at 10~K/min results from rapid heating to 373~K followed by an extended isothermal hold for sample drying before the subsequent constant-rate heating stage.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/TGA/dTdt_TGA_20Kmin.pdf}
-  \caption{Average (of repeated experiments conducted by a single institution) reported instantaneous heating rate during TGA experiments conducted at a nominal heating rate of $\beta=20$ K/min; all tests conducted in pure nitrogen.}
-  \label{Fig:TGA_20K_dTdt}
+Typically, the heating rate stabilised before substantial sample decomposition occurred. In most cases, the stabilised value was close to the nominal heating rate; however, for some experiments, a persistent offset remained and the prescribed heating rate was not fully reached even after the initial transient period. Deviations from the prescribed heating programme may be particularly important in DSC and STA measurements, where both transient and persistent heating-rate errors can influence the measured heat-flow signal and consequently quantities derived from it, such as heat capacity or heats of reaction. For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments or pressures, no consistent systematic differences in the time-resolved heating-rate profiles were apparent; rather, the profiles were generally highly repeatable within each institution.
+
+The practical importance of deviations between nominal and actual heating rate depends on the process or property being studied. They may be particularly important for low-temperature phenomena and for quantities directly linked to the temperature programme, such as heat capacity in DSC or STA experiments. If TGA, DSC, or STA data are subsequently used for calibration or parameter optimisation, assuming a constant heating rate where the actual rate varies may introduce systematic errors. The actual heating-rate profile should therefore be checked over the temperature interval of interest and, where necessary, the measured time-dependent heating rate should be used instead of the nominal constant value. This is illustrated further in Figure~\ref{Fig:TGA_dTdt_ranges}, where the approximate temperature ranges associated with different physical and chemical processes are highlighted. At $\beta=5$ K/min, the largest deviations are concentrated mainly within the evaporation range, whereas the heating rate is relatively stable during pyrolysis. At $\beta=30$ K/min, deviations persist over a broader temperature range; the `Rouen' data also suggest a small influence of strongly thermal sample processes on the measured heating rate.
+
+\begin{figure}[h!]
+    \centering
+
+    \begin{subfigure}[t]{0.7\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/dTdt_TGA_5Kmin_ranges.pdf}
+        \label{Fig:TGA_5K_dTdt_ranges}
+    \end{subfigure}
+
+    \vspace{-0.15cm}
+
+    \begin{subfigure}[t]{0.7\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/dTdt_TGA_30Kmin_ranges.pdf}
+        \label{Fig:TGA_30K_dTdt_ranges}
+    \end{subfigure}
+
+\caption{Average reported instantaneous heating rate during TGA experiments conducted at nominal heating rates of $\beta=5$ and 30~K/min. Each curve represents the average of repeated experiments conducted by a single institution under the same test conditions. The blue shaded region indicates the temperature interval associated primarily with evaporation, while the yellow shaded region indicates the temperature interval associated primarily with pyrolysis. The highlighted intervals allow the reader to assess whether deviations from the nominal heating rate occur within the temperature range relevant to the process being analysed.}
+    \label{Fig:TGA_dTdt_ranges}
 \end{figure}
 
 \clearpage
 \subsubsection{Mass Fraction and Mass Loss Rate}
 
-The key measurements recorded during TGA tests are sample mass, $m$~(mg); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded.  Both $m$ and $T$ were reported as time-resolved measurements. Prior to further analysis, sample mass was normalized by initial mass, $m_0$, which was calculated as the mean value over the first 5 data points of the respective experiment data file. As discussed below, variations in sample conditioning/preparation prior to testing resulted in differences in initial sample moisture content at the start of testing. In future revisions of this document and/or publications of more detailed analysis of these experimental results, sample mass may be re-normalized to mitigate the impact of variations in initial sample moisture content.
+The key measurements recorded during TGA tests are sample mass, $m$~(mg); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded.  Both $m$ and $T$ were reported as time-resolved measurements. Prior to further analysis, sample mass was normalized by initial mass, $m_0$, which was calculated as the mean value over the first 5 data points of the respective experiment data file.
 
-Most TGA tests were run with, nominally, constant heating rates between 2~K/min~$\leq\beta\leq$~50~K/min (in approximately 80\% of these tests, heating rate varied between 5~K/min~$\leq\beta\leq$~20~K/min). One institute also conducted tests at an isothermal temperature of 593~K. Sample mass and temperature were reported either at regular temperature increments or at fixed time intervals. In most datasets, mass was reported every 0.5~K; (the full range of reporting frequencies in datasets submitted by different institutions varied, with three institutes reporting data at constant time intervals, i.e. every 1~s or every 2.4~s). Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. For all tests, time, $t$, and normalized mass, $m/m_0$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). 
+Most TGA tests were run at nominally constant heating rates between 2~K/min and 50~K/min; approximately 80~\% of the dynamic tests were conducted at heating rates between 5~K/min and 20~K/min. The largest dataset was obtained at 10~K/min, comprising 72 experiments from 15 institutions across the investigated atmospheres. One institution also conducted tests under isothermal conditions at 593~K. Sample mass and temperature were reported either at regular temperature increments or at fixed time intervals. The most common reporting interval was 0.5~K; less frequently, data were reported at 1~K temperature increments or at fixed time intervals of approximately 1--2.4~s. Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. For all tests, time, $t$, and normalized mass, $m/m_0$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). 
 
-Prior to further analysis, noise in all individual $m/m_0$ curves was reduced by applying a Savitzky-Golay filter (third order polynomial fit; 41 data point range). These fitting parameters were determined by trial and error, and future work will examine optimizing the choice of these parameters. Normalized mass loss rate was then calculated for each replicate $j$ at each temperature, $T_i$, as the numerical derivative of filtered sample mass curves across a 1~K interval, as follows:
+Normalized mass loss rate was calculated for each replicate $j$ at each temperature, $T_i$, using a central numerical derivative across a 1~K temperature interval, as follows:
 \begin{equation}
    \frac{\dot{m}_{i,j}}{m_{0,j}} = \frac{1}{m_{0,j}}\frac{\left(m_{i-1,j}-m_{i+1,j}\right)}{\left(t_{i+1}-t_{i-1}\right)}
 \end{equation}
-In this way, the time step, $\Delta t$, needed for this calculation could vary (see previous discussion on heating rates) but it would always correspond to the time needed for sample mass to increase by 1~K).
+In this way, the time step, $\Delta t$, used for this calculation could vary (see previous discussion on heating rates), while always corresponding to a 1~K temperature interval. Noise in the resulting normalized mass loss rate curves was subsequently reduced by applying a Savitzky--Golay filter (third-order polynomial fit; 41-point window). The same filter was also applied to the normalized mass curves for their subsequent presentation and analysis. These filtering parameters were selected by trial and error and subsequently verified using representative TGA data to ensure that random noise was reduced without significantly affecting the relevant features of the mass-loss-rate curves.
 
-Figure~\ref{Fig:TGA_N2_10K_2} shows the effect of this filter on a representative TGA dataset (data submitted by ‘Alabio’ from a test in pure nitrogen at 10~K/min). Here, filtered and unfiltered mass data is plotted (left axis; green and blue curves, respectively) along with filtered and unfiltered mass loss rate data (right axis; black and red curves, respectively). With this filter, random noise in the signal is cleanly removed but meaningful signal data remains; relevant mass loss events are not over-smoothed; no shift is observed in the onset or peak temperature of reactions, which could occur if a larger time interval, $\Delta t$, were used to smooth calculated mass loss rate; and the peak mass loss rate is well captured. 
+Figure~\ref{Fig:TGA_N2_10K_2} shows the effect of the selected filter on a representative TGA dataset (data submitted by ‘Alabio’ from a test in pure nitrogen at 10~K/min). Filtered and unfiltered normalized mass data are shown on the left axis (green and blue curves, respectively), together with filtered and unfiltered normalized mass loss rate on the right axis (black and red curves, respectively). The selected filter effectively reduces random noise while preserving the relevant features of the signal: individual mass loss events remain clearly resolved, no appreciable shift in their onset or peak temperatures is introduced, and the peak mass loss rate is well preserved.
 
 \begin{figure}[h!]
   \centering
@@ -567,7 +604,7 @@ Figure~\ref{Fig:TGA_N2_10K_2} shows the effect of this filter on a representativ
   \label{Fig:TGA_N2_10K_2}
 \end{figure}
 
-Figures~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_N2_20K} show measured mass and mass loss rate data from 10, 44, and 10 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 5~K/min, 10~K/min, and 20~K/min, respectively. As seen here, sample decomposition primarily occurs between 500~K and 700~K, with only one distinct reaction peak (though overlapping reactions likely occur across this temperature range). Approximately 75~\% of initial sample mass is lost by $T=700~$~K; only minor mass loss is observed at higher temperatures, as discussed later in this section. 
+The discussion below focuses primarily on the most extensively tested heating rates, while results for the remaining TGA test conditions are provided in Appendix~\ref{App:TGA}. Figures~\ref{Fig:TGA_N2_5K} through \ref{Fig:TGA_N2_20K} show measured mass and mass loss rate data from 10, 44, and 10 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 5~K/min, 10~K/min, and 20~K/min, respectively. As seen here, sample decomposition primarily occurs between 500~K and 700~K, with only one distinct reaction peak (though overlapping reactions likely occur across this temperature range). Approximately 75~\% of initial sample mass is lost by $T=700~$~K; only minor mass loss is observed at higher temperatures, as discussed later in this section. 
 
 Figure~\ref{Fig:TGA_O2-21_10K} plots measurements from 4 repeated tests conducted in a mixture of oxygen and nitrogen ($X_{\rm O_2}=0.21$) at a nominal heating rate of $\beta=10$~K/min. Though char oxidation is not the focus of MaCFP-4, it will be considered in future workshops. In these tests, measured sample decomposition occurs in two discrete steps with approximately 70~\% of initial sample mass is lost by $T=600~$~K and the remaining sample mass lost by $T=750~$~K to $T=775~$~K (char oxidation).
 
