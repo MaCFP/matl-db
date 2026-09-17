@@ -820,14 +820,14 @@ for series in ['TUT_Wood_TGA_N2_10K_40Pa','TUT_Wood_TGA_N2_10K_100kPa']:
 
         if series.endswith('100kPa'):
             if i < 3:
-                label = '100kPa original dataset'
+                label = '100 kPa original dataset'
                 linestyle = '--'
             else:
-                label = '100kPa additional dataset'
+                label = '100 kPa additional dataset'
                 linestyle = '-'
             plot_color = 'black'
         else:
-            label = '40Pa original dataset'
+            label = '40 Pa original dataset'
             linestyle = '--'
             plot_color = 'red'
 
@@ -858,12 +858,36 @@ plt.close(fig)
 # region generate latex table values of interest
 #-----------------------------------------------
 # Add sorting columns
-Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
-Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
+Average_values['atmosphere'] = Average_values['conditions'].apply(lambda x: x[0])
+Average_values['heating_rate'] = Average_values['conditions'].apply(lambda x: x[1])
 Average_values['condition_key'] = Average_values['conditions'].apply(get_condition_key)
 
-# Sort by atmosphere, then heating rate, then institution
-Average_values_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Institution'])
+def atmosphere_group(atm):
+    if atm == 'N2':
+        return 0
+    if atm.startswith('O2-'):
+        return 1
+    return 2
+
+def oxygen_sort_key(atm):
+    if atm == 'N2':
+        return 0
+    if atm.startswith('O2-'):
+        return float(atm.split('-')[1])
+    return 999
+
+def heating_rate_sort_key(hr):
+    if 'iso' in hr:
+        return 999
+    return float(hr.replace('K', ''))
+
+Average_values['atmosphere_group'] = Average_values['atmosphere'].apply(atmosphere_group)
+Average_values['oxygen_sort'] = Average_values['atmosphere'].apply(oxygen_sort_key)
+Average_values['heating_rate_sort'] = Average_values['heating_rate'].apply(heating_rate_sort_key)
+
+Average_values_sorted = Average_values.sort_values(
+    ['atmosphere_group', 'oxygen_sort', 'heating_rate_sort', 'Institution']
+)
 
 # Add superscript A if std is NaN (single sample)
 Average_values_sorted['Institution_formatted'] = Average_values_sorted.apply(
@@ -920,102 +944,116 @@ Average_values_sorted['c950_400_formatted'] = Average_values_sorted.apply(
 )
 
 # Format conditions (convert list to string)
-Average_values_sorted['conditions_formatted'] = Average_values_sorted['conditions'].apply(
-    lambda x: ', '.join(x) if isinstance(x, list) else x
-)
+def format_conditions(x):
+    if not isinstance(x, list):
+        return x
+
+    conditions = x.copy()
+
+    if conditions[0].startswith('O2-'):
+        oxygen = conditions[0].split('-')[1]
+        conditions[0] = f'{oxygen}\\% O$_2$'
+
+    return ', '.join(conditions)
+
+Average_values_sorted['conditions_formatted'] = Average_values_sorted['conditions'].apply(format_conditions)
 
 # Select and rename columns for the table
-columns_to_keep = ['Institution_formatted', 'conditions_formatted', 'MLR_formatted', 
-                   'T_peak_formatted', 'T_onset_formatted','MC_formatted', 'c700_formatted','c950_formatted', 'condition_key']
+columns_to_keep = ['Institution_formatted', 'conditions_formatted', 'MLR_formatted',
+                   'T_peak_formatted', 'T_onset_formatted', 'MC_formatted',
+                   'c700_formatted', 'c700_400_formatted',
+                   'c950_formatted', 'c950_400_formatted', 'condition_key']
 
 Average_values_table = Average_values_sorted[columns_to_keep].copy()
-Average_values_table.columns = ['Institution', 'Conditions', 'peak MLR (1/s)', 
-                                'T peak (K)', 'T onset (K)', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)','m/m_{0} at 950~K (\\%)' , 'condition_key']
+
+Average_values_table.columns = [
+    'Institution',
+    'Conditions',
+    'peak MLR',
+    'T peak',
+    'T onset',
+    'MC',
+    'c700',
+    'c700_400',
+    'c950',
+    'c950_400',
+    'condition_key'
+]
 
 # Generate LaTeX
 latex_string = Average_values_table.to_latex(
     index=False,
     escape=False,
-    column_format='llcccccc',
-    columns=['Institution', 'Conditions', 'peak MLR (1/s)', 'T peak (K)', 'T onset (K)','MC (\\%)', 'm/m_{0} at 700~K (\\%)','m/m_{0} at 950~K (\\%)' ]
+    column_format='llcccccccc',
+    columns=[
+        'Institution',
+        'Conditions',
+        'peak MLR',
+        'T peak',
+        'T onset',
+        'MC',
+        'c700',
+        'c700_400',
+        'c950',
+        'c950_400'
+    ]
 )
 
-# Modify the string
+# Replace table rules
 latex_string = latex_string.replace('\\toprule', '\\hline')
 latex_string = latex_string.replace('\\midrule', '\\hline')
 latex_string = latex_string.replace('\\bottomrule', '\\hline')
 
-# Make column headers bold
-latex_string = latex_string.replace('Institution', '\\textbf{Institution}')
-latex_string = latex_string.replace('Conditions', '\\textbf{Conditions}')
-latex_string = latex_string.replace('peak MLR (1/s)', '\\textbf{peak MLR (1/s)}')
-latex_string = latex_string.replace('T peak (K)', '\\textbf{T peak (K)}')
-latex_string = latex_string.replace('T onset (K)', '\\textbf{T onset (K)}')
-latex_string = latex_string.replace('MC (\\%)', '\\textbf{MC (\\%)}')
-latex_string = latex_string.replace('m/m_{0} at 700~K (\\%)', '\\textbf{$m/m_{0}$ at 700~K (\\%)}')
-latex_string = latex_string.replace('m/m_{0} at 950~K (\\%)', '\\textbf{$m/m_{0}$ at 950~K (\\%)}')
+# Replace automatically generated header by two-row header
+header_old = (
+    'Institution & Conditions & peak MLR & T peak & T onset & MC & '
+    'c700 & c700_400 & c950 & c950_400 \\\\'
+)
 
-# Add blank lines between different condition groups (first two items)
+header_new = (
+    '\\textbf{Institution} & \\textbf{Conditions} & \\textbf{peak MLR} & '
+    '\\textbf{T peak} & \\textbf{T onset} & \\textbf{MC} & '
+    '\\multicolumn{2}{c}{\\textbf{700 K}} & '
+    '\\multicolumn{2}{c}{\\textbf{950 K}} \\\\\n'
+    ' & & \\textbf{(1/s)} & \\textbf{(K)} & \\textbf{(K)} & \\textbf{(\\%)} & '
+    '\\textbf{$m/m_0$ (\\%)} & \\textbf{$m/m_{400K}$ (\\%)} & '
+    '\\textbf{$m/m_0$ (\\%)} & \\textbf{$m/m_{400K}$ (\\%)} \\\\'
+)
+
+latex_string = latex_string.replace(header_old, header_new)
+
+# Add horizontal lines between condition groups
 lines = latex_string.split('\n')
 new_lines = []
 prev_condition_key = None
+prev_atmosphere_group = None
 
-# Track condition keys as we iterate through table rows
 condition_keys = Average_values_table['condition_key'].tolist()
+atmosphere_groups = Average_values_sorted['atmosphere_group'].tolist()
 data_row_index = 0
 
-for i, line in enumerate(lines):
-    # Check if this is a data row (contains '&' but not '\textbf')
-    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+for line in lines:
+    if '&' in line and '\\textbf' not in line and '\\multicolumn' not in line and '\\hline' not in line:
         current_condition_key = condition_keys[data_row_index]
-        
-        # If condition key changed and this is not the first data row, add blank line
+        current_atmosphere_group = atmosphere_groups[data_row_index]
+
         if prev_condition_key is not None and current_condition_key != prev_condition_key:
-            new_lines.append('        \\\\')
-        
+            if current_atmosphere_group != prev_atmosphere_group:
+                new_lines.append('\\hline\\hline')
+            else:
+                new_lines.append('\\hline')
+
         prev_condition_key = current_condition_key
+        prev_atmosphere_group = current_atmosphere_group
         data_row_index += 1
-    
+
     new_lines.append(line)
 
 latex_string = '\n'.join(new_lines)
 
 # Save to file
-with open(str(base_dir) + f'/TGA/TGA_Values.tex', 'w') as f:
+with open(str(base_dir) + '/TGA/TGA_Values.tex', 'w') as f:
     f.write(latex_string)
-
-# Generate separate table for 400K-normalized values
-columns_to_keep_400Knorm = ['Institution_formatted', 'conditions_formatted', 'MC_formatted', 'c700_formatted',
-                            'c700_400_formatted', 'c950_formatted', 'c950_400_formatted', 'condition_key']
-
-Average_values_table_400Knorm = Average_values_sorted[columns_to_keep_400Knorm].copy()
-
-Average_values_table_400Knorm.columns = ['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)',
-                                         'm/m_{400K} at 700~K (\\%)', 'm/m_{0} at 950~K (\\%)',
-                                         'm/m_{400K} at 950~K (\\%)', 'condition_key']
-
-latex_string_400Knorm = Average_values_table_400Knorm.to_latex(
-    index=False,
-    escape=False,
-    column_format='llccccc',
-    columns=['Institution', 'Conditions', 'MC (\\%)', 'm/m_{0} at 700~K (\\%)', 'm/m_{400K} at 700~K (\\%)',
-             'm/m_{0} at 950~K (\\%)', 'm/m_{400K} at 950~K (\\%)']
-)
-
-latex_string_400Knorm = latex_string_400Knorm.replace('\\toprule', '\\hline')
-latex_string_400Knorm = latex_string_400Knorm.replace('\\midrule', '\\hline')
-latex_string_400Knorm = latex_string_400Knorm.replace('\\bottomrule', '\\hline')
-
-latex_string_400Knorm = latex_string_400Knorm.replace('Institution', '\\textbf{Institution}')
-latex_string_400Knorm = latex_string_400Knorm.replace('Conditions', '\\textbf{Conditions}')
-latex_string_400Knorm = latex_string_400Knorm.replace('MC (\\%)', '\\textbf{MC (\\%)}')
-latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{0} at 700~K (\\%)', '\\textbf{$m/m_{0}$ at 700~K (\\%)}')
-latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{0} at 950~K (\\%)', '\\textbf{$m/m_{0}$ at 950~K (\\%)}')
-latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{400K} at 700~K (\\%)', '\\textbf{$m/m_{400K}$ at 700~K (\\%)}')
-latex_string_400Knorm = latex_string_400Knorm.replace('m/m_{400K} at 950~K (\\%)', '\\textbf{$m/m_{400K}$ at 950~K (\\%)}')
-
-with open(str(base_dir) + f'/TGA/TGA_Values_400Knorm.tex', 'w') as f:
-    f.write(latex_string_400Knorm)
 
 
 # =============================================================================
