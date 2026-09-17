@@ -80,6 +80,16 @@ def get_grain_orientation(path):
 # print('\nAvailable gasification conditions:')
 # for item in sorted(unique_conditions_gas):
 #     print(item)
+def bold_total_row(latex_str):
+    lines = latex_str.splitlines()
+
+    for i, line in enumerate(lines):
+        if line.strip().startswith('Total'):
+            cells = line.rstrip().removesuffix(r'\\').split('&')
+            cells = [f'\\textbf{{{cell.strip()}}}' for cell in cells]
+            lines[i] = ' & '.join(cells) + r' \\'
+
+    return '\n'.join(lines)
 
 print('Cone table')
 
@@ -100,7 +110,7 @@ table = table_parallel.astype(str) + '/' + table_perpendicular.astype(str)
 table.loc['Total'] = table_parallel.sum(axis=0).astype(str) + '/' + table_perpendicular.sum(axis=0).astype(str)
 print(table)
 
-latex_str = format_latex(table, 'Incident Heat Flux (kW/m$^2$)')
+latex_str = bold_total_row(format_latex(table, 'Incident Heat Flux (kW/m$^2$)'))
 with open(str(base_dir) + '/Cone/Cone_hor.tex', 'w') as f:
     f.write(latex_str)
 
@@ -123,7 +133,7 @@ Capa = Capa_parallel.astype(int).astype(str) + '/' + Capa_perpendicular.astype(i
 Capa.loc['Total'] = Capa_parallel.sum(axis=0).astype(int).astype(str) + '/' + Capa_perpendicular.sum(axis=0).astype(int).astype(str)
 
 print(Capa)
-latex_str = format_latex(Capa, 'Incident Heat Flux (kW/m$^2$)')
+latex_str = bold_total_row(format_latex(Capa, 'Incident Heat Flux (kW/m$^2$)'))
 with open(str(base_dir) + '/Cone/Capa.tex', 'w') as f:
     f.write(latex_str)
 
@@ -144,7 +154,7 @@ Gasification.loc['Total'] = Gasification_parallel.sum(axis=0).astype(str) + '/' 
 
 print(Gasification)
 
-latex_str = format_latex(Gasification, 'Incident Heat Flux (kW/m$^2$)')
+latex_str = bold_total_row(format_latex(Gasification, 'Incident Heat Flux (kW/m$^2$)'))
 with open(str(base_dir) + '/Cone/Gasification.tex', 'w') as f:
     f.write(latex_str)
 
