@@ -97,12 +97,33 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
   - Type: FTT
   - O2 Analyzer: Chemical
 * Baseline correction: Linear baseline correction
+
+#### Performance check with Polystyrene
+* Was performed at the day of the experiments with a heating rate of 30 K/min
+* TUBS\_PS\_MCC-raw\_N2\_30K\_R1 contains the raw data
+* TUBS\_PS\_MCC\_N2\_30K\_R1 contains the baseline corrected data, which is used for the performance check analysis
+* Information about the used Polystyrene 
+  - CAS-No.: 9003-53-6
+  - Average Mw: 350,000
+  - Average Mn: 170,000
+  - Supplier: Sigma-Aldrich
+* Result of the performance check
+  - HR capacity: 1099 J/gK
+  - Total HR: 38.8 kJ/g
+  - Peak temperature: 428.9 C
+* Since the performance check evaluates long-term behavior and the results for different PS materials are not necessarily identical (as stated by the manufacturer), here are the average values of all performance checks ever conducted with our PS at a heating rate of 30 K/min (average value, +/- standard deviation)
+  - HR capacity: 1108 +/- 15 J/gK
+  - Total HR: 38.7 +/- 0.2 kJ/g
+  - Peak temperature: 429.1 +/- 1.7 C
+ 
   
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: | :------------------------: |
 |TUBS\_Wood\_MCC\_N2\_30K\_R1 | 0 | 1.03 | 0.07 |
 |TUBS\_Wood\_MCC\_N2\_30K\_R1 | 0 | 1.04 | 0.11 |
 |TUBS\_Wood\_MCC\_N2\_30K\_R1 | 0 | 1.05 | 0.12 |
+|TUBS\_PS\_MCC\_N2\_30K\_R1 | 0 | 3.61 | 0.00 |
+|TUBS\_PS\_MCC-raw\_N2\_30K\_R1 | 0 | 3.61 | 0.00 |
 
 ### Experimental Conditions: Cone calorimeter
 
