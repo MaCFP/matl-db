@@ -26,7 +26,7 @@ ex = 'pdf' #options 'pdf' or 'png
 
 # NOTE: Sample areas are currently defined manually in get_cone_area() and get_gas_area() because the relevant
 # information is not reported consistently in the submitted README files.
-# These definitions should be reviewed if existing datasets are updated or new institutions are added.
+# These definitions should be reviewed if existing datasets are updated or new institutions are added  (last update, Sept 16, 2026).
 
 #region create subdirectories to save plots. 
 base_dir = Path('../../Documents/SCRIPT_FIGURES')
@@ -49,7 +49,7 @@ Gasification_Data = device_data(DATA_DIR, 'GASIFICATION') + device_data(DATA_DIR
 Gas_sets = get_series_names(Gasification_Data)
 
 print('NOTE: Cone and gasification sample areas are manually defined in get_cone_area() and get_gas_area(). '
-      'Review these definitions if existing datasets are updated or new institutions are added.')
+      'Review these definitions if existing datasets are updated or new institutions are added (last update, Sept 16, 2026).')
 
 unique_conditions_cone = { '_'.join(s.split('_')[3:]) for s in Cone_sets}
 unique_conditions_cone_material = sorted(set(name.split('_', 1)[1] for name in Cone_sets if '_' in name))
