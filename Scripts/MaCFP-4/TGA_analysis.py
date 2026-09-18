@@ -275,6 +275,7 @@ def plot_average_values(df):
     for condition in [['N2','5K'],['N2','10K'],['N2','20K']]:
         # Filter data for this condition
         condition_data = df[df['conditions'].apply(lambda x: all(c in x for c in condition))]
+        condition_data = condition_data[~condition_data['conditions'].apply(lambda x: '40Pa' in x)]
         
         fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
         fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
@@ -375,6 +376,161 @@ for HR in unique_HR:
 #--------------------------------------------------------
 
 
+# =============================================================================
+# Generate LaTeX appendix: heating-rate profiles
+# =============================================================================
+
+heating_rate_pdfs = sorted(
+    (base_dir / 'TGA').glob('dTdt_TGA_*Kmin.pdf'),
+    key=lambda p: float(p.stem.split('_')[-1].replace('Kmin', ''))
+)
+
+latex_lines = []
+
+for pdf_path in heating_rate_pdfs:
+    hr_value = pdf_path.stem.split('_')[-1].replace('Kmin', '')
+
+    latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+    latex_lines.append('')
+    latex_lines.append(r'\begin{figure}[H]')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=0.75\linewidth]{{../SCRIPT_FIGURES/TGA/{pdf_path.name}}}')
+    latex_lines.append(rf'    \caption{{Measured heating-rate profiles for TGA tests conducted at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+    latex_lines.append(r'\end{figure}')
+    latex_lines.append('')
+
+latex_heating_rates = '\n'.join(latex_lines)
+
+with open(str(base_dir) + '/TGA/TGA_Appendix_Heating_Rates.tex', 'w') as f:
+    f.write(latex_heating_rates)
+
+
+# =============================================================================
+# Generate LaTeX appendix: mass and MLR curves in nitrogen
+# =============================================================================
+
+mass_files = sorted(
+    [
+        p for p in (base_dir / 'TGA').glob('TGA_Wood_N2_*_Mass.pdf')
+        if '_zoom' not in p.stem
+        and 'iso' not in p.stem
+    ],
+    key=lambda p: float(p.stem.split('_')[3].replace('K', ''))
+)
+
+latex_lines = []
+
+for mass_path in mass_files:
+    stem = mass_path.stem[:-5]  # remove "_Mass"
+
+    dmdt_path = mass_path.with_name(stem + '_dmdt.pdf')
+    mass_400_path = mass_path.with_name(stem + '_Mass_400Knorm.pdf')
+    dmdt_400_path = mass_path.with_name(stem + '_dmdt_400Knorm.pdf')
+
+    if not dmdt_path.exists() or not mass_400_path.exists() or not dmdt_400_path.exists():
+        continue
+
+    parts = stem.split('_')
+    hr = parts[3]
+
+    if hr.endswith('Kiso'):
+        continue
+
+    hr_value = hr.replace('K', '')
+
+    latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+    latex_lines.append('')
+
+    # Original normalization
+    latex_lines.append(r'\begin{figure}[H]')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
+    latex_lines.append(r'    \hfill')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
+    latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+    latex_lines.append(r'\end{figure}')
+    latex_lines.append('')
+
+    # Normalization by mass at 400 K
+    latex_lines.append(r'\begin{figure}[H]')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_400_path.name}}}')
+    latex_lines.append(r'    \hfill')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_400_path.name}}}')
+    latex_lines.append(rf'    \caption{{Mass normalized by the mass at 400~K (left) and corresponding normalized mass loss rate (right) for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+    latex_lines.append(r'\end{figure}')
+    latex_lines.append('')
+
+latex_mass_mlr = '\n'.join(latex_lines)
+
+with open(str(base_dir) + '/TGA/TGA_Appendix_Mass_MLR_N2.tex', 'w') as f:
+    f.write(latex_mass_mlr)
+
+
+
+# =============================================================================
+# Generate LaTeX appendix: mass and MLR curves in oxidative atmospheres
+# =============================================================================
+
+mass_files = sorted(
+    [
+        p for p in (base_dir / 'TGA').glob('TGA_Wood_O2-*_Mass.pdf')
+        if '_zoom' not in p.stem
+        and 'iso' not in p.stem
+    ],
+    key=lambda p: (
+        float(p.stem.split('_')[2].split('-')[1]),
+        float(p.stem.split('_')[3].replace('K', ''))
+    )
+)
+
+latex_lines = []
+
+for mass_path in mass_files:
+    stem = mass_path.stem[:-5]
+
+    dmdt_path = mass_path.with_name(stem + '_dmdt.pdf')
+    mass_400_path = mass_path.with_name(stem + '_Mass_400Knorm.pdf')
+    dmdt_400_path = mass_path.with_name(stem + '_dmdt_400Knorm.pdf')
+
+    if not dmdt_path.exists() or not mass_400_path.exists() or not dmdt_400_path.exists():
+        continue
+
+    parts = stem.split('_')
+    atm = parts[2]
+    hr = parts[3]
+
+    oxygen = atm.split('-')[1]
+    hr_value = hr.replace('K', '')
+    oxygen_fraction = float(oxygen) / 100
+
+    latex_lines.append(rf'\noindent\textbf{{$X_{{\rm O_2}}={oxygen_fraction:.2f}$, $\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+    latex_lines.append('')
+
+    latex_lines.append(r'\begin{figure}[H]')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
+    latex_lines.append(r'    \hfill')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
+    latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+    latex_lines.append(r'\end{figure}')
+    latex_lines.append('')
+
+    latex_lines.append(r'\begin{figure}[H]')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_400_path.name}}}')
+    latex_lines.append(r'    \hfill')
+    latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_400_path.name}}}')
+    latex_lines.append(rf'    \caption{{Mass normalized by the mass at 400~K (left) and corresponding normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+    latex_lines.append(r'\end{figure}')
+    latex_lines.append('')
+
+latex_mass_mlr_o2 = '\n'.join(latex_lines)
+
+with open(str(base_dir) + '/TGA/TGA_Appendix_Mass_MLR_O2.tex', 'w') as f:
+    f.write(latex_mass_mlr_o2)
+
+
 # Mass and mass loss rate plots for all unique atmospheres and heating rates 
 plot_configs = [
     {'suffix': '', 'xlim': (None, 1100), 'ylim1': (0, None),'ylim2': (0, None)},  # Original
@@ -410,6 +566,7 @@ for series in unique_conditions_material:
         fig1, ax1 = plt.subplots(figsize=(6, 4))
         fig2, ax2 = plt.subplots(figsize=(6, 4))
         fig3, ax3 = plt.subplots(figsize=(6, 4))
+        fig4, ax4 = plt.subplots(figsize=(6, 4))
         for path in TGA_subset_paths:
             df_raw = pd.read_csv(path)
             if 'FPL' in path.stem:
@@ -419,14 +576,17 @@ for series in unique_conditions_material:
             T400_index = df[df['Temperature (K)'] >= 400].index[0]
             mass400 = df['Normalized mass'].iloc[T400_index]
             df['Normalized mass 400K'] = df['Normalized mass'] / mass400
+            df['dm/dt 400Knorm'] = df['dm/dt'] / mass400
             if '40Pa' in path.stem:
-                ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color,linestyle =':')
-                ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color,linestyle =':')
+                ax1.plot(df['Temperature (K)'], df['Normalized mass'], label=label, color=color, linestyle=':')
+                ax2.plot(df['Temperature (K)'], df['dm/dt'], label=label, color=color, linestyle=':')
                 ax3.plot(df['Temperature (K)'], df['Normalized mass 400K'], label=label, color=color, linestyle=':')
+                ax4.plot(df['Temperature (K)'], df['dm/dt 400Knorm'], label=label, color=color, linestyle=':')
             else:
-                ax1.plot(df['Temperature (K)'], df['Normalized mass'], label = label, color=color)
-                ax2.plot(df['Temperature (K)'], df['dm/dt'], label = label, color=color)
+                ax1.plot(df['Temperature (K)'], df['Normalized mass'], label=label, color=color)
+                ax2.plot(df['Temperature (K)'], df['dm/dt'], label=label, color=color)
                 ax3.plot(df['Temperature (K)'], df['Normalized mass 400K'], label=label, color=color)
+                ax4.plot(df['Temperature (K)'], df['dm/dt 400Knorm'], label=label, color=color)
         # Apply configuration
         ax1.set_ylim(bottom=config['ylim1'][0], top=config['ylim1'][1])
         ax1.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
@@ -497,6 +657,23 @@ for series in unique_conditions_material:
         ax3.text(0.97, 0.95, f'{atmosphere_label}, {condition_label}', transform=ax3.transAxes, ha='right', va='top',
                  fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
 
+        ax4.set_ylim(bottom=config['ylim2'][0], top=config['ylim2'][1])
+        ax4.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
+        ax4.set_xlabel('Temperature [K]')
+        ax4.set_ylabel('d(m/m$_{400K}$)/dt [s$^{-1}$]')
+        fig4.tight_layout()
+
+        handles4, labels4 = ax4.get_legend_handles_labels()
+        by_label4 = dict(zip(labels4, handles4))
+
+        if hr == '10K':
+            ax4.legend(by_label4.values(), by_label4.keys(), fontsize=8, loc='upper right')
+        else:
+            ax4.legend(by_label4.values(), by_label4.keys(), loc='upper right')
+
+        ax4.text(0.03, 0.95, f'{atmosphere_label}, {condition_label}', transform=ax4.transAxes, ha='left', va='top',
+                 fontsize=11, bbox=dict(facecolor='white', edgecolor='none', alpha=0.35))
+
         fig1.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass{config["suffix"]}.{ex}')
 
         if material == 'Wood' and atm == 'N2' and hr == '10K' and config['suffix'] == '':
@@ -545,10 +722,12 @@ for series in unique_conditions_material:
 
         fig2.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_dmdt{config["suffix"]}.{ex}')
         fig3.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_Mass_400Knorm{config["suffix"]}.{ex}')
+        fig4.savefig(f'{base_dir}/TGA/TGA_{material}_{atm}_{hr}_dmdt_400Knorm{config["suffix"]}.{ex}')
 
         plt.close(fig1)
         plt.close(fig2)
         plt.close(fig3)
+        plt.close(fig4)
 #--------------------------------------------------------
 
 
@@ -808,6 +987,158 @@ plot_average_values(Average_values)
 print(Average_values)
 
 
+# =============================================================================
+# Generate LaTeX appendix: individual laboratory results in nitrogen
+# =============================================================================
+
+n2_sets = [
+    s for s in TGA_sets
+    if s.split('_')[1] == 'Wood'
+    and s.split('_')[3] == 'N2'
+    and s.split('_')[4].endswith('K')
+]
+
+# Sort by heating rate, institution, and pressure
+def n2_appendix_sort_key(s):
+    parts = s.split('_')
+    heating_rate = float(parts[4].replace('K', ''))
+    institution = parts[0]
+
+    if '40Pa' in parts:
+        pressure_order = 0
+    elif '100kPa' in parts:
+        pressure_order = 1
+    else:
+        pressure_order = 0
+
+    return heating_rate, institution, pressure_order, s
+
+
+n2_sets = sorted(n2_sets, key=n2_appendix_sort_key)
+
+heating_rates = sorted(
+    {s.split('_')[4] for s in n2_sets},
+    key=lambda x: float(x.replace('K', ''))
+)
+
+latex_lines = []
+
+for hr in heating_rates:
+    hr_value = hr.replace('K', '')
+
+    # Keep the same page breaks as in the original appendix
+    if hr in ['10K', '20K']:
+        latex_lines.append(r'\newpage')
+        latex_lines.append('')
+
+    latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+    latex_lines.append('')
+
+    current_sets = [s for s in n2_sets if s.split('_')[4] == hr]
+
+    for i, set_name in enumerate(current_sets):
+        # Left figure
+        if i % 2 == 0:
+            latex_lines.append(r'\begin{minipage}{0.5\textwidth}')
+            latex_lines.append(r'    \begin{figure}[H]')
+            latex_lines.append(rf'        {{\includegraphics[width=3.25in]{{../SCRIPT_FIGURES/TGA/Average/{set_name}.pdf}}}}\\')
+            latex_lines.append(r'    \end{figure}')
+            latex_lines.append(r'\end{minipage}')
+
+        # Right figure
+        else:
+            latex_lines.append(r'\begin{minipage}{0.35\textwidth}')
+            latex_lines.append(r'    \begin{figure}[H]')
+            latex_lines.append(rf'        {{\includegraphics[width=3.25in]{{../SCRIPT_FIGURES/TGA/Average/{set_name}.pdf}}}}\\')
+            latex_lines.append(r'    \end{figure}')
+            latex_lines.append(r'\end{minipage}\\')
+            latex_lines.append('')
+            latex_lines.append(r'\vfill')
+            latex_lines.append('')
+
+    # If the number of figures is odd, finish the row
+    if len(current_sets) % 2 != 0:
+        latex_lines.append('')
+        latex_lines.append(r'\vfill')
+        latex_lines.append('')
+
+latex_individual_n2 = '\n'.join(latex_lines)
+
+with open(str(base_dir) + '/TGA/TGA_Appendix_Individual_N2.tex', 'w') as f:
+    f.write(latex_individual_n2)
+
+
+
+# =============================================================================
+# Generate LaTeX appendix: individual laboratory results in oxidative atmospheres
+# =============================================================================
+
+o2_sets = [
+    s for s in TGA_sets
+    if s.split('_')[1] == 'Wood'
+    and s.split('_')[3].startswith('O2-')
+    and s.split('_')[4].endswith('K')
+]
+
+def o2_appendix_sort_key(s):
+    parts = s.split('_')
+    oxygen = float(parts[3].split('-')[1])
+    heating_rate = float(parts[4].replace('K', ''))
+    institution = parts[0]
+    return oxygen, heating_rate, institution, s
+
+o2_sets = sorted(o2_sets, key=o2_appendix_sort_key)
+
+conditions = sorted(
+    {(s.split('_')[3], s.split('_')[4]) for s in o2_sets},
+    key=lambda x: (float(x[0].split('-')[1]), float(x[1].replace('K', '')))
+)
+
+latex_lines = []
+
+for atm, hr in conditions:
+    oxygen = atm.split('-')[1]
+    hr_value = hr.replace('K', '')
+
+    latex_lines.append(rf'\noindent\textbf{{$X_{{\rm O_2}}={float(oxygen)/100:.2f}$, $\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+    latex_lines.append('')
+
+    current_sets = [
+        s for s in o2_sets
+        if s.split('_')[3] == atm
+        and s.split('_')[4] == hr
+    ]
+
+    for i, set_name in enumerate(current_sets):
+        if i % 2 == 0:
+            latex_lines.append(r'\begin{minipage}{0.5\textwidth}')
+            latex_lines.append(r'    \begin{figure}[H]')
+            latex_lines.append(rf'        {{\includegraphics[width=3.25in]{{../SCRIPT_FIGURES/TGA/Average/{set_name}.pdf}}}}\\')
+            latex_lines.append(r'    \end{figure}')
+            latex_lines.append(r'\end{minipage}')
+        else:
+            latex_lines.append(r'\begin{minipage}{0.35\textwidth}')
+            latex_lines.append(r'    \begin{figure}[H]')
+            latex_lines.append(rf'        {{\includegraphics[width=3.25in]{{../SCRIPT_FIGURES/TGA/Average/{set_name}.pdf}}}}\\')
+            latex_lines.append(r'    \end{figure}')
+            latex_lines.append(r'\end{minipage}\\')
+            latex_lines.append('')
+            latex_lines.append(r'\vfill')
+            latex_lines.append('')
+
+    if len(current_sets) % 2 != 0:
+        latex_lines.append('')
+        latex_lines.append(r'\vfill')
+        latex_lines.append('')
+
+latex_individual_o2 = '\n'.join(latex_lines)
+
+with open(str(base_dir) + '/TGA/TGA_Appendix_Individual_O2.tex', 'w') as f:
+    f.write(latex_individual_o2)
+
+
+
+
 # plot 100 kPa versus 40 kPA
 fig, ax_mass = plt.subplots(figsize=(6, 4))
 color = {'100kPa':'black', '40Pa':'red'}
@@ -1061,34 +1392,29 @@ with open(str(base_dir) + '/TGA/TGA_Values.tex', 'w') as f:
 # =============================================================================
 
 tga_comparison_latex = r'''
-\begin{table}[ht]
-\centering
-\caption{Comparison of MaCFP4 and MaCFP2 TGA repeatability and reproducibility.}
-\label{tab:tga_macfp2_comparison}
 \begin{tabular}{|c|c|c|}
 \hline
- & \textbf{MaCFP4} & \textcolor{red}{\textbf{MaCFP2}} \\
+ & \textbf{MaCFP-4} & \textbf{MaCFP-2} \\
 \hline
 \multirow{4}{*}{\shortstack{Intralab\\min--max\\repeatability}}
-& \multicolumn{2}{c|}{\textbf{Peak temperature difference}} \\
+& \multicolumn{2}{c|}{Peak temperature difference} \\
 \cline{2-3}
-& $\sim 5$ K & \textcolor{red}{$\sim 5$ K} \\
+& $\sim 5$ K & $\sim 5$ K \\
 \cline{2-3}
-& \multicolumn{2}{c|}{\textbf{Peak MLR}} \\
+& \multicolumn{2}{c|}{Peak MLR} \\
 \cline{2-3}
-& $\sim 0.0002$ s$^{-1}$ ($<15\,\%$) & \textcolor{red}{$\sim 0.0002$ s$^{-1}$ ($<10\,\%$)} \\
+& $\sim 0.0002$ s$^{-1}$ ($<15\,\%$) & $\sim 0.0002$ s$^{-1}$ ($<10\,\%$) \\
 \hline
 \multirow{4}{*}{\shortstack{Interlab\\min--max\\reproducibility}}
-& \multicolumn{2}{c|}{\textbf{Peak temperature difference}} \\
+& \multicolumn{2}{c|}{Peak temperature difference} \\
 \cline{2-3}
-& $\sim 10$ K (excl.\ outlier) & \textcolor{red}{$\sim 15$ K (excl.\ outlier)} \\
+& $\sim 10$ K (excl.\ outlier) & $\sim 15$ K (excl.\ outlier) \\
 \cline{2-3}
-& \multicolumn{2}{c|}{\textbf{Peak MLR}} \\
+& \multicolumn{2}{c|}{Peak MLR} \\
 \cline{2-3}
-& $\sim 0.0004$ s$^{-1}$ ($30\,\%$) & \textcolor{red}{$\sim 0.0005$ s$^{-1}$ ($20\,\%$)} \\
+& $\sim 0.0004$ s$^{-1}$ ($30\,\%$) & $\sim 0.0005$ s$^{-1}$ ($20\,\%$) \\
 \hline
 \end{tabular}
-\end{table}
 '''
 
 with open(str(base_dir) + '/TGA/TGA_MaCFP2_Comparison.tex', 'w') as f:
