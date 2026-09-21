@@ -742,7 +742,7 @@ One approach to reduce this variability would be to prescribe an identical dryin
     \label{Fig:TGA_N2_10K_drynorm}
 \end{figure}
 
-In the present analysis, the mass measured at 400~K, $m_{400}$, was selected as the reference dry mass. At this temperature, sample mass remained approximately constant after initial moisture loss and the main pyrolysis stage had not yet begun. Normalized mass is then calculated as $\frac{m}{m_{400}}$ (rather than as typically reported, $\frac{m}{m_{0}}$, where ${m_{0}}$ is initial sample mass); consequently, re-normalized mass at temperatures at $T<400$~K may exceed unity. Although this re-normalization greatly reduces differences between datasets prior to the onset of pyrolysis, it only partially improves the variability\footnote{\textcolor{red}{Consider measured residue yields calculated at both 700~K and 950~K from repeat measurements submitted by all institutions: at both temperatures, the standard deviation of $\frac{m}{m_{400}}$ is \# versus # for $\frac{m}{m_{0}}$.}} in residue yield measured after the main decomposition stage (see Table~\ref{tab:wood_tga_results}). Across the investigated datasets, this correction increased the calculated residue yield by up to 2 percentage points at 700~K and 1.3 percentage points at 950~K. This demonstrates that differences in the measured residue yield cannot be explained by initial moisture content alone.
+In the present analysis, the mass measured at 400~K, $m_{400}$, was selected as the reference dry mass. At this temperature, sample mass remained approximately constant after initial moisture loss and the main pyrolysis stage had not yet begun. Normalized mass is then calculated as $\frac{m}{m_{400}}$ (rather than as typically reported, $\frac{m}{m_{0}}$, where ${m_{0}}$ is initial sample mass); consequently, re-normalized mass at temperatures at $T<400$~K may exceed unity. Although this re-normalization greatly reduces differences between datasets prior to the onset of pyrolysis, it only partially improves the variability\footnote{\textcolor{red}{Consider measured residue yields calculated at both 700~K and 950~K from repeat measurements submitted by all institutions: at both temperatures, the standard deviation of $\frac{m}{m_{400}}$ is \# versus \# for $\frac{m}{m_{0}}$.}} in residue yield measured after the main decomposition stage (see Table~\ref{tab:wood_tga_results}). Across the investigated datasets, this correction increased the calculated residue yield by up to 2 percentage points at 700~K and 1.3 percentage points at 950~K. This demonstrates that differences in the measured residue yield cannot be explained by initial moisture content alone.
 
 \textbf{Char Yield}\\ 
  Char (residue) yield is one of the key quantities derived from TGA measurements. Although it is often defined as a constant value (input parameter) in pyrolysis models, char is not a primary product~\cite{lewellen1977cellulose} and it is formed by competing mechanisms~\cite{broido1975char}, therefore residue yield is a function of decomposition conditions (e.g., heating rate, volatile residence time, gaseous environment, final temperature)~\cite{anca2016reaction, collard2014review,neves2011characterization}. In the present analysis, residue yields were therefore evaluated at both 700~K, shortly after the main decomposition stage, and 950~K, close to the end of the temperature program used by most participating laboratories. As shown in Table~\ref{tab:wood_tga_results}, residue yields at 700~K range from approximately 15~\% to 30~\% of the initial sample mass, whereas the corresponding values at 950~K range from approximately 7~\% to 20~\%. For most datasets, the residue yield decreases by approximately 5.5--7 percentage points between 700~K and 950~K. At these temperatures, hemicellulose and cellulose have largely decomposed~\cite{Salek?}**, but continued mass loss if often attributed to slower decomposition and further carbonization of lignin-derived components~\cite{Salek-Again?}**.
@@ -942,14 +942,15 @@ As shown here, the actual heating rate can vary significantly during the early s
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=3in]{../SCRIPT_FIGURES/MCC/dTdt_MCC_60Kmin.pdf}
-	\caption{Average (of repeated experiments conducted by a single institution in the same gaseous environment) instantaneous heating rate during MCC experiments conducted at a nominal heating rate of $\beta=60$ K/min. Repeated curves for the same institution represent measurement data from tests conducted in different gaseous environments. }
+	\caption{Average (of repeated experiments conducted by a single institution in the same gaseous environment) instantaneous heating rate during MCC experiments conducted at a nominal heating rate of $\beta=60$ K/min. Repeated curves for the same institution represent measurement data from tests conducted in different gaseous environments: solid lines are test in pure nitrogen atmosphere, dashed lines are tests in air atmosphere.}
 	\label{Fig:MCC_60K_dTdt}
 \end{figure}
 
 
-\subsubsection{Mass Fraction and Mass Loss Rate}
+\subsubsection{Heat Release Rate}
 
-The key measurements recorded during MCC tests are heat release rate, $HRR$~(W/g); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded.  Both $HRR$ and $T$ were reported as time-resolved measurements. Tests were run, nominally, at constant heating rates of 30~K/min or 60~K/min. Note: substantially more MCC data was recorded in this study on MaCFP-Wood as compared to the MaCFP-2 study on PMMA~\cite{PreliminarySummary}.
+\textbf{Data Processing}
+The key measurements recorded during MCC tests are heat release rate, $HRR$~(W/g); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded. Both $HRR$ and $T$ were reported as time-resolved measurements. Tests were run, nominally, at constant heating rates of 30~K/min or 60~K/min. Note: substantially more MCC data was recorded in this study on MaCFP-Wood as compared to the MaCFP-2 study on PMMA~\cite{PreliminarySummary}.
 
 Heat release rate and temperature were reported either at regular temperature increments or at fixed time intervals. In most datasets, heat release rate was reported every 0.5 K; (one institution reported heat release rate at 2~Hz). Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. For all tests, heat release rate, $Q'$, and time, $t$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). 
 
@@ -959,16 +960,22 @@ Integral heat release rate, $Q$, was calculated for each replicate test, $j$, us
 	%we have to start from i'=1 otherwise at i'-1, we have a conflict
 \end{equation}
 In this way, the time step, $\Delta t$, needed for this calculation could vary (see previous discussion on heating rates) but it would always correspond to the time needed for the sample temperature to increase by 1~K).
-
-
-Figures~\ref{Fig:MCC_N2_30K} and \ref{Fig:MCC_N2_60K} show measurement data from 5 and 31 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 30~K/min and 60~K/min, respectively. It is worth more closely looking at test factors that can affect these results before using them for property calibration. In MCC tests on low heat release rate materials such as wood\footnote{The Total Heat Release and Peak HRR of MaCFP-Wood is approximately 1/3 of that of polystyrene samples used for verification of MCC system performance~\cite{lyon2013principles}. This relatively low HRR means that signal noise and baseline correction issues can have a greater impact on interpretation MaCFP Wood HRR data.}, baseline correction can have a significant impact on reported HRR (see Fig.~\ref{Fig:MCC_N2_30K}). This is even more significant for tests conducted at low heating rates (below the standard value of 60 K/min) and when using small initial sample masses. Further, with relatively low HRR signals, the choice of oxygen sensor (paramagnetic versus chemical) can have a notable impact on signal to noise ratio.
-
-
- Figure~\ref{Fig:MCC_O2-20_60K} shows measurements from 5 repeated tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.2$) at a nominal heating rate of $\beta=60$~K/min. Figure~\ref{Fig:MCC_O2_60K} shows measurements of two repetition experiments conducted in different oxygen and nitrogen concentrations, varying between ($X_{\rm O_2}=0.02$) and ($X_{\rm O_2}=0.2$), at a nominal heating rate of $\beta=60$~K/min. With increased oxygen availability, decomposition occurs across a narrower temperature range and higher HRR is measured at lower temperatures; however, total heat released (i.e., apparent fuel energy content) is not significantly affected.
-
 Based on these measurements, average MCC curves and an estimate of measurement uncertainty were calculated for each of these conditions. An effort was made to include as much data as possible in the generation of these average curves; however, clear outliers (full curves, not just individual data points) were not used for the calculation of mean and standard deviation values. These datasets are still plotted in Figs.~\ref{Fig:MCC_N2_30K} through \ref{Fig:MCC_O2-20_60K} with a note identifying them as outliers in the captions below their respective figures. For MCC measurements, datasets were defined as outliers, for example, when an negative integral heat release rate were observed (‘Crested’ tests in N$_2$ at 30~K/min) or peak heat release rate were greater than $50$~\% of the average of all other data.
 
+When repeated measurements were available (submitted by the same or different lab(s) and conducted under the same incident heating conditions and gaseous environment) average heat release rate was calculated at each temperature, $T_i$, as the mean value reported from all (excluding noted outliers) repeated tests, $j$:
+\begin{equation}
+	\overline{Q'_i} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} Q'_{i',j}
+\end{equation}
+where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n=2$ because it is assumed that variations in repeated measurements should be minimal within a 2~K interval. $N_j$ is the number of replicate tests. The standard deviation of the mean, $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
+\begin{equation}
+	\sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( Q'_{i',j} - \overline{Q'_i} \right)^{2}\right)}
+\end{equation}
+
 For brevity, the main text of this document plots MCC measurement data only when multiple labs submitted repeated measurements under the same test conditions. Heat release rate and integral heat release rate curves (individual test data, along with average curves) from all MCC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
+
+
+\textbf{HRR in nitrogen}
+Figures~\ref{Fig:MCC_N2_30K} and \ref{Fig:MCC_N2_60K} show measurement data from 5 and 30 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 30~K/min and 60~K/min, respectively. It is worth looking more closely at test factors that may affect these results before using them for property calibration. In MCC tests on low heat release rate materials such as wood\footnote{The Total Heat Release and Peak HRR of MaCFP-Wood is approximately 1/3 of that of polystyrene samples used for verification of MCC system performance~\cite{lyon2013principles}. This relatively low HRR means that signal noise and baseline correction issues can have a greater impact on interpretation MaCFP Wood HRR data.}, baseline correction can have a significant impact on reported HRR (see Fig.~\ref{Fig:MCC_N2_30K}). This is even more significant for tests conducted at low heating rates (below the standard value of 60 K/min) and when using small initial sample masses. Further, with relatively low HRR signals, the choice of oxygen sensor (paramagnetic versus chemical) can have a notable impact on signal to noise ratio.
 
 
 \begin{figure}[h]
@@ -1008,6 +1015,30 @@ For brevity, the main text of this document plots MCC measurement data only when
   \label{Fig:MCC_N2_60K}
 \end{figure}
 
+Figure~\ref{Fig:MCC_N2_avg} plots average heat release rate and integral heat release rate from anaerobic MCC tests conducted at 30, 45, and 60~K/min on a single set of axes, along with measurements of all individual tests conducted. Shaded error bars surrounding these average curves represent two standard deviations of the mean, $2 \sigma_{mean,i}$. As seen here, increased heating rates do not significantly affect the onset temperature of decomposition but they do allow for a shift (to higher temperatures) in the apparent temperature that heat is released.
+
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_HRR.pdf}
+		\caption{}
+		\label{Fig:MCC_N2_HRR}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_intHRR.pdf}
+		\caption{}
+		\label{Fig:MCC_N2_int_HRR}
+	\end{subfigure}
+	
+	\caption{Average (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. Average curves are calculated using all submitted data from tests conducted under the same conditions, shaded areas represent $2 \sigma_{mean,i}$.}
+	\label{Fig:MCC_N2_avg}
+\end{figure}
+
+\textbf{**HRR in oxygen containing atmoosphere**}
+Figure~\ref{Fig:MCC_O2-20_60K} shows measurements from 5 repeated tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.2$) at a nominal heating rate of $\beta=60$~K/min. Figure~\ref{Fig:MCC_O2_60K} shows measurements of two repetition experiments conducted in different oxygen and nitrogen concentrations, varying between ($X_{\rm O_2}=0.02$) and ($X_{\rm O_2}=0.2$), at a nominal heating rate of $\beta=60$~K/min. With increased oxygen availability, decomposition occurs across a narrower temperature range and higher HRR is measured at lower temperatures; however, total heat released (i.e., apparent fuel energy content) is not significantly affected.
+
 
 \begin{figure}[h]
 	\centering
@@ -1046,38 +1077,47 @@ For brevity, the main text of this document plots MCC measurement data only when
 	\label{Fig:MCC_O2_60K}
 \end{figure}
 
-When repeated measurements were available (submitted by the same or different lab(s) and conducted under the same incident heating conditions and gaseous environment) average heat release rate was calculated at each temperature, $T_i$, as the mean value reported from all (excluding noted outliers) repeated tests, $j$:
-\begin{equation}
-	\overline{Q'_i} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} Q'_{i',j}
-\end{equation}
-where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n=2$ because it is assumed that variations in repeated measurements should be minimal within a 2~K interval. $N_j$ is the number of replicate tests. The standard deviation of the mean, $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
-\begin{equation}
-	\sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( Q'_{i',j} - \overline{Q'_i} \right)^{2}\right)}
-\end{equation}
 
-Figure~\ref{Fig:MCC_N2_avg} plots average heat release rate and integral heat release rate from anaerobic MCC tests conducted at 30, 45, and 60~K/min on a single set of axes, along with measurements of all individual tests conducted. Shaded error bars surrounding these average curves represent two standard deviations of the mean, $2 \sigma_{mean,i}$. As seen here, increased heating rates do not significantly affect the onset temperature of decomposition but they do allow for a shift (to higher temperatures) in the apparent temperature that heat is released.
-
-
+**Polystyrene comparison**
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_HRR.pdf}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_PS_N2_60K_HRR.pdf}
 		\caption{}
-		\label{Fig:MCC_N2_HRR}
+		\label{Fig:MCC_PS_N2_60K_HRR}
 	\end{subfigure}
 	
 	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_intHRR.pdf}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_PS_N2_60K_int_HRR.pdf}
 		\caption{}
-		\label{Fig:MCC_N2_int_HRR}
+		\label{Fig:MCC_PS_N2_60K_int_HRR}
 	\end{subfigure}
 	
-	\caption{Average (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. Average curves are calculated using all submitted data from tests conducted under the same conditions, shaded areas represent $2 \sigma_{mean,i}$.}
-	\label{Fig:MCC_N2_avg}
+	\caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. The R8 measurement from `Saxony' is identified as outlier and will not be used for the calculation of mean and standard deviation values (peak value too high; potential issue in reported initial sample mass).}
+	\label{Fig:MCC_PS_N2_60K}
 \end{figure}
 
 
+**Baseline comparison**
 
+**Char**
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Wood-char_O2-20_60K_HRR.pdf}
+		\caption{}
+		\label{Fig:MCC_wood-char_N2_60K_HRR}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Wood-char_O2-20_60K_int_HRR.pdf}
+		\caption{}
+		\label{Fig:MCC_wood-char_N2_60K_int_HRR}
+	\end{subfigure}
+	
+	\caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. The R8 measurement from `Saxony' is identified as outlier and will not be used for the calculation of mean and standard deviation values (peak value too high; potential issue in reported initial sample mass).}
+	\label{Fig:MCC_wood-char_N2_60K}
+\end{figure}
 
 \clearpage
 \subsubsection{Tabulated values of interest}
