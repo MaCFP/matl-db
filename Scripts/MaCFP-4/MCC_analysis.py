@@ -213,10 +213,14 @@ unique_HR = { '_'.join(s.split('_')[4:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(6, 4))
     MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
-    for set in MCC_sub_set:
+    MCC_subset_wood = [p for p in MCC_sub_set if "Wood" in str(p) and "PS" not in str(p)]
+    for set in MCC_subset_wood:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
-        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
+        if 'N2' in set:
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
+        else:
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],':', label = label, color = color)
         ax.set_xlabel('Temperature [K]')
         ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
@@ -232,6 +236,7 @@ for HR in unique_HR:
 
 # HRR and int HRR rate plots for all unique atmospheres and heating rates 
 for series in unique_conditions_material:
+
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
@@ -336,6 +341,7 @@ Average_values = pd.DataFrame({
     "std FGC":np.nan,
 })
 for idx,set in enumerate(MCC_sets):
+    print(set)
     fig, ax_HRR = plt.subplots(figsize=(6, 4))
     ax_intHRR = ax_HRR.twinx()
     df_average = average_MCC_series(set)
