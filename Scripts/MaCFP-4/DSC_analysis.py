@@ -230,52 +230,131 @@ for series in unique_conditions_material:
     plt.close(fig2)
 
 
+# Generate LaTeX appendix with average HF and iHF plots for nitrogen
+n2_sets = [s for s in DSC_sets if '_N2_' in s]
+
+def get_dsc_heating_rate(series_name):
+    match = re.search(r'_(\d+(?:\.\d+)?)K(?:_|$)', series_name)
+    return float(match.group(1)) if match else float('inf')
+
+n2_sets = sorted(n2_sets, key=lambda s: (get_dsc_heating_rate(s), label_def(s.split('_')[0])[0]))
+
+latex_lines = []
+
+current_hr = None
+
+for series_set in n2_sets:
+    hr = get_dsc_heating_rate(series_set)
+    institution = label_def(series_set.split('_')[0])[0]
+
+    if hr != current_hr:
+        latex_lines.append(rf'\subsubsection{{$\beta$ = {hr:g}~K/min}}')
+        latex_lines.append('')
+        current_hr = hr
+
+    latex_lines.append(r'\noindent')
+    latex_lines.append(r'\begin{minipage}{0.49\textwidth}')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/DSC/Average/HF_{series_set}.{ex}}}')
+    latex_lines.append(r'\end{minipage}')
+    latex_lines.append(r'\hfill')
+    latex_lines.append(r'\begin{minipage}{0.49\textwidth}')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/DSC/Average/iHF_{series_set}.{ex}}}')
+    latex_lines.append(r'\end{minipage}')
+    latex_lines.append('')
+    latex_lines.append(r'\vfill')
+    latex_lines.append('')
+
+with open(base_dir / 'DSC' / 'DSC_Appendix_N2_Averages.tex', 'w') as f:
+    f.write('\n'.join(latex_lines))
+
+
+
+# Generate LaTeX appendix with average HF and iHF plots for oxidative atmospheres
+o2_sets = [s for s in DSC_sets if '_O2-' in s]
+
+o2_sets = sorted(
+    o2_sets,
+    key=lambda s: (
+        float(re.search(r'_O2-(\d+(?:\.\d+)?)_', s).group(1)),
+        get_dsc_heating_rate(s),
+        label_def(s.split('_')[0])[0]
+    )
+)
+
+latex_lines = []
+
+current_o2 = None
+
+for series_set in o2_sets:
+    o2_match = re.search(r'_O2-(\d+(?:\.\d+)?)_', series_set)
+    oxygen = float(o2_match.group(1))
+    hr = get_dsc_heating_rate(series_set)
+
+    if oxygen != current_o2:
+        latex_lines.append(rf'\subsubsection{{$X_{{\rm O_2}}$ = {oxygen:g}\%}}')
+        latex_lines.append('')
+        current_o2 = oxygen
+
+    latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr:g}~K/min}}\par\vspace{{0.5em}}')
+    latex_lines.append('')
+    latex_lines.append(r'\noindent')
+    latex_lines.append(r'\begin{minipage}{0.49\textwidth}')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/DSC/Average/HF_{series_set}.{ex}}}')
+    latex_lines.append(r'\end{minipage}')
+    latex_lines.append(r'\hfill')
+    latex_lines.append(r'\begin{minipage}{0.49\textwidth}')
+    latex_lines.append(r'    \centering')
+    latex_lines.append(rf'    \includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/DSC/Average/iHF_{series_set}.{ex}}}')
+    latex_lines.append(r'\end{minipage}')
+    latex_lines.append('')
+    latex_lines.append(r'\par\vspace{0.5em}')
+    latex_lines.append('')
+
+with open(base_dir / 'DSC' / 'DSC_Appendix_O2_Averages.tex', 'w') as f:
+    f.write('\n'.join(latex_lines))
+
+
 # plot average per DSC_set (unique institutions, unique material, unique conditions)
-for idx,set in enumerate(DSC_sets):
+for idx, series_set in enumerate(DSC_sets):
     fig1, ax_HF = plt.subplots(figsize=(6, 4))
     fig2, ax_iHF = plt.subplots(figsize=(6, 4))
-    df_average = average_dsc_series(set)
-    
-    Duck, color = label_def(set.split('_')[0])
-    Conditions = '_'.join(set.split('_')[2:])
+    df_average = average_dsc_series(series_set)
+
+    Duck, color = label_def(series_set.split('_')[0])
+    Conditions = '_'.join(series_set.split('_')[2:])
 
     # plot average
-    # Plot mass (left y-axis)
     ax_HF.plot(df_average['Temperature (K)'], df_average['Heat Flow Rate (W/g)'],
-                        label='average', color='limegreen')
-    ax_HF.fill_between(df_average['Temperature (K)'], 
-                         df_average['Heat Flow Rate (W/g)']-2*df_average['unc Heat Flow Rate (W/g)'],
-                         df_average['Heat Flow Rate (W/g)']+2*df_average['unc Heat Flow Rate (W/g)'],
-                         color='limegreen', alpha = 0.3)
+                       label='average', color='limegreen')
+    ax_HF.fill_between(df_average['Temperature (K)'],
+                       df_average['Heat Flow Rate (W/g)']-2*df_average['unc Heat Flow Rate (W/g)'],
+                       df_average['Heat Flow Rate (W/g)']+2*df_average['unc Heat Flow Rate (W/g)'],
+                       color='limegreen', alpha=0.3)
 
-    # Plot mass loss rate (right y-axis, dashed)
     ax_iHF.plot(df_average['Temperature (K)'], df_average['Int Heat Flow (J/g)'],
-                        label='average', color='red', alpha=0.9)
+                label='average', color='red', alpha=0.9)
 
-    ax_iHF.fill_between(df_average['Temperature (K)'], 
+    ax_iHF.fill_between(df_average['Temperature (K)'],
                         df_average['Int Heat Flow (J/g)']-2*df_average['unc Int Heat Flow (J/g)'],
                         df_average['Int Heat Flow (J/g)']+2*df_average['unc Int Heat Flow (J/g)'],
                         color='red', alpha=0.3)
 
-
-    #plot individual
-    paths_TGA_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+    # plot individual
+    paths_TGA_set = list(DATA_DIR.glob(f"*/{series_set}_[rR]*.csv"))
     for path in paths_TGA_set:
         df_raw = pd.read_csv(path)
         df = Integral_DSC(df_raw)
-        ax_HF.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], '-',color ='black',linewidth=0.1)
-        ax_iHF.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'],'-',color='black', linewidth=0.1)
-
-    # Set lower limits of both y-axes to 0
-   #ax_mass.set_ylim(bottom=0)
-   # ax_rate.set_ylim(bottom=0)
+        ax_HF.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], '-', color='black', linewidth=0.1)
+        ax_iHF.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'], '-', color='black', linewidth=0.1)
 
     # Axes labels
     ax_HF.set_xlabel('Temperature [K]')
     ax_HF.set_ylabel('Heat Flow [W/g]')
     ax_iHF.set_xlabel('Temperature [K]')
     ax_iHF.set_ylabel('Integral Heat Flow [J$^{-1}$]')
-
 
     # Figure title
     fig1.suptitle(Duck+"\n"+Conditions)
@@ -286,11 +365,11 @@ for idx,set in enumerate(DSC_sets):
     fig2.legend()
 
     fig1.tight_layout()
-    fig1.savefig(str(base_dir) + f'/DSC/Average/HF_{set}.{ex}')
+    fig1.savefig(str(base_dir) + f'/DSC/Average/HF_{series_set}.{ex}')
     plt.close(fig1)
 
     fig2.tight_layout()
-    fig2.savefig(str(base_dir) + f'/DSC/Average/iHF_{set}.{ex}')
+    fig2.savefig(str(base_dir) + f'/DSC/Average/iHF_{series_set}.{ex}')
     plt.close(fig2)
 
 
@@ -547,6 +626,49 @@ for path in DSC_Data:
     plt.close(fig)
 
 
+# Generate LaTeX appendix with individual nitrogen STA plots
+individual_n2_files = sorted(
+    Individual_dir.glob(f'*_Wood_STA_N2_*_R*.{ex}'),
+    key=lambda p: (
+        get_dsc_heating_rate(p.stem),
+        label_def(p.stem.split('_')[0])[0],
+        int(re.search(r'_R(\d+)$', p.stem).group(1))
+    )
+)
+
+latex_lines = []
+
+heating_rates = sorted(set(get_dsc_heating_rate(p.stem) for p in individual_n2_files))
+
+for hr in heating_rates:
+    latex_lines.append(rf'\subsubsection{{$\beta$ = {hr:g}~K/min}}')
+    latex_lines.append('')
+
+    hr_files = [p for p in individual_n2_files if get_dsc_heating_rate(p.stem) == hr]
+
+    for i in range(0, len(hr_files), 2):
+        pair = hr_files[i:i+2]
+
+        latex_lines.append(r'\noindent')
+        latex_lines.append(r'\begin{minipage}{0.49\textwidth}')
+        latex_lines.append(r'    \centering')
+        latex_lines.append(rf'    \includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/DSC/Individual/{pair[0].name}}}')
+        latex_lines.append(r'\end{minipage}')
+
+        if len(pair) == 2:
+            latex_lines.append(r'\hfill')
+            latex_lines.append(r'\begin{minipage}{0.49\textwidth}')
+            latex_lines.append(r'    \centering')
+            latex_lines.append(rf'    \includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/DSC/Individual/{pair[1].name}}}')
+            latex_lines.append(r'\end{minipage}')
+
+        latex_lines.append(r'\par\vspace{0.5em}')
+        latex_lines.append('')
+
+with open(base_dir / 'DSC' / 'DSC_Appendix_N2_Individual.tex', 'w') as f:
+    f.write('\n'.join(latex_lines))
+
+
 #------------------------------------
 # region heats of reactions
 #------------------------------------
@@ -643,6 +765,10 @@ results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d
 results_df['Repetition'] = results_df.groupby(['Institution', 'Heating Rate (K/min)']).cumcount() + 1
 results_df['Repetition'] = 'R' + results_df['Repetition'].astype(str)
 
+# Calculate mean and standard deviation for each institution and heating rate
+group_stats = results_df.groupby(['Heating Rate (K/min)', 'Institution'])['Heat of Reaction (J/g)'].agg(['mean', 'std']).reset_index()
+group_stats['Mean ± SD'] = group_stats.apply(lambda row: f"{row['mean']:.0f} $\\pm$ {row['std']:.0f}" if pd.notna(row['std']) else f"{row['mean']:.0f}", axis=1)
+
 # Pivot to create the desired table format
 final_table = results_df.pivot_table(
     index=['Heating Rate (K/min)', 'Institution'],
@@ -651,31 +777,64 @@ final_table = results_df.pivot_table(
     aggfunc='first'
 ).reset_index()
 
+# Convert repetition values to integers and replace missing values with '-'
 for col in final_table.columns:
     if col not in ['Institution', 'Heating Rate (K/min)']:
         final_table[col] = final_table[col].apply(lambda x: str(int(x)) if pd.notna(x) else '-')
+
 final_table = final_table.fillna('-')
 
-columns = ['Institution', 'Heating Rate (K/min)']+list(final_table.columns[2:])
+# Add mean ± SD for each institution and heating rate
+final_table = final_table.merge(
+    group_stats[['Heating Rate (K/min)', 'Institution', 'Mean ± SD']],
+    on=['Heating Rate (K/min)', 'Institution'],
+    how='left'
+)
+
+# Heating rates are integers in this table
+final_table['Heating Rate (K/min)'] = final_table['Heating Rate (K/min)'].astype(int)
+
+# Add overall mean ± SD from all individual measurements
+overall_mean = results_df['Heat of Reaction (J/g)'].mean()
+overall_std = results_df['Heat of Reaction (J/g)'].std(ddof=1)
+
+overall_row = {col: '-' for col in final_table.columns}
+overall_row['Institution'] = 'Overall'
+overall_row['Heating Rate (K/min)'] = ''
+overall_row['Mean ± SD'] = f'{overall_mean:.0f} $\\pm$ {overall_std:.0f}'
+
+final_table = pd.concat([final_table, pd.DataFrame([overall_row])], ignore_index=True)
+
+# Set column order
+repeat_cols = [col for col in final_table.columns if str(col).startswith('R')]
+columns = ['Institution', 'Heating Rate (K/min)'] + repeat_cols + ['Mean ± SD']
 final_table = final_table[columns]
 
-# Convert to LaTeX with more options
+# Convert to LaTeX
 latex_table = final_table.to_latex(
     index=False,
     escape=False,
-    column_format='|l|c|' + 'c' * (len(final_table.columns) - 2)+'|', 
+    column_format='|l|c|' + 'c' * len(repeat_cols) + '|c|',
     bold_rows=False,
     multicolumn=True,
     multicolumn_format='c'
 )
 
+# Replace booktabs lines by hlines
 latex_table = latex_table.replace('\\toprule', '\\hline')
 latex_table = latex_table.replace('\\midrule', '\\hline')
 latex_table = latex_table.replace('\\bottomrule', '\\hline')
+
+# Replace Unicode ± in header by LaTeX
+latex_table = latex_table.replace('Mean ± SD', 'Mean $\\pm$ SD')
+
+# Add horizontal line before Overall row
+latex_table = latex_table.replace('Overall &', '\\hline\nOverall &')
 
 with open(str(base_dir) + '/DSC/heat_of_reaction_table.tex', 'w') as f:
     f.write(latex_table)
 
 print(final_table)
+print(f'Overall heat of decomposition: {overall_mean:.0f} ± {overall_std:.0f} J/g')
 # print('DSC files:', sum('_DSC' in p.stem for p in DSC_Data))
 # print('STA files:', sum('STA' in p.stem for p in DSC_Data))
