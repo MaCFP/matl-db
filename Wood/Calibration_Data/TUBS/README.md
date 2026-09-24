@@ -40,39 +40,39 @@ A Mettler Toledo TGA/DSC3+ was used to simultaneously conduct Thermogravimetric 
 
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |   Purpose | 
 | --------- | :---------: | :------------------------: | :------------------------: |
-|TUBS\_TGA\_N2\_5K\_R1 | 0 | 0.98| main measurement|
-|TUBS\_TGA\_N2\_5K\_R2 | 0 | 1.05| main measurement| 
-|TUBS\_TGA\_N2\_5K\_R3 | 0 | 0.95| main measurement|
-|TUBS\_TGA\_N2\_10K\_R1 | 0 | 1.04| main measurement|
-|TUBS\_TGA\_N2\_10K\_R2 | 0 | 1.03| main measurement|
-|TUBS\_TGA\_N2\_10K\_R3 | 0 | 1.03| main measurement|
-|TUBS\_TGA\_N2\_20K\_R1 | 0 | 1.03| main measurement|
-|TUBS\_TGA\_N2\_20K\_R2 | 0 | 1.03| main measurement|
-|TUBS\_TGA\_N2\_20K\_R3 | 0 | 1.04| main measurement|
-|TUBS\_TGA\_N2\_30K\_R1 | 0 | 1.05| main measurement|
-|TUBS\_TGA\_N2\_30K\_R2 | 0 | 1.00| main measurement|
-|TUBS\_TGA\_N2\_30K\_R3 | 0 | 0.97| main measurement|
-|TUBS\_TGA\_N2\_40K\_R1 | 0 | 0.96| main measurement|
-|TUBS\_TGA\_N2\_40K\_R2 | 0 | 0.98| main measurement|
-|TUBS\_TGA\_N2\_40K\_R3 | 0 | 1.02| main measurement| 
-|TUBS\_TGA\_N2\_50K\_R1 | 0 | 0.99| main measurement|
-|TUBS\_TGA\_N2\_50K\_R2 | 0 | 1.02| main measurement|
-|TUBS\_TGA\_N2\_50K\_R3 | 0 | 0.97| main measurement|
-|TUBS\_TGA\_N2\_50K\_R4 | 0 | 4.02| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R5 | 0 | 4.01| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R6 | 0 | 4.00| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R7 | 0 | 2.03| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R8 | 0 | 1.98| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R9 | 0 | 2.02| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R10 | 0 | 1.03| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R11 | 0 | 1.00| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R12 | 0 | 1.02| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R13 | 0 | 0.5| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R14 | 0 | 0.47| mass down-scaling|
-|TUBS\_TGA\_N2\_50K\_R15 | 0 | 0.51| mass down-scaling|
-|TUBS\_TGA\_N2\_593Kiso\_R1 | 0 | 1.02| main measurement|
-|TUBS\_TGA\_N2\_593Kiso\_R2 | 0 | 0.99| main measurement|
-|TUBS\_TGA\_N2\_593Kiso\_R3 | 0 | 0.96| main measurement|
+|TUBS\_Wood\_TGA\_N2\_5K\_R1 | 0 | 0.98| main measurement|
+|TUBS\_Wood\_TGA\_N2\_5K\_R2 | 0 | 1.05| main measurement| 
+|TUBS\_Wood\_TGA\_N2\_5K\_R3 | 0 | 0.95| main measurement|
+|TUBS\_Wood\_TGA\_N2\_10K\_R1 | 0 | 1.04| main measurement|
+|TUBS\_Wood\_TGA\_N2\_10K\_R2 | 0 | 1.03| main measurement|
+|TUBS\_Wood\_TGA\_N2\_10K\_R3 | 0 | 1.03| main measurement|
+|TUBS\_Wood\_TGA\_N2\_20K\_R1 | 0 | 1.03| main measurement|
+|TUBS\_Wood\_TGA\_N2\_20K\_R2 | 0 | 1.03| main measurement|
+|TUBS\_Wood\_TGA\_N2\_20K\_R3 | 0 | 1.04| main measurement|
+|TUBS\_Wood\_TGA\_N2\_30K\_R1 | 0 | 1.05| main measurement|
+|TUBS\_Wood\_TGA\_N2\_30K\_R2 | 0 | 1.00| main measurement|
+|TUBS\_Wood\_TGA\_N2\_30K\_R3 | 0 | 0.97| main measurement|
+|TUBS\_Wood\_TGA\_N2\_40K\_R1 | 0 | 0.96| main measurement|
+|TUBS\_Wood\_TGA\_N2\_40K\_R2 | 0 | 0.98| main measurement|
+|TUBS\_Wood\_TGA\_N2\_40K\_R3 | 0 | 1.02| main measurement| 
+|TUBS\_Wood\_TGA\_N2\_50K\_R1 | 0 | 0.51| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R2 | 0 | 0.47| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R3 | 0 | 0.50| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R4 | 0 | 0.99| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R5 | 0 | 1.02| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R6 | 0 | 0.97| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R7 | 0 | 1.02| main measurement|
+|TUBS\_Wood\_TGA\_N2\_50K\_R8 | 0 | 1.00| main measurement|
+|TUBS\_Wood\_TGA\_N2\_50K\_R9 | 0 | 1.03| main measurement|
+|TUBS\_Wood\_TGA\_N2\_50K\_R10 | 0 | 2.02| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R11 | 0 | 1.98| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R12 | 0 | 2.03| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R13 | 0 | 4.00| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R14 | 0 | 4.01| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_50K\_R15 | 0 | 4.02| mass down-scaling|
+|TUBS\_Wood\_TGA\_N2\_593Kiso\_R1 | 0 | 1.02| main measurement|
+|TUBS\_Wood\_TGA\_N2\_593Kiso\_R2 | 0 | 0.99| main measurement|
+|TUBS\_Wood\_TGA\_N2\_593Kiso\_R3 | 0 | 0.96| main measurement|
 
 ### Experimental Conditions: MCC
 A FTT microscale combustion calorimeter was used to conduct MCC experiments.
@@ -97,12 +97,33 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
   - Type: FTT
   - O2 Analyzer: Chemical
 * Baseline correction: Linear baseline correction
-  
+
+#### Performance check with Polystyrene
+* Was performed at the day of the experiments with a heating rate of 30 K/min
+* TUBS\_PS\_MCC-raw\_N2\_30K\_R1 contains the raw data
+* TUBS\_PS\_MCC\_N2\_30K\_R1 contains the baseline corrected data, which is used for the performance check analysis
+* Information about the used Polystyrene 
+  - CAS-No.: 9003-53-6
+  - Average Mw: 350,000
+  - Average Mn: 170,000
+  - Supplier: Sigma-Aldrich
+* Result of the performance check
+  - HR capacity: 1099 J/gK
+  - Total HR: 38.8 kJ/g
+  - Peak temperature: 428.9 C
+* Since the performance check evaluates long-term behavior and the results for different PS materials are not necessarily identical (as stated by the manufacturer), here are the average values of all performance checks ever conducted with our PS at a heating rate of 30 K/min (average value, +/- standard deviation)
+  - HR capacity: 1108 +/- 15 J/gK
+  - Total HR: 38.7 +/- 0.2 kJ/g
+  - Peak temperature: 429.1 +/- 1.7 C
+
+
 | Test Name | O2 volume % |  Initial Sample Mass (mg) |  Final Sample Mass (mg) | 
 | --------- | :---------: | :------------------------: | :------------------------: |
-|TUBS\_MCC\_N2\_30K\_R1 | 0 | 1.03 | 0.07 |
-|TUBS\_MCC\_N2\_30K\_R1 | 0 | 1.04 | 0.11 |
-|TUBS\_MCC\_N2\_30K\_R1 | 0 | 1.05 | 0.12 |
+|TUBS\_Wood\_MCC\_N2\_30K\_R1 | 0 | 1.03 | 0.07 |
+|TUBS\_Wood\_MCC\_N2\_30K\_R1 | 0 | 1.04 | 0.11 |
+|TUBS\_Wood\_MCC\_N2\_30K\_R1 | 0 | 1.05 | 0.12 |
+|TUBS\_PS\_MCC\_N2\_30K\_R1 | 0 | 3.61 | 0.00 |
+|TUBS\_PS\_MCC-raw\_N2\_30K\_R1 | 0 | 3.61 | 0.00 |
 
 ### Experimental Conditions: Cone calorimeter
 
@@ -116,14 +137,15 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Backing Insulation: 27.5mm thick layer of mineal wool.
 * Thermocouple location: None
 * Ignition Source: spark ignitor
+* Sample mass in the cone calorimeter data at time 0 sec is the initial mass of the sample.
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: |:---: |
-|TUBS\_Cone\_30KW\_hor\_R1 | 30 | - | 2.55 | parallel | 26 | -|
-|TUBS\_Cone\_30KW\_hor\_R2 | 30 | - | 2.55 | parallel | 27 | -|
-|TUBS\_Cone\_30KW\_hor\_R3 | 30 | - | 2.55 | parallel | 25 | -|
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) | Initial sample mass (g) | Thickness (cm) | Grain orientation (-) | t_ign (s)| t_flameout (s)|
+|----------|:------:| :---: |:------:|:------:| :---: | :---: |:---: |
+|TUBS\_Wood\_Cone\_30KW\_hor\_R1 | 30 | - | 88.16 | 2.55 | parallel | 26 | -|
+|TUBS\_Wood\_Cone\_30KW\_hor\_R2 | 30 | - | 85.97 | 2.55 | parallel | 27 | -|
+|TUBS\_Wood\_Cone\_30KW\_hor\_R3 | 30 | - | 80.18 | 2.55 | parallel | 25 | -|
 
 ### Experimental Conditions: Controlled Atmosphere Cone calorimeter
 
@@ -138,14 +160,15 @@ A FTT microscale combustion calorimeter was used to conduct MCC experiments.
 * Thermocouple location: None
 * Ignition Source: None
 * Target gas atmosphere: 0 vol% oxygen, 100 vol% nitrogen (target nitrogen purge flow rate: 150 L/min)
+* Sample mass in the gasification data at time 0 sec is the initial mass of the sample.
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |thickness (cm) |Grain orientation (-) | actual oxygen concentration (vol%)|
-|----------|:------:| :---: |:------:| :---: | :---: |
-|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R1 | 20 | - | 2.57 | parallel | 0.08 | 
-|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R2 | 20 | - | 2.58 | parallel | 0.13 | 
-|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R3 | 20 | - | 2.57 | parallel | 0.18 | 
-|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R1 | 20 | - | 2.57 | perpendicular | 0.18 |
-|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R2 | 20 | - | 2.57 | perpendicular | 0.19 |
-|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R3 | 20 | - | 2.57 | perpendicular | 0.14 |
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) | Initial sample mass (g) | Thickness (cm) | Grain orientation (-) | Actual oxygen concentration (vol%)|
+|----------|:------:| :---: |:------:|:------:| :---: | :---: |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R1 | 20 | - | 78.72 | 2.57 | parallel | 0.08 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R2 | 20 | - | 85.0 | 2.58 | parallel | 0.13 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_parallel\_R3 | 20 | - | 85.87 | 2.57 | parallel | 0.18 | 
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R1 | 20 | - | 111.69 | 2.57 | perpendicular | 0.18 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R2 | 20 | - | 110.92 | 2.57 | perpendicular | 0.19 |
+|TUBS\_Wood\_Gasification\_20kW\_hor\_perpendicular\_R3 | 20 | - | 110.9 | 2.57 | perpendicular | 0.14 |

@@ -1,0 +1,254 @@
+{
+    "Material": "White Pine (MaCFP)",
+
+    "Lab": "UMD_FSRI",
+
+    "Generated": "2026-05-02",
+
+    "Units": {
+        "Temperature": "K",
+        "Heat Capacity": "J/(g*K)",
+        "Heat of Reaction": "J/kg (per kg of solid entering the step; positive = endothermic)",
+        "Density": "kg/m^3",
+        "Pre-exponential": "1/s",
+        "Activation Energy": "J/mol",
+        "Conductivity": "W/(m*K)",
+        "Permeability": "m^2",
+        "Gas Transfer Coefficient": "m^2/s",
+        "Absorption Coefficient": "m^2/kg",
+        "Emissivity": "[-]",
+        "Heat Flux": "W/m^2",
+        "Length": "m",
+        "Molar Mass": "kg/mol"
+    },
+
+    "Calibration": [
+        {
+            "Model": "Pyrolysis.jl",
+            "Method": "Multi-stage Hill-Climbing Inverse Fit",
+            "Scope": "Kinetics",
+            "Data": [
+                {"Type": "TGA", "Heating Rate": 3,  "Source": "FSRI"},
+                {"Type": "TGA", "Heating Rate": 10, "Source": "UMD"},
+                {"Type": "TGA", "Heating Rate": 30, "Source": "FSRI"}
+            ]
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": ["Heat Capacity (virgin, low-T)"],
+            "Data": {
+                "Type": "HFM",
+                "Temperature Range": [298.15, 318.15],
+                "Source": "FSRI"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": [
+                "Heat Capacity (virgin, mid/high-T)",
+                "Heats of Reaction"
+            ],
+            "Data": {
+                "Type": "DSC / STA",
+                "Temperature Range": [318.15, 460.0],
+                "Heating Rate": 10,
+                "Source": "FSRI"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": [
+                "Heat Capacity (virgin, mid/high-T)",
+                "Heats of Reaction"
+            ],
+            "Data": {
+                "Type": "DSC / STA",
+                "Temperature Range": [318.15, 460.0],
+                "Heating Rate": 10,
+                "Source": "FSRI"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": [
+                "Density (virgin, mid/high-T)",
+            ],
+            "Data": {
+                "Type": ["Dilatometer", "TGA"],
+                "Temperature Range": [298, 900],
+                "Heating Rate": 10,
+                "Source": "FSRI"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": ["Emissivity (virgin, char collected from gasification tests at different heat fluxes)"],
+            "Data": {
+                "Type": "Cone-heater effective-source-temperature calibration",
+                "Heat Fluxes": [10000, 30000, 60000],
+                "Source": "FSRI"
+            }
+        },
+        {
+            "Method": "Direct Measurement",
+            "Scope": [
+                "Thermal Conductivity (virgin, mid/high-T)",
+            ],
+            "Data": {
+                "Type": "LFA",
+                "Temperature Range": [298, 873],
+                "Heating Rate": 10,
+                "Source": "FSRI"
+            }
+        }
+    ],
+
+    "Composition": {
+        "Number of Components": 8,
+        "Component Names": [
+            "Virgin",
+            "Int1",
+            "Int2",
+            "Int3",
+            "Int4",
+            "Char",
+            "Ash",
+            "Gas",
+        ],
+        "Component Phases": [
+            "SOLID", "SOLID", "SOLID", "SOLID", "SOLID", "SOLID", "SOLID", "GAS"
+        ],
+        "Initial Mass Fraction": [
+            0.996, 0, 0, 0, 0, 0, 0.004, 0
+
+        ],
+        "Note": "Mass fractions on total-solid basis. Ash inert; kinetic nu_i and DH_i are defined on the reactive (ash-free) basis. Initial moisture is zero in this calibration; the moisture-evaporation reaction is retained for schema completeness."
+    },
+
+    "Kinetics": {
+        "Mechanism": "Sequential 5-step solid pyrolysis + moisture evaporation; X_i -> nu_i*X_{i+1} + (1-nu_i)*gas_i;  k_i = A_i * exp(-E_i / (R*T))",
+        "Reactants":         [[1],   [2],    [3],    [4],   [5]],
+        "Products":          [[2,8], [3,8], [4,8], [5,8], [6,8]],
+        "Pre-exponential":   [1.677185e5, 4.202774e9, 1.219700e12, 3.941758e2, 2.979374e-2],
+        "Activation Energy": [76009.062, 131985.833, 173004.437, 66703.667, 23336.201],
+        "Reaction Order":    [1, 1, 1, 1, 1],
+        "Solid Yield":       [0.914206, 0.785307, 0.386929, 0.778861, 0.697933],
+        "Reaction Names": [
+            "pyrolysis_step1",
+            "pyrolysis_step2",
+            "pyrolysis_step3",
+            "pyrolysis_step4",
+            "pyrolysis_step5"
+        ],
+        "Note": "Reactant/Product indices are 1-based component indices (see Composition.Component Names). Reaction 6 (moisture -> H2O_vapor) is inactive when initial moisture is zero. Pre-exponentials are 10^A_log10 of the source values: A = [10^5.224581, 10^9.623536, 10^12.086253, 10^2.59569, 10^-1.525875, 2.997e5]."
+    },
+
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Form": "Table (J/(g*K))",
+            "Components": ["Virgin","Int1","Int2"],
+            "Temperature": [298, 318, 425, 460],
+            "Values": [1.46, 1.59, 1.64, 1.89],
+            "Note": "Linear interpolation between endpoints, constant values outside of endpoints"
+                }
+        },
+        "Heat Capacity": {
+            "Form": "Table (J/(g*K))",
+            "Components": ["Int3","Int4","Char","Ash"],
+            "Temperature": [500, 900],
+            "Values": [1.25, 1.75],
+            "Note": "Linear interpolation between endpoints, constant values outside of endpoints"
+                }
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific (positive = endothermic, J/kg of solid entering the step)",
+            "Value": [-3072.92, 9962.41, 223103.69, -211701.92, -8737.70],
+            "Net Heat of Pyrolysis": {
+                "Reactive Basis": 105509.224,
+                "Total Basis": 105087.187,
+                "Char Yield (Reactive)": 0.151004,
+                "Total Final Residue Fraction": 0.154400
+            }
+        },
+        "Density": {
+            "Form": "Per-Component, single value (kg/m^3)",
+            "Components": {
+                "Virgin": 360,
+                "Int1": 306,
+                "Int2": 252,
+                "Int3": 198,
+                "Int4": 144,
+                "Char": 90,
+                "Ash": 90,
+                "Gas1": "ideal-gas",
+            },
+            "Note": "Solid component densities from dilatometry. Ash density set equal to char density (porous-media solver convention). Moisture density (1e6) is a numerical sentinel that keeps moisture as a non-transporting condensed phase when MC = 0; not a physical density. Gas densities computed from the ideal-gas law (rho = P*M / (R*T))."
+        }
+    },
+
+    "Transport": {
+        "Conductivity": {
+            "Form": "Table (W/(m*K))",
+            "Temperature": [298, 323, 348, 373, 423, 523, 573, 623, 673, 773, 873],
+            "Values": [0.076, 0.085, 0.086, 0.084, 0.079, 0.054, 0.051, 0.042, 0.037, 0.040, 0.046]
+                }
+            },
+            "Note": "Conductivities calculated from diffusivity measured in LFA, corrected for thermal expansion/contraction measured with dilatometer, density determined from TGA and LFA data, and specific heat capacity from HFM and STA tests at 10 K/min. All components assigned the same temperature-dependent conductivity."
+        },
+        "Emissivity": {
+            "Form": "Heat-flux-dependent table (per-component)",
+            "Equation": "epsilon = epsilon(q_ext)",
+            "Components": {
+                "Virgin": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.874, 0.832, 0.794]
+                },
+                "Int1": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.874, 0.832, 0.794]
+                },
+                "Int2": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.702, 0.677, 0.667]
+                },
+                "Int3": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.702, 0.677, 0.667]
+                },
+                "Int4": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.702, 0.677, 0.833]
+                },
+                "Char": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.702, 0.677, 0.833]
+                },
+                "Ash": {
+                    "Form": "Table",
+                    "Heat Flux": [10000, 30000, 60000],
+                    "Values": [0.702, 0.677, 0.833]
+                }
+            },
+            "Note": "Second and third intermediates assigned spectral reflectivity from char formed in CAPA tests at 20 kW/m2 "
+        },
+        "Absorption Coefficient": {
+            "Form": "Per-Component, single value (1/m)",
+            "Components": {
+                "Virgin": 50000.0,
+                "Int1": 50000.0,
+                "Int2": 50000.0,
+                "Int3": 50000.0,
+                "Int4": 50000.0,
+                "Char": 50000.0,
+                "Ash": 50000.0
+            }
+        }
+        }
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "Material": "MaCFP Wood",
+
+    "CORIA": "INSA Rouen",
+    
+    "Calibration": [
+        {
+            "Model": "DAKOTA 18.",
+            "Method": "NL2SOL",
+            "Scope": "Kinetics",
+            "Data": {
+                "Type": "TGA",
+                "Heating Rate": 10kw,
+                "Source": "UMET_Wood_TGA_N2_10K_R3"
+            }
+            "Model": "PATO",
+            "Method": "1D",
+            "Scope": "Material parameters",
+            "Data": {
+                "Type": "Cone",
+                "Heating Rate": 30kW,
+                "Source": "TP_TIFP+UCT_Wood_Gasification_30kW_hor_parallel_R1"
+            }
+        },       
+        {
+            "Method": "Litterature",
+            "Scope": [
+                "Initial Mass Fraction 3 component", 
+                "Conductivity"
+            ]
+        }
+    ],
+    
+    "Composition": {
+        "Number of Components": 3,
+        "Initial Mass Fraction": [0.163, 0.544, 0.293]
+    },
+    
+    "Kinetics": {
+        "Reactants": [ [1], [2], [3]],
+        "Products": [ [2], [2], [2] ],
+        "Pre-exponential": [5.3243e6,1.3981E6,1.2942E-1],
+        "Activation Energy": [9.3268E+04,1.004E+05,2.768E+04],
+        "Reaction Order": [1, 1, 1],
+        "Solid Yield": [0.281, 0.001, 0.164]
+    },
+ 
+    "Thermodynamics": {
+        "Heat Capacity": {
+            "Equation": "virgin constant, char constant",
+            "Values": [2250, 1250] 
+        },
+        "Heat of Pyrolysis": {
+            "Form": "Reaction Specific", 
+            "Value": [-1e5, -2.8e5, -1e5]
+        },
+        "Density": {
+            "Equation": " virgin constant",
+            "Form": "Single Value",
+            "Value": 554.9 
+        }
+    },
+
+    "Combustion": {
+        "Heat of Combustion": {
+            "Form": "   ",
+            "Value": [0, 0]
+        }
+    },
+    
+    "Transport": {
+        "Conductivity": {
+            "Equation": "virgin constant,char constant", 
+            "value": [0.35, 0.08],
+           
+        },
+        "Absorption": {
+            "Equation": "virgin constant, char constant",
+            "Form": "",
+            "Value": [0.9, 0.9]
+        },
+        "Emissivity": {
+            "Equation": "virgin constant, char constant",
+            "Form": "",
+            "Value": [0.75, 0.75]
+        }
+    }
+
+}

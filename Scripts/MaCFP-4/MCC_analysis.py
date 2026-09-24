@@ -3,16 +3,27 @@
 Main script for MCC analysis for MaCFP-4
 
 """
+# linear function for fitting
+def func(x, a, b):
+    return a * x + b
+
+def func_5(x, abc):
+    # return abc[-5]*x**4+abc[-4]*x**3 + abc[-3]*x**2 + abc[-2]*x + abc[-1]
+    return abc[-4] * x**3 + abc[-3] * x**2 + abc[-2] * x + abc[-1]
+    # return abc[-2]*x + abc[-1]
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pathlib import Path
 from typing import Optional, Union, List, Dict
+from scipy.integrate import simpson
+from scipy.optimize import curve_fit
+from scipy.signal import savgol_filter
 
 from Utils import device_data, get_series_names, make_institution_table, \
                   device_subset, label_def, interpolation, format_latex
-from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere
+from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, extract_o2_number
 from Utils import DATA_DIR
 
 #region Save plots as pdf or png
@@ -33,7 +44,6 @@ Average_dir.mkdir(parents=True, exist_ok=True)
 # ------------------------------------
 # All MCC Data
 MCC_Data = device_data(DATA_DIR, 'MCC')
-
 # All unique sets (name without repetition number)
 MCC_sets = get_series_names(MCC_Data)
 
@@ -60,8 +70,12 @@ with open(str(base_dir) +'/MCC/MCC_Oxygen.tex', 'w') as f:
 
 
 print('Char table')
-print(make_institution_table(MCC_Data,['Wood-char'],['O2-20', 'O2-21'],['60K']))
-
+table = make_institution_table(MCC_Data,['Wood-char'],['O2-20'],['60K'])
+table.loc['Total'] = table.sum(axis=0)
+print(table)
+latex_str = format_latex(table,'Oxygen concentration (Vol\\%)')
+with open(str(base_dir) +'/MCC/MCC_Char.tex', 'w') as f:
+    f.write(latex_str)
 
 
 # ------------------------------------
@@ -199,10 +213,14 @@ unique_HR = { '_'.join(s.split('_')[4:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(6, 4))
     MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
-    for set in MCC_sub_set:
+    MCC_subset_wood = [p for p in MCC_sub_set if "Wood" in str(p) and "PS" not in str(p)]
+    for set in MCC_subset_wood:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
-        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
+        if 'N2' in set:
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
+        else:
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],':', label = label, color = color)
         ax.set_xlabel('Temperature [K]')
         ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
@@ -218,6 +236,7 @@ for HR in unique_HR:
 
 # HRR and int HRR rate plots for all unique atmospheres and heating rates 
 for series in unique_conditions_material:
+
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     parts = series.split('_')
@@ -322,6 +341,7 @@ Average_values = pd.DataFrame({
     "std FGC":np.nan,
 })
 for idx,set in enumerate(MCC_sets):
+    print(set)
     fig, ax_HRR = plt.subplots(figsize=(6, 4))
     ax_intHRR = ax_HRR.twinx()
     df_average = average_MCC_series(set)
@@ -592,7 +612,7 @@ oxygen_levels = {
 o2_colors = {'2%': 'lightblue', '5%': 'blue', '10%': 'orange', '20%': 'red'}
 
 # Define linestyle for different institutes
-o2_linestyle = {'IMT':':', 'NIST':'-'}
+o2_linestyle = {'IMT':':', 'NIST':'-', "Lund": '-.'}
 
 # Create figures for HRR and integral HRR
 fig1, ax1 = plt.subplots(figsize=(6, 4))
@@ -661,13 +681,15 @@ plt.close(fig2)
 # region generate latex table values of interest
 #-----------------------------------------------
 print(Average_values)
+
 # Add sorting columns
 Average_values['heating_rate'] = Average_values['conditions'].apply(extract_heating_rate)
 Average_values['atmosphere'] = Average_values['conditions'].apply(extract_atmosphere)
 Average_values['condition_key'] = Average_values['conditions']
 
 # Sort by atmosphere, then heating rate, then Duck (institution)
-final_table_sorted = Average_values.sort_values(['atmosphere', 'heating_rate', 'Duck'])
+Average_values['sort_key'] = Average_values['atmosphere'].apply(extract_o2_number)
+final_table_sorted = Average_values.sort_values(['sort_key', 'heating_rate', 'Duck'])
 
 # Add superscript A if std is NaN (single sample) - check std peak HRR
 final_table_sorted['Duck_formatted'] = final_table_sorted.apply(
@@ -712,66 +734,318 @@ final_table_sorted['char_formatted'] = final_table_sorted.apply(
 )
 
 
-# Format conditions (keep as is or clean up)
+# Format conditions 
 final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].apply(
     lambda x: str(x).replace('_', ' ')  # Optional: replace underscores with spaces
 )
 
+
 # Select and rename columns for the table
-columns_to_keep = ['Duck_formatted', 'conditions_formatted', 'T_onset_formatted', 
+columns_to_keep = ['set', 'Duck_formatted', 'conditions_formatted', 'T_onset_formatted', 
                    'T_peak_formatted', 'HRR_formatted', 'HRRtotal_formatted',
                    'FGC_formatted', 'char_formatted', 'condition_key']
 
 final_latex_table = final_table_sorted[columns_to_keep].copy()
-final_latex_table.columns = ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
+final_latex_table.columns = ['set','Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
                              'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)', 'condition_key']
 
 # Generate LaTeX
-latex_string = final_latex_table.to_latex(
-    index=False,
-    escape=False,
-    column_format='llcccccc',
-    columns=['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
-                             'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
-)
 
-# Modify the string
-latex_string = latex_string.replace('\\toprule', '\\hline')
-latex_string = latex_string.replace('\\midrule', '\\hline')
-latex_string = latex_string.replace('\\bottomrule', '\\hline')
+for table_key in ['_Wood','_PS_']:
+    table = final_latex_table[final_latex_table['set'].str.contains(table_key)]
+    table.drop('set', axis=1)
 
-# Make column headers bold
-for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
-    latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
+    latex_string = table.to_latex(
+        index=False,
+        escape=False,
+        column_format='llcccccc',
+        columns=['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
+                                'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
+    )
+
+    # Modify the string
+    latex_string = latex_string.replace('\\toprule', '\\hline')
+    latex_string = latex_string.replace('\\midrule', '\\hline')
+    latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+    # Make column headers bold
+    for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
+        latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
 
 
-# Add blank lines between different condition groups
-lines = latex_string.split('\n')
-new_lines = []
-prev_condition_key = None
+    # Add blank lines between different condition groups
+    lines = latex_string.split('\n')
+    new_lines = []
+    prev_condition_key = None
 
-# Track condition keys as we iterate through table rows
-condition_keys = final_latex_table['condition_key'].tolist()
-data_row_index = 0
+    # Track condition keys as we iterate through table rows
+    condition_keys = final_latex_table['condition_key'].tolist()
+    data_row_index = 0
 
-for i, line in enumerate(lines):
-    # Check if this is a data row (contains '&' but not '\textbf')
-    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
-        current_condition_key = condition_keys[data_row_index]
+    for i, line in enumerate(lines):
+        # Check if this is a data row (contains '&' but not '\textbf')
+        if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+            current_condition_key = condition_keys[data_row_index]
+            
+            # If condition key changed and this is not the first data row, add blank line
+            if prev_condition_key is not None and current_condition_key != prev_condition_key:
+                new_lines.append('        \\\\')
+            
+            prev_condition_key = current_condition_key
+            data_row_index += 1
         
-        # If condition key changed and this is not the first data row, add blank line
-        if prev_condition_key is not None and current_condition_key != prev_condition_key:
-            new_lines.append('        \\\\')
-        
-        prev_condition_key = current_condition_key
-        data_row_index += 1
+        new_lines.append(line)
+
+    latex_string = '\n'.join(new_lines)
+
+    # Save to file
+    if table_key=='_Wood':
+        with open(str(base_dir) + f'/MCC/MCC_Values.tex', 'w') as f:
+            f.write(latex_string)
+
+        print("LaTeX table saved!")
+    else:
+        with open(str(base_dir) + f'/MCC/MCC_Values_PS.tex', 'w') as f:
+            f.write(latex_string)
+
+        print("PS LaTeX table saved!")
+
+
+
+#-----------------------------------------------
+# region processing raw data
+#-----------------------------------------------
+
+MCC_raw = device_data(DATA_DIR, 'MCC-raw')
+
+print('Raw data table')
+table = make_institution_table(MCC_raw,['Wood'],['N2'],['30K','45K','60K'])
+print(table)
+
+
+for series in unique_conditions_material:
+    fig1, ax1 = plt.subplots(figsize=(6, 4))
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    parts = series.split('_')
+    material, dev, atm, hr,  = parts[:4]
+    MCC_subset_paths = [p for p in MCC_raw if f"{material}_" in p.name and f"_{atm}_{hr}_" in p.name]
+    for path in MCC_subset_paths:
+        df_raw = pd.read_csv(path)
+        #df_interp = interpolation(df_raw)
+        #df = calculate_int_HRR(df_interp)
+        label, color = label_def(path.stem.split('_')[0])
+        ax1.plot(df_raw['Temperature (C)'], df_raw['HRR (W/g)'], label = label, color=color)
+
+    ax1.set_ylim(bottom=0)
+    ax1.set_xlim(right=900)
+    ax1.set_xlabel('Temperature [C]')
+    ax1.set_ylabel('HRR [W g$^{-1}$]')
+    fig1.tight_layout()
+    handles1, labels1 = ax1.get_legend_handles_labels()
+    by_label1 = dict(zip(labels1, handles1))
+    ax1.legend(by_label1.values(), by_label1.keys())
+
+
+    fig1.savefig(str(base_dir) + '/MCC/MCC_{}_{}_{}_HRR-raw.{}'.format(material,atm,hr,ex))
+    plt.close(fig1)
+    plt.close(fig2)
+
+
+
+
+#check baseline finder
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+MCC_subset_paths = [p for p in MCC_raw if f"{material}_" in p.name and f"_N2_60K_" in p.name]
+for path in MCC_subset_paths:
+    df = pd.read_csv(path)
+    #region try baseline
+    df['Temperature (K)'] = df['Temperature (C)'] + 273.15
+    df.drop('Temperature (C)',axis=1)
+
+    # Finds where data becomes flat after initial rise
+    difference = df["HRR (W/g)"][2:].diff()
+    local_max = np.max(difference[0:10])  # changed from 10 to 20
+    local_max_index = np.where(difference == local_max)[0][0]
+    index = np.min(np.where(difference[local_max_index:] < 0.01)[0])
+
+    df = df.iloc[index:]
+
+    # Find maximum HRR and corresponding metrics
+    maxi = np.max(df["HRR (W/g)"])
+    index_max = df.index[df["HRR (W/g)"] == maxi]
+    peak_T = df["Temperature (K)"][index_max]
+
+    point_before = np.min(df.index[df["HRR (W/g)"] > 0.04 * maxi].tolist())
+    if point_before < 100:
+        point_before = np.min(df.index[df["HRR (W/g)"] > 0.06 * maxi].tolist())
+        if point_before < 100:
+            point_before = np.min(df.index[df["HRR (W/g)"] > 0.1 * maxi].tolist())
+            if point_before < 100: # if still does not work very conservative. 
+                point_before = np.min(df.index[df["HRR (W/g)"] > 0.3 * maxi].tolist())
+
     
-    new_lines.append(line)
+    #   Point after
+    point_after = np.min(
+        df[
+            (df["HRR (W/g)"] < 0.09 * maxi) 
+            & (df["Temperature (K)"] > float(peak_T.iloc[0]))
+        ].index
+    )
+    # Exception point_after not found for IMT_R2
+    if np.isnan(point_after):
+        point_after = np.min(
+                    df[
+                        (df["HRR (W/g)"] < 0.15 * maxi) #changed 0.09 to 0.10 
+                        & (df["Temperature (K)"] > float(peak_T.iloc[0]))
+                    ].index
+                )
+    # note: non of the data has a second maximum --> not included in baseline algoritm
+  
+    # Calculate index_adter
+    # OPTION 1
+    max_index = df[df["Temperature (K)"] == np.max(df["Temperature (K)"])].index.values[
+        0
+    ]
+    slopes = [0]
+    temp = []
+    difference = []
+    m = 0
+    for idx in np.arange(point_after, max_index - 100, 1):
+        xdata = df["Temperature (K)"][idx : idx + 50]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = savgol_filter(df["HRR (W/g)"][idx : idx + 50], 19, 1)
+        popt, _ = curve_fit(func, xdata, ydata)
+        slopes = slopes + [popt[0]]
+        difference = difference + [slopes[m - 1] - slopes[m]]
+        m = m + 1
 
-latex_string = '\n'.join(new_lines)
+    difference = savgol_filter(np.array(difference[2:]), 15, 1)
+    try:
+        index_after_1 = np.min(np.where(np.abs(difference) < 0.00005)[0] + point_after) #changed from 0.001 to 0.00005
+    except: 
+        index_after_1 = np.min(np.where(np.abs(difference) < 0.001)[0] + point_after)
 
-# Save to file
-with open(str(base_dir) + f'/MCC/MCC_Values.tex', 'w') as f:
-    f.write(latex_string)
+    # OPTION 2
+    index_after_2 = point_after  # Initialize before loop
+    for idx in np.arange(point_after, max_index - 100, 1):
+        xdata = df["Temperature (K)"][idx : idx + 50]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = savgol_filter(df["HRR (W/g)"][idx : idx + 50], 19, 1)
+        popt, _ = curve_fit(func, xdata, ydata)
+        index_after_2 = idx
+        if (popt[0] > -0.01) & (popt[0] < 0.001):
+            break
 
-print("LaTeX table saved!")
+    # FINAL POINT
+    index_after = max(index_after_1, index_after_2)
+
+
+    # # -------------------------
+    # # FIND 1st BASELINE POINT
+    # # -------------------------
+
+    # Moving average of HRR
+    window_size = 7
+    df["SMA"] = df["HRR (W/g)"].rolling(window=window_size).mean()
+
+    # OPTION 1
+    slopes = [0]
+    temp = []
+    difference = []
+    m = 0
+    for idx in np.arange(100, point_before, 1):
+        xdata = df["Temperature (K)"][idx - 90 : idx]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = df["SMA"][idx - 90 : idx]
+        popt, _ = curve_fit(func, xdata, ydata)
+        slopes = slopes + [popt[0]]
+        difference = difference + [slopes[m - 1] - slopes[m]]
+        m = m + 1
+
+    try:
+        index_before_1 = np.max(np.where(np.abs(difference) < 0.001)[0])
+    except ValueError:
+        try:
+            index_before_1 = np.max(np.where(np.abs(difference) < 0.01)[0])
+        except ValueError:
+            index_before_1 = np.max(np.where(np.abs(difference) < 0.1)[0])
+
+    # OPTION 2
+    index_before_2 = 100  # Initialize before loop
+    for idx in np.arange(100, point_before, 1):
+        xdata = df["Temperature (K)"][idx - 90 : idx]
+        temp = temp + [df["Temperature (K)"][idx]]
+        ydata = df["SMA"][idx - 90 : idx]
+        popt, _ = curve_fit(func, xdata, ydata)
+        index_before_2 = idx
+        if (popt[0] > -0.015) & (popt[0] < 0.015):
+            break
+
+    # plt.plot(df['Temperature (K)'],df['HRR (W/g)'])
+    # plt.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
+    # plt.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
+    # plt.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
+    # plt.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_after+100], '^', color='black')
+    # plt.title(str(path.stem))
+    # plt.show()
+
+    # -------------------------
+    # DETERMINE BASELINE + parameters
+    # -------------------------
+    order = 3
+    index_end = max_index - 50
+
+    
+    # OPTION 3: Baseline using points [index_before_2, index_before_1] and [point_after, point_after+100] --> works for non-char
+    if index_before_1 > index_before_2:
+        x = np.concatenate(
+            [
+                df["Temperature (K)"][index_before_2:index_before_1].to_numpy(),
+                df["Temperature (K)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        y = np.concatenate(
+            [
+                df["HRR (W/g)"][index_before_2:index_before_1].to_numpy(),
+                df["HRR (W/g)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        index_before = [index_before_2, index_before_1]
+    else:
+        x = np.concatenate(
+            [
+                df["Temperature (K)"][index_before_1:index_before_2].to_numpy(),
+                df["Temperature (K)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        y = np.concatenate(
+            [
+                df["HRR (W/g)"][index_before_1:index_before_2].to_numpy(),
+                df["HRR (W/g)"][index_after:index_end].to_numpy(),
+            ]
+        )
+        index_before = [index_before_1, index_before_2]
+
+    abc = np.polyfit(x, y, order)
+    y_fit = func_5(df["Temperature (K)"], abc)
+    df["HRR (W/g)"] = (df["HRR (W/g)"] - y_fit).round(3)
+    # Only keep data between baseline points
+    df = df.iloc[int(index_before[0]) : int(index_end + 1)]
+    df.drop("SMA", axis=1, inplace=True)
+    label, color = label_def(path.stem.split('_')[0])
+
+    ax1.plot(df['Temperature (C)'], df['HRR (W/g)'], label = label, color=color)
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(right=900)
+ax1.set_xlabel('Temperature [K]')
+ax1.set_ylabel('HRR [W g$^{-1}$]')
+fig1.tight_layout()
+handles1, labels1 = ax1.get_legend_handles_labels()
+by_label1 = dict(zip(labels1, handles1))
+ax1.legend(by_label1.values(), by_label1.keys())
+
+
+fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_N2_60K_HRR-raw-corrected.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)

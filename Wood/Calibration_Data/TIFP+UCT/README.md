@@ -66,21 +66,21 @@ Experiments were conducted on FTT iCone mini with controlled atmosphere module a
 
 ###### Test Heating Conditions  
 
-|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |Thickness (cm)|Grain orientation (-)|t_ign (s)|t_flameout (s)|
-|----------|:------:| :---: |:------:| :---: | :---: | :---: |
-|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R1 | 30| 913 | 2.54 | parallel| -| -|
-|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R2 | 30| 913 | 2.54 | parallel|-| -|
-|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R4 | 30| 913 | 2.54 | parallel|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R1 | 30| 1082 | 2.54 | parallel|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R2 | 30| 1082 | 2.54 | parallel|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R3 | 30| 1082 | 2.54 | parallel|-| -|
-|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R1 | 30| 912 | 2.54 | perpendicular| -| -|
-|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R2 | 30| 912 | 2.54 | perpendicular|-| -|
-|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R3 | 30| 912 | 2.54 | perpendicular|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R1 | 30| 1086 | 2.54 | perpendicular|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R2 | 30| 1086 | 2.54 | perpendicular|-| -|
-|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R3 | 30| 1086 | 2.54 | perpendicular|-| -|
+|Test Name | Heat Flux (kW/m2)| Heater Temperature (K) |Initial sample mass (g)|Thickness (cm)|Grain orientation (-)|t_ign (s)|t_flameout (s)|
+|----------|:------:| :---: |:------:|:------:| :---: | :---: | :---: |
+|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R1 | 30| 913 | 92.16 | 2.54 | parallel| -| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R2 | 30| 913 | 94.80 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_parallel\_R4 | 30| 913 | 92.08 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R1 | 60| 1082 | 93.67 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R2 | 60| 1082 | 111.07 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_parallel\_R3 | 60| 1082 | 94.71 | 2.54 | parallel|-| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R1 | 30| 912 | 118.55 | 2.54 | perpendicular| -| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R2 | 30| 912 | 105.88 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_30KW\_hor\_perpendicular\_R3 | 30| 912 | 110.47 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R1 | 60| 1086 | 107.54 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R2 | 60| 1086 | 114.35 | 2.54 | perpendicular|-| -|
+|TIFP+UCT\_Gasification\_60KW\_hor\_perpendicular\_R3 | 60| 1086 | 105.16 | 2.54 | perpendicular|-| -|
 
 * Note
   - Two types of samples were distributed among the MaCFP contributors - cut with the wood grain parallel and perpendicular to sample's front surface. The sample type was added to the name of each measurement.
-  - Sample mass in the gasification data at time 0 sec is the mass of the sample that was measured separately before the test using laboratory scales.
+  - Sample mass in the table above and in the gasification data at time 0 sec is the mass of the sample that was measured separately before the test using laboratory scales.
