@@ -302,11 +302,11 @@ for series in sorted(Reflectivity_sets):
             if key.lower() in series.lower():
                 if 'CAPA' in key:
                     flux = key.replace('CAPA', '')
-                    source = f'CAPA {flux} kW/m$^2$'
+                    source = f'CAPA {flux}'
 
                 elif 'CONE' in key:
                     flux = key.replace('CONE', '')
-                    source = f'Cone {flux} kW/m$^2$'
+                    source = f'Cone {flux}'
     else:
         sample = 'Wood'
         source = ''
@@ -329,7 +329,9 @@ char_df = df_emissivity[df_emissivity['Sample'] == 'Wood-char']
 latex_str = '\\begin{tabular}{lll' + 'c'*len(temperatures) + '}\n'
 latex_str += '\\hline\n'
 
-latex_str += 'Institution & Sample & Source'
+latex_str += ' & & & \\multicolumn{' + str(len(temperatures)) + '}{c}{\\textbf{Effective broadband emissivity, $\\varepsilon(T)$}} \\\\\n'
+latex_str += '\\textbf{Institution} & \\textbf{Sample} & \\textbf{Source} & \\multicolumn{' + str(len(temperatures)) + '}{c}{\\textbf{Temperature, $T$ (K)}} \\\\\n'
+latex_str += ' & & \\textbf{(kW/m$^2$)}'
 
 for T in temperatures:
     latex_str += f' & {T}'
