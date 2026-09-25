@@ -828,7 +828,9 @@ The arithmetic mean and standard deviation of each quantity are reported in Tabl
 \newpage
 \subsection{Differential Scanning Calorimetry (DSC)}
 
-A total of 59 DSC datasets were submitted by seven institutions. All DSC measurements were obtained as part of simultaneous thermal analysis (STA), with thermogravimetric and heat-flow data recorded during the same experiment. Of these measurements, 41 tests were conducted in pure nitrogen at nominal heating rates between 3 and 50~K/min, with the largest number of 16 measurements obtained at 10~K/min. A further 18 tests were conducted at various heating rates in oxidative atmospheres containing 3--21~\% oxygen in nitrogen.
+A total of 59 DSC datasets were submitted by seven institutions. All DSC measurements were obtained as part of simultaneous thermal analysis (STA), with thermogravimetric and heat-flow data recorded during the same experiment.\footnote{Conventional DSC does not measure sample mass and is therefore best suited to quantitative evaluation of thermal events occurring without substantial mass change. When decomposition occurs, changes in sample mass can affect the DSC baseline and quantities normalised by sample mass. Simultaneous TGA-DSC measurements partly overcome this limitation by providing the corresponding mass-loss history, although STA generally represents a compromise compared with dedicated DSC measurements optimised specifically for calorimetric accuracy.} Of these measurements, 41 tests were conducted in pure nitrogen at nominal heating rates between 3 and 50~K/min, with the largest number of 16 measurements obtained at 10~K/min. A further 18 tests were conducted at various heating rates in oxidative atmospheres containing 3--21~\% oxygen in nitrogen.
+
+Although most experiments were conducted using nominally constant heating rates, the actual sample heating rate, $dT/dt$, was not constant throughout every test. The largest deviations generally occurred during the initial part of the heating programme, before the system approached the prescribed heating rate. As discussed for the TGA measurements and illustrated in Figure~\ref{Fig:TGA_dTdt_ranges}, the relevance of these deviations depends on the temperature range of the process being analysed. Consequently, interpretation of DSC signals, particularly at lower temperatures, should consider the measured sample-temperature history rather than the nominal heating rate alone.
 
 \textbf{Data Processing} \\
 The key measurements recorded during DSC tests are heat flow to the sample, $\dot{q}/m_0$ (W/g), sample temperature, $T$~(K), and the time, $t$~(s), at which these values were recorded.  Both heat flow $\dot{q}$ and temperature $T$ were reported as time-resolved measurements. Prior to further analysis, the submitted heat-flow measurements were adjusted to a common sign convention such that endothermic events (e.g., heat flow to the sample during thermal decomposition, which peaks at approximately 600~K to 650~K) would be recorded as positive (increasing) events, with respect to the baseline. However, due to significant deviations in reported DSC data (potentially as a result of calibration, baseline correction, or instrumentation issues), negative and/or positive heat flow measurements do not necessarily indicate exothermic and/or endothermic events. Consequently, caution should be exercised when attempting to use these measurements for determination of `MaCFP-Wood' heat capacity, $c_p$, or heat of decomposition.\footnote{Note: `Ancona' DSC data were submitted with the comment, "DSC data serve as supplementary only and are not suitable for calibration." This dataset is thus included here for qualitative comparison and caution should be used if considering it for model calibration/property determination.} 
@@ -874,7 +876,7 @@ Figure~\ref{Fig:DSC_N2_10K} shows measurement data from repeated tests conducted
 
 The comparison in Fig.~\ref{Fig:DSC_N2_10K} also highlights several aspects that should be considered in future DSC measurements. Most of the submitted experiments were primarily designed as thermogravimetric measurements rather than optimised specifically for quantitative DSC analysis. Factors such as crucible material (conductivity), sensor configuration, and baseline correction can therefore contribute to the observed inter-laboratory differences~\cite{NetzschDSCBaseline,Salek2023thesis}. In particular, the submitted datasets do not always provide sufficient information to determine whether a separate baseline measurement was performed for the specific crucible and experimental conditions or whether an instrument-specific baseline correction was applied. Submission of the corresponding baseline measurements or correction procedure would therefore be beneficial in future MaCFP calls.
 
-Sample moisture represents an additional source of uncertainty. The submitted samples were not conditioned to a common moisture content prior to testing, so measurements from different institutions effectively started from different initial material states. Evaporation of moisture produces a pronounced thermal effect at lower temperatures and can substantially disturb the heat-flow signal before the main decomposition stage~\cite{Salek2023thesis}. This complicates identification of the beginning of thermal decomposition and can influence the placement of the linear baseline between the onset and endset temperatures used for the heat-of-decomposition analysis described above. Moreover, heat flow is normalised by the initial sample mass, including moisture that is no longer present during the main decomposition stage; consequently, derived heats of decomposition are not strictly expressed on a dry-material basis. Different initial moisture contents can also directly contribute to differences in integral heat flow between laboratories.
+Sample moisture represents an additional source of uncertainty. The submitted samples were not conditioned to a common moisture content prior to testing, so measurements from different institutions effectively started from different initial material states. Evaporation of moisture produces a pronounced thermal effect at lower temperatures and can substantially disturb the heat-flow signal before the main decomposition stage~\cite{Salek2023thesis}. This complicates identification of the beginning of thermal decomposition and can influence the placement of the linear baseline between the onset and endset temperatures used for the heat-of-decomposition analysis described below. Moreover, heat flow is normalised by the initial sample mass, including moisture that is no longer present during the main decomposition stage; consequently, derived heats of decomposition are not strictly expressed on a dry-material basis. Different initial moisture contents can also directly contribute to differences in integral heat flow between laboratories.
 
 The integral heat flow calculated over the entire experiment is particularly sensitive to these effects, as well as to differences in the initial heat-flow offset, baseline drift, and instrument-specific transients at the beginning of the heating programme. Since even a relatively small offset can accumulate into a substantial difference in integral heat flow over a long experiment, these curves should be interpreted with caution. For quantitative determination of reaction enthalpies, integration of individual thermal events relative to an appropriate local baseline is therefore generally more meaningful than integration of the complete DSC signal.
 
@@ -1393,44 +1395,63 @@ Figures~\ref{Fig:Gasification_30kW_Temperature} and \ref{Fig:Gasification_60kW_T
 
 \clearpage
 \subsection{Thermal Conductivity and Diffusivity}
-\subsubsection{TPS Hot Disc}
+\subsubsection{Thermal Conductivity}
 
-Measurements of thermal conductivity were obtained at ambient temperature by one institution (Mallard) using a TPS~2500S-Hot Disk (Transient Plane Source (TPS) method) under the following test and analysis conditions:
-\begin{itemize}
- \item Kapton 8563 sensor (radius 9.868~mm)
- \item Temperature Program: 20$^\circ$C
- \item Initial Sample Moisture Content: 50~\%
- %\item The material is treated as isotropic and considered as semi-infinite when using the appropriate size of the sensor.
- %\item Energy pulse: Power: 35 mW, Duration: 20 s
-\end{itemize}
-The mean and reported uncertainty of these two repeated measurements was: $k = 0.1445$ W/(m-K)~+/-~0.5~W/(m-K).
+Thermal conductivity measurements were conducted by two institutions (Mallard and Hardhead) using the Transient Plane Source (TPS) method at approximately 303~K. Each institution performed two repeated measurements. Mallard used a Hot Disk TPS~2500S with a Kapton~8563 sensor (radius 9.868~mm) and a measurement time of 160~s. Samples were conditioned at room temperature (approximately 23~$^\circ$C) and 50~\% relative humidity; the corresponding sample moisture content was not reported. Hardhead used a Hot Disk TPS~1500 with a Kapton~5501 sensor (radius 6.403~mm) and an output power of 50~mW. Measurement times of 160 and 80~s were used. Samples were conditioned at approximately 23~$^\circ$C and 50~\% relative humidity, with a measured moisture content of $10.2 \pm 0.3$~\%.
 
-\subsubsection{Laser Flash Diffusivity}
+The individual thermal-conductivity measurements and corresponding mean values are summarised in Table~\ref{tab:TPS_conductivity}. Despite differences in instrumentation and measurement conditions, the mean values reported by the two institutions differ by approximately 5~\%.
 
-Measurements of thermal diffusivity reported in Table~\ref{tab:Diffusivity} were obtained between 298~K and 373~K by one institution using a Netzsch Light Flash Apparatus (LFA~467) by two institutions. Mallard data represents an average of two repeated experiments. Rouen data is calculated as the average of six repeated experiments (conducted with the wood grain oriented either perpendicular or parallel to the sample's front surface); uncertainties represent one standard deviation of repeated measurements. These results demonstrate that grain orientation has a significant (factor of 2x to 3x increase) on measured thermal diffusivity. A smaller difference (30~\%) is observed in repeated measurements of diffusivity taken by two labs at nominally the same temperature (ambient). It is possible that this difference arises due to variations in sample preparation (e.g., optical coating during test) or conditioning (e.g., pre-test drying and variations in sample moisture content during the test).
 \begin{table}[h]
-	\centering
-	\caption{Measured Thermal Diffusivity of MaCFP-Wood from 298 K to 5773 K}
-	\label{tab:Diffusivity}
-	\begin{tabular}{cccc}
-		\hline
-		 & \textbf{Temperature)} & \textbf{Diffusivity (perpendicular)} & \textbf{Diffusivity (parallel)}\\
-		\textbf{Institution} & \textbf{(K)} & \textbf{(mm$^2$/s)} & \textbf{ (mm$^2$/s)} \\
-		\hline
-		Mallard& 293 & - & $0.195 \pm 0.005$ \\
-		\hline
-		Rouen&298 & $0.43 \pm 0.04$ & $0.14 \pm 0.01$ \\
-		& 323 & $0.47 \pm 0.04$ & $0.15 \pm 0.01$ \\
-		& 348 & $0.43 \pm 0.03$ & $0.15 \pm 0.01$ \\
-		& 373 & $0.40 \pm 0.03$ & $0.15 \pm 0.01$ \\
-		& 423 & $0.35 \pm 0.03$ & $0.14 \pm 0.01$ \\
-		& 473 & $0.33 \pm 0.02$ & $0.13 \pm 0.01$ \\
-		& 523 & $0.31 \pm 0.02$ & $0.13 \pm 0.01$ \\
-		& 573 & $0.30 \pm 0.02$ & $0.13 \pm 0.01$ \\
-		\hline
-	\end{tabular}
-	\label{tab:diffusivity}
+\centering
+\caption{Thermal conductivity of MaCFP-Wood measured using the Transient Plane Source (TPS) method. Mean values are reported as mean $\pm$ standard deviation of two repeated measurements.}
+\label{tab:TPS_conductivity}
+\begin{tabular}{lccccc}
+\hline
+\textbf{Institution} & \textbf{Apparatus} & \textbf{Moisture content} & \textbf{Temperature} & \textbf{$k_1$ / $k_2$} & \textbf{Mean $k$} \\
+& & \textbf{(\%)} & \textbf{(K)} & \textbf{(W/(m\,K))} & \textbf{(W/(m\,K))} \\
+\hline
+Mallard & TPS 2500S Hot Disk & NA & 303 & 0.147 / 0.144 & $0.1455 \pm 0.0021$ \\
+Hardhead & TPS 1500 Hot Disk & $10.2 \pm 0.3$ & 303 & 0.142 / 0.134 & $0.1380 \pm 0.0057$ \\
+\hline
+\end{tabular}
 \end{table}
+
+\subsubsection{Thermal Diffusivity}
+
+Thermal diffusivity was determined using both the Transient Plane Source (TPS) and Laser Flash Analysis (LFA) methods. TPS measurements were obtained by Mallard and Hardhead using the same experiments described above for thermal conductivity. Mean diffusivities calculated from two repeated measurements were $0.380 \pm 0.039$~mm$^2$/s for Mallard and $0.331 \pm 0.027$~mm$^2$/s for Hardhead, where the uncertainty represents one standard deviation.
+
+Additional thermal diffusivity measurements were conducted by Mallard and Rouen using Netzsch LFA~467 instruments. Mallard performed two measurements at approximately 293~K, both giving a diffusivity of 0.195~mm$^2$/s with a reported result variability of $\pm 0.005$~mm$^2$/s. Rouen used a Netzsch LFA~467 HT HyperFlash with graphite-coated samples tested under nitrogen. Six samples were tested for each grain orientation over the temperature range reported in Table~\ref{tab:Diffusivity}; the tabulated values represent mean values and one standard deviation.
+
+The Rouen measurements demonstrate a strong effect of grain orientation. Samples with the grain perpendicular to the exposed surface exhibited thermal diffusivities approximately two to three times higher than samples with the grain parallel to the surface. Diffusivity in the perpendicular orientation decreased with increasing temperature above approximately 323~K, whereas the parallel-orientation values remained comparatively constant. The measurements also indicate substantial differences between TPS and LFA results obtained near ambient temperature, although direct comparison is complicated by differences in measurement method, sample geometry, preparation, conditioning, and optical coating of the LFA samples.
+
+\begin{table}[h]
+\centering
+\caption{Thermal diffusivity of MaCFP-Wood measured using the Transient Plane Source (TPS) and Laser Flash Analysis (LFA) methods. TPS values are reported as mean $\pm$ standard deviation of two repeated measurements. For the Mallard LFA measurements, the reported uncertainty represents result variability; Rouen values are mean $\pm$ standard deviation of six samples for each grain orientation.}
+\label{tab:Diffusivity}
+\begin{tabular}{llccc}
+\hline
+\textbf{Institution} & \textbf{Method / Apparatus} & \textbf{Temperature} & \textbf{Perpendicular} & \textbf{Parallel} \\
+& & \textbf{(K)} & \textbf{(mm$^2$/s)} & \textbf{(mm$^2$/s)} \\
+\hline
+Mallard & TPS 2500S Hot Disk & 303 & - & $0.380 \pm 0.039$ \\
+Hardhead & TPS 1500 Hot Disk & 303 & - & $0.331 \pm 0.027$ \\
+\hline
+Mallard & Netzsch LFA 467 & 293 & - & $0.195 \pm 0.005$ \\
+\hline
+Rouen & Netzsch LFA 467 HT & 298 & $0.43 \pm 0.04$ & $0.14 \pm 0.01$ \\
+& & 323 & $0.47 \pm 0.04$ & $0.15 \pm 0.01$ \\
+& & 348 & $0.43 \pm 0.03$ & $0.15 \pm 0.01$ \\
+& & 373 & $0.40 \pm 0.03$ & $0.15 \pm 0.01$ \\
+& & 423 & $0.35 \pm 0.03$ & $0.14 \pm 0.01$ \\
+& & 473 & $0.33 \pm 0.02$ & $0.13 \pm 0.01$ \\
+& & 523 & $0.31 \pm 0.02$ & $0.13 \pm 0.01$ \\
+& & 573 & $0.30 \pm 0.02$ & $0.13 \pm 0.01$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\clearpage
+
 \subsection{Molecular Composition of MaCFP-Wood and its Gaseous Pyrolyzates}
 An experimental method was developed to identify the average molecular formula of the gaseous volatiles produced during anaerobic decomposition of combustible solids; this approach was applied to MaCFP-Wood. An organic elemental analyzer determines the average composition, while a heated, non-stirred pressure vessel determines the average molecular weight. Here, the composition of char is assessed based on residue   obtained at the end of anaerobic MCC tests (samples heated in N2 up to 700$^\circ$C). The composition of gaseous volatiles is calculated based on knowledge of the composition of virgin `MaCFP Wood' and the composition of the solid residue generated in molecular weight experiments (as well as the gaseous and residue yields measured in these pressure vessel tests).
 
@@ -1462,38 +1483,38 @@ Following the approach introduced in Section~\ref{g_tests_composition}, the aver
 \end{figure}
 
 \subsection{Reflectivity and Average Emissivity}
-Figure~\ref{Fig:Reflectivity} plots the average (20 replicate measurements) reflectivity of `MaCFP Wood' as a function of wavenumber\footnote{The range 500~cm$^{-1}<$wavenumber $<11000$~cm$^{-1}$ is equivalent to 0.91~$\mu$m $<\lambda<20~\mu$m.}. Here, shaded errorbars represent two standard deviations of the mean of repeated measurements. Based on these measurements, an effective broadband emissivity of this sample is calculated as:
-\begin{equation}
-	\varepsilon(T) = 1 - \frac{\displaystyle\sum_{\nu} \rho(\nu) \cdot B(\nu, T)}{\displaystyle\sum_{\nu} B(\nu, T)}
-\end{equation}
 
-\noindent where $B(\nu, T)$ is the Planck blackbody radiance:
+Spectral reflectivity measurements were submitted by three institutions for virgin `MaCFP Wood' and corresponding char samples. Figure~\ref{Fig:Reflectivity} shows the average measured reflectivity as a function of wavenumber. For virgin wood, measurements were available from Rouen, Canard, and Bali. Char reflectivity measurements were available from Rouen for samples produced at 20, 40, and 60~kW/m$^2$ in CAPA and from Bali for char produced in a cone calorimeter at 50~kW/m$^2$. Shaded regions represent $\pm 2$ standard errors of the mean of repeated measurements.
+
+Based on the measured spectral reflectivity, an effective broadband emissivity was calculated by weighting the reflectivity with the Planck blackbody spectrum:
 
 \begin{equation}
-	B(\nu, T) = \frac{2\pi h c^2 \nu^3}{e^{\,hc\nu / k_B T} - 1}
+\varepsilon(T) = 1 - \frac{\displaystyle\sum_{\nu} \rho(\nu) B(\nu,T)}
+{\displaystyle\sum_{\nu} B(\nu,T)}
 \end{equation}
 
-Here, $T$ is absolute temperature and $\rho(\nu)$ is equal to the measured reflectivity at wavenumber, $\nu$. The final terms represent Planck's constant ($h = 6.626 \times 10^{-34}$ J$\cdot$s), the speed of light ($c = 3.000 \times 10^{8}$ m/s), and Boltzmann's constant ($k_B = 1.381 \times 10^{-23}$ J/K). The effective broadband emissivity of `MaCFP Wood' is calculated at a range of temperatures between 293~K and 453~K; these values are provided in Table~\ref{tab:emissivity}.
+\noindent where $\rho(\nu)$ is the measured spectral reflectivity and $B(\nu,T)$ is the Planck blackbody radiance:
+
+\begin{equation}
+B(\nu,T) = \frac{2\pi h c^2 \nu^3}
+{\exp(hc\nu/k_B T)-1}
+\end{equation}
+
+Here, $T$ is absolute temperature, $h$ is Planck's constant ($h = 6.626 \times 10^{-34}$ J$\cdot$s), $c$ is the speed of light ($c = 3.000 \times 10^{8}$ m/s), and $k_B$ is Boltzmann's constant ($k_B = 1.381 \times 10^{-23}$ J/K). Effective broadband emissivities were calculated between 293~K and 453~K for each averaged reflectivity spectrum and are reported in Table~\ref{tab:emissivity}.
+
 \begin{figure}[t!]
 \centering
 \includegraphics[width=4in]{../SCRIPT_FIGURES/Reflectivity/Wood_Average_reflectivity_all.pdf}
 \includegraphics[width=4in]{../SCRIPT_FIGURES/Reflectivity/Wood-char_Average_reflectivity_all.pdf}
-\caption{Measured spectral reflectivity of `MaCFP Wood' and corresponding char samples. The upper panel shows the average reflectivity of the virgin wood measured by participating institutions, while the lower panel shows the reflectivity of char samples produced under different heating conditions.}
+\caption{Measured spectral reflectivity of `MaCFP Wood' and corresponding char samples. The upper plot shows average reflectivity of virgin wood, while the lower panel shows char samples produced under different heating conditions. Shaded regions represent $\pm 2$ standard errors of the mean.}
 \label{Fig:Reflectivity}
 \end{figure}
 
-
 \begin{table}[b]
-	\centering
-	\begin{tabular}{c|cccccccccc}
-		\hline
-		\textbf{Temperature (K)} & 293 & 313 & 333 & 353 & 373 & 393 & 413 & 433 & 453 & 473 \\
-		\hline
-		\textbf{Emissivity} & 0.879 & 0.877 & 0.875 & 0.872 & 0.869 & 0.866 & 0.863 & 0.860 & 0.856 & 0.853 \\
-		\hline
-	\end{tabular}
-	\caption{Calculated Emissivity of `MaCFP Wood'}
-	\label{tab:emissivity}
+\centering
+\caption{Calculated effective broadband emissivity of `MaCFP Wood' and corresponding char samples between 293~K and 453~K.}
+\input{../SCRIPT_FIGURES/Reflectivity/Reflectivity_Emissivity.tex}
+\label{tab:emissivity}
 \end{table}
 
 
