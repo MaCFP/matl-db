@@ -212,21 +212,38 @@ def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]]
 unique_HR = { '_'.join(s.split('_')[4:]) for s in MCC_sets}
 for HR in unique_HR:
     fig, ax = plt.subplots(figsize=(6, 4))
-    MCC_sub_set = device_subset(MCC_sets, HR, 'N2') + device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
+    MCC_sub_set = device_subset(MCC_sets, HR, 'N2')
     MCC_subset_wood = [p for p in MCC_sub_set if "Wood" in str(p) and "PS" not in str(p)]
     for set in MCC_subset_wood:
         average = average_MCC_series(set)
         label, color = label_def(set.split('_')[0])
-        if 'N2' in set:
-            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
-        else:
-            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],':', label = label, color = color)
+        ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
         ax.set_xlabel('Temperature [K]')
         ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
         ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
         fig.tight_layout()
         ax.legend()
     plt.savefig(str(base_dir) + '/MCC/dTdt_MCC_{}min.{}'.format(HR.split('_')[-1],ex))
+    plt.close(fig)
+
+
+for HR in unique_HR:
+    fig, ax = plt.subplots(figsize=(6, 4))
+    MCC_sub_set = device_subset(MCC_sets, HR, 'O2-20')+ device_subset(MCC_sets, HR, 'O2-21')
+    MCC_subset_wood = [p for p in MCC_sub_set if "Wood" in str(p) and "PS" not in str(p)]
+    for set in MCC_subset_wood:
+        average = average_MCC_series(set)
+        label, color = label_def(set.split('_')[0])
+        if 'char' in set:
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],':', label = label, color = color)
+        else:
+            ax.plot(average['Temperature (K)'], average['dTdt (K/min)'],'-', label = label, color = color)
+        ax.set_xlabel('Temperature [K]')
+        ax.set_ylabel('Heating Rate dT/dt [K min$^{-1}$]')
+        ax.set_title('dT/dt in MCC tests at {} K/min'.format(HR[:-1]))
+        fig.tight_layout()
+        ax.legend()
+    plt.savefig(str(base_dir) + '/MCC/dTdt_MCC_O2_{}min.{}'.format(HR.split('_')[-1],ex))
     plt.close(fig)
 
 
@@ -341,7 +358,6 @@ Average_values = pd.DataFrame({
     "std FGC":np.nan,
 })
 for idx,set in enumerate(MCC_sets):
-    print(set)
     fig, ax_HRR = plt.subplots(figsize=(6, 4))
     ax_intHRR = ax_HRR.twinx()
     df_average = average_MCC_series(set)
@@ -442,65 +458,87 @@ for idx,set in enumerate(MCC_sets):
 Average_values.drop('set',axis=1)
 
 #plot average values 
-def plot_hrr_and_onset_vs_peak_temp(df):
+def plot_hrr_and_onset_vs_peak_temp(df_full):
     """
     Creates 2 plots for each distinct condition:
     1) Peak HRR vs Peak Temperature
-    2) Onset T vs Peak Temperature
+    2) Total HRR vs Peak Temperature
+    3) FGC vs Peak Temperature
     """
+    print(df_full.columns)
     # Get unique conditions
-    conditions = df['conditions'].unique()
-    
-    for condition in conditions:
-        # Filter data for this condition
-        condition_data = df[df['conditions'] == condition]
+    for material in ['PS', 'Wood']:
+        df = df_full[df_full['set'].str.contains(material, na=False)]
+        conditions = df['conditions'].unique()
         
-        fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
-        fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
-        
-        # Plot 1: Peak HRR vs Peak Temperature
-        for idx, row in condition_data.iterrows():
-            Duck, color = label_def(row['set'].split('_')[0])
+        for condition in conditions:
+            # Filter data for this condition
+            condition_data = df[df['conditions'] == condition]
             
-            ax1.errorbar(row['T peak'], 
-                         row['peak HRR'],
-                         xerr=row['std T peak'],
-                         yerr=row['std peak HRR'],
-                         fmt='o', capsize=5, capthick=2, markersize=8,
-                         color=color, label=Duck)
+            fig1, ax1 = plt.subplots(1, 1, figsize=(6, 4))
+            fig2, ax2 = plt.subplots(1, 1, figsize=(6, 4))
+            fig3, ax3 = plt.subplots(1, 1, figsize=(6, 4))
+
+            # Plot 1: Peak HRR vs Peak Temperature
+            for idx, row in condition_data.iterrows():
+                Duck, color = label_def(row['set'].split('_')[0])
+                
+                ax1.errorbar(row['T peak'], 
+                            row['peak HRR'],
+                            xerr=row['std T peak'],
+                            yerr=row['std peak HRR'],
+                            fmt='o', capsize=5, capthick=2, markersize=8,
+                            color=color, label=Duck)
+                
+                ax2.errorbar(row['T peak'], 
+                            row['HR_total'],
+                            xerr=row['std T peak'],
+                            yerr=row['std HR_total'],
+                            fmt='s', capsize=5, capthick=2, markersize=8,
+                            color=color, label=Duck)
+
+                ax3.errorbar(row['T peak'], 
+                            row['FGC'],
+                            xerr=row['std T peak'],
+                            yerr=row['std FGC'],
+                            fmt='s', capsize=5, capthick=2, markersize=8,
+                            color=color, label=Duck)
+                
             
-            ax2.errorbar(row['T peak'], 
-                         row['T onset'],
-                         xerr=row['std T peak'],
-                         yerr=row['std T onset'],
-                         fmt='s', capsize=5, capthick=2, markersize=8,
-                         color=color, label=Duck)
+            ax1.set_xlabel('Peak Temperature [K]', fontsize=12)
+            ax1.set_ylabel('Peak HRR [W/g]', fontsize=12)
             
-        
-        ax1.set_xlabel('Peak Temperature [K]', fontsize=12)
-        ax1.set_ylabel('Peak HRR [W/g]', fontsize=12)
-        
-        # Remove duplicate legend entries
-        handles, labels = ax1.get_legend_handles_labels()
-        by_label = dict(zip(labels, handles))
-        ax1.legend(by_label.values(), by_label.keys())
-        
-        ax2.set_xlabel('Peak Temperature [K]', fontsize=12)
-        ax2.set_ylabel('Onset Temperature [K]', fontsize=12)
-        
-        # Remove duplicate legend entries
-        handles, labels = ax2.get_legend_handles_labels()
-        by_label = dict(zip(labels, handles))
-        ax2.legend(by_label.values(), by_label.keys())
-        
-        fig1.tight_layout()
-        fig2.tight_layout()
-        
-        fig1.savefig(str(base_dir) + f'/MCC/Tpeak_Average_{condition}_HRR.{ex}')
-        fig2.savefig(str(base_dir) + f'/MCC/Tonset_Average_{condition}_HRR.{ex}')
-        
-        plt.close(fig1)
-        plt.close(fig2)
+            # Remove duplicate legend entries
+            handles, labels = ax1.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax1.legend(by_label.values(), by_label.keys(), title=material)
+            
+            ax2.set_xlabel('Peak Temperature [K]', fontsize=12)
+            ax2.set_ylabel('Total HR [kJ/g]', fontsize=12)
+            
+            # Remove duplicate legend entries
+            handles, labels = ax2.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax2.legend(by_label.values(), by_label.keys(), title=material)
+
+            ax3.set_xlabel('Peak Temperature [K]', fontsize=12)
+            ax3.set_ylabel('FGC [J/gK]', fontsize=12)
+            
+            # Remove duplicate legend entries
+            handles, labels = ax2.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax3.legend(by_label.values(), by_label.keys(), title=material)
+            
+            fig1.tight_layout()
+            fig2.tight_layout()
+            fig3.tight_layout()
+            
+            fig1.savefig(str(base_dir) + f'/MCC/Tpeak_Average_{material}_{condition}_HRR.{ex}')
+            fig2.savefig(str(base_dir) + f'/MCC/TotalHR_Average_{material}_{condition}_HRR.{ex}')
+            fig3.savefig(str(base_dir) + f'/MCC/FGC_Average_{material}_{condition}_HRR.{ex}')
+            
+            plt.close(fig1)
+            plt.close(fig2)
 
 # Use the function
 plot_hrr_and_onset_vs_peak_temp(Average_values)
@@ -747,7 +785,7 @@ columns_to_keep = ['set', 'Duck_formatted', 'conditions_formatted', 'T_onset_for
 
 final_latex_table = final_table_sorted[columns_to_keep].copy()
 final_latex_table.columns = ['set','Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
-                             'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)', 'condition_key']
+                             'Total HR (kJ/g)', 'FGC (J/gK)', 'Char yield (\\%)', 'condition_key']
 
 # Generate LaTeX
 
@@ -760,7 +798,7 @@ for table_key in ['_Wood','_PS_']:
         escape=False,
         column_format='llcccccc',
         columns=['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 
-                                'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']
+                                'Total HR (kJ/g)', 'FGC (J/gK)', 'Char yield (\\%)']
     )
 
     # Modify the string
@@ -769,7 +807,7 @@ for table_key in ['_Wood','_PS_']:
     latex_string = latex_string.replace('\\bottomrule', '\\hline')
 
     # Make column headers bold
-    for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'Total HR (kJ/g)', 'FGC (kJ/g)', 'Char yield (\\%)']:
+    for col in ['Institution', 'Conditions','T onset (K)', 'T peak (K)', 'peak HRR (W/g)', 'Total HR (kJ/g)', 'FGC (J/gK)', 'Char yield (\\%)']:
         latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
 
 
