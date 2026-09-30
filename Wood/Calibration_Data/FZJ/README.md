@@ -119,7 +119,7 @@ Experiments with thermocouple type K, d=0.25mm, stapled to the center on the bot
 * Ignition Source: spark ignitor
 
 ###### Test Heating Conditions  
-| Run Label | Initial Sample Mass (mg) | Surface area (cm^2) | Thickness (mm) |Time to ignition (s) | 
+| Run Label | Initial Sample Mass (g) | Surface area (cm^2) | Thickness (mm) |Time to ignition (s) | 
 | :---- | :---- | :---- | :---- | :---- |
 | FZJ_Wood_Cone_30kW_hor_parallel_R1 | 93.43 | 99.13 | 25.53 | 19 | 
 | FZJ_Wood_Cone_30kW_hor_parallel_R2 | 93.93 | 101.51 | 25.24 | 35 | |
