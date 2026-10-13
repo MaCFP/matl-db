@@ -185,7 +185,7 @@ def interpolation(df:pd.DataFrame) -> pd.DataFrame:
     T_floor = df["Temperature (K)"].iloc[0]
     T_floor = np.ceil(T_floor) 
     T_ceil = df["Temperature (K)"].iloc[-1]
-    T_ceil = np.floor(T_ceil) 
+    T_ceil = np.floor(T_ceil)
     InterpT = np.arange(T_floor, T_ceil+0.5, 0.5)
     length = len(InterpT)
     df_interp = pd.DataFrame(index=range(length))

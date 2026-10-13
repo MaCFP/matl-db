@@ -3,20 +3,12 @@
 Main script for MCC analysis for MaCFP-4
 
 """
-# linear function for fitting
-def func(x, a, b):
-    return a * x + b
-
-def func_5(x, abc):
-    # return abc[-5]*x**4+abc[-4]*x**3 + abc[-3]*x**2 + abc[-2]*x + abc[-1]
-    return abc[-4] * x**3 + abc[-3] * x**2 + abc[-2] * x + abc[-1]
-    # return abc[-2]*x + abc[-1]
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from pathlib import Path
 from typing import Optional, Union, List, Dict
+from fnmatch import fnmatch
 from scipy.integrate import simpson
 from scipy.optimize import curve_fit
 from scipy.signal import savgol_filter
@@ -25,6 +17,9 @@ from Utils import device_data, get_series_names, make_institution_table, \
                   device_subset, label_def, interpolation, format_latex
 from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, extract_o2_number
 from Utils import DATA_DIR
+
+from TGA_analysis import TGA_sets 
+from TGA_analysis import Calculate_dm_dt, average_tga_series
 
 #region Save plots as pdf or png
 ex = 'pdf' #options 'pdf' or 'png
@@ -38,6 +33,10 @@ base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Average_dir = base_dir / 'MCC' / 'Average'
 Average_dir.mkdir(parents=True, exist_ok=True)
 
+
+# linear function for fitting
+def func(x, a, b):
+    return a * x + b
 
 # ------------------------------------
 #region data
@@ -114,11 +113,11 @@ def calculate_int_HRR(df:pd.DataFrame) -> pd.DataFrame:
 
 
 def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]] = None, 
-                       temp_filter:Optional[Dict[str, float]] = None) -> pd.DataFrame:
+                       temp_filter:Optional[Dict[str, float]] = None, baseline_correction = None) -> pd.DataFrame:
     """Calculate average mass and MLR for a test series with optional filtering."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
     paths = [p for p in paths if "TEMPLATE" not in str(p)]
-    paths = [p for p in paths if p in MCC_Data]
+    #paths = [p for p in paths if p in MCC_Data]
 
     # Apply exclusions
     if exclude is not None:
@@ -135,13 +134,15 @@ def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]]
     # Read data
     for i, path in enumerate(paths):
         df = pd.read_csv(path)
+        if baseline_correction is not None:
+            df = baseline_correct_MCC(df)
+
 
         # Apply temperature filter for specific institutes
         if temp_filter is not None:
             for institute, min_temp in temp_filter.items():
                 if institute in str(path):
                     df_raw = df_raw[df_raw['Temperature (K)'] > min_temp].reset_index(drop=True)
-
 
         df = calculate_int_HRR(df)
         df['dTdt'] = 60*np.gradient(df['Temperature (K)'], df['Time (s)'])
@@ -291,171 +292,144 @@ for series in unique_conditions_material:
     plt.close(fig2)
 
 
-#check mass scaling FZJ
-# HRR and int HRR rate plots for all unique atmospheres and heating rates 
-# initial_mass = {
-#     'R1': {'mass': 0.98, 'color': 'darkviolet'},
-#     'R2': {'mass': 2.0, 'color': 'darkred'},
-#     'R3': {'mass': 1.95, 'color': 'red'},
-#     'R4': {'mass': 1.93, 'color': 'lightcoral'},
-#     'R5': {'mass': 3.97, 'color': 'darkgreen'},
-#     'R6': {'mass': 5.98, 'color': 'darkblue'},
-#     'R7': {'mass': 5.96, 'color': 'blue'},
-#     'R8': {'mass': 6.09, 'color': 'royalblue'},
-#     'R9': {'mass': 7.17, 'color': 'darkgoldenrod'},
-#     'R10': {'mass': 7.19, 'color': 'goldenrod'},
-#     'R11': {'mass': 7.23, 'color': 'gold'},
-#     'R12': {'mass': 3.91, 'color': 'lime'},
-#     'R13': {'mass': 3.99, 'color': 'limegreen'},
-#     'R14': {'mass': 4.09, 'color': 'green'},
-#     'R15': {'mass': 7.09, 'color': 'black'}
-# }
 
-# fig1, ax1 = plt.subplots(figsize=(6, 4))
-# for test in DATA_DIR.rglob("FZJ/FZJ_*60K*.csv"):
-#     parts = test.stem.split('_')
-#     Repetition = parts[-1]
-#     df_raw = pd.read_csv(test)
-#     df = calculate_int_HRR(df_raw)
-#     ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
-#     #ax1.plot(df['Temperature (K)'], np.gradient(df['Temperature (K)'], df['Time (s)']), label = initial_mass[Repetition]['mass'], color = initial_mass[Repetition]['color'] )
-
-# # Sort legend
-# handles, labels = ax1.get_legend_handles_labels()
-# labels_float = [float(label) for label in labels]
-# sorted_pairs = sorted(zip(labels_float, handles))
-# sorted_labels = [label for label, _ in sorted_pairs]
-# sorted_handles = [handle for _, handle in sorted_pairs]
-
-# ax1.set_ylim(bottom=0)
-# ax1.set_xlabel('Temperature (K)')
-# ax1.set_ylabel('HRR [W g$^{-1}$]')
-# fig1.tight_layout()
-# ax1.legend(sorted_handles, sorted_labels)
-
-# fig1.savefig(str(base_dir) + '/MCC/MCC_FZJ_60K_Mass-Scaling_HRR.{}'.format(ex))
-# plt.close(fig1)
- 
 
 
 # plot average per MCC_set (unique institutions, unique material, unique conditions)
 # and print a table with values of interest
-Average_values = pd.DataFrame({
-    'set': MCC_sets,
-    'Duck':[label_def(t.split('_')[0])[0] for t in MCC_sets],
-    'conditions':[t.split('MCC_')[1] for t in MCC_sets],
-    'peak HRR': np.nan,
-    'std peak HRR': np.nan,
-    'T peak': np.nan,
-    'std T peak': np.nan,
-    'T onset': np.nan,
-    'std T onset': np.nan,
-    "HR_total":np.nan,
-    "std HR_total":np.nan,
-    "HR_capacity":np.nan,
-    "std HR_capacity":np.nan,
-    "FGC":np.nan,
-    "std FGC":np.nan,
-})
-for idx,set in enumerate(MCC_sets):
-    fig, ax_HRR = plt.subplots(figsize=(6, 4))
-    ax_intHRR = ax_HRR.twinx()
-    df_average = average_MCC_series(set)
+def plot_average_MCC_set(MCC_sets, plot = True, baseline_correction=None):
+    Average_values = pd.DataFrame({
+        'set': MCC_sets,
+        'Duck':[label_def(t.split('_')[0])[0] for t in MCC_sets],
+        'conditions':['_'.join(t.split('_')[3:]) for t in MCC_sets],
+        'peak HRR': np.nan,
+        'std peak HRR': np.nan,
+        'T peak': np.nan,
+        'std T peak': np.nan,
+        'T onset': np.nan,
+        'std T onset': np.nan,
+        'T endset': np.nan,
+        'std T endset': np.nan,
+        "HR_total":np.nan,
+        "std HR_total":np.nan,
+        "HR_capacity":np.nan,
+        "std HR_capacity":np.nan,
+        "FGC":np.nan,
+        "std FGC":np.nan,
+    })
+    for idx,set in enumerate(MCC_sets):
+        df_average = average_MCC_series(set, baseline_correction=baseline_correction)
 
-    Duck, color = label_def(set.split('_')[0])
-    Conditions = '_'.join(set.split('_')[2:])
+        if plot == True: 
+            fig, ax_HRR = plt.subplots(figsize=(6, 4))
+            ax_intHRR = ax_HRR.twinx()
+  
 
-    # plot average
-    # Plot HRRs (left y-axis)
-    ax_HRR.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'],
-                        label='HRR', color='limegreen')
-    ax_HRR.fill_between(df_average['Temperature (K)'], 
-                         df_average['HRR (W/g)']-2*df_average['HRR_std'],
-                         df_average['HRR (W/g)']+2*df_average['HRR_std'],
-                         color='limegreen', alpha = 0.3)
+            Duck, color = label_def(set.split('_')[0])
+            Conditions = '_'.join(set.split('_')[2:])
 
-    # Plot mass loss rate (right y-axis, dashed)
-    ax_intHRR.plot(df_average['Temperature (K)'], df_average['int HRR'],
-                        label='integral HRR', color='red', alpha=0.9)
+            # plot average
+            # Plot HRRs (left y-axis)
+            ax_HRR.plot(df_average['Temperature (K)'], df_average['HRR (W/g)'],
+                                label='HRR', color='limegreen')
+            ax_HRR.fill_between(df_average['Temperature (K)'], 
+                                df_average['HRR (W/g)']-2*df_average['HRR_std'],
+                                df_average['HRR (W/g)']+2*df_average['HRR_std'],
+                                color='limegreen', alpha = 0.3)
 
-    ax_intHRR.fill_between(df_average['Temperature (K)'], 
-                        df_average['int HRR']-2*df_average['int HRR_std'],
-                        df_average['int HRR']+2*df_average['int HRR_std'],
-                        color='red', alpha=0.3)
+            # Plot mass loss rate (right y-axis, dashed)
+            ax_intHRR.plot(df_average['Temperature (K)'], df_average['int HRR'],
+                                label='integral HRR', color='red', alpha=0.9)
+
+            ax_intHRR.fill_between(df_average['Temperature (K)'], 
+                                df_average['int HRR']-2*df_average['int HRR_std'],
+                                df_average['int HRR']+2*df_average['int HRR_std'],
+                                color='red', alpha=0.3)
 
 
-    #plot individual
-    paths_MCC_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
-    peak_HRR_list = []
-    T_peak_list = []
-    T_onset_list = []
-    T_onset10_list = []
-    FGC_list = []
-    HR_total_list = []
-    HR_capacity_list = []
-    T_0 = 298
+        #plot individual
+        paths_MCC_set = list(DATA_DIR.glob(f"*/{set}_[rR]*.csv"))
+        peak_HRR_list = []
+        T_peak_list = []
+        T_onset_list = []
+        T_onset10_list = []
+        FGC_list = []
+        HR_total_list = []
+        HR_capacity_list = []
+        T_endset_list = []
+        T_0 = 298
 
-    for path in paths_MCC_set:
-        df_raw = pd.read_csv(path)
-        df = calculate_int_HRR(df_raw)
-        peak_HRR = df["HRR (W/g)"].max()
-        peak_index = df["HRR (W/g)"].idxmax()
-        T_peak = df["Temperature (K)"].iloc[peak_index]
-        HR_total = df['Int HRR'].iloc[-1]
-        onset_index = df[df['Int HRR'] >= 0.05 * HR_total].index[0]
-        T_onset = df["Temperature (K)"].iloc[onset_index]
-        onset_index10 = df[df['Int HRR'] >= 0.10 * HR_total].index[0]
-        T_onset10 = df["Temperature (K)"].iloc[onset_index10]
-        endset_index = df[df['Int HRR'] >= 0.95 * HR_total].index[0]
-        T_endset = df["Temperature (K)"].iloc[endset_index]
-        HR_Capacity = peak_HRR / np.average(np.gradient(df['Temperature (K)'], df['Time (s)']))
-        FGC_v = (HR_total * (T_endset - T_0)) / ((T_endset - T_onset) * (T_onset - T_0))
-        
+        for path in paths_MCC_set:
+            df_raw = pd.read_csv(path)
+            if baseline_correction is not None:
+                df_raw = baseline_correct_MCC(df_raw)
+            df = calculate_int_HRR(df_raw)
+            peak_HRR = df["HRR (W/g)"].max()
+            peak_index = df["HRR (W/g)"].idxmax()
+            T_peak = df["Temperature (K)"].iloc[peak_index]
+            HR_total = df['Int HRR'].iloc[-1]
+            onset_index = df[df['Int HRR'] >= 0.05 * HR_total].index[0]
+            T_onset = df["Temperature (K)"].iloc[onset_index]
+            onset_index10 = df[df['Int HRR'] >= 0.10 * HR_total].index[0]
+            T_onset10 = df["Temperature (K)"].iloc[onset_index10]
+            endset_index = df[df['Int HRR'] >= 0.95 * HR_total].index[0]
+            T_endset = df["Temperature (K)"].iloc[endset_index]
+            HR_Capacity = peak_HRR / np.average(np.gradient(df['Temperature (K)'], df['Time (s)']))
+            FGC_v = (1000*HR_total * (T_endset - T_0)) / ((T_endset - T_onset) * (T_onset - T_0))
+            
 
-        peak_HRR_list.append(peak_HRR)
-        T_peak_list.append(T_peak)
-        T_onset_list.append(T_onset)
-        T_onset10_list.append(T_onset10)
-        FGC_list.append(FGC_v)
-        HR_total_list.append(HR_total) #kJ/g
-        HR_capacity_list.append(HR_Capacity)
+            peak_HRR_list.append(peak_HRR)
+            T_peak_list.append(T_peak)
+            T_onset_list.append(T_onset)
+            T_endset_list.append(T_endset)
+            T_onset10_list.append(T_onset10)
+            FGC_list.append(FGC_v)
+            HR_total_list.append(HR_total) #kJ/g
+            HR_capacity_list.append(HR_Capacity)
 
-        ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '-', linewidth = 0.1,color ='black')
-        ax_intHRR.plot(df['Temperature (K)'], df['Int HRR'],'-', linewidth = 0.1,color='black', markersize=0.5)
-    Average_values.at[idx, 'peak HRR'] = np.mean(peak_HRR_list)
-    Average_values.at[idx, 'std peak HRR'] = np.std(peak_HRR_list, ddof=1)
-    Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)
-    Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
-    Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
-    Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
-    Average_values.at[idx, 'T onset10'] = np.mean(T_onset10_list)
-    Average_values.at[idx, 'std T onset10'] = np.std(T_onset10_list, ddof=1)
-    Average_values.at[idx, 'HR_total'] = np.mean(HR_total_list)
-    Average_values.at[idx, 'std HR_total'] = np.std(HR_total_list, ddof=1)
-    Average_values.at[idx, 'HR_capacity'] = np.mean(HR_capacity_list)
-    Average_values.at[idx, 'std HR_capacity'] = np.std(HR_capacity_list, ddof=1)
-    Average_values.at[idx, 'FGC'] = np.mean(FGC_list)
-    Average_values.at[idx, 'std FGC'] = np.std(FGC_list, ddof=1)
+            if plot == True:
+                ax_HRR.plot(df['Temperature (K)'], df['HRR (W/g)'], '-', linewidth = 0.1,color ='black')
+                ax_intHRR.plot(df['Temperature (K)'], df['Int HRR'],'-', linewidth = 0.1,color='black', markersize=0.5)
+        Average_values.at[idx, 'peak HRR'] = np.mean(peak_HRR_list)
+        Average_values.at[idx, 'std peak HRR'] = np.std(peak_HRR_list, ddof=1)
+        Average_values.at[idx, 'T peak'] = np.mean(T_peak_list)
+        Average_values.at[idx, 'std T peak'] = np.std(T_peak_list, ddof=1)
+        Average_values.at[idx, 'T onset'] = np.mean(T_onset_list)
+        Average_values.at[idx, 'std T onset'] = np.std(T_onset_list, ddof=1)
+        Average_values.at[idx, 'T endset'] = np.mean(T_endset_list)
+        Average_values.at[idx, 'std T endset'] = np.std(T_endset_list, ddof=1)
+        Average_values.at[idx, 'T onset10'] = np.mean(T_onset10_list)
+        Average_values.at[idx, 'std T onset10'] = np.std(T_onset10_list, ddof=1)
+        Average_values.at[idx, 'HR_total'] = np.mean(HR_total_list)
+        Average_values.at[idx, 'std HR_total'] = np.std(HR_total_list, ddof=1)
+        Average_values.at[idx, 'HR_capacity'] = np.mean(HR_capacity_list)
+        Average_values.at[idx, 'std HR_capacity'] = np.std(HR_capacity_list, ddof=1)
+        Average_values.at[idx, 'FGC'] = np.mean(FGC_list)
+        Average_values.at[idx, 'std FGC'] = np.std(FGC_list, ddof=1)
 
-    # Set lower limits of both y-axes to 0
-    ax_HRR.set_ylim(bottom=0)
-    ax_intHRR.set_ylim(bottom=0)
+        if plot == True:
+            # Set lower limits of both y-axes to 0
+            ax_HRR.set_ylim(bottom=0)
+            ax_intHRR.set_ylim(bottom=0)
 
-    # Axes labels
-    ax_HRR.set_xlabel('Temperature [K]')
-    ax_HRR.set_ylabel('HRR [W g$^{-1}$]')
-    ax_intHRR.set_ylabel('Integral HRR [kJ g$^{-1}$]')
+            # Axes labels
+            ax_HRR.set_xlabel('Temperature [K]')
+            ax_HRR.set_ylabel('HRR [W g$^{-1}$]')
+            ax_intHRR.set_ylabel('Integral HRR [kJ g$^{-1}$]')
 
-    # Figure title
-    plt.title(Duck+"\n"+Conditions)
+            # Figure title
+            plt.title(Duck+"\n"+Conditions)
 
-    # Legend
-    fig.legend()
+            # Legend
+            fig.legend()
 
-    fig.tight_layout()
-    plt.savefig(str(base_dir) + f'/MCC/Average/{set}.{ex}')
-    plt.close(fig)
-Average_values.drop('set',axis=1)
+            fig.tight_layout()
+            plt.savefig(str(base_dir) + f'/MCC/Average/{set}.{ex}')
+            plt.close(fig)
+    Average_values.drop('set',axis=1)
+    return Average_values
+
+Average_values = plot_average_MCC_set(MCC_sets)
 
 #plot average values 
 def plot_hrr_and_onset_vs_peak_temp(df_full):
@@ -465,7 +439,12 @@ def plot_hrr_and_onset_vs_peak_temp(df_full):
     2) Total HRR vs Peak Temperature
     3) FGC vs Peak Temperature
     """
-    print(df_full.columns)
+    #check whethet this is raw data or not
+    if df_full['set'][0].split('_')[2] == 'MCC-raw':
+        raw = 'Average-baseline-corrected'
+    else:
+        raw = 'Average'
+
     # Get unique conditions
     for material in ['PS', 'Wood']:
         df = df_full[df_full['set'].str.contains(material, na=False)]
@@ -533,19 +512,20 @@ def plot_hrr_and_onset_vs_peak_temp(df_full):
             fig2.tight_layout()
             fig3.tight_layout()
             
-            fig1.savefig(str(base_dir) + f'/MCC/Tpeak_Average_{material}_{condition}_HRR.{ex}')
-            fig2.savefig(str(base_dir) + f'/MCC/TotalHR_Average_{material}_{condition}_HRR.{ex}')
-            fig3.savefig(str(base_dir) + f'/MCC/FGC_Average_{material}_{condition}_HRR.{ex}')
+            fig1.savefig(str(base_dir) + f'/MCC/Tpeak_{raw}_{material}_{condition}_HRR.{ex}')
+            fig2.savefig(str(base_dir) + f'/MCC/TotalHR_{raw}_{material}_{condition}_HRR.{ex}')
+            fig3.savefig(str(base_dir) + f'/MCC/FGC_{raw}_{material}_{condition}_HRR.{ex}')
             
             plt.close(fig1)
             plt.close(fig2)
+            plt.close(fig3)
 
 # Use the function
 plot_hrr_and_onset_vs_peak_temp(Average_values)
 
 
 
-# Average plot for Mass and mass loss rate (averaging over different institutes)
+# Average plot for HRR and int HRR (averaging over different institutes)
 color = {'30K':'blue','45K':'black','60K':'red'}
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 fig2, ax2 = plt.subplots(figsize=(6, 4))
@@ -581,7 +561,7 @@ fig1.tight_layout()
 ax1.legend()
 
 ax2.set_ylim(bottom=0)
-ax2.set_xlim(350,1000)
+ax2.set_xlim(350,900)
 ax2.set_xlabel('Temperature [K]')
 ax2.set_ylabel('Integral HRR [kJ/g]')
 fig2.tight_layout()
@@ -600,37 +580,47 @@ plt.close(fig2)
 
 
 #------------------------------------
-# region char yields (new values need to be added manually)
+# region char yields
 #------------------------------------
+# NOTE: char yields need to be added manually, last updated 29-09-2026
 FZJ_N2_30K = [0.64/4.0,0.54/4.01]
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)*100
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)*100
 
 FZJ_N2_45K = [0.57/3.99]
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'char_yield'] = np.mean(FZJ_N2_45K)
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'std_char_yield'] = np.std(FZJ_N2_45K)
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'char_yield'] = np.mean(FZJ_N2_45K)*100
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_45K', 'std_char_yield'] = np.std(FZJ_N2_45K)*100
 
-FZJ_N2_60K = [    0.15/0.98,    0.28/2.0,    0.26/1.95,    0.27/1.93,    0.63/3.97,    0.82/5.98,    0.36/6.09,    1.13/7.19,    1.13/7.23,    0.55/3.99,   0.54/4.09]
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'char_yield'] = np.mean(FZJ_N2_60K)
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(FZJ_N2_60K)
+FZJ_N2_60K = [ 0.15/0.98,    0.28/2.0,    0.26/1.95,    0.27/1.93,    0.63/3.97,    0.82/5.98,    0.36/6.09,    1.13/7.19,    1.13/7.23,    0.55/3.99,   0.54/4.09]
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'char_yield'] = np.mean(FZJ_N2_60K)*100
+Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(FZJ_N2_60K)*100
 
 IMT_N2_60K = [0.23/2.82, 0.24/2.2]
-Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'char_yield'] = np.mean(IMT_N2_60K)
-Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(IMT_N2_60K)
+Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'char_yield'] = np.mean(IMT_N2_60K)*100
+Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(IMT_N2_60K)*100
+for i in ['O2-2', 'O2-5', 'O2-10', 'O2-20']:
+    Average_values.loc[Average_values['set'] == 'IMT_Wood_MCC_{}_60K'.format(i), 'char_yield'] = 0
 
 NIST_N2_60K = [1.747/12.037, 1.843/11.921, 1.843/12.040, 1.846/11.903, 1.854/12.024, 1.844/11.989, 1.846/12.037, 1.847/12.043, 1.866/12.019, 0.707/5.075, 0.700/5.046, 0.700/5.048]
-Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'char_yield'] = np.mean(NIST_N2_60K)
-Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(NIST_N2_60K)
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'char_yield'] = np.mean(FZJ_N2_30K)
-Average_values.loc[Average_values['set'] == 'FZJ_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(FZJ_N2_30K)
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'char_yield'] = np.mean(NIST_N2_60K)*100
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(NIST_N2_60K)*100
+
+NIST_O2_60K = [0.009/5.068, 0.008/5.009, 0.007/4.985]
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_O2-20_60K', 'char_yield'] = np.mean(NIST_O2_60K)*100
+Average_values.loc[Average_values['set'] == 'NIST_Wood_MCC_O2-20_60K', 'std_char_yield'] = np.std(NIST_O2_60K)*100
+
+NIST_O2_char_60K = [0.016/1.843, 0.025/1.843, 0.026/1.846]
+Average_values.loc[Average_values['set'] == 'NIST_Wood-char_MCC_O2-20_60K', 'char_yield'] = np.mean(NIST_O2_char_60K)*100
+Average_values.loc[Average_values['set'] == 'NIST_Wood-char_MCC_O2-20_60K', 'std_char_yield'] = np.std(NIST_O2_char_60K)*100
+
 
 TUBS_N2_30K = [0.07/1.03, 0.11/1.04, 0.12/1.05]
-Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'char_yield'] = np.mean(TUBS_N2_30K)
-Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(TUBS_N2_30K)
+Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'char_yield'] = np.mean(TUBS_N2_30K)*100
+Average_values.loc[Average_values['set'] == 'TUBS_Wood_MCC_N2_30K', 'std_char_yield'] = np.std(TUBS_N2_30K)*100
 
 UDRI_N2_60K = [    0.739/5.560,    0.673/5.007,    0.669/5.013]
-Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'char_yield'] = np.mean(UDRI_N2_60K)
-Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(UDRI_N2_60K)
+Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'char_yield'] = np.mean(UDRI_N2_60K)*100
+Average_values.loc[Average_values['set'] == 'UDRI_Wood_MCC_N2_60K', 'std_char_yield'] = np.std(UDRI_N2_60K)*100
 
 
 #------------------------------------
@@ -651,6 +641,12 @@ o2_colors = {'2%': 'lightblue', '5%': 'blue', '10%': 'orange', '20%': 'red'}
 
 # Define linestyle for different institutes
 o2_linestyle = {'IMT':':', 'NIST':'-', "Lund": '-.'}
+
+# Define plotting order for different institutes
+o2_zorder = {'IMT':2, 'NIST':1, "Lund": 1}
+
+# Define alpha
+o2_alpha = {'IMT':1, 'NIST':0.1, "Lund": 0.1}
 
 # Create figures for HRR and integral HRR
 fig1, ax1 = plt.subplots(figsize=(6, 4))
@@ -681,10 +677,10 @@ for o2_label, o2_code in oxygen_levels.items():
             
             ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], 
                     color=o2_colors[o2_label], linestyle = o2_linestyle[subset.split('_')[0]],
-                    label=label, linewidth=1.5, alpha=0.8)
+                    label=label, linewidth=1.5, alpha=o2_alpha[subset.split('_')[0]],zorder=o2_zorder[subset.split('_')[0]])
             ax2.plot(df['Temperature (K)'], df['Int HRR'], 
                     color=o2_colors[o2_label], linestyle = o2_linestyle[subset.split('_')[0]],
-                    label=label, linewidth=1.5, alpha=0.8)
+                    label=label, linewidth=1.5, alpha=o2_alpha[subset.split('_')[0]],zorder=o2_zorder[subset.split('_')[0]])
 
 # Format HRR plot
 ax1.set_ylim(bottom=0)
@@ -713,6 +709,105 @@ fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_HRR.{}'.format(ex))
 fig2.savefig(str(base_dir) + '/MCC/MCC_Wood_O2_levels_intHRR.{}'.format(ex))
 plt.close(fig1)
 plt.close(fig2)
+
+
+#-----------------------------------------------
+# region different masses
+#-----------------------------------------------
+
+FZJ_initial_mass = {
+    'R1': {'mass': 0.98, 'color': "#040b12"},
+    'R2': {'mass': 2.0, 'color': "#174164"},
+    'R3': {'mass': 1.95, 'color': "#174164"},
+    'R4': {'mass': 1.93, 'color': "#174164"},
+    'R5': {'mass': 3.97, 'color': "#4a8bc2"},
+    'R6': {'mass': 5.98, 'color': "#a9c8e8"},
+    'R7': {'mass': 5.96, 'color': "#a9c8e8"},
+    'R8': {'mass': 3.91, 'color': "#4a8bc2"},
+    'R9': {'mass': 3.99, 'color': "#4a8bc2"},
+    'R10': {'mass': 4.09, 'color': "#4a8bc2"},
+}
+
+NIST_initial_mass={}
+for i in range(1,10):
+    NIST_initial_mass[f'R{i}'] = {'mass': 12, 'color': "#0ce346"}
+for i in range(10,13):
+    NIST_initial_mass[f'R{i}'] = {'mass': 5, 'color':  "#04581A"}
+
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+for test in DATA_DIR.rglob("FZJ/FZJ_Wood_MCC_N2_60K*.csv"):
+    parts = test.stem.split('_')
+    Repetition = parts[-1]
+    df_raw = pd.read_csv(test)
+    df = calculate_int_HRR(df_raw)
+    ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = 'Saxony ' + str(round(FZJ_initial_mass[Repetition]['mass']))+' mg', color = FZJ_initial_mass[Repetition]['color'] )
+
+
+for test in DATA_DIR.rglob("NIST/NIST_Wood_MCC_N2_60K*.csv"):
+    parts = test.stem.split('_')
+    Repetition = parts[-1]
+    df_raw = pd.read_csv(test)
+    df = calculate_int_HRR(df_raw)
+    ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = 'Bali ' + str(round(NIST_initial_mass[Repetition]['mass']))+' mg', color = NIST_initial_mass[Repetition]['color'] )
+
+
+# Sort legend
+handles, labels = ax1.get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+ax1.legend(by_label.values(), by_label.keys())
+
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(300,900)
+ax1.set_xlabel('Temperature (K)')
+ax1.set_ylabel('HRR [W g$^{-1}$]')
+fig1.tight_layout()
+fig1.savefig(str(base_dir) + '/MCC/MCC_60K_Mass-Scaling_HRR.{}'.format(ex))
+plt.close(fig1)
+ 
+
+#-----------------------------------------------
+# region Compare MCC and TGA
+#-----------------------------------------------
+
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+ax2 = ax1.twinx()
+
+for test in DATA_DIR.rglob("NIST/NIST_Wood_MCC_N2_60K*.csv"):
+    parts = test.stem.split('_')
+    Repetition = parts[-1]
+    df_raw = pd.read_csv(test)
+    df = calculate_int_HRR(df_raw)
+    ax2.plot(df['Temperature (K)']-23, df['HRR (W/g)'], label = 'MCC ' + str(round(NIST_initial_mass[Repetition]['mass']))+' mg', color = NIST_initial_mass[Repetition]['color'])
+
+for series in ['NIST_Wood_*_N2_10K']:
+    df_average = average_tga_series(series)
+    ax1.plot(df_average['Temperature (K)'], df_average['MLR (1/s)'], label = 'TGA', color = 'black',zorder=3)
+    ax1.fill_between(df_average['Temperature (K)'], 
+                    df_average['MLR (1/s)']-2*df_average['unc MLR (1/s)'],
+                    df_average['MLR (1/s)']+2*df_average['unc MLR (1/s)'],
+                    color='black', alpha = 0.3, zorder=2)
+
+ax1.set_zorder(ax2.get_zorder() + 1)
+ax1.patch.set_visible(False) 
+
+ax1.set_ylim(0,0.0018)
+ax1.set_xlim(right=1100)
+ax1.set_xlabel('Temperature [K]')
+ax1.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+
+ax2.set_ylim(bottom=0)
+ax2.set_ylabel('HRR [W/g]')  
+
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+by_label = dict(zip(labels1 + labels2, lines1 + lines2))
+ax1.legend(by_label.values(), by_label.keys())
+
+fig1.tight_layout()
+
+fig1.savefig(str(base_dir) + '/MCC/MCC_TGA_comparison.{}'.format(ex))
+
+plt.close(fig1)
 
 
 #-----------------------------------------------
@@ -789,10 +884,10 @@ final_latex_table.columns = ['set','Institution', 'Conditions','T onset (K)', 'T
 
 # Generate LaTeX
 
-for table_key in ['_Wood','_PS_']:
+for table_key in ['_Wood_','_PS_']:
     table = final_latex_table[final_latex_table['set'].str.contains(table_key)]
     table.drop('set', axis=1)
-
+    print(table)
     latex_string = table.to_latex(
         index=False,
         escape=False,
@@ -837,16 +932,17 @@ for table_key in ['_Wood','_PS_']:
     latex_string = '\n'.join(new_lines)
 
     # Save to file
-    if table_key=='_Wood':
+    if table_key=='_Wood_':
         with open(str(base_dir) + f'/MCC/MCC_Values.tex', 'w') as f:
             f.write(latex_string)
 
         print("LaTeX table saved!")
-    else:
+    elif table_key=='_PS_':
         with open(str(base_dir) + f'/MCC/MCC_Values_PS.tex', 'w') as f:
             f.write(latex_string)
 
         print("PS LaTeX table saved!")
+
 
 
 
@@ -891,41 +987,40 @@ for series in unique_conditions_material:
 
 
 
-#check baseline finder
-fig1, ax1 = plt.subplots(figsize=(6, 4))
-MCC_subset_paths = [p for p in MCC_raw if f"{material}_" in p.name and f"_N2_60K_" in p.name]
-for path in MCC_subset_paths:
-    df = pd.read_csv(path)
-    #region try baseline
+def baseline_correct_MCC(df_raw, order=3):
+    df=df_raw.copy()
     df['Temperature (K)'] = df['Temperature (C)'] + 273.15
-    df.drop('Temperature (C)',axis=1)
-
+    df.drop('Temperature (C)', axis=1, inplace=True)
+    df = interpolation(df)
     # Finds where data becomes flat after initial rise
     difference = df["HRR (W/g)"][2:].diff()
     local_max = np.max(difference[0:10])  # changed from 10 to 20
     local_max_index = np.where(difference == local_max)[0][0]
     index = np.min(np.where(difference[local_max_index:] < 0.01)[0])
-
     df = df.iloc[index:]
+    df = df.reset_index(drop=True) #re-added
+    df["HRR (W/g)"] = df["HRR (W/g)"] - np.min(df["HRR (W/g)"]) #re-added
+    df['HRR (W/g) smooth'] = df['HRR (W/g)'].rolling(window=20, center=True, min_periods=1).mean()
 
     # Find maximum HRR and corresponding metrics
-    maxi = np.max(df["HRR (W/g)"])
-    index_max = df.index[df["HRR (W/g)"] == maxi]
+    maxi = np.max(df["HRR (W/g) smooth"])
+    index_max = df.index[df["HRR (W/g) smooth"] == maxi]
     peak_T = df["Temperature (K)"][index_max]
 
-    point_before = np.min(df.index[df["HRR (W/g)"] > 0.04 * maxi].tolist())
+    
+
+    point_before = np.min(df.index[(df["HRR (W/g) smooth"] > 0.04 * maxi) & (df.index > 50)].tolist())
     if point_before < 100:
-        point_before = np.min(df.index[df["HRR (W/g)"] > 0.06 * maxi].tolist())
+        point_before = np.min(df.index[(df["HRR (W/g) smooth"] > 0.06 * maxi) & (df.index > 50)].tolist())
         if point_before < 100:
-            point_before = np.min(df.index[df["HRR (W/g)"] > 0.1 * maxi].tolist())
-            if point_before < 100: # if still does not work very conservative. 
-                point_before = np.min(df.index[df["HRR (W/g)"] > 0.3 * maxi].tolist())
+            point_before = np.min(df.index[(df["HRR (W/g) smooth"] > 0.1 * maxi) & (df.index > 50)].tolist())
 
     
     #   Point after
+   # try:
     point_after = np.min(
         df[
-            (df["HRR (W/g)"] < 0.09 * maxi) 
+            (df["HRR (W/g) smooth"] < 0.09 * maxi) 
             & (df["Temperature (K)"] > float(peak_T.iloc[0]))
         ].index
     )
@@ -933,13 +1028,13 @@ for path in MCC_subset_paths:
     if np.isnan(point_after):
         point_after = np.min(
                     df[
-                        (df["HRR (W/g)"] < 0.15 * maxi) #changed 0.09 to 0.10 
+                        (df["HRR (W/g) smooth"] < 0.15 * maxi) 
                         & (df["Temperature (K)"] > float(peak_T.iloc[0]))
                     ].index
                 )
-    # note: non of the data has a second maximum --> not included in baseline algoritm
-  
-    # Calculate index_adter
+
+
+    # Calculate index_after
     # OPTION 1
     max_index = df[df["Temperature (K)"] == np.max(df["Temperature (K)"])].index.values[
         0
@@ -951,7 +1046,7 @@ for path in MCC_subset_paths:
     for idx in np.arange(point_after, max_index - 100, 1):
         xdata = df["Temperature (K)"][idx : idx + 50]
         temp = temp + [df["Temperature (K)"][idx]]
-        ydata = savgol_filter(df["HRR (W/g)"][idx : idx + 50], 19, 1)
+        ydata = savgol_filter(df["HRR (W/g) smooth"][idx : idx + 50], 19, 1)
         popt, _ = curve_fit(func, xdata, ydata)
         slopes = slopes + [popt[0]]
         difference = difference + [slopes[m - 1] - slopes[m]]
@@ -968,7 +1063,7 @@ for path in MCC_subset_paths:
     for idx in np.arange(point_after, max_index - 100, 1):
         xdata = df["Temperature (K)"][idx : idx + 50]
         temp = temp + [df["Temperature (K)"][idx]]
-        ydata = savgol_filter(df["HRR (W/g)"][idx : idx + 50], 19, 1)
+        ydata = savgol_filter(df["HRR (W/g) smooth"][idx : idx + 50], 19, 1)
         popt, _ = curve_fit(func, xdata, ydata)
         index_after_2 = idx
         if (popt[0] > -0.01) & (popt[0] < 0.001):
@@ -977,14 +1072,13 @@ for path in MCC_subset_paths:
     # FINAL POINT
     index_after = max(index_after_1, index_after_2)
 
-
     # # -------------------------
     # # FIND 1st BASELINE POINT
     # # -------------------------
 
     # Moving average of HRR
     window_size = 7
-    df["SMA"] = df["HRR (W/g)"].rolling(window=window_size).mean()
+    df["SMA"] = df["HRR (W/g) smooth"].rolling(window=window_size).mean()
 
     # OPTION 1
     slopes = [0]
@@ -999,39 +1093,26 @@ for path in MCC_subset_paths:
         slopes = slopes + [popt[0]]
         difference = difference + [slopes[m - 1] - slopes[m]]
         m = m + 1
+    
+    index_before_1 = np.min(np.where(np.abs(difference) < 0.0015)) + 100 #100 added to allign with index search starting from 100
 
-    try:
-        index_before_1 = np.max(np.where(np.abs(difference) < 0.001)[0])
-    except ValueError:
-        try:
-            index_before_1 = np.max(np.where(np.abs(difference) < 0.01)[0])
-        except ValueError:
-            index_before_1 = np.max(np.where(np.abs(difference) < 0.1)[0])
-
+       
     # OPTION 2
-    index_before_2 = 100  # Initialize before loop
-    for idx in np.arange(100, point_before, 1):
-        xdata = df["Temperature (K)"][idx - 90 : idx]
+    index_before_2 = 20  # Initialize before loop
+    for idx in np.arange(50, point_before, 1):
+        xdata = df["Temperature (K)"][idx - 40 : idx+40]
         temp = temp + [df["Temperature (K)"][idx]]
-        ydata = df["SMA"][idx - 90 : idx]
+        ydata = df["SMA"][idx - 40 : idx+40]
         popt, _ = curve_fit(func, xdata, ydata)
         index_before_2 = idx
-        if (popt[0] > -0.015) & (popt[0] < 0.015):
+        if (popt[0] > -0.025) & (popt[0] < 0.025):
             break
-
-    # plt.plot(df['Temperature (K)'],df['HRR (W/g)'])
-    # plt.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
-    # plt.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
-    # plt.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
-    # plt.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_after+100], '^', color='black')
-    # plt.title(str(path.stem))
-    # plt.show()
 
     # -------------------------
     # DETERMINE BASELINE + parameters
     # -------------------------
     order = 3
-    index_end = max_index - 50
+    index_end = max_index - 40 #40 should be changed back to 50
 
     
     # OPTION 3: Baseline using points [index_before_2, index_before_1] and [point_after, point_after+100] --> works for non-char
@@ -1064,26 +1145,56 @@ for path in MCC_subset_paths:
         )
         index_before = [index_before_1, index_before_2]
 
-    abc = np.polyfit(x, y, order)
-    y_fit = func_5(df["Temperature (K)"], abc)
+    fig, ax = plt.subplots(figsize=(6, 4))
+   # ax.plot(df['Temperature (K)'],df['HRR (W/g)'],color='black')
+    abc = np.polyfit(x, y, 3)
+    p = np.poly1d(abc)
+    y_fit = p(df["Temperature (K)"])
     df["HRR (W/g)"] = (df["HRR (W/g)"] - y_fit).round(3)
     # Only keep data between baseline points
+
+
+    # ax.plot(df['Temperature (K)'],df['HRR (W/g)'], color='blue')
+    # ax.plot(df['Temperature (K)'],y_fit,  color='red', zorder=0)
+    # ax.plot(df['Temperature (K)'][point_before],df['HRR (W/g)'][point_before], '^', color='green')
+    # ax.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
+    # ax.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
+    # ax.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
+    # ax.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_end], '^', color='grey')
+    # ax.grid(True, color='gray', linestyle='--', linewidth=0.6, alpha=0.8)
+    # plt.show()
+
     df = df.iloc[int(index_before[0]) : int(index_end + 1)]
     df.drop("SMA", axis=1, inplace=True)
-    label, color = label_def(path.stem.split('_')[0])
-
-    ax1.plot(df['Temperature (C)'], df['HRR (W/g)'], label = label, color=color)
-
-ax1.set_ylim(bottom=0)
-ax1.set_xlim(right=900)
-ax1.set_xlabel('Temperature [K]')
-ax1.set_ylabel('HRR [W g$^{-1}$]')
-fig1.tight_layout()
-handles1, labels1 = ax1.get_legend_handles_labels()
-by_label1 = dict(zip(labels1, handles1))
-ax1.legend(by_label1.values(), by_label1.keys())
+    df.drop("HRR (W/g) smooth", axis=1, inplace=True)
+    return df
 
 
-fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_N2_60K_HRR-raw-corrected.{}'.format(ex))
-plt.close(fig1)
-plt.close(fig2)
+
+# fig1, ax1 = plt.subplots(figsize=(6, 4))
+# MCC_subset_paths = [p for p in MCC_raw if f"Wood_" in p.name and f"_N2_60K_" in p.name]
+# for path in MCC_subset_paths:
+#     print(path)
+#     df_raw = pd.read_csv(path)
+#     df = baseline_correct_MCC(df_raw, order=3)
+#     label, color = label_def(path.stem.split('_')[0])
+#     ax1.plot(df['Temperature (K)'], df['HRR (W/g)'], label = label, color=color)
+
+# ax1.set_ylim(bottom=0)
+# ax1.set_xlim(right=900)
+# ax1.set_xlabel('Temperature [K]')
+# ax1.set_ylabel('HRR [W g$^{-1}$]')
+# fig1.tight_layout()
+# handles1, labels1 = ax1.get_legend_handles_labels()
+# by_label1 = dict(zip(labels1, handles1))
+# ax1.legend(by_label1.values(), by_label1.keys())
+# fig1.savefig(str(base_dir) + '/MCC/MCC_Wood_N2_60K_HRR-raw-corrected.{}'.format(ex))
+# plt.close(fig1)
+
+MCC_raw_sets=get_series_names(MCC_raw)
+MCC_raw_subset = [p for p in MCC_raw_sets if f"_Wood_" in p and f"_N2_60K" in p and "IMT" not in p and "R1" not in p]
+Average_values_corrected = plot_average_MCC_set(MCC_raw_subset, plot = True, baseline_correction=True)
+print('Average values after baseline correction')
+print(Average_values_corrected)
+plot_hrr_and_onset_vs_peak_temp(Average_values_corrected)
+
