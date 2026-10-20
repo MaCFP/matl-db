@@ -376,7 +376,22 @@ def plot_average_MCC_set(MCC_sets, plot = True, baseline_correction=None):
             T_endset = df["Temperature (K)"].iloc[endset_index]
             HR_Capacity = peak_HRR / np.average(np.gradient(df['Temperature (K)'], df['Time (s)']))
             FGC_v = (1000*HR_total * (T_endset - T_0)) / ((T_endset - T_onset) * (T_onset - T_0))
-            
+
+            #counter = 0
+            # if 'char' in path.stem:
+            #     if counter == 0:
+            #         print('Values needed for heat of combustion table, calculation was done manually and results are added to the latex document')
+            #     print(path.stem)
+            #     print(HR_total)
+            #     counter = counter + 1
+
+
+            # if 'NIST_Wood_' in path.stem or 'Lund_Wood_' in path.stem:
+            #     if counter == 0:
+            #         print('Values needed for heat of combustion table, calculation was done manually and results are added to the latex document')
+            #     print(path.stem)
+            #     print(HR_total)
+            #     counter = counter + 1
 
             peak_HRR_list.append(peak_HRR)
             T_peak_list.append(T_peak)
