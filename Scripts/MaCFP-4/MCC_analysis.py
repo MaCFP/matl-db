@@ -1160,7 +1160,7 @@ def baseline_correct_MCC(df_raw, order=3):
         )
         index_before = [index_before_1, index_before_2]
 
-    fig, ax = plt.subplots(figsize=(6, 4))
+    #fig, ax = plt.subplots(figsize=(6, 4))
    # ax.plot(df['Temperature (K)'],df['HRR (W/g)'],color='black')
     abc = np.polyfit(x, y, 3)
     p = np.poly1d(abc)
