@@ -19,8 +19,8 @@
 \pagestyle{fancy}
 \rhead{}
 \lhead{}
-\chead{Page \thepage}
-\cfoot{Predecisional Draft Report}
+%\chead{Page \thepage}
+%\cfoot{Predecisional Draft Report}
 %\renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -67,27 +67,25 @@
 
 \begin{center}
 \begin{Large}
-{\bf Preliminary Summary of Experimental Measurements} \\
+{\bf Summary of Experimental Measurements Submitted to the MaCFP-4 Condensed Phase Workshop} \\
 \end{Large}
 \hspace{1in} \\
 \end{center}
 
 \begin{center}
 \begin{large}
-Predecisional Draft Report\\
-Submitted to the MaCFP-4 Condensed Phase Workshop \\
-Version 1.0 -- Released: March 30, 2026\\
+Version~1.0 -- Released October 30, 2026\\
 \end{large}
 \hspace{2in} \\
 \end{center}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=6in]{../FIGURES/MaCFP_Logo}
+  \includegraphics[width=4in]{../FIGURES/MaCFP_Logo}
   \label{Cover_Image}
 \end{figure}
 
-\vfill
+%\vfill
 
 \begin{minipage}{0.25\textwidth}
 \begin{figure}[H]
@@ -109,7 +107,8 @@ Version 1.0 -- Released: March 30, 2026\\
 Isaac Leventon and Karen De Lannoye\\
 (National Institute of Standards and Technology, NIST) \\
 Vojtěch Šálek; University of Chemistry and Technology in Prague (UCT)\\
-Lucie Hasalová; Technical Institute of Fire Protection in Prague (TIFP).
+Lucie Hasalová; Technical Institute of Fire Protection in Prague (TIFP).\\
+\vspace{2mm}
 \textbf{Experimental Results Submitted by:}\\
 Sina Bazrpash, Simo Hostikka; Aalto University \\
 Nicolas Cabaret, Bertrand Girardin; Centre d’Essais au Feu (CERIB) \\
@@ -148,7 +147,9 @@ Wenxuan Wu, David Morrisset; The University of Queensland (UQ) \\
 
 \chapter{Preface}
 \thispagestyle{fancy}
-This report has been prepared on behalf of the MaCFP Condensed Phase Working Group. It is a predecisional draft copy prepared for subject matter experts to provide critical review and to ensure the integrity of the measurement data and related analysis submitted to the MaCFP-4 Condensed Phase Workshop.
+This report has been prepared on behalf of the MaCFP Condensed Phase Working Group. All experimental measurements presented here have been submitted voluntarily by participants of the MaCFP-4 Pyrolysis Model Calibration Exercise~\cite{GuidelinesMaCFP-4}. These measurements and related analysis are presented here for subject matter experts to provide critical review and to ensure the integrity of the results submitted to the MaCFP-4 Condensed Phase Workshop. 
+
+In some datasets, potential sources of error are identified but measurement data is still included from figures/plots. This inclusion is intentional: (1) to allow discussion and analysis of potential sources of error/variations in common experimental datasets used by the pyrolysis modeling community (i.e., how to identify, troubleshoot, correct for, and understand the impact of aberrations in data) and (2) to support the ethos of the broader MaCFP effort, which seeks to foster collaborative and collegial discussions and encourages sharing of progressive, if imperfect, results to advance the community’s understanding of model performance and development. A summary of the material properties calibrated on the basis of this measurement data and corresponding numerical predictions of material decomposition (under idealized heating scenarios) is available elsewhere~\cite{Amokrane2026}.
 
 Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been through a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
 
@@ -189,13 +190,13 @@ All MaCFP wood samples -- specifically, Eastern White Pine, $Pinus Strobus$ -- w
 
 Kiln-dried samples were then cut to discs or squares for gram-scale experiments and ground to powder for milligram-scale experiments by organizers of the MaCFP Workshop. This ensured consistency among participating laboratories. Powdered samples were prepared by mechanically reducing wood samples using a hand rasp to generate coarse wood filings. Rasping was performed across the wood grain to produce irregular particles, characteristic of low-energy mechanical comminution, avoiding excessive heating or structural damage associated with high-speed milling. The resulting filings had a characteristic particle size on the order of 1 mm, appropriate for thermogravimetric analysis and selected to ensure reproducible heat and mass transfer conditions while preserving the native heterogeneous structure of the wood\footnote{The method of preparing powdered samples for mg-scale tests was developed by balancing potential issues of testing larger, solid chunks of raw wood (which can have poor thermal contact in the crucible during heating) and testing fine powders produced by cryogenic ball-milling (under some preparation conditions, this may create excessive mechanical degradation of the material). Measurement data recorded in thermogravimetric analysis (TGA) experiments conducted across a range of heating rates and anaerobic conditions examined (for multiple other species of wood) was considered for this analysis~\cite{Bellamy2025Interflam}. In this work, it was found that the coarse filings exhibited smooth, repeatable mass-loss profiles and consistent apparent kinetic parameters, with no evidence of rate distortions indicative of internal heat or mass transfer limitations. The absence of anomalous `shoulders' (in TGA mass loss rate profiles) or delayed devolatilization supports the conclusion that the selected particle size was sufficiently small to ensure near-uniform thermal response, while remaining large enough to preserve the native heterogeneous structure of the wood. This balance was critical for capturing representative solid-phase decomposition behavior under anaerobic conditions with high repeatability between replicate experiments.}. 
 
-Samples were distributed to participating institutions during the summer and fall of 2025 in the form of 100~mm by 100~mm by 25~mm slabs for bench-scale experiments (e.g., cone calorimeter) and 0.5~mg to 5~mg vials of powdered wood for micro-scale experiments (e.g., thermogravimetric analysis, TGA). Samples were prepared and distributed by Dr. Isaac Leventon [National Institute of Standards and Technology (NIST), USA; \href{mailto:isaac.leventon@nist.gov}{isaac.leventon@nist.gov}] and Dr. Mark McKinnon [UL Fire Safety Research Institute (UL FSRI), USA; \href{mailto:mark.mckinnon@ul.org}{mark.mckinnon@ul.org}]. The majority of sample cutting, packaging, and shipping was performed by Dr. Mark McKinnon (thank you, Mark). For approximately 30~\% of participants, shipping delays, lost packages, and/or customs restrictions delayed shipments or necessitated re-shipments, thus samples may not have been received until late 2025 or early 2026. Readers of this summary report are encouraged to check the MaCFP Github Repository for new datasets and revised versions of this manuscript, both of which are regularly updated.
+Samples were distributed to participating institutions during the summer and fall of 2025 in the form of 100~mm by 100~mm by 25~mm slabs for bench-scale experiments (e.g., cone calorimeter) and 0.5~mg to 5~mg vials of powdered wood for micro-scale experiments (e.g., thermogravimetric analysis, TGA). Samples were prepared and distributed by Dr. Isaac Leventon [National Institute of Standards and Technology (NIST), USA; \href{mailto:isaac.leventon@nist.gov}{isaac.leventon@nist.gov}] and Dr. Mark McKinnon [UL Fire Safety Research Institute (UL FSRI), USA; \href{mailto:mark.mckinnon@ul.org}{mark.mckinnon@ul.org}]. The majority of sample cutting, packaging, and shipping was performed by Dr. Mark McKinnon (thank you, Mark). For approximately 30~\% of participants, shipping delays, lost packages, and/or customs restrictions delayed shipments or necessitated re-shipments, thus samples may not have been received until late 2025 or early 2026. Readers of this summary report are encouraged to check the \href{https://github.com/MaCFP/matl-db/releases}{MaCFP Github Repository} for new datasets and revised versions of this manuscript, both of which are regularly updated.
 
 \section{Participating Laboratories}
 \thispagestyle{fancy}
-As of January 2026, 18 institutions from 9 different countries have submitted experimental measurements as part of the MaCFP-4 Pyrolysis Model Calibration Exercise. At least 3 more groups have requested samples but have not yet been able to share measurement data. All participating institutions and their countries are listed in Table~\ref{Table:Institutions} and the location of each institution is shown in Fig.~\ref{Fig:MaCFP4_Map}. 
+As of October 2026, \textcolor{red}{**18 institutions from **9 different countries} have submitted experimental measurements as part of the MaCFP-4 Pyrolysis Model Calibration Exercise. \textcolor{red}{At least 3 more groups have requested samples but have not yet been able to share measurement data}. All participating institutions and their countries are listed in Table~\ref{Table:Institutions} and the location of each institution is shown in Fig.~\ref{Fig:MaCFP4_Map}. 
 
-This report is preliminary and further edits to experimental measurements may be required. Thus, in all figures and tables containing experimental measurements, institutions are referred to using a unique, anonymous name. Participating labs should have received an email identifying their corresponding city names; modelers who wish to use this data for material property calibration can visit the \href{https://github.com/macfp/matl-db/blob/master/Wood/Calibration_Data/Institution_Key.md}{MaCFP Repo} for a dictionary that connects each institution with its identifier. Please contact Isaac Leventon (\href{mailto:isaac.leventon@nist.gov}{isaac.leventon@nist.gov}) if you have questions regarding this naming.
+%This report is preliminary and further edits to experimental measurements may be required. Thus, in all figures and tables containing experimental measurements, institutions are referred to using a unique, anonymous name. Participating labs should have received an email identifying their corresponding city names; modelers who wish to use this data for material property calibration can visit the \href{https://github.com/macfp/matl-db/blob/master/Wood/Calibration_Data/Institution_Key.md}{MaCFP Repo} for a dictionary that connects each institution with its identifier. Please contact Isaac Leventon (\href{mailto:isaac.leventon@nist.gov}{isaac.leventon@nist.gov}) if you have questions regarding this naming.
 
 \begin{table}
 \caption{Institutions Participating in the MaCFP-4 Condensed Phase MaCFP Workshop}
@@ -214,17 +215,20 @@ Université de Lorraine (LEMTA) 			& Nancy, France \\ \hline
 Lund University						    & Lund, Sweden \\ \hline
 Missoula Fire Sciences Lab (MFSL)		& Montana, USA \\ \hline
 National Institute of Standards and Technology (NIST)               & Maryland, USA \\ \hline
-\makecell[l]{Technical Institute of Fire Protection in Prague \\ \& University of Chemistry and Technology, Prague (TIFP+UCT)} & Prague, Czech Republic \\ \hline
+\textcolor{red}{PPRIME**}			&\\ \hline
+Technical Institute of Fire Protection in Prague (TIFP)& Prague, Czech Republic \\ \hline
 Technische Universität Braunschweig (TUBS)		& Braunschweig, Germany\\ \hline
 Toyohashi University of Technology (TUT)			& Toyohashi, Japan\\ \hline
 Universidad Adolfo Ibáñez (UAI)			& Santiago, Chile \\ \hline
 Universidad de Cantabria				& Cantabria, Spain \\ \hline
+ University of Chemistry and Technology, Prague (UCT) & Prague, Czech Republic \\ \hline
 University of Dayton Research Institute (UDRI)	& Ohio, USA \\ \hline
 UL Fire Safety Research Institute (UL FSRI)	& Maryland, USA \\ \hline
 University of Maryland (UMD)            & Maryland, USA \\ \hline
 Université de Lille - Unité Matériaux et Transformations (UMET)     & Lille, France \\ \hline
 %Université de Poitiers					& Poitiers, France \\ \hline
-University of Queensland                                    	& Queensland, Australia \\ \hline
+University of Queensland                & Queensland, Australia \\ \hline
+University of Wuppertal 				&Jülich, Germany \\  \hline
 USDA Forest Products Laboratory			& Wisconsin, USA \\ \hline
 %\multicolumn{2}{l}{\footnotesize{\textsuperscript{A} Institution has commited to performing experiments but this data has not yet been incorporated into the repository or this report.}}
 \end{tabular}
@@ -244,7 +248,7 @@ USDA Forest Products Laboratory			& Wisconsin, USA \\ \hline
     }
   }
 
-  \caption{Locations of institutions that have committed to providing experimental measurements for the 2025 Condensed Phase MaCFP Workshop. Black symbols highlight institutions that have submitted data that has been incorporated into the Github repository at the time of this document's release. The green symbol in North America indicates the source location of the Eastern White Pine distributed as `MaCFP Wood'.}
+  \caption{Locations of institutions that have committed to providing experimental measurements for the 2026 Condensed Phase MaCFP Workshop. Black symbols highlight institutions that have submitted data that has been incorporated into the Github repository at the time of this document's release. The green symbol in North America indicates the source location of the Eastern White Pine distributed as `MaCFP Wood'.}
 
   \label{Fig:MaCFP4_Map}
 
@@ -310,7 +314,7 @@ Initial and Final Sample Mass [mg]         	& Sample Surface Area [m$^2$]       
 \end{table}
 
 \chapter{Experiments Conducted}
-MaCFP-4 pyrolysis modeling targets will include $only$ anaerobic conditions; however, participants were encouraged to develop experimental datasets and corresponding models that will describe oxidation (as will be studied in detail at MaCFP-5). The intent is that this same wood will be studied in future MaCFP modeling exercises (e.g., oxidative pyrolysis, burning, and fire growth studies).
+MaCFP-4 pyrolysis modeling targets included $only$ anaerobic conditions; however, participants were encouraged to develop experimental datasets and corresponding models that will describe oxidation (as will be studied in detail at MaCFP-5). The intent is that this same wood will be studied in future MaCFP modeling exercises (e.g., oxidative pyrolysis, burning, and fire growth studies).
 
 No single approach for pyrolysis model parameterization was suggested by the organizing committee of the MaCFP Condensed Phase Subgroup. In fact, a key objective of this workshop is to catalog the current approaches used to parameterize pyrolysis models. Participating institutions were therefore encouraged to follow their own best practices when selecting and conducting experiments so that discussions could be organized at the MaCFP-4 workshop regarding the similarities and differences of their approaches and their results (i.e., final parameterization) without explicitly requiring a final validation versus a given test. 
 
@@ -318,9 +322,9 @@ Some participants were able to submit comprehensive measurement datasets (e.g., 
 
 It was expected that participating institutions would submit data from experiments such as thermogravimetric analysis (TGA), differential scanning calorimetry (DSC), the Cone Calorimeter, gasification experiments (e.g., in a controlled atmosphere cone calorimeter~\cite{babrauskas1992cone} or controlled atmosphere pyrolysis apparatus~\cite{swann2017controlled}), and the Fire Propagation Apparatus (FPA). Although participants could conduct any experiments that they deemed necessary to  provide calibration data for pyrolysis model development, a key objective of this effort was to quantify the inter-laboratory variability for comparable experimental datasets. Thus, recommended test conditions (e.g., incident heat flux in cone calorimeter tests or heating rate in TGA tests) were defined for standard experiments so that, if participants conducted any of those tests as part of their pyrolysis model development, they could do so under similar conditions to allow for direct comparison of results from different laboratories. Further details were provided in the MaCFP-4 Guidelines for Participation~\cite{MaCFP4Guidelines}, which was first shared March 21, 2025.
 
-To date, experiments have been performed in 11 unique apparatus under a combination of 35 different sets of test conditions (e.g., incident heat flux, heating rate, and/or gaseous environment). A brief description of each of the test apparatus used by participating institutions is provided in Sections~\ref{mg_tests} and \ref{g_tests} of this document. More information regarding these techniques is available in the literature \cite{brown2001introduction,SFPEHandbookThermalDecomp}. Detailed descriptions of the specific test conditions used by participating labs are available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{MaCFP repository}.
+To date, \textcolor{red}{experiments have been performed in **11 unique apparatus under a combination of **45 different sets of test conditions} (e.g., incident heat flux, heating rate, and/or gaseous environment). A brief description of each of the test apparatus used by participating institutions is provided in Sections~\ref{mg_tests} and \ref{g_tests} of this document. More information regarding these techniques is available in the literature \cite{brown2001introduction,SFPEHandbookThermalDecomp}. Detailed descriptions of the specific test conditions used by participating labs are available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{MaCFP repository}.
 
-Recall: to allow for impartial review of the preliminary measurement data submitted to this exercise, in all figures and tables below, institutions are referred to using a unique, anonymous name. Modelers who wish to use this data for material property calibration can visit the \href{https://github.com/macfp/matl-db/blob/master/Wood/Calibration_Data/Institution_Key.md}{MaCFP Repo} for a dictionary that connects each institution with its identifier.
+%Recall: to allow for impartial review of the preliminary measurement data submitted to this exercise, in all figures and tables below, institutions are referred to using a unique, anonymous name. Modelers who wish to use this data for material property calibration can visit the \href{https://github.com/macfp/matl-db/blob/master/Wood/Calibration_Data/Institution_Key.md}{MaCFP Repo} for a dictionary that connects each institution with its identifier.
 \section{Milligram-Scale Tests}
 \label{mg_tests}
 
@@ -394,7 +398,7 @@ In STA experiments, a small material sample is placed in a crucible of high ther
 \subsection{Microscale Combustion Calorimetry (MCC)}
 In MCC experiments, mg-scale samples are heated in a carefully controlled (typically anaerobic) gaseous environment, similar to TGA tests. Gaseous pyrolyzates produced by the sample are transported in an inert gas stream to a high-temperature furnace where they are mixed with excess oxygen and allowed to burn to completion. Measurement of total gas flow and oxygen concentration downstream of the furnace allows for the calculation of sample heat release rate due to this non-flaming combustion, based on the principle of oxygen consumption calorimetry. The heat of complete combustion is obtained from the time integral of this heat release rate and measurements of initial and final sample mass. Further detail regarding the principles and practices of MCC is available elsewhere \cite{lyon2013principles}.
 
-Six institutions provided measurement data from repeated MCC tests conducted in five different gaseous environments at three different heating rates. Additionally, two institutions conducted MCC experiments on char (formed in MCC tests under nitrogen atmosphere) in air atmosphere. In each test, powdered samples between 1~mg and 12~mg were loaded into ceramic crucibles, weighed, and then introduced into the MCC pyrolyzer. Often, samples/crucibles are held in the pyrolyzer for 10~min at approximately 350~K (to allow for equilibrium conditions: system temperature and gaseous environment) and then heated from this temperature through complete thermal decomposition at a constant heating rate. Additional information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_MCC_N2}, \ref{Table:Matrix_MCC_O2}  and ~\ref{Table:Matrix_MCC_char} show the number of MCC tests conducted by each institution under each combination of test conditions.
+Six institutions provided measurement data from approximately 60 MCC test repetitions conducted in five different gaseous environments at three different heating rates. Additionally, two institutions conducted MCC experiments on char (formed in MCC tests under nitrogen atmosphere) in air atmosphere. In each test, powdered samples between 1~mg and 12~mg were loaded into ceramic crucibles, weighed, and then introduced into the MCC pyrolyzer. Often, samples/crucibles are held in the pyrolyzer for 10~min at approximately 350~K (to allow for equilibrium conditions: system temperature and gaseous environment) and then heated from this temperature through complete thermal decomposition at a constant heating rate. Additional information, including  apparatus specifications, calibration details, and sample preparation, conditioning, and testing procedure, is provided in the README files for each experiment, which can be found in the MaCFP repository \href{https://github.com/MaCFP/matl-db}{https://github.com/MaCFP/matl-db}. Tables~\ref{Table:Matrix_MCC_N2}, \ref{Table:Matrix_MCC_O2}  and ~\ref{Table:Matrix_MCC_char} show the number of MCC tests conducted by each institution under each combination of test conditions.
 
 
 \begin{table}[ht]
