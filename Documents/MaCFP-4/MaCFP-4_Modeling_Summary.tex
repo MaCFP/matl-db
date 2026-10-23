@@ -120,7 +120,7 @@ verbose]{hyperref}
 			
 			\vspace{2mm}
 			\textbf{Modeling Results Submitted by:}\\
-			Jason Floyd, Grayson Bellamy; UL Fire Safety Research Institute (UL FSRI) \\
+			Mark McKinnon, Grayson Bellamy; UL Fire Safety Research Institute (UL FSRI) \\
 			Morgan Bruns; St. Mary's University, San Antonio (StMU)\\
 			Isaac Leventon; National Institute of Standards and Technology (NIST) \\
 			Peter Blevington; University of Colorado Boulder (UCB)\\
@@ -831,11 +831,102 @@ Interestingly, the influence of the kinetic mechanism exhibits trends that are q
 
 The comparison of the different models highlights a good overall agreement in terms of qualitative predictions. All models reproduce similar trends for both TGA and 1D gasification simulations, providing encouraging results and confirming their ability to capture the main physical and kinetic phenomena. However, significant quantitative discrepancies remain. These differences can be attributed to variations in model assumptions, including the initial pine wood composition, fiber orientation, reaction mechanisms, thermophysical properties, and kinetic parameters. In particular, the use of different experimental datasets and calibration procedures for kinetic parameter identification contributes to the observed discrepancies. The results also indicate that the magnitude of these discrepancies depends on the operating conditions, such as the imposed heat flux, sample thickness, and the quantity of interest. Under certain conditions, the predictions converge and provide close estimates, whereas under others, phenomena such as radiative heat transfer, porous medium effects, or thermally thin/thick behavior become more influential. Overall, the study suggests that the observed differences are primarily driven by modeling assumptions and input data rather than by the numerical framework itself. Future work should focus on validation in order to complete the analysis.
 
-\section*{Supplemental Information}
-\subsection*{NIST-StMU Calibration Overview}
-\subsection*{UCB Calibration Overview}
-\subsection*{FSI-UMD Calibration Overview}
-\subsection*{CORIA Calibration Overview}
+\clearpage
+\section{Supplemental Information}
+\subsection{Calibration Overviews}}
+\subsubsection*{CORIA}
+\begin{enumerate}
+	\item Data
+	\begin{itemize}
+		\item MaCFP TGA: UMET at 10 K/min (replicate 3) $\rightarrow$ \{Kinetics\}
+		\item MaCFP Gasification: TIFP+UCT at 30 kW/m$^2$ (replicate 1) $\rightarrow$ \{Heat Capacity, Thermal Conductivity\}
+		\item Literature: \{Composition, Emissivity, Absorptivity\}
+	\end{itemize}
+	
+	\item Model
+	\begin{itemize}
+		\item Porous Material Analysis Toolbox (PATO)---built on OpenFoam; from NASA
+		\item Three parallel 1st order reactions
+	\end{itemize}
+	
+	\item Calibration Method
+	\begin{itemize}
+		\item Dakota---NL2SOL (adaptive nonlinear least-squares)
+	\end{itemize}
+\end{enumerate}
+A more detailed description of CORIA Calibration Results (including a description of optimization approach and property values) is provided in their README file, which is available on the \href{https://github.com/MaCFP/matl-db/blob/master/Wood/Calibration_Results/CORIA/README.md}{CORIA Calibration Results Page} of the MaCFP Github Repository.
+
+
+\subsubsection*{FSRI-UMD}
+\begin{enumerate}
+	\item Data
+	\begin{itemize}
+		\item MaCFP TGA: FSRI at 3 and 30 K/min; UMD at 10 K/min $\rightarrow$ \{Kinetics\}
+		\item MaCFP CAPA: UMD at 30, 50, and 70 K/min $\rightarrow$ \{Thermal Conductivity\}
+		\item MaCFP FTIR: FSRI for virgin, intermediates and char $\rightarrow$ \{Emissivities\}
+		\item Direct measurements and optimizations for other properties
+	\end{itemize}
+	
+	\item Model
+	\begin{itemize}
+		\item FDS for DM cases
+		\item Pyrolysis.jl (similar to FDS solid model with extra physics) for OPT cases
+		\item Reaction mechanism: virgin to four intermediates to char (plus ash and moisture loss)
+		\item Two property sets were submitted. One submitted property set (appended with '-OPT') relied primarily on an optimization scheme to simultaneously determine several properties from minimal datasets. The second set (appended with '-OPT') calibrated a model using as many directly measured properties as possible. Both properties sets used the same kinetics and thermodynamics for the thermal degradation reactions.
+	\end{itemize}
+	
+	\item Calibration Method
+	\begin{itemize}
+		\item Multi-stage hill-climbing algorithm in Pyrolysis.jl
+	\end{itemize}
+\end{enumerate}
+A more detailed description of FSRI-UMD Calibration Results (including a discussion modelling philosophy) is provided in their README file, which is available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Results/UMD_FSRI/README.md}{FSRI-UMD Calibration Results Page} of the MaCFP Github Repository.
+
+\subsubsection*{NIST-StMU}
+\begin{enumerate}
+	\item Data
+	\begin{itemize}
+		\item MaCFP TGA: NIST at 10 K/min $\rightarrow$ \{Kinetics\}
+		\item MaCFP DSC: NIST at 10 K/min $\rightarrow$ \{Heat Capacities, Heats of Reaction\}
+		\item MaCFP FTIR: NIST for virgin and char $\rightarrow$ \{Emissivities\}
+	\end{itemize}
+	
+	\item Model
+	\begin{itemize}
+		\item FACT---0d, parallel reaction with constant heat capacities
+		\item Three parallel 1st order reactions
+		\item **No transport properties, no gasification predictions
+	\end{itemize}
+	
+	\item Calibration Method
+	\begin{itemize}
+		\item FACT---automated calibration tools for peak finding, not optimization
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection*{UCB}
+\begin{enumerate}
+	\item Data
+	\begin{itemize}
+		\item MaCFP TGA: MaCFP, all contributions at all heating rates (+1 from literature) $\rightarrow$ \{Kinetics\}
+		\item MaCFP Gasification (parallel and perpendicular): FSRI at 40, 60 kW/m$^2$; TIFP+UCT at 30, 60 kW/m$^2$; TUBS at 20 kW/m$^2$ $\rightarrow$ \{Heat Capacity, Thermal Conductivity, Emissivity\}
+		\item Literature: \{Composition, Density\}
+	\end{itemize}
+	
+	\item Model
+	\begin{itemize}
+		\item TGA: Gpyro
+		\item Gasification: porousFireDyMFoam---modified fireFoam
+	\end{itemize}
+	
+	\item Calibration Method
+	\begin{itemize}
+		\item Composition: COBYLA with literature data
+		\item TGA: Gpyro---Shuffled Complex Evolution (SCE) Method
+		\item Gasification: Dakota---Single-Objective Genetic Algorithm (SOGA)
+	\end{itemize}
+\end{enumerate}
+A more detailed description of UCB Calibration Results (including a discussion regarding modeling choices and approach) is provided in their README file, which is available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Results/UCB#readme}{UCB Calibration Results Page} of the MaCFP Github Repository.
 \FloatBarrier
 \bibliographystyle{plain}
 \bibliography{sample}
