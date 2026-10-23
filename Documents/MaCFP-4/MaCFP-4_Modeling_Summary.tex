@@ -1,62 +1,257 @@
-\documentclass{article}
-
-% Language setting
-% Replace `english' with e.g. `spanish' to change the document language
-\usepackage[english]{babel}
-
 % Set page size and margins
 % Replace `letterpaper' with `a4paper' for UK/EU standard size
+\documentclass{article}
+
+\usepackage[english]{babel}
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{times,mathptmx}
+\usepackage[pdftex]{graphicx}
+\usepackage{pdflscape}
 
-% Useful packages
-\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{subcaption}
 \usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
-
-\usepackage{placeins}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{makecell}
+\usepackage{tocloft}
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography and index in the ToC
 
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}} % ✓
 \newcommand{\xmark}{\ding{55}} % ✗
-
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric}
 
-\usepackage{subcaption}
-\usepackage{booktabs}
-% \title{Your Paper}
-% \author{You}
+
+\pagestyle{fancy}
+\rhead{}
+\lhead{}
+%\chead{Page \thepage}
+%\cfoot{Predecisional Draft Report}
+%\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{multirow}
+\definecolor{linknavy}{rgb}{0,0,0.50196}
+\definecolor{linkred}{rgb}{1,0,0}
+\definecolor{linkblue}{rgb}{0,0,1}
+
+\usepackage{xr-hyper}
+\usepackage[pdftex,
+colorlinks=true,
+urlcolor=linkblue,     % \href{...}{...} external (URL)
+citecolor=linkred,     % citation number colors
+linkcolor=linknavy,    % \ref{...} and \pageref{...}
+pdfproducer={pdflatex},
+pagebackref,
+pdfpagemode=UseNone,
+bookmarksopen=true,
+plainpages=false,
+verbose]{hyperref}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.0in}
+\setlength{\topmargin}{0.in}
+\setlength{\headheight}{0.in}
+\setlength{\headsep}{0.25in}
+\setlength{\parindent}{0.25in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
 
 
- \begin{document}
- 
 
-\FloatBarrier
+
+\begin{document}
+	
+	\bibliographystyle{unsrt}
+	\thispagestyle{empty}
+	
+	
+	\vspace*{0.75in}
+	
+	\begin{center}
+		\begin{Large}
+			{\bf Summary of Modeling Results\\ Submitted to the MaCFP-4 Condensed Phase Workshop} \\
+		\end{Large}
+		\hspace{1in} \\
+	\end{center}
+	
+	\begin{center}
+		\begin{large}
+			Version~1.0 -- Released October 30, 2026\\
+		\end{large}
+		\hspace{2in} \\
+	\end{center}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=4in]{../FIGURES/MaCFP_Logo}
+		\label{Cover_Image}
+	\end{figure}
+	
+	\vfill
+	
+	\begin{minipage}{0.25\textwidth}
+		\begin{figure}[H]
+			\includegraphics[width=1.5in]{../FIGURES/IAFSSLogo}
+		\end{figure}
+	\end{minipage} \hfill
+	\begin{minipage}{0.7\textwidth}
+		\begin{flushright}
+			%{\bf The MaCFP Condensed Phase Working Group Organizing Committee:} \\
+			%Benjamin Batiot (University of Poitiers, France) \\
+			%Morgan Bruns (Virginia Military Institute, USA) \\
+			%Simo Hostikka (Aalto University, Finland) \\
+			%Isaac Leventon (National Institute of Standards and Technology, USA) \\
+			%Yuji Nakamura (Toyohashi University of Technology, Japan) \\
+			%Pedro Reszka (Universidad Adolfo Ibáñez, Chile) \\
+			%Thomas Rogaume (University of Poitiers, France) \\
+			%Stanislav Stoliarov (University of Maryland, USA)
+			\textbf{ Document Prepared by:} \\
+			Abdenour Amokrane; Electricité de France (EDF)\\
+			Morgan Bruns; St. Mary's University, San Antonio (StMU)\\
+			Isaac Leventon; National Institute of Standards and Technology (NIST) \\
+			
+			\vspace{2mm}
+			\textbf{Modeling Results Submitted by:}\\
+			Jason Floyd, Grayson Bellamy; UL Fire Safety Research Institute (UL FSRI) \\
+			Morgan Bruns; St. Mary's University, San Antonio (StMU)\\
+			Isaac Leventon; National Institute of Standards and Technology (NIST) \\
+			Peter Blevington; University of Colorado Boulder (UCB)\\
+			Grayson Bellamy, Stanislav Stoliarov; University of Maryland (UMD) \\ 
+			
+			
+			
+		\end{flushright}
+	\end{minipage}
+	
+	
+	\newpage
+	\thispagestyle{empty}
+	
+	\frontmatter
+	
+	\section*{Preface}
+	\addcontentsline{toc}{section}{\protect\numberline{}Preface}
+	\thispagestyle{fancy}
+	This report has been prepared on behalf of the MaCFP Condensed Phase Working Group. All modeling results presented here have been submitted voluntarily by participants of the MaCFP-4 Pyrolysis Model Calibration Exercise~\cite{MaCFP4Guidelines}. These calibrated material property sets, related predictions of material decomposition behavior (in response to idealized heating scenarios), and the corresponding meta-analysis provided in this document are presented here for subject matter experts to provide critical review and to ensure the integrity of the results submitted to the MaCFP-4 Condensed Phase Workshop. 
+	
+	Modelers were not provided limitations or suggestions regarding their pyrolysis model parameterization (i.e., calibration) approach; however, they were required to use either (a) at least one of the milligram-scale datasets (e.g., TGA or DSC) and one gram-scale experiment (e.g., cone calorimetry or controlled atmosphere gasification experiments), or (b) at least two of the gram-scale experiments available in the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{Calibration\_Data section} of the MaCFP repository. A summary of the experimental measurements used for material property calibration discussed in this report is available elsewhere~\cite{MaCFP4PyrolysisExp}.
+
+	Some material property sets presented here are incomplete (e.g., reaction mechanisms only, without associated transport properties) or offer varying degrees of accuracy with respect to experimental measurements used for property calibration. These results are welcomed submissions to the broader MaCFP effort, which seeks to foster collaborative and collegial discussions and encourages sharing of progressive, if imperfect, results to advance the community’s understanding of model performance and development. These results also enable discussion of the benefits and/or tradeoffs of using different calibration data, calibration approaches, and model complexity when developing pyrolysis property sets.
+	
+	Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been through a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
+	
+	
+	
+	\newpage
+	\thispagestyle{fancy}
+	\tableofcontents
+\clearpage	
+%	\mainmatter
+	\pagestyle{fancy}
+
+
 \section{Introduction}
 
-The objective of the MaCFP-4 solid-phase modelling exercise was to focus initially on model-to-model comparisons. The material selected for this study is pine wood, investigated under anaerobic conditions. Combustion and oxidation phenomena are deliberately excluded from the present exercise, as they will be addressed in the subsequent MaCFP-5 benchmark.
+For MaCFP-4, the Condensed Phase Subgroup coordinated an $anaerobic$ pyrolysis model calibration exercise (i.e., material property determination) focused on pine wood. This charring material was selected based on feedback from participants of the MaCFP-3 Workshop~\cite{MaCFP3Proceedings}, a majority of whom suggested (as a critical fire modeling need) studying a new material and/or studying charring/oxidation. This specific wood species was selected because of its widespread use in construction, furnishings, and standard fire testing (e.g., crib fires). MaCFP-4 pyrolysis modeling targets included $only$ anaerobic conditions; however, participants were encouraged to develop experimental datasets and corresponding models that will describe oxidation (as will be studied in detail at MaCFP-5). The intent is that this same wood will be studied in future MaCFP modeling exercises (e.g., oxidative pyrolysis, burning, and fire growth studies).
 
-In line with this objective, participants are requested to perform TGA and FPA simulations under the operating conditions described in Table~\ref{tab:studied_scenarios}.
+Limited quantities of `MaCFP Wood' were sent directly~\cite{MaCFP4Guidelines} to participants who committed to conducting experiments\footnote{All `MaCFP Wood' samples -- specifically, Eastern White Pine, $Pinus Strobus$ -- were obtained from the same forest/grove in Gardners, Pennsylvania (near Pine Grove Furnace State Park in the USA). Samples were felled, dried, prepared, and cut to size for milligram- and gram-scale experiments as described elsewhere~\cite{MaCFP4PyrolysisExp}}. No single approach for pyrolysis model parameterization was  suggested to participants especially because a key objective of MaCFP-4 was to catalogue current approaches used to parameterize complex pyrolysis models. Thus, participants were encouraged to follow their best practices to enable discussion of the similarities and differences of their approaches and results (i.e., final parameterization) without explicitly requiring a final validation versus a given test. Measurement data submitted by experimentalists participating in this exercise included: milligram-scale tests (e.g., thermogravimetric analysis, TGA, differential scanning calorimetery, DSC, and microscale combustion calorimetry, MCC), gram-scale testing (e.g., gasification and cone calorimetry experiments), and 'direct' property measurements (e.g., reflectivity or thermal diffusivity). A summary of these experimental measurements is available elsewhere~\cite{MaCFP4PyrolysisExp}.
 
-\begin{table}
-\centering
-\begin{tabular}{c|c|c}
-                                   & \textbf{TGA}         & \textbf{FPA} \\\hline
-\textbf{Heating rate or Heat flux} & 10 K/min ; 100 K/min & 10 kW/m² ; 30 kW/m² ; 60 kW/m²\\
-\textbf{Thickness (mm)}            & -                    & 6 ; 18 
-\end{tabular}
-\caption{\label{tab:studied_scenarios}Summary of the studied scenarios.}
+Modelers were not provided limitations or suggestions regarding their pyrolysis model parameterization (i.e., calibration) approach; however, they were required to use either (a) at least one of the milligram-scale datasets and one gram-scale experiment, or (b) at least two of the gram-scale experiments available in the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{Calibration\_Data section} of the MaCFP repository. Modelers could supplement MaCFP data with any literature data that they deem necessary. Table~\ref{table:properties} lists all pyrolysis model parameters of interest (and their respective units) for this study.
+
+\begin{table}[htb]
+	\centering
+	\caption{ Pyrolysis Model Parameters}
+	\label{table:properties}
+	\begin{tabular}{p{0.125\linewidth} | p{0.2\linewidth}| p{0.3\linewidth}}
+		\hline
+		\textbf{Symbol}         & \textbf{Units} & \textbf{Name}\\
+		\hline
+		\multicolumn{3}{c}{Degradation Kinetics}\\
+		\hline
+		$A$ &s$^{-1}$   &Pre-exponential constant \\
+		$E$ &J mol$^{-1}$ &Activation energy \\
+		$n$ &[-]    &Reaction order\\
+		$\nu$ &[-]    &Stoichiometric coefficient\\
+		%\multicolumn{3}{c}{**Explicitly highlight oxidation parameters?**}\\
+		\hline
+		\multicolumn{3}{c}{Thermodynamic Properties}\\
+		\hline
+		$c_p$ &J kg$^{-1}$ K$^{-1}$ &Heat capacity\\
+		$h_r$ &J kg$^{-1}$    &Heat of reaction\textsuperscript{A}\\
+		$\rho$  &kg m$^{-3}$    &Density\\
+		\hline
+		\multicolumn{3}{c}{Transport Properties}\\
+		\hline
+		$k$ &W m$^{-1}$ K$^{-1}$  &Thermal conductivity\\
+		$D$ &m$^2$ s$^{-1}$   &Mass diffusivity\\
+		$\alpha$  &m$^{-1}$ or m$^2$ kg$^{-1}$  &Absorption coefficient\\
+		$\epsilon$  &[-]        &Emissivity\\
+		\hline
+		\multicolumn{3}{l}{\textsuperscript{A} $h_r$ reported as positive for endorthermic reactions}
+	\end{tabular}
 \end{table}
 
-Consequently, the TGA part of the benchmark comprised two simulation cases, while the combination of two sample thicknesses and three external heat fluxes led to six FPA scenarios to be simulated. For the one-dimensional FPA simulations, an adiabatic boundary condition was imposed on the rear surface of the sample, and no convection was considered on the exposed surface.
+\pagebreak
+At MaCFP-4, comparisons of pyrolysis models were made by asking modelers to use their property sets to simulate the anaerobic decomposition of `MaCFP Wood' under idealized conditions:
+\begin{enumerate}
+	\item  Zero-dimensional (0D) Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments conducted at two constant heating rates (10~K/min and 100~K/min); and
+	\item One-dimensional (1D), radiation-driven gasification scenarios conducted at three incident radiant heat fluxes (10~kW/m$^2 \leq q^{''}_{ext} \leq 60$~kW/m$^2$) and two sample thicknesses (6~mm and 18~mm).
+\end{enumerate}
 
-With regard to the modelling approach, no specific physical assumptions were prescribed. The intention was to provide participants with the freedom to configure their models and select assumptions based on their own expertise and modelling practices.
+In the case of the TGA simulations, mass loss rate profiles as a function of temperature were used for comparison. In the case of the DSC simulations, temperature-resolved heat flow rate and integral heat flow profiles will be used for comparison. In the case of the gasification simulations, mass loss rate and surface temperature profiles will be used for comparison. A summary of pyrolysis model comparison conditions and target outputs is provided in Table~\ref{table:Pyrolsis Model Comparison}.
 
-To perform this phase of the modelling exercise, participants required input data in the form of kinetic parameters and thermophysical properties. Modelers were free to use experimental data generated by any participant in the associated experimental benchmark exercise \textcolor{red}{(section REF)}, to perform their own parameter calibrations, or to adopt a combination of both approaches (or even complete the data set from literature). It should be noted that the calibration of kinetic and thermophysical parameters constituted an integral part of the benchmark exercise, and the resulting methodologies and outcomes are discussed separately in \textcolor{red}{(section REF)}.
+\begin{table}[t!]
+	\centering
+	\caption{Pyrolysis Model Comparison Conditions}
+	\label{table:Pyrolsis Model Comparison}
+	\begin{tabular}{p{0.25\linewidth} p{0.6\linewidth}}
+		\hline
+		\multicolumn{2}{c}{\textbf{Thermogravimetric Analysis (TGA) Experiments} \quad [Two simulations]}\\
+		\multicolumn{2}{c}{\textbf{Differential Scanning Calorimetry (DSC) Experiments} \quad [Two simulations]}\\
+		\hline
+		Temperature Range: & 300~K to 1000~K\\
+		Heating Rates: & 10 K min\textsuperscript{-1} and 100 K min\textsuperscript{-1}\\
+		Initial Sample Mass & 5 mg\\
+		Output: & time [s]\\
+		& Time-resolved Sample Temperature [K]\\
+		& Time-resolved Sample Mass [mg]\\
+		& Time-resolved heat flow [mW/mg]\\
+		Test Description: & Simulations of idealized TGA/DSC experiments in which sample temperature must remain spatially uniform.\\
+		\\
+		\hline
+		\multicolumn{2}{c}{\textbf{Idealized Gasification Experiments}\quad [Six simulations]}\\
+		\multicolumn{2}{c}{Simulations should be performed using a computational pyrolysis solver.}\\
+		\hline
+		Initial Temperature: & Initial ambient and sample temperatures should be 293~K\\
+		Top Boundary:& Sample surface exposed to 10, 30, and 60~kW~m$^{-2}$ of\\
+		& incident radiant heat flux; no convection\\
+		Bottom Boundary: & Sample back surface should be perfectly insulated \\
+		& (i.e., no convection or radiation)\\
+		Sample Dimensions: & Simulations should be repeated at each incident heat flux using sample thicknesses of 6~mm and 18~mm
+		Simulation outputs should be scaled such that samples are initial 10~cm~x~10~cm, squares.\\
+		Output: & Time [s]\\
+		& Time-resolved Sample Mass [g]\\
+		& Time-resolved Sample Back-Surface Temperature [K]\\
+		& Time-resolved Sample Top-Surface Temperature [K]\\
+		\hline
+	\end{tabular}
+\end{table}
 
+
+To perform this phase of the modelling exercise, participants required input data in the form of kinetic parameters and thermophysical properties. Modelers were free to use experimental data generated by any participant in the associated experimental benchmark exercise~\cite{MaCFP4PyrolysisExp}, to perform their own parameter calibrations, or to adopt a combination of both approaches (or even complete the data set from literature). It should be noted that the calibration of kinetic and thermophysical parameters constituted an integral part of the benchmark exercise, thus the resulting methodologies and outcomes are discussed separately in this report.
+
+\pagebreak
 \section{Participating organizations}
 
-A total of four submissions were received in this benchmark exercise. Two of these submissions resulted from collaborations between two organizations, leading to the following four participating teams:
+A total of ten different material property sets were received from six participating institutions. Two of these submissions resulted from collaborations between two organizations, leading to the following four participating teams:
 
 \begin{itemize}
     \item \textbf{CORIA} (Complexe de Recherche Interprofessionnel en Aérothermochimie) -- France;
@@ -79,8 +274,7 @@ Table~\ref{tab:organization_scenarios} summarizes the scenarios modelled by the 
 \end{tabular}
 \caption{\label{tab:organization_scenarios}Simulated scenarios by the participating organizations.}
 \end{table}
-
-\section{Model description}
+\section{Model Development}
 
 This section is intended to provide a brief description of the physical assumptions adopted by the different participating organizations when developing their respective models. A detailed description of these assumptions can be found in the dedicated MaCFP-4 repository (see. \textcolor{red}{(repo link)}).
 
@@ -313,7 +507,9 @@ align=center
 \label{fig:ucb-naming}
 \end{figure}
 
-\section{Results and discussion}
+\section{Property Comparison}
+
+\section{Model-to-Model Comparison}
 
 The objective of the MaCFP-4 condensed-phase benchmark exercise is to perform a model-to-model comparison. Since no common set of physical assumptions was imposed on the participants, and considering the diversity of the submitted modelling approaches, each contribution was treated as a separate model in the analysis. This approach makes it possible to assess the extent to which different modelling choices and assumptions affect the predicted results. Furthermore, the comparison of these contributions provides an opportunity to evaluate the individual influence of specific modelling assumptions on the simulation outcomes.
 
@@ -631,10 +827,15 @@ Interestingly, the influence of the kinetic mechanism exhibits trends that are q
 
 
 \FloatBarrier
-\section{Conclusion}
+\section{Summary}
 
 The comparison of the different models highlights a good overall agreement in terms of qualitative predictions. All models reproduce similar trends for both TGA and 1D gasification simulations, providing encouraging results and confirming their ability to capture the main physical and kinetic phenomena. However, significant quantitative discrepancies remain. These differences can be attributed to variations in model assumptions, including the initial pine wood composition, fiber orientation, reaction mechanisms, thermophysical properties, and kinetic parameters. In particular, the use of different experimental datasets and calibration procedures for kinetic parameter identification contributes to the observed discrepancies. The results also indicate that the magnitude of these discrepancies depends on the operating conditions, such as the imposed heat flux, sample thickness, and the quantity of interest. Under certain conditions, the predictions converge and provide close estimates, whereas under others, phenomena such as radiative heat transfer, porous medium effects, or thermally thin/thick behavior become more influential. Overall, the study suggests that the observed differences are primarily driven by modeling assumptions and input data rather than by the numerical framework itself. Future work should focus on validation in order to complete the analysis.
 
+\section*{Supplemental Information}
+\subsection*{NIST-StMU Calibration Overview}
+\subsection*{UCB Calibration Overview}
+\subsection*{FSI-UMD Calibration Overview}
+\subsection*{CORIA Calibration Overview}
 \FloatBarrier
 \bibliographystyle{plain}
 \bibliography{sample}
