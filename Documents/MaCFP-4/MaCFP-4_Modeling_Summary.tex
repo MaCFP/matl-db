@@ -134,8 +134,7 @@ verbose]{hyperref}
 	
 	\newpage
 	\thispagestyle{empty}
-	
-	\frontmatter
+	\pagenumbering{roman}
 	
 	\section*{Preface}
 	\addcontentsline{toc}{section}{\protect\numberline{}Preface}
@@ -151,10 +150,11 @@ verbose]{hyperref}
 	
 	
 	\newpage
-	\thispagestyle{fancy}
+%	\thispagestyle{fancy}
 	\tableofcontents
+	\addcontentsline{toc}{section}{\protect\numberline{}Table of Contents}
 \clearpage	
-%	\mainmatter
+	\pagenumbering{arabic}
 	\pagestyle{fancy}
 
 
@@ -162,7 +162,7 @@ verbose]{hyperref}
 
 For MaCFP-4, the Condensed Phase Subgroup coordinated an $anaerobic$ pyrolysis model calibration exercise (i.e., material property determination) focused on pine wood. This charring material was selected based on feedback from participants of the MaCFP-3 Workshop~\cite{MaCFP3Proceedings}, a majority of whom suggested (as a critical fire modeling need) studying a new material and/or studying charring/oxidation. This specific wood species was selected because of its widespread use in construction, furnishings, and standard fire testing (e.g., crib fires). MaCFP-4 pyrolysis modeling targets included $only$ anaerobic conditions; however, participants were encouraged to develop experimental datasets and corresponding models that will describe oxidation (as will be studied in detail at MaCFP-5). The intent is that this same wood will be studied in future MaCFP modeling exercises (e.g., oxidative pyrolysis, burning, and fire growth studies).
 
-Limited quantities of `MaCFP Wood' were sent directly~\cite{MaCFP4Guidelines} to participants who committed to conducting experiments\footnote{All `MaCFP Wood' samples -- specifically, Eastern White Pine, $Pinus Strobus$ -- were obtained from the same forest/grove in Gardners, Pennsylvania (near Pine Grove Furnace State Park in the USA). Samples were felled, dried, prepared, and cut to size for milligram- and gram-scale experiments as described elsewhere~\cite{MaCFP4PyrolysisExp}}. No single approach for pyrolysis model parameterization was  suggested to participants especially because a key objective of MaCFP-4 was to catalogue current approaches used to parameterize complex pyrolysis models. Thus, participants were encouraged to follow their best practices to enable discussion of the similarities and differences of their approaches and results (i.e., final parameterization) without explicitly requiring a final validation versus a given test. Measurement data submitted by experimentalists participating in this exercise included: milligram-scale tests (e.g., thermogravimetric analysis, TGA, differential scanning calorimetery, DSC, and microscale combustion calorimetry, MCC), gram-scale testing (e.g., gasification and cone calorimetry experiments), and 'direct' property measurements (e.g., reflectivity or thermal diffusivity). A summary of these experimental measurements is available elsewhere~\cite{MaCFP4PyrolysisExp}.
+Limited quantities of `MaCFP Wood' were sent directly~\cite{MaCFP4Guidelines} to participants who committed to conducting experiments\footnote{All `MaCFP Wood' samples -- specifically, Eastern White Pine, $Pinus Strobus$ -- were obtained from the same forest/grove in Gardners, Pennsylvania (near Pine Grove Furnace State Park in the USA). Samples were felled, dried, prepared, and cut to size for milligram- and gram-scale experiments as described elsewhere~\cite{MaCFP4PyrolysisExp}}. No single approach for pyrolysis model parameterization was  suggested to participants especially because a key objective of MaCFP-4 was to catalogue current approaches used to parameterize complex pyrolysis models. Thus, participants were encouraged to follow their best practices to enable discussion of the similarities and differences of their approaches and results (i.e., final parameterization) without explicitly requiring a final validation versus a given test. Measurement data submitted by experimentalists participating in this exercise included: milligram-scale tests (e.g., thermogravimetric analysis, TGA, differential scanning calorimetery, DSC, and microscale combustion calorimetry, MCC), gram-scale testing (e.g., gasification and cone calorimetry experiments), and 'direct' property measurements (e.g., reflectivity or thermal diffusivity). A detailed summary of these experimental measurements is available elsewhere~\cite{MaCFP4PyrolysisExp}.
 
 Modelers were not provided limitations or suggestions regarding their pyrolysis model parameterization (i.e., calibration) approach; however, they were required to use either (a) at least one of the milligram-scale datasets and one gram-scale experiment, or (b) at least two of the gram-scale experiments available in the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{Calibration\_Data section} of the MaCFP repository. Modelers could supplement MaCFP data with any literature data that they deem necessary. Table~\ref{table:properties} lists all pyrolysis model parameters of interest (and their respective units) for this study.
 
@@ -251,32 +251,42 @@ To perform this phase of the modelling exercise, participants required input dat
 \pagebreak
 \section{Participating organizations}
 
-A total of ten different material property sets were received from six participating institutions. Two of these submissions resulted from collaborations between two organizations, leading to the following four participating teams:
+A total of ten different material property sets were received from six participating institutions (see Table~\ref{tab:pyrolysis-conributors}). Two of these submissions resulted from collaborations between two organizations. All organizations simulated the full set of scenarios, except NIST-StMU, which submitted simulations for the TGA scenarios only. 
 
-\begin{itemize}
-    \item \textbf{CORIA} (Complexe de Recherche Interprofessionnel en Aérothermochimie) -- France;
-    
-    \item \textbf{FSRI--UMD}, a collaboration between the Fire Safety Research Institute and the University of Maryland -- USA;
-    
-    \item \textbf{NIST--StMU}, a collaboration between the National Institute of Standards and Technology and Saint Mary's University -- USA;
-    
-    \item \textbf{UCB} (University of Colorado Boulder) -- USA.
-\end{itemize}
 
-Table~\ref{tab:organization_scenarios} summarizes the scenarios modelled by the participating organizations. All organizations simulated the full set of scenarios, except NIST-StMU, which submitted simulations for the TGA scenarios only.
-
-\begin{table}
-\centering
-\begin{tabular}{c|c|c|c|c}
-                & \textbf{CORIA}         & \textbf{FSRI - UMD} & NIST-StMU  & UCB     \\\hline
-\textbf{0D TGA} & \cmark                 & \cmark              & \cmark     & \cmark  \\
-\textbf{1D FPA} & \cmark                 & \cmark              & \xmark     & \cmark
-\end{tabular}
-\caption{\label{tab:organization_scenarios}Simulated scenarios by the participating organizations.}
+\begin{table}[htbp]
+	\centering
+	\small
+	\caption{Contributors to the Pyrolysis Model Calibration Exercise} \label{tab:pyrolysis-conributors}
+	\begin{tabular}{@{}p{7cm}p{4cm}p{4cm}@{}}
+				\hline
+		\textbf{Institution} & \textbf{Location} & \textbf{Modeling} \\
+		\hline
+		Complexe de Recherche Interprofessionnel en Aérothermochimie (CORIA)& Rouen, France & TGA, Gasification \\
+		National Institute of Standards and Technology (NIST) & Maryland, USA & TGA, DSC\\
+		Saint Mary's University, San Antonio (StMU) & Texas, USA & TGA, DSC\\
+		University of Colorado, Boulder (UCB) & Colorado, USA & TGA, DSC, Gasification (6~approaches) \\
+		UL Fire Safety Research Institute (UL FSRI) & Maryland, USA & TGA, DSC, Gasification (2~approaches) \\
+		University of Maryland (UMD) & Maryland, USA & STA, Gasification \\
+		
+		\hline
+	\end{tabular}
+	\normalsize
 \end{table}
-\section{Model Development}
 
-This section is intended to provide a brief description of the physical assumptions adopted by the different participating organizations when developing their respective models. A detailed description of these assumptions can be found in the dedicated MaCFP-4 repository (see. \textcolor{red}{(repo link)}).
+%Table~\ref{tab:organization_scenarios} summarizes the scenarios modelled by the participating organizations. .
+
+%\begin{table}
+%\centering
+%\begin{tabular}{c|c|c|c|c}
+%                & \textbf{CORIA}         & \textbf{FSRI - UMD} & NIST-StMU  & UCB     \\\hline
+%\textbf{0D TGA} & \cmark                 & \cmark              & \cmark     & \cmark  \\
+%\textbf{1D FPA} & \cmark                 & \cmark              & \xmark     & \cmark
+%\end{tabular}
+%\caption{\label{tab:organization_scenarios}Simulated scenarios by the participating organizations.}
+%\end{table}
+\section{Model Development}
+This section provides a brief description of the physical assumptions adopted by the different participating organizations when developing their respective models. Further information is provided in the Supplemental Information Section of this report (Sec.~\ref{sec:SI}).
 
 \subsection{CORIA modeling assumptions}
 
@@ -508,7 +518,14 @@ align=center
 \end{figure}
 
 \section{Property Comparison}
-
+\textcolor{red}{
+\textbf{Kinetics}\\
+\textbf{Heat capacity}\\
+\textbf{Heat of Reaction}\\
+\textbf{Density}\\
+\textbf{Conductivity}\\
+\textbf{Radiation Properties}\\
+}
 \section{Model-to-Model Comparison}
 
 The objective of the MaCFP-4 condensed-phase benchmark exercise is to perform a model-to-model comparison. Since no common set of physical assumptions was imposed on the participants, and considering the diversity of the submitted modelling approaches, each contribution was treated as a separate model in the analysis. This approach makes it possible to assess the extent to which different modelling choices and assumptions affect the predicted results. Furthermore, the comparison of these contributions provides an opportunity to evaluate the individual influence of specific modelling assumptions on the simulation outcomes.
@@ -833,6 +850,7 @@ The comparison of the different models highlights a good overall agreement in te
 
 \clearpage
 \section{Supplemental Information}
+\label{sec:SI}
 \subsection{Calibration Overviews}}
 \subsubsection*{CORIA}
 \begin{enumerate}
