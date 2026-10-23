@@ -988,7 +988,7 @@ As shown here, the actual heating rate can vary significantly during the early s
 \subsubsection{Heat Release Rate}
 
 \textbf{Data Processing}\\
-The key measurements recorded during MCC tests are heat release rate, $HRR$~(W/g); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded. Both $HRR$ and $T$ were reported as time-resolved measurements. Tests were run, nominally, at constant heating rates of 30~K/min, 45~K/min or 60~K/min. Note: substantially more MCC data was recorded in this study on MaCFP-Wood as compared to the MaCFP-2 study on PMMA~\cite{PreliminarySummary}.
+The key measurements recorded during MCC tests are heat release rate, $HRR$~(W/g); temperature, $T$~(K); and the time, $t$~(s), at which these two values are recorded. Both $HRR$ and $T$ were reported as time-resolved measurements. Tests were run, nominally, at constant heating rates of 30~K/min, 45~K/min or 60~K/min. Substantially more MCC data was recorded in this study on MaCFP-Wood as compared to the MaCFP-2 study on PMMA~\cite{PreliminarySummary}.
 
 Heat release rate and temperature were reported either at regular temperature increments or at fixed time intervals. In most datasets, heat release rate was reported every 0.5 K; (one institution reported heat release rate at 2~Hz). Reporting frequency was not necessarily constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. For all tests, heat release rate, $Q'$, and time, $t$, signals were thus first processed using linear interpolation such that they were each reported at the same regular intervals (i.e., every 0.5~K). 
 
@@ -997,24 +997,24 @@ Integral heat release rate at each time step $t_i$, $Q_i$, was calculated for ea
 	Q_i = \sum_{i'=1}^i \frac{1}{2} \left( {Q'}_{i',j} + {Q'}_{i'-1,j} \right) \left(t_{i'}-t_{i'-1} \right)
 	%we have to start from i'=1 otherwise at i'-1, we have a conflict
 \end{equation}
-In this way, the time step, $\Delta t$, needed for this calculation could vary (see previous discussion on heating rates) but it would always correspond to the time needed for the sample temperature to increase by 1~K).
+In this way, the time step, $\Delta t$, needed for this calculation could vary (see previous discussion on heating rates) but it would always correspond to the time needed for the sample temperature to increase by 0.5~K).
 
-Based on these measurements, average MCC curves and an estimate of measurement uncertainty were calculated for each of these conditions. An effort was made to include as much data as possible in the generation of these average curves; however, clear outliers (full curves, not just individual data points) were not used for the calculation of mean and standard deviation values. These datasets are still plotted in Figs.~\ref{Fig:MCC_N2_30K} through \ref{Fig:MCC_O2-20_60K} with a note identifying them as outliers in the captions below their respective figures. For MCC measurements, datasets were defined as outliers, for example, when an negative integral heat release rate were observed (‘Crested’ tests in N$_2$ at 30~K/min) or peak heat release rate were greater than $50$~\% of the average of all other data.
+MCC data was analyzed to calculate average HRR and integral HRR as well as an estimate of measurement uncertainty for each of the measurement conditions. An effort was made to include as much data as possible in the generation of these average curves; however, clear outliers (full curves, not just individual data points) were not used for the calculation of mean and standard deviation values. These datasets are still plotted in Figs.~\ref{Fig:MCC_N2_30K} through \ref{Fig:MCC_O2-20_60K} with a note identifying them as outliers in the captions below their respective figures. For MCC measurements, datasets were defined as outliers, for example, when an negative integral heat release rate were observed (‘Crested’ tests in N$_2$ at 30~K/min) or peak heat release rate were greater than $50$~\% of the average of all other data.
 
 When repeated measurements were available (submitted by the same or different lab(s) and conducted under the same incident heating conditions and gaseous environment) average heat release rate was calculated at each temperature, $T_i$, as the mean value reported from all (excluding noted outliers) repeated tests, $j$:
 \begin{equation}
 	\overline{Q'_i} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} Q'_{i',j}
 \end{equation}
-where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n=2$ because it is assumed that variations in repeated measurements should be minimal within a 2~K interval. $N_j$ is the number of replicate tests. The standard deviation of the mean, $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
+where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i' \leq (i+n)$ and $n=2$ because it is assumed that variations in repeated measurements should be minimal within a 2~K interval. $N_j$ is the number of replicate tests. The standard deviation of the mean, $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
 \begin{equation}
 	\sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( Q'_{i',j} - \overline{Q'_i} \right)^{2}\right)}
 \end{equation}
 
-For brevity, the main text of this document plots MCC measurement data only when multiple labs submitted repeated measurements under the same test conditions. Heat release rate and integral heat release rate curves (individual test data, along with average curves) from all MCC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.
+For brevity, the main text of this document plots MCC measurement data only when multiple labs submitted repeated measurements under the same test conditions. Heat release rate and integral heat release rate curves (individual test data, along with average curves) from all MCC experiments conducted by all labs and under all experimental conditions (all heating rates and gaseous environments) are supplied in the Supplemental Information section.\\
 
 
 \textbf{HRR in nitrogen}\\
-Figures~\ref{Fig:MCC_N2_30K} and \ref{Fig:MCC_N2_60K} show measurement data from 5 and 30 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 30~K/min and 60~K/min, respectively. Data from MCC experiments at nominal heating rates of $\beta$ = 45~K/min can be found in the appendix. Across these conditions, the main decomposition stage occurs approximately between 600 K and 700 K. Smaller reactions are present before the main peak. After 800~K no more heat is released. 
+Figures~\ref{Fig:MCC_N2_30K} and \ref{Fig:MCC_N2_60K} show measurement data from 5 and 30 repeated tests conducted in pure nitrogen at nominal heating rates of $\beta$ = 30~K/min and 60~K/min, respectively. Data from MCC experiments at nominal heating rates of $\beta$~=~45~K/min can be found in the appendix. Across these conditions, the main decomposition stage occurs approximately between 600 K and 700 K. Smaller reactions are present before the main peak. After T~=~800~K no more heat is released. 
 
 \begin{figure}[h]
 	\centering
@@ -1049,14 +1049,47 @@ Figures~\ref{Fig:MCC_N2_30K} and \ref{Fig:MCC_N2_60K} show measurement data from
 		\label{Fig:MCC_N2_60K_int_HRR}
 	\end{subfigure}
 	
-	\caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere.}
+	\caption{Measured (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. The `Cayuga' dataset is identified as an outlier and will not be used for the calculation of mean and standard deviation values.}
 	\label{Fig:MCC_N2_60K}
 \end{figure}
 
 Increasing the heating rate results in a higher peak HRR and shifts the main decomposition
 peak towards slightly higher temperatures. Figure \ref{Fig:MCC_N2_avg} compares the average HRR and integral HRR curves obtained at nominal heating rates of 30~K/min, 45~K/min, and 60 K/min. Average curves are shown as solid lines, while the shaded regions represent $\pm$2$\sigma_{mean,i}$. Individual experiments are also shown for comparison.
-The MCC ASTM standard~\cite{astm7309standard}, indicates crystal-clear, additive-free, food
-grade polystyrene as a reference material. In order to examine whether difference in MCC curves are caused by differences in system calibrations, participants were asked to also submit their polystyrene calibration data~\footnote{Polystyrene samples were not provided by MaCFP, participants used their own polystyrene.}. Four out of the six participating institutions have submitted polystyrene data at 60~K/min under nitrogen atmosphere. This data is also available on the MaCFP repository. One institution performs their polystyrene calibrations at 30~K/min~\footnote{Long term stability of the device is checked by comparing the measurement to the average of all performance checks. HRR capicity, total HR and peak temperature where all within one standard deviation of this average.}. The sixth institution did not perform polystyrene testing before conducting MCC tests. Figure \ref{Fig:MCC_PsvsWood}, shows a comparison between the key parameters for polystyrene and wood experiments run under nitrogen atmosphere at 60~K/min. As can be seen in the figure, variations in peak Temperature of wood correlate with variations in peak Temperature of polystyrene. There does not appear to be a strong correlation for total  total heat release, while difference in FGC between difference institutes correlate between wood and PS. 
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_HRR.pdf}
+		\caption{}
+		\label{Fig:MCC_N2_HRR}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_intHRR.pdf}
+		\caption{}
+		\label{Fig:MCC_N2_int_HRR}
+	\end{subfigure}
+	
+	\caption{Average (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. Average curves are calculated using all submitted data from tests conducted under the same conditions, shaded areas represent $2 \sigma_{mean,i}$.}
+	\label{Fig:MCC_N2_avg}
+\end{figure}
+
+The ASTM standard~\cite{astm7309standard} for MCC experiments, indicates crystal-clear, additive-free, food
+grade polystyrene as a reference material for a system performance check. In order to examine whether difference in MCC curves are caused by differences in system calibrations, participants were asked to submit their polystyrene calibration data~\footnote{Polystyrene samples were not provided by MaCFP, participants used their own polystyrene.}. Four out of the six participating institutions have submitted polystyrene data at 60~K/min under nitrogen atmosphere. This data is available on the MaCFP repository. One institution performs their polystyrene calibrations at 30~K/min~\footnote{Long term stability of the device is checked by comparing the measurement to the average of all performance checks. HRR capicity, total HR and peak temperature where all within one standard deviation of this average.}, this allows to check long term stability of the device, however this can not be compared to data submitted by other institutions as the experiments were not performed under standard conditions. The sixth institution did not perform polystyrene testing before conducting MCC tests. Figure \ref{Fig:MCC_PsvsWood}, shows a comparison between the key parameters for polystyrene and wood experiments run under nitrogen atmosphere at 60~K/min. A Pearson correlation coefficient was calculated between wood and polystyrene key features. This indicates whether a linear correlation (values close to -1 or 1) exists between the key feature measured on PS and the one measured on Wood. The results can be found in table~ref{tab:MCC Pearson}.  Care should be take with interpreting these results due to the limited amount of data available. 
+
+\begin{table}[ht]
+	\centering
+	\label{tab:MCC Pearson}
+	\begin{tabular}{lcccccc}
+		\hline
+		Parameter & Onset T & peak T & peak HRR &  Total HR & HR capacity & FGC\\
+		\hline
+		Pearson’s $r$ & -0.18 & 0.98 & 0.50 & 0.82 & 0.24 & 0.61\\
+		\hline
+	\end{tabular}
+\end{table}
+
+As can be seen in the figure and the table, variations in peak Temperature of wood correlate with variations in peak Temperature of polystyrene. The outlier (Redhead) in peak temperature for wood is directly related to the shift in peak temperature of PS. There is also a strong correlation between the total heat release rate of polystyrene and that of wood submitted by the same institution. The other key features do not appear to have a strong correlation between wood and PS. 
 
 
 \begin{figure}[h!]
@@ -1096,71 +1129,66 @@ grade polystyrene as a reference material. In order to examine whether differenc
 		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/MCC/FGC_Average_Wood_N2_60K_HRR.pdf}
 	\end{subfigure}
 	
-	\caption{Peak HRR, Total HR and FGC as function of Peak temperature for polystyrene (left) and MaCFP-Wood (right). Error bars indicate **. Note there are no error bars for polystyrene tests performed by Redhead, since only one polystyrene test was available.}
+	\caption{Peak HRR, Total HR and FGC as function of Peak temperature for polystyrene (left) and MaCFP-Wood (right). Error bars indicate one standard deviation. Note there are no error bars for polystyrene tests performed by Redhead, since only one polystyrene test was available.}
 	\label{Fig:MCC_PsvsWood}
 \end{figure}
 
-**Baseline correction**
-After recording data with the MCC a baseline correction must be performed to compensate for instrument drift. Submitted data was baseline corrected by the institutions performing the respective experiments. Previous studies have shown that differences in MCC results for the same material frequently arise from the application of different baseline-correction procedures~\cite{}, Specifically in tests on low heat release rate materials such as wood\footnote{The Total Heat Release and Peak HRR of MaCFP-Wood is approximately 1/3 of that of polystyrene samples used for verification of MCC system performance~\cite{lyon2013principles}. This relatively low HRR means that signal noise and baseline correction issues can have a greater impact on interpretation MaCFP Wood HRR data.}, baseline correction can have a significant impact on reported HRR. This is even more significant for tests conducted at low heating rates (below the standard value of 60 K/min) and when using small initial sample masses. Some of the submitted data shows indications of potentially incorrect baseline corrections. In particular, for some tests, the integrated HRR decreases toward the end of the experiment (see ~\ref{Fig:MCC_N2_30K}), despite its cumulative nature. In other cases, the integrated HRR is already above zero before the onset of any significant reaction, i.e. at the start of the experiment (see~\ref{Fig:MCC_N2_60K} ). These features suggest that the baseline correction may introduce artificial heat release before the reaction or may not fully account for the signal after the reaction has ended. 
 
-To assess the influence of the respective baseline corrections, participating institutions were asked to submit their raw data. Four institutions submitted raw data, which data are available in the MaCFP repository under the label ``MCC-raw''. Figure~\ref{ Fig:MCC_N2_60K_raw} shows the raw data as submitted. The Cayuga data stands out as a clear outlier. Following sample installation in the MCC, several minutes are typically required for the temperature and atmosphere in the pyrolysis chamber to stabilize. The Cayuga data suggest that the stabilization period may have been insufficient. When a test is initiated while the oxygen concentration remains elevated, the instrument interprets this initial oxygen level as the baseline corresponding to zero HRR. Consequently, when the oxygen concentration returns to approximately 20\% at the end of the test, the calculated HRR may remain artificially elevated (see Fig. ~\ref{ Fig:MCC_N2_60K_raw}). The Cayuga data also exhibit smaller reactions preceding the main peak, which is also observed which is also observed in tests performed with oxygen present in the pyrolysis chamber (see Fig.~\ref{ Fig:MCC_O2-20_60K}. 
+After recording data with the MCC, a baseline correction must be performed to compensate for instrument drift. Submitted data was baseline corrected by the institutions performing the respective experiments. Previous studies have shown that differences in MCC results for the same material frequently arise from the application of different baseline-correction procedures~\cite{walters2012microscale}. Especially in tests on low heat release rate materials such as wood\footnote{The Total Heat Release of MaCFP-Wood is approximately 1/3 of that of polystyrene samples used for verification of MCC system performance~\cite{lyon2013principles}, while the peak HRR of MaCFP wood is only around 10$\%$ of that of polystyrene. This relatively low HRR means that signal noise and baseline correction issues can have a greater impact on MaCFP Wood HRR data.}, baseline correction can have a significant impact on reported HRR. This is even more significant for tests conducted at low heating rates (below the standard value of 60 K/min) or when using small initial sample masses. Some of the submitted data shows indications of potentially incorrect baseline corrections. In particular, for some tests, the integrated HRR decreases toward the end of the experiment (see Fig.~\ref{Fig:MCC_N2_30K}), despite its cumulative nature. In other cases, the integrated HRR is already above zero before the onset of any significant reaction, i.e. at the start of the experiment (see Fig.~\ref{Fig:MCC_N2_60K}). These features suggest that the baseline correction may introduce artificial heat release before the reaction or may not fully account for the signal after the reaction has ended. 
 
-Submitted raw data was corrected using a python based algorithm to automatically detect the baseline \footnote{The baseline correction was automated to avoid user bias in the comparison}. A detailed description of the baseline algorithm can be found in appendix \ref{si:baseline correction}.
+To assess the influence of the respective baseline corrections, participating institutions were asked to submit their raw data. Four institutions submitted raw data, which is available in the MaCFP repository under the label ``MCC-raw''. Figure~\ref{Fig:MCC_N2_60K_raw} shows the raw data as submitted. The Cayuga data stands out as a clear outlier. Following sample installation in the MCC, several minutes are typically required for the temperature and atmosphere in the pyrolysis chamber to stabilize. The Cayuga data suggest that the stabilization period may have been insufficient. When a test is initiated while the oxygen concentration remains elevated, the instrument interprets this initial oxygen level as the baseline corresponding to zero HRR. Consequently, when the oxygen concentration returns to approximately 20\% at the end of the test, the calculated HRR may remain artificially elevated (see Fig. ~\ref{Fig:MCC_N2_60K_raw}). The Cayuga data also exhibit smaller reactions preceding the main peak, which is also observed in tests performed with oxygen present in the pyrolysis chamber (see Fig.~\ref{Fig:MCC_O2-20_60K}. 
 
-%Results: 
-%- peak HRR no significant change (bellow 2.3\% of the relatice difference change are within uncertainty)
-%- T peak does not change 
-%- T onset small changes for Redhead and Bali, bigger change forSaxony --> very sensitive to first reaction (see mass discussion) + initial int HRR to high due to baseline correction 
-%- HR_total maxim relative change 7\%, again small value, easy large relative change
-%- FGC no significant change  
  \begin{figure}[h]
- 	\centering
- 	\begin{subfigure}[b]{0.75\textwidth}
- 		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Wood_N2_60K_HRR-raw.pdf}
- 		\caption{}
- 		 \label{Fig:MCC_N2_60K_raw}
- 	\end{subfigure}
- 	
- 	\caption{HRR in MCC experiments conducted at 60 K/min under inert atmosphere for samples with varying initial mass.}
- 	\label{Fig:MCC_baseline}
- \end{figure}
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Wood_N2_60K_HRR-raw.pdf}
+		\caption{}
+		\label{Fig:MCC_N2_60K_raw}
+	\end{subfigure}
+	\caption{Raw (i.e. not baseline corrected HRR in MCC experiments conducted at 60 K/min under inert atmosphere.}
+	\label{Fig:MCC_baseline}
+\end{figure}
+
+Submitted raw data was corrected using a python based algorithm to automatically detect the baseline \footnote{The baseline correction was automated to avoid user bias in the comparison}. A detailed description of the baseline algorithm can be found in appendix~\ref{si:baseline correction}. Table~\ref{tab:MCC_baseline} compares key parameters of the submitted data, baseline-corrected by the submitting institution, with those of the raw data after baseline correction using the algorithm.
+
+
+\begin{table}[htbp]
+	\centering
+	\caption{Key values of submitted, baseline-corrected by the submitting institution, and raw data after baseline correction using the algorithm under N\textsubscript{2}, 60 K/min conditions.}
+	\label{tab:MCC_baseline}
+	\begin{tabular}{l cc cc cc}
+		\toprule
+		& \multicolumn{2}{c}{Saxony} & \multicolumn{2}{c}{Redhead} & \multicolumn{2}{c}{Bali} \\
+		\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+		Parameter & Original & Corrected & Original & Corrected & Original & Corrected \\
+		\midrule
+		T\textsubscript{onset}  & $529.5\pm17.7$  & $548.2\pm25.6$  & $534.2\pm4.3$  & $539.8\pm1.4$  & $531.8\pm6.0$  & $528.3\pm3.3$  \\
+		Peak HRR          & $148.2\pm6.0$   & $146.5\pm5.8$   & $135.5\pm2.2$  & $132.4\pm3.5$  & $140.6\pm4.4$  & $141.4\pm3.9$  \\
+		T\textsubscript{peak}   & $666.6\pm2.3$   & $666.6\pm2.3$   & $647.3\pm1.3$  & $647.3\pm1.3$  & $667.9\pm0.6$  & $667.9\pm0.6$  \\
+		HR\textsubscript{total} & $12.77\pm0.34$  & $12.03\pm0.69$  & $12.36\pm0.23$ & $11.50\pm0.36$ & $12.07\pm0.41$ & $12.34\pm0.25$ \\
+		FGC               & $129.9\pm3.7$   & $131.4\pm5.9$   & $126.6\pm1.8$ & $125.6\pm0.4$  & $122.2\pm3.9$ & $123.4\pm3.0$  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+As can be seen from the table, redoing the baseline correction does not alter the temperature of the peak HRR and minimally affects the peak HRR. The onset temperature for Saxony has both in the submitted data and in the re-corrected data a large uncertainty, this is because this metric is very sensitive to the small reaction before the main peak, which is not present for all the data submitted by Saxony, see discussion in the next paragraph. Re-doing the baseline correction does shift the onset temperature with 20~K, which is a significant shift. Small changes in total HR are observed. The FGC does not change significantly between submitted and re-corrected data. Note that the dataset for which redoing the baseline correction would have the greatest impact is not included in the table because the raw data was unavailable amd the tests were conducted at a heating rate of 30 K/min.
+
  
-ASTM-D7309 specifies an initial sample mass in the range of 1~mg to 10~mg. Two institutions provided MCC data for different initial sample masses (Range 1~mg to 12~mg)~\footnote{In MCC experiments, sample mass is measured before installing the sample into the MCC. Depending on the preparation of the sample, moisture might be lost before the start of an MCC test. This would result in a lower initial mass than specified. This is not taken into account in this analysis.} at 60~K in pure nitrogen, the results are plotted in Fig.~\ref{MCC_mass}. Overall, the sample mass does not appear to have a strong effect on the results, e.g. difference in peak HRR is below 10~\%. Experiments with a lower sample mass do have considerably more noise. The biggest difference appears to be in the small peak before the main peak, which is not observed for initial samples masses bellow 4~mg. 
+ASTM-D7309 specifies that the initial sample mass shall be in the range of 1~mg to 10~mg ~\cite{astm7309standard}. Two institutions provided MCC data for different initial sample masses (Range 1~mg to 12~mg)~\footnote{In MCC experiments, sample mass is measured before installing the sample into the MCC. Depending on the preparation of the sample, moisture might be lost before the start of an MCC test. This would result in a lower initial mass than specified. This is not taken into account in this analysis.} at 60~K in pure nitrogen, the results are plotted in Fig.~\ref{Fig:MCC_mass}. The initial sample mass has little effect on the main reaction peak. However, the smaller peak preceding it is not observed when the initial sample mass is below 4~mg and is not consistently observed for 4~mg samples. It is possible that, due to the inhomogeneous nature of the powder and the small initial mass, not all components present in a larger sample are represented in a smaller one. Experiments with a lower sample mass do have considerably more noise, this should be taken into account when choosing an initial sample mass. 
+
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}[b]{0.75\textwidth}
 		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_60K_Mass-Scaling_HRR.pdf}
 		\caption{}
 	\end{subfigure}
-	
 	\caption{HRR in MCC experiments conducted at 60 K/min under inert atmosphere for samples with varying initial mass.}
 	\label{Fig:MCC_mass}
 \end{figure}
 
 
-Figure~\ref{Fig:MCC_N2_avg} plots average heat release rate and integral heat release rate from anaerobic MCC tests conducted at 30, 45, and 60~K/min on a single set of axes, along with measurements of all individual tests conducted. Shaded error bars surrounding these average curves represent two standard deviations of the mean, $2 \sigma_{mean,i}$. As seen here, increased heating rates do not significantly affect the onset temperature of decomposition but they do allow for a shift (to higher temperatures) in the apparent temperature that heat is released.
-
-
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_HRR.pdf}
-		\caption{}
-		\label{Fig:MCC_N2_HRR}
-	\end{subfigure}
-	
-	\begin{subfigure}[b]{0.75\textwidth}
-		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_Average_N2_intHRR.pdf}
-		\caption{}
-		\label{Fig:MCC_N2_int_HRR}
-	\end{subfigure}
-	
-	\caption{Average (a) HRR and (b) integral HRR in MCC experiments conducted at 60 K/min under inert atmosphere. Average curves are calculated using all submitted data from tests conducted under the same conditions, shaded areas represent $2 \sigma_{mean,i}$.}
-	\label{Fig:MCC_N2_avg}
-\end{figure}
-
-**Comparison with TGA data**
-Three institutions submitted both MCC and TGA data. However, for two of these institutions the MCC data was identified as outliers. Therefore the comparison between TGA and MCC is done based on the data submitted by Bali. 
+Three institutions submitted both MCC and TGA data. However, for two of these institutions the MCC data was identified as outliers. Therefore the comparison between TGA and MCC is done based on the data submitted by Bali. Comparing MCC and TGA experiments allows to determine the heat of combustion of the gaseous volatiles for individual reactions. TGA experiments were conducted under inert atmosphere at 10 K/min, while MCC experiments were conducted at 60~K/min. Since the difference in heating rate causes the peak temperature to shift too higher temperatures, the MCC data was shifted with -23~K such that both peak temperatures overlap. The comparison is shown in Fig.~\ref{Fig:MCC_vs_TGA}. Compared with the main reaction peak, the smaller preceding reactions have a higher heat of combustion, i.e. release more reactive volatiles. The mass loss rate after the main reaction appears to have a rather low heat of combustion in inert atmosphere. \\
 
 
 \begin{figure}[h]
@@ -1169,14 +1197,16 @@ Three institutions submitted both MCC and TGA data. However, for two of these in
 		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/MCC/MCC_TGA_Comparison.pdf}
 		\caption{}
 	\end{subfigure}
-	\caption{HRR in MCC experiments conducted at 60 K/min compared with MLR in TGA experiments conducted at 10 K/min, both conducted under nitrogen atmosphere. Note that MCC data was shifted with 23 K for the peak temperature of both data sets to align.}
+	\caption{HRR in MCC experiments conducted at 60 K/min compared with MLR in TGA experiments conducted at 10 K/min, both under nitrogen atmosphere. Note that MCC data was shifted with -23 K for the peak temperature of both data sets to align.}
 	\label{Fig:MCC_vs_TGA}
 \end{figure}
 
-\textbf{HRR in oxygen containing atmosphere}
-Figure~\ref{Fig:MCC_O2-20_60K} shows measurements from 8 repeated tests conducted in oxygen and nitrogen ($X_{\rm O_2}=0.2$) at a nominal heating rate of $\beta=60$~K/min. Figure~\ref{Fig:MCC_O2_60K} shows measurements of two repetition experiments conducted in different oxygen and nitrogen concentrations, varying between ($X_{\rm O_2}=0.02$) and ($X_{\rm O_2}=0.2$), at a nominal heating rate of $\beta=60$~K/min.
-Across these conditions, two main reaction peaks are visible. For 20$\%$ oxygen, the first peak occurs between 550~K and 650~K and the second peak between 650~K and 850~K. The results from different institutions are significantly more scattered than for test in pure oxygen. The peak temperature of the first peak varies with 20~K, while the peak HRR almost doubles between the results of Cayuga and Redhead. The second peak shows more scatter within one institution. Due to the limited amount of data and the significant differences, the average for MCC tests under oxygen containing atmosphere was not determined. 
-With increased oxygen availability, decomposition occurs across a narrower temperature range and higher HRR is measured at lower temperatures. The onset temperature remains approximately the same between different oxygen concentrations, while the end temperature varies more then 100~K. 
+
+
+\textbf{HRR in oxygen containing atmosphere} \\
+Figure~\ref{Fig:MCC_O2-20_60K} shows measurements from 8 repeated tests, submitted by 3 different institutions,  conducted in oxygen and nitrogen ($X_{\rm O_2}=0.2$) at a nominal heating rate of $\beta=60$~K/min. Across these conditions, two main reaction peaks are visible. The first peak occurs between 550~K and 650~K and the second peak between 650~K and 850~K. The results from different institutions are significantly more scattered than for test in pure nitrogen. The peak temperature of the first peak varies with 20~K, while the peak HRR almost doubles between the results of Cayuga and Redhead. The second peak shows more scatter within one institution. Due to the limited amount of data and the significant differences, no average for MCC tests under oxygen containing atmosphere was determined. 
+
+One institution performed test in different oxygen concentration, the results are shown in Fig.~\ref{Fig:MCC_O2_60K}. Concentrations varied between ($X_{\rm O_2}=0.02$) and ($X_{\rm O_2}=0.2$), at a nominal heating rate of $\beta=60$~K/min, two repetition experiments were performed per condition. With increased oxygen availability, decomposition occurs across a narrower temperature range and a higher HRR is measured at lower temperatures. The onset temperature remains approximately the same between different oxygen concentrations, while the end temperature varies more then 100~K. 
 
 
 \begin{figure}[h]
@@ -1217,10 +1247,41 @@ With increased oxygen availability, decomposition occurs across a narrower tempe
 \end{figure}
 
 
+Two institutions submitted MCC data of wood-char. Both created the char by performing MCC experiments (at 60~K/min) under pure nitrogen atmosphere (method A). In a second experiment the remaining char was then tested under 20$\%$ oxygen in nitrogen atmosphere (method B). Figure \ref{Fig:MCC_wood-char_N2_60K} shows the results of these tests, which exhibit a broad peak between 500 and 770 K, with a maximum HRR between 400 and 500 W/g. Compared to the wood data, the HRR curves of one institution show worse repeatability; however, the integral values show comparable repeatability as the wood tests.
+
+Combining the results of both tests allows to uniquely split the heat of combustion in the gasphase ($\Delta H_{c,gas}$) and the heat of combustion of char oxidation ($\Delta H_{c,char}$).
+\begin{equation}
+	\Delta H_{\mathrm{c,gas}} = \frac{\displaystyle m_{\mathrm{initial}} \int \mathrm{HRR}_{\mathrm{pyrolysis}} \mathrm{d}t}{m_{\mathrm{initial}} - m_{\mathrm{char}}},
+\end{equation}
+\begin{equation}
+	\Delta H_{\mathrm{c,char}} =
+	\frac{\displaystyle m_{\mathrm{char}} \int \mathrm{HRR}_{\mathrm{oxidation}}\,\mathrm{d}t}
+	{m_{\mathrm{char}} - m_{\mathrm{ash}}}.
+\end{equation}
+
+ Table~\ref{MCC:char_table} gives an overview of both properties for both institutions~\footnote{Although Redhead's experiments under nitrogen atmosphere were identified as an outlier based on its peak temperature, this does not affect the integral values reported here, as these are insensitive to shifts in temperature space.}, reported uncertainty is one standard deviation of the average value. As can be seen from the table, substantial deference between the condensed-and the gas phase are observed, $\Delta H_{c,char}$ is 2.4 times greater than $\Delta H_{c,gas}$.
 
 
-**Char**
-Two institutions submitted MCC data of wood-char. Both institutions created the char by performing MCC experiments (at 60~K/min) under pure nitrogen atmosphere. In a second experiment the remaining char was then tested under 20$\%$ oxygen in nitrogen atmosphere.
+
+\begin{table}[h]
+		\centering
+		\caption{**Measured heat of combustion.**}
+		\label{tab:char_table}
+	\begin{tabular}{lcc}
+		\hline
+		\textbf{Institution} & \textbf{$\Delta H_{c,gas}$} & \textbf{$\Delta H_{c,char}$} \\
+		& \textbf{(kJ/g)} & \textbf{(kJ/g)} \\
+		\hline
+		Redhead & $14.9 \pm 0.6$ & $35.9 \pm 1.3$ \\
+		Bali & $14.2 \pm 0.4$ & $34.7 \pm 0.3$\\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+
+
+
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}[b]{0.75\textwidth}
