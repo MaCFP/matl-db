@@ -1,22 +1,22 @@
 # University of Maryland (UMD)
 
-### Experimental Conditions: TGA/DSC
-A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments.
+### Experimental Conditions: STA (Nitrogen)
+A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments in nitrogen.
 
-* Heating Rate: 10 K/min
+* Heating Rates: 3, 10, and 30 K/min
 * Temperature program
-  - Initial Temperature: 294 K
-  - Initial Isotherm: 1800 s (hold at 294 K for 1800 s)  
-  - Maximum Temperature: 1098 K
-  - Final Isotherm: 1800 s (hold at 1098 K for 1800 s)  
-* Sample mass: 4 mg +/- 0.3 mg
+  - Initial Temperature: ambient (293-296 K)
+  - Initial Isotherm: 1800 s at ambient temperature
+  - Maximum Temperature (program setpoint): 1083 K (3 K/min), 1098 K (10 K/min), 1153 K (30 K/min)
+  - Final Isotherm: 1200 s at the maximum temperature (1800 s for UMD\_Wood\_STA\_N2\_10K\_R1-R3)
+* Sample mass: 4 mg +/- 0.3 mg (3 and 10 K/min, and the 30 K/min tests marked \_4mg); 1.0 mg +/- 0.12 mg (30 K/min tests marked \_1mg)
 * Sample geometry: Powdered
-* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 2 months (or 100 tests, whichever is sooner) using a set of 8 reference materials (biphenyl, benzoic acid, RbNO3, KClO4, Ag2SO4, CsCl, K2CrO4, BaCO3) with transition temperatures between 342 and 1080 K
+* Calibration type: Before each experiment, a baseline test was performed using an empty crucible. Temperature/Heat flow calibration were performed every 2 months (or 100 tests, whichever is sooner) for each heating rate in the same crucible type as the tests. Each calibration used a set of 7 reference materials (biphenyl, benzoic acid, RbNO3, KClO4, Ag2SO4, K2CrO4, BaCO3) with transition temperatures between 342 and 1080 K; the calibration used for UMD\_Wood\_STA\_N2\_10K\_R1-R3 also included CsCl.
 * Crucible
   - Type: Pt-Rh
   - Volume: 85 uL
   - Diameter: 6.8 mm
-  - Mass: 253.480 mg
+  - Mass: 253.0-253.5 mg
   - Lid: True
   - Note: Pt-Rh crucibles (outer diameter 6.8mm / volume 85 uL) with a lid ( a small hole in the lid allowed for gaseous decomposition products to escape).
 * Carrier Gas
@@ -27,14 +27,43 @@ A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetri
   - Type: NETZSCH STA 449 F3 Jupiter
   - Furnace Type: Platinum
   - Notes: None
+* Heat flow sign convention: exothermic down (negative); endothermic effects appear as positive heat flow
+* Test names: at 30 K/min the tests were run at two sample masses; a condition token after the heating rate gives the mass (\_4mg or \_1mg).
 
-| Test Name | O2 volume % |  Initial External Sample Mass (mg) | Sample Mass Prior to Heating Ramp (mg) |
+| Test Name | O2 volume % | Initial External Sample Mass (mg) | Sample Mass Prior to Heating Ramp (mg) |
 | --------- | :---------: | :------------------------: | :------------------------: |
-|UMD\_Wood\_TGA\_N2\_10K\_R1 | 0 | 4.301| 4.066
-|UMD\_Wood\_TGA\_N2\_10K\_R2 | 0 | 4.062| 3.842
-|UMD\_Wood\_TGA\_N2\_10K\_R3 | 0 | 3.942| 3.904
+|UMD\_Wood\_STA\_N2\_3K\_R1 | 0 | 4.139| 4.059
+|UMD\_Wood\_STA\_N2\_3K\_R2 | 0 | 4.002| 3.969
+|UMD\_Wood\_STA\_N2\_3K\_R3 | 0 | 4.030| 4.009
+|UMD\_Wood\_STA\_N2\_3K\_R4 | 0 | 4.024| 4.008
+|UMD\_Wood\_STA\_N2\_3K\_R5 | 0 | 3.994| 3.952
+|UMD\_Wood\_STA\_N2\_10K\_R1 | 0 | 4.301| 4.066
+|UMD\_Wood\_STA\_N2\_10K\_R2 | 0 | 4.062| 3.842
+|UMD\_Wood\_STA\_N2\_10K\_R3 | 0 | 3.942| 3.904
+|UMD\_Wood\_STA\_N2\_10K\_R4 | 0 | 3.969| 3.906
+|UMD\_Wood\_STA\_N2\_10K\_R5 | 0 | 3.982| 3.873
+|UMD\_Wood\_STA\_N2\_10K\_R6 | 0 | 4.055| 3.879
+|UMD\_Wood\_STA\_N2\_10K\_R7 | 0 | 3.918| 3.803
+|UMD\_Wood\_STA\_N2\_10K\_R8 | 0 | 3.893| 3.789
+|UMD\_Wood\_STA\_N2\_10K\_R9 | 0 | 3.933| 3.801
+|UMD\_Wood\_STA\_N2\_10K\_R10 | 0 | 3.963| 3.876
+|UMD\_Wood\_STA\_N2\_30K\_4mg\_R1 | 0 | 3.884| 3.878
+|UMD\_Wood\_STA\_N2\_30K\_4mg\_R2 | 0 | 3.924| 3.882
+|UMD\_Wood\_STA\_N2\_30K\_4mg\_R3 | 0 | 3.965| 3.926
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R1 | 0 | 0.951| 0.955
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R2 | 0 | 1.025| 0.999
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R3 | 0 | 0.975| 0.935
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R4 | 0 | 1.013| 0.994
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R5 | 0 | 0.958| 0.935
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R6 | 0 | 0.934| 0.918
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R7 | 0 | 1.058| 0.962
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R8 | 0 | 1.019| 0.977
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R9 | 0 | 1.117| 1.004
+|UMD\_Wood\_STA\_N2\_30K\_1mg\_R10 | 0 | 0.962| 0.933
 
-**Notes:** **Initial External Sample Mass** refers to the mass of the sample before being inserted into the instrument. **Sample Mass Prior to Heating Ramp** refers to the mass of the sample at the beginning of the dynamic heating segment of the test. The discrepancy reflects moisture lost before the measurement begins and during the 1800 s isothermal segment prior to the heating ramp. The nitrogen data files contain Time (s), Temperature (K), and Mass (mg) only; time is zero at the start of the heating ramp.
+**Notes:** **Initial External Sample Mass** refers to the mass of the sample before being inserted into the instrument. **Sample Mass Prior to Heating Ramp** refers to the mass of the sample at the beginning of the dynamic heating segment of the test. The discrepancy reflects moisture lost before the measurement begins and during the 1800 s isothermal segment prior to the heating ramp. Heat flow is normalized by the **Sample Mass Prior to Heating Ramp**.
+
+**Data files:** Each file contains Time (s), Temperature (K), Mass (mg), and Heat Flow Rate (W/g) for the heating-ramp segment only (initial and final isotherms excluded), interpolated onto a 0.5 K sample-temperature grid. Time is zero at the start of the heating ramp. Mass is the absolute sample mass, offset so that the final mass matches the post-test residue weighed on an external balance. Heat flow is baseline-corrected (empty-crucible run subtracted) and expressed per gram of the **Sample Mass Prior to Heating Ramp**, exothermic down.
 
 ### Experimental Conditions: STA (Oxidative)
 A NETZSCH STA 449 F3 Jupiter was used to simultaneously conduct Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments in oxidative atmospheres: a heating-rate series at 21 % O2 and an oxygen-concentration series at 10 K/min.
