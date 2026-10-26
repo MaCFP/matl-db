@@ -135,7 +135,7 @@ def average_MCC_series(series_name: str, exclude:Optional[Union[str, List[str]]]
     for i, path in enumerate(paths):
         df = pd.read_csv(path)
         if baseline_correction is not None:
-            df = baseline_correct_MCC(df)
+            df = baseline_correct_MCC(df, path.stem)
 
 
         # Apply temperature filter for specific institutes
@@ -362,7 +362,7 @@ def plot_average_MCC_set(MCC_sets, plot = True, baseline_correction=None):
         for path in paths_MCC_set:
             df_raw = pd.read_csv(path)
             if baseline_correction is not None:
-                df_raw = baseline_correct_MCC(df_raw)
+                df_raw = baseline_correct_MCC(df_raw,path.stem)
             df = calculate_int_HRR(df_raw)
             peak_HRR = df["HRR (W/g)"].max()
             peak_index = df["HRR (W/g)"].idxmax()
@@ -377,7 +377,7 @@ def plot_average_MCC_set(MCC_sets, plot = True, baseline_correction=None):
             HR_Capacity = peak_HRR / np.average(np.gradient(df['Temperature (K)'], df['Time (s)']))
             FGC_v = (1000*HR_total * (T_endset - T_0)) / ((T_endset - T_onset) * (T_onset - T_0))
 
-            #counter = 0
+            # counter = 0
             # if 'char' in path.stem:
             #     if counter == 0:
             #         print('Values needed for heat of combustion table, calculation was done manually and results are added to the latex document')
@@ -1002,20 +1002,26 @@ for series in unique_conditions_material:
 
 
 
-def baseline_correct_MCC(df_raw, order=3):
+def baseline_correct_MCC(df_raw, name, order=3):
     df=df_raw.copy()
     df['Temperature (K)'] = df['Temperature (C)'] + 273.15
     df.drop('Temperature (C)', axis=1, inplace=True)
     df = interpolation(df)
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.plot(df['Temperature (K)'],df['HRR (W/g)'],color='lightgrey', label = 'Raw data')
+
     # Finds where data becomes flat after initial rise
     difference = df["HRR (W/g)"][2:].diff()
     local_max = np.max(difference[0:10])  # changed from 10 to 20
     local_max_index = np.where(difference == local_max)[0][0]
     index = np.min(np.where(difference[local_max_index:] < 0.01)[0])
+    ax.plot(df['Temperature (K)'][index],df['HRR (W/g)'][index], 'x', color='goldenrod')
     df = df.iloc[index:]
     df = df.reset_index(drop=True) #re-added
     df["HRR (W/g)"] = df["HRR (W/g)"] - np.min(df["HRR (W/g)"]) #re-added
     df['HRR (W/g) smooth'] = df['HRR (W/g)'].rolling(window=20, center=True, min_periods=1).mean()
+    ax.plot(df['Temperature (K)'],df['HRR (W/g)'],color='grey', label = 'Prepared data')
 
     # Find maximum HRR and corresponding metrics
     maxi = np.max(df["HRR (W/g) smooth"])
@@ -1145,7 +1151,7 @@ def baseline_correct_MCC(df_raw, order=3):
             ]
         )
         index_before = [index_before_2, index_before_1]
-    else:
+    else: #back-up: not the case for any of the raw MaCFP-data
         x = np.concatenate(
             [
                 df["Temperature (K)"][index_before_1:index_before_2].to_numpy(),
@@ -1160,28 +1166,37 @@ def baseline_correct_MCC(df_raw, order=3):
         )
         index_before = [index_before_1, index_before_2]
 
-    #fig, ax = plt.subplots(figsize=(6, 4))
-   # ax.plot(df['Temperature (K)'],df['HRR (W/g)'],color='black')
+
+
+
     abc = np.polyfit(x, y, 3)
     p = np.poly1d(abc)
     y_fit = p(df["Temperature (K)"])
+
+    ax.plot(df['Temperature (K)'],y_fit,  color='red', zorder=0, label = 'Baseline')
+    ax.plot(df['Temperature (K)'][point_before],df['HRR (W/g)'][point_before], 'o',markersize=4, color='green')
+    ax.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='red')
+    ax.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
+    ax.plot(df['Temperature (K)'][point_after],df['HRR (W/g)'][point_after], 'o',markersize=4,  color='green')
+    ax.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='blue')
+    ax.plot(df['Temperature (K)'][index_end],df['HRR (W/g)'][index_end], '^', color='blue')
+    ax.grid(True, color='gray', linestyle='--', linewidth=0.6, alpha=0.8)
+    ax.set_xlabel('Temperature (K)')
+    ax.set_ylabel('HRR (W/g)')
+
+
     df["HRR (W/g)"] = (df["HRR (W/g)"] - y_fit).round(3)
     # Only keep data between baseline points
 
 
-    # ax.plot(df['Temperature (K)'],df['HRR (W/g)'], color='blue')
-    # ax.plot(df['Temperature (K)'],y_fit,  color='red', zorder=0)
-    # ax.plot(df['Temperature (K)'][point_before],df['HRR (W/g)'][point_before], '^', color='green')
-    # ax.plot(df['Temperature (K)'][index_before_1],df['HRR (W/g)'][index_before_1], '*', color='green')
-    # ax.plot(df['Temperature (K)'][index_before_2],df['HRR (W/g)'][index_before_2], '*', color='red')
-    # ax.plot(df['Temperature (K)'][index_after],df['HRR (W/g)'][index_after], '^', color='black')
-    # ax.plot(df['Temperature (K)'][index_after+100],df['HRR (W/g)'][index_end], '^', color='grey')
-    # ax.grid(True, color='gray', linestyle='--', linewidth=0.6, alpha=0.8)
-    # plt.show()
-
     df = df.iloc[int(index_before[0]) : int(index_end + 1)]
     df.drop("SMA", axis=1, inplace=True)
     df.drop("HRR (W/g) smooth", axis=1, inplace=True)
+
+    ax.plot(df['Temperature (K)'],df['HRR (W/g)'], color='black', label = "Corrected data")
+    ax.legend()
+    plt.savefig(str(base_dir) + '/MCC/Baseline/{}.{}'.format(name,ex))
+    plt.close(fig)
     return df
 
 
