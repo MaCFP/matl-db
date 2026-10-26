@@ -902,6 +902,11 @@ plt.close(fig_ign_compare)
 #region Cone plots
 # ------------------------------------
 # Mass and HRR plots for all unique atmospheres and heating rates
+cone_individual_xlim = {
+    '30kW': 3000,
+    '60kW': 3000,
+}
+
 for series in unique_conditions_cone_material:
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     fig2, ax2 = plt.subplots(figsize=(6, 4))
@@ -912,14 +917,25 @@ for series in unique_conditions_cone_material:
     Cone_subset_paths = [p for p in Cone_Data
                          if f"{material}_" in p.name and f"_{flux}_{orient}_" in p.name]
 
+    # Mallard with mass loss cone should be plotted on top of other data, otherwise not visible
+    plot_paths = sorted(
+        Cone_subset_paths,
+        key=lambda p: 0 if p.stem.split('_')[0] == 'UMET' else 0
+    )
+
     orientation_handles = {
         'Parallel': plt.Line2D([0], [0], color='black', linestyle='-'),
         'Perpendicular': plt.Line2D([0], [0], color='black', linestyle=(0, (1, 2)))
     }
 
     institution_handles = {}
-
     for path in Cone_subset_paths:
+        label, color = label_def(path.stem.split('_')[0])
+        institution_handles[label] = plt.Line2D([0], [0],
+                                                color=color,
+                                                linestyle='-')
+
+    for path in plot_paths:
         df_raw = pd.read_csv(path)
         df = df_raw
 
@@ -928,18 +944,14 @@ for series in unique_conditions_cone_material:
         grain_orientation = get_grain_orientation(path)
         linestyle = '-' if grain_orientation == 'Parallel' else (0, (1, 2))
 
-        institution_handles[label] = plt.Line2D([0], [0],
-                                                color=color,
-                                                linestyle='-')
-
         ax1.plot(df['Time (s)'],
-                 savgol_filter((-1)*np.gradient(df['Mass (g)'],
-                 df['Time (s)']), 53, 3),
+                 savgol_filter((-1) * np.gradient(df['Mass (g)'],
+                                                  df['Time (s)']), 53, 3),
                  linestyle=linestyle,
                  color=color)
 
         if path.stem.split('_')[0] == 'UMET':
-            zorder = 1
+            zorder = 6
         else:
             zorder = 5
 
@@ -967,6 +979,8 @@ for series in unique_conditions_cone_material:
     ax2.set_ylim(bottom=0)
     ax2.set_xlabel('Time [s]')
     ax2.set_ylabel('HRR [kW/m$^2$]')
+    if flux in cone_individual_xlim:
+        ax2.set_xlim(-50, cone_individual_xlim[flux])
     fig2.tight_layout()
 
     legend2 = ax2.legend(orientation_handles.values(),
@@ -1111,7 +1125,7 @@ for series in [f'Cone_{flux}_hor' for flux in cone_flux]:
                     color=color[flux], alpha = 0.3, zorder=3)
 
 ax1.set_ylim(bottom=0,top=250)
-ax1.set_xlim(right=2500)
+ax1.set_xlim(-50, 2500)
 ax1.set_xlabel('Time [s]')
 ax1.set_ylabel('HRR [kW/m$^2$]')
 fig1.tight_layout()
