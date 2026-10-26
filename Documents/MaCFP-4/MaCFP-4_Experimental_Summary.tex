@@ -1341,21 +1341,52 @@ The arithmetic mean and standard deviation (`Std Dev') of each of these values a
 
 \subsection{Cone Calorimeter}
 
-Key measurement data from cone calorimeter tests include: initial sample-area-normalized heat release rate, $\dot{Q}''$~(kW/m$^2$), sample mass, $m$ (g), and in depth or back surface temperature, $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement. For most tests, recording frequencies were close to or equal to 1~Hz. For all tests, the data was linearly interpolated to 1~Hz. 
+Key measurement data from cone calorimeter tests include heat release rate normalized by the initial exposed sample area, $\dot{Q}''$~(kW/m$^2$), sample mass, $m$~(g), and in-depth or back-surface temperature, $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement. In addition, initial sample mass, time to ignition, and time to flameout were reported for individual experiments where available. For most tests, recording frequencies were close to or equal to 1~Hz. For comparison and averaging, the submitted time-resolved data were linearly interpolated to regular 1~s intervals (1~Hz).
+
+\textbf{Data Processing} \\
+When repeated measurements were available (submitted by the same or different lab(s) under the same incident heating conditions), average HRR was calculated at each time step, $t_i$, as the mean value reported from all repeated tests:
+
+\begin{equation}
+  \overline{\dot{Q}i''} =
+  \frac{1}{\sum{j=1}^{N} N_{i,j}}
+  \sum_{j=1}^{N}
+  \sum_{i'=i-n}^{i+n}
+  \dot{Q}_{i',j}''
+\end{equation}
+
+where $N$ is the number of repeated experiments and $N_{i,j}$ is the number of available measurements from experiment $j$ within the interval $(i-n) \leq i' \leq (i+n)$. Here, $n=2$, corresponding to five consecutive measurements at 1~s intervals and therefore a 4~s time span. The standard error of the mean, $\sigma_{\mathrm{mean},i}$, was calculated at each time step, $t_i$, as:
+
+\begin{equation}
+  \sigma_{\mathrm{mean},i} =
+  \sqrt{
+  \frac{
+  \displaystyle
+  \sum_{j=1}^{N}
+  \sum_{i'=i-n}^{i+n}
+  \left(
+  \dot{Q}{i',j}'' -
+  \overline{\dot{Q}{i'}''}
+  \right)^2
+  }{
+  \left(\displaystyle\sum_{j=1}^{N} N_{i,j}\right)
+  \left(\displaystyle\sum_{j=1}^{N} N_{i,j}-1\right)
+  }}
+\end{equation}
 
 \subsubsection{Heat Release Rate}
 
-Three institutions submitted a total of 9 cone calorimeter datasets from tests conducted at 30~kW/m$^2$ ( $j=3$ per institution). Two institutions submitted a total of 10 cone calorimeter datasets from tests conducted at 50~kW/m$^{-2}$ ($4\le j\le6$ repeats per institution). Two institutions submitted a total of 7 cone calorimeter datasets from tests conducted at 60~kW/m$^{-2}$ ($3\le j\le4$ repeats per institution). Figures~\ref{Fig:Cone_30kWindivHRR}, \ref{Fig:Cone_50kWindivHRR}, and \ref{Fig:Cone_60kWindivHRR} plot measured area-normalized heat release rate (HRR) from each of these experiments. As seen here, HRR spikes after sample ignition before quickly dropping and maintaining a lower, relatively steady value (this behavior is typical of charring materials). Later in each test, a second rise in HRR is observed as the sample heats through to its back surface; typically, HRR does not return to 0 at the end of tests due to continued smoldering of the residual char. 
+Heat release rate measurements were available from 91 cone calorimeter experiments conducted by 10 institutions at incident heat fluxes of 25, 30, 45, 50, 60, and 75~kW/m$^2$, as summarised in Table~\ref{Table}. The largest datasets were obtained at 60, 30, and 50~kW/m$^2$, comprising 24, 20, and 17 experiments, respectively. Measurements were performed with the wood grain oriented both parallel and perpendicular to the exposed sample surface; however, the dataset is dominated by the parallel orientation, with 70 parallel and 21 perpendicular tests. Furthermore, perpendicular-orientation measurements were generally contributed by only a single institution at a given heat flux. Only at 75~kW/m$^2$ are perpendicular-orientation data available from two institutions.
 
-Measurements submitted by ‘Mallard’ (green curves in Figs.~\ref{Fig:Cone_30kWindivHRR} and \ref{Fig:Cone_60kWindivHRR}) have a qualitatively different HRR profile - likely this is because this data comes from mass loss calorimetry experiments. In these tests, HRR is calculated based on temperature measurements made in the exhaust flow; this approach appears to underestimate HRR at the end of tests, though ignition and early heat release behavior appear to be well-captured. Due to variations in test duration between submissions (i.e., how long samples were allowed to continue smoldering later in each test), care should be taken when comparing derived values of char/residue yield, total heat released, and heat of combustion.
+Figures~\ref{Fig:Cone_30kWindivHRR}, \ref{Fig:Cone_50kWindivHRR}, and \ref{Fig:Cone_60kWindivHRR} plot measured area-normalized heat release rate (HRR) from individual experiments conducted at 30, 50, and 60~kW/m$^2$, respectively.  As seen here, HRR spikes after sample ignition before quickly dropping and maintaining a lower, relatively steady value (this behavior is typical of charring materials). Later in each test, a second rise in HRR is observed as the sample heats through to its back surface; typically, HRR does not return to 0 at the end of tests due to continued smoldering of the residual char. 
+
+Measurements submitted by ‘Mallard’ (violet curves in Figs.~\ref{Fig:Cone_30kWindivHRR} and \ref{Fig:Cone_60kWindivHRR}) have a qualitatively different HRR profile - likely this is because this data comes from mass loss calorimetry experiments. In these tests, HRR is calculated based on temperature measurements made in the exhaust flow; this approach appears to underestimate HRR at the end of tests, though ignition and early heat release behavior appear to be well-captured. Apart from the Mallard measurements, the HRR curves generally retain a similar overall shape and show relatively good agreement in the timing of the first HRR peak, although its magnitude varies between experiments. Larger differences are observed for the second HRR peak, for which both the magnitude and timing can vary substantially between datasets, with shifts in peak position on the order of several hundred seconds in some cases. Due to variations in test duration between submissions (i.e., how long samples were allowed to continue smoldering later in each test), care should be taken when comparing quantities that depend on the total area under the HRR curve or on the state of the sample at the end of the measurement, including char/residue yield, total heat released, and heat of combustion.
 
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Wood_30kW_hor_HRR.pdf}
-  \caption{Measured heat release rate in cone calorimeter tests at 30 kW/m$^2$. Curves for each institution represent heat release rate measurements from individual experiments. `Mallard' HRR curves are determined by mass loss calorimetry; all other HRR measurements are determined by oxygen consumption calorimetry.}
+  \caption{Measured heat release rate in cone calorimeter tests at 30 kW/m$^2$. Curves for each institution represent heat release rate measurements from individual experiments. `Mallard' HRR curves are determined by mass loss calorimetry; all other HRR measurements are determined by oxygen consumption calorimetry. The `Saxony' measurements continue beyond the time range shown; this portion of the data is omitted because HRR changes only marginally during the extended test period.}
   \label{Fig:Cone_30kWindivHRR}
 \end{figure}
-
 
 \begin{figure}
   \centering
@@ -1367,28 +1398,16 @@ Measurements submitted by ‘Mallard’ (green curves in Figs.~\ref{Fig:Cone_30k
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Wood_60kW_hor_HRR.pdf}
-  \caption{Measured heat release rate in cone calorimeter tests at 60 kW/m$^2$. Curves for each institution represent heat release rate measurements from individual experiments. `Mallard' HRR curves are determined by mass loss calorimetry; all other HRR measurements are determined by oxygen consumption calorimetry.}
+  \caption{Measured heat release rate in cone calorimeter tests at 60 kW/m$^2$. Curves for each institution represent heat release rate measurements from individual experiments. `Mallard' HRR curves are determined by mass loss calorimetry; all other HRR measurements are determined by oxygen consumption calorimetry. The `Saxony' measurements continue beyond the time range shown; this portion of the data is omitted because HRR changes only marginally during the extended test period.}
   \label{Fig:Cone_60kWindivHRR}
 \end{figure}
 
-When repeated measurements were available (submitted by the same or different lab(s) under the same incident heating conditions) average HRR was calculated at each time step, $t_i$, as the mean value reported from all repeated tests, $N_j$:
-\begin{equation}
-  \overline{\dot{Q}_i''} = \frac{1}{\sum_{j=1}^{N_j}N_i} \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \dot{Q}_{i',j}''
-\end{equation}
-where $N_i$ is equal to the number of measurements from an individual experiment, $j$, reported in the interval $(i-n) \leq i \leq (i+n)$ and $n=2$ because it is assumed that variations in measurements should be minimal within a 4~s interval. The standard deviation of the mean, $\sigma_{mean,i}$, is calculated at each time step, $t_i$, as:
-\begin{equation}
-   \sigma_{mean,i} = \sqrt[]{\left(\frac{1}{(\sum_{j=1}^{N_j}N_i)((\sum_{j=1}^{N_j}N_i)-1)}   \sum_{j=1}^{N_j} \sum_{i'=i-n}^{i+n} \left( \dot{Q}_{i',j}'' - \overline{\dot{Q}_i''} \right)\right)}
-\end{equation}
-
-
-Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves from cone calorimeter tests conducted at 30, 50, and 60~kW/m$^2$. Average curves presented here represent the aggregate of data as received.
-Some data may require corrections by the original institution. Heat release rate measurements from cone calorimeter experiments conducted by all labs and under all external heating conditions (both individual measurements and average values, plotted with associated uncertainties) are supplied in the Supplemental Information section.
+Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves calculated from all available measurements at each incident heat flux, including both parallel- and perpendicular-orientation tests where available. Apparent changes in slope at later times can result from individual datasets ending at different times. Although the resulting average curves appear relatively smooth and consistent, their characteristic peaks may arise from averaging individual measurements that differ substantially in both peak magnitude and timing. Heat release rate measurements from all cone calorimeter experiments, including individual and averaged curves with associated uncertainties, are provided in the Supplemental Information \ref{Cone_HRR}.
 
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR.pdf}
-  \caption{Comparison of average measured HRR in cone calorimeter tests at incident heat fluxes, $\dot{q}_{\rm ext}''$, of 30~kW/m$^{-2}$, 50~kW/m$^{-2}$, and 60~kW/m$^2$. Average curves are calculated using all submitted data from tests conducted under the same conditions, excluding outliers, as noted above; shaded areas represent $2\sigma_{mean,i}$. Light-shaded curves indicate HRR measurements obtained in individual experiments.}
-  \label{Fig:Cone-Calorimeter-all-fluxes}
+\caption{Comparison of average measured HRR in cone calorimeter tests at different incident heat fluxes, $\dot{q}_{\rm ext}''$. Average curves were calculated using all available measurements at each heat flux, including both parallel- and perpendicular-orientation tests where available, except for the Mallard' measurements obtained by mass loss calorimetry and two Cayuga' measurements at 25~kW/m$^2$ with substantially different ignition times. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
 \end{figure}
 
 \newpage
