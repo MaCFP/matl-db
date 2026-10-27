@@ -367,6 +367,79 @@ def average_cone_grain_series(series_name: str, exclude: Optional[Union[str, Lis
 
     return df_average
 
+def average_cone_paths(paths):
+    """Calculate average HRR and its standard error for a supplied list of Cone paths."""
+
+    Dataframes = []
+
+    for path in paths:
+        df_raw = pd.read_csv(path)
+
+        t_floor = np.ceil(df_raw["Time (s)"].iloc[0])
+        t_ceil = np.floor(df_raw["Time (s)"].iloc[-1])
+
+        if pd.isna(t_floor) or pd.isna(t_ceil) or t_ceil <= t_floor:
+            continue
+
+        InterpT = np.arange(t_floor, t_ceil + 1, 1)
+        df_interp = pd.DataFrame(index=range(len(InterpT)))
+
+        for column in df_raw.columns:
+            df_interp[column] = np.interp(
+                InterpT, df_raw["Time (s)"], df_raw[column]
+            )
+
+        Dataframes.append(df_interp)
+
+    if len(Dataframes) == 0:
+        return None
+
+    merged_df = Dataframes[0]
+
+    for df in Dataframes[1:]:
+        merged_df = pd.merge(
+            merged_df,
+            df,
+            on="Time (s)",
+            how="outer",
+            suffixes=("", f" {int(len(merged_df.columns)/2+0.5)}")
+        )
+
+    merged_df.rename(
+        columns={'HRR (kW/m2)': "HRR (kW/m2) 1"},
+        inplace=True
+    )
+
+    HRR_cols = merged_df.filter(regex=r'^HRR \(kW/m2\)').columns
+
+    df_average = pd.DataFrame({'Time (s)': merged_df['Time (s)']})
+
+    n = 2
+
+    sum_hrr = merged_df[HRR_cols].rolling(
+        2*n+1, min_periods=1, center=True
+    ).sum().sum(axis=1)
+
+    cnt_hrr = merged_df[HRR_cols].rolling(
+        2*n+1, min_periods=1, center=True
+    ).count().sum(axis=1)
+
+    df_average['HRR (kW/m2)'] = sum_hrr / cnt_hrr
+
+    diff = merged_df[HRR_cols].sub(
+        df_average['HRR (kW/m2)'], axis=0
+    )**2
+
+    sum_diff = diff.rolling(
+        2*n+1, min_periods=1, center=True
+    ).sum().sum(axis=1)
+
+    df_average['unc HRR (kW/m2)'] = np.sqrt(
+        sum_diff / (cnt_hrr * (cnt_hrr - 1))
+    )
+
+    return df_average
+
 def average_Gas_series(series_name: str)->pd.DataFrame:
     """Calculate average mass and MLR for a test series."""
     paths = list(DATA_DIR.glob(f"*/*{series_name}_[rR]*.csv"))
@@ -1704,7 +1777,138 @@ fig_grain_both.tight_layout()
 fig_grain_both.savefig(str(base_dir) + '/Cone/Cone_Average_HRR_grain_both_orientations.{}'.format(ex))
 plt.close(fig_grain_both)
 
+# Average HRR plots for each grain orientation separately
 
+for orientation in ['Parallel', 'Perpendicular']:
+
+    fig_orientation, ax_orientation = plt.subplots(figsize=(6, 4))
+
+    for flux in cone_flux:
+
+        paths = [
+            p for p in Cone_Data
+            if f'_Cone_{flux}_hor' in p.stem
+        ]
+
+        paths = [
+            p for p in paths
+            if get_grain_orientation(p) == orientation
+        ]
+
+        # Same exclusions as in the other Cone average HRR plots
+        paths = [p for p in paths if 'UMET' not in str(p)]
+        paths = [
+            p for p in paths
+            if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem
+        ]
+        paths = [
+            p for p in paths
+            if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem
+        ]
+
+        if len(paths) == 0:
+            continue
+
+        df_average = average_cone_paths(paths)
+
+        if df_average is None:
+            continue
+
+        ax_orientation.plot(
+            df_average['Time (s)'],
+            df_average['HRR (kW/m2)'],
+            color=cone_color[flux],
+            label=flux + '/m$^2$'
+        )
+
+        ax_orientation.fill_between(
+            df_average['Time (s)'],
+            df_average['HRR (kW/m2)'] - 2*df_average['unc HRR (kW/m2)'],
+            df_average['HRR (kW/m2)'] + 2*df_average['unc HRR (kW/m2)'],
+            color=cone_color[flux],
+            alpha=0.2
+        )
+
+    ax_orientation.set_ylim(bottom=0, top=250)
+    ax_orientation.set_xlim(-50, 2500)
+    ax_orientation.set_xlabel('Time [s]')
+    ax_orientation.set_ylabel('HRR [kW/m$^2$]')
+    ax_orientation.legend()
+
+    fig_orientation.tight_layout()
+
+    fig_orientation.savefig(
+        str(base_dir) + f'/Cone/Cone_Average_HRR_{orientation.lower()}.{ex}'
+    )
+
+    plt.close(fig_orientation)
+
+# Average HRR comparison of grain orientations for each heat flux separately
+
+for flux in cone_flux_both:
+
+    fig_flux_grain, ax_flux_grain = plt.subplots(figsize=(6, 4))
+
+    for orientation in ['Parallel', 'Perpendicular']:
+
+        paths = [
+            p for p in Cone_Data
+            if f'_Cone_{flux}_hor' in p.stem
+        ]
+
+        paths = [
+            p for p in paths
+            if get_grain_orientation(p) == orientation
+        ]
+
+        # Same exclusions as in the other Cone average HRR plots
+        paths = [p for p in paths if 'UMET' not in str(p)]
+        paths = [
+            p for p in paths
+            if 'IMT_Wood_Cone_25kW_hor_R2' not in p.stem
+        ]
+        paths = [
+            p for p in paths
+            if 'IMT_Wood_Cone_25kW_hor_R5' not in p.stem
+        ]
+
+        if len(paths) == 0:
+            continue
+
+        df_average = average_cone_paths(paths)
+
+        if df_average is None:
+            continue
+
+        ax_flux_grain.plot(
+            df_average['Time (s)'],
+            df_average['HRR (kW/m2)'],
+            color=cone_color[flux],
+            linestyle=linestyle_map[orientation],
+            label=orientation
+        )
+
+        ax_flux_grain.fill_between(
+            df_average['Time (s)'],
+            df_average['HRR (kW/m2)'] - 2*df_average['unc HRR (kW/m2)'],
+            df_average['HRR (kW/m2)'] + 2*df_average['unc HRR (kW/m2)'],
+            color=cone_color[flux],
+            alpha=0.2
+        )
+
+    ax_flux_grain.set_ylim(bottom=0, top=250)
+    ax_flux_grain.set_xlim(-50, 2500)
+    ax_flux_grain.set_xlabel('Time [s]')
+    ax_flux_grain.set_ylabel('HRR [kW/m$^2$]')
+    ax_flux_grain.legend()
+
+    fig_flux_grain.tight_layout()
+
+    fig_flux_grain.savefig(
+        str(base_dir) + f'/Cone/Cone_Average_HRR_grain_{flux}.{ex}'
+    )
+
+    plt.close(fig_flux_grain)
 
 # Average gasification MLR plots
 
@@ -3015,62 +3219,95 @@ final_table_sorted['conditions_formatted'] = final_table_sorted['conditions'].ap
 final_table_sorted['grain_orientation_formatted'] = final_table_sorted['conditions'].apply(format_cone_grain_orientation)
 
 # Select and rename columns for the table
-columns_to_keep = ['Duck', 'conditions_formatted', 'grain_orientation_formatted',
-                   'ignition_reported_formatted', 'ignition_calculated_formatted',
-                   'HOC_formatted', 'condition_key']
+columns_to_keep = [
+    'Duck',
+    'conditions_formatted',
+    'grain_orientation_formatted',
+    'ignition_reported_formatted',
+    'ignition_calculated_formatted',
+    'HOC_formatted',
+    'condition_key'
+]
 
 final_latex_table = final_table_sorted[columns_to_keep].copy()
-final_latex_table.columns = ['Institution', 'Conditions', 'Grain orientation',
-                             'Ignition time reported (s)', 'Ignition time calculated (s)',
-                             'HOC (kJ/g)', 'condition_key']
 
-# Generate LaTeX
+final_latex_table.columns = [
+    'Institution',
+    'Conditions',
+    'Grain orientation',
+    'Ignition time reported (s)',
+    'Ignition time calculated (s)',
+    'HOC (kJ/g)',
+    'condition_key'
+]
+
+# Generate LaTeX without header; custom header is inserted below
 latex_string = final_latex_table.to_latex(
     index=False,
     escape=False,
-    column_format='llcccccc',
-    columns=['Institution', 'Conditions', 'Grain orientation',
-             'Ignition time reported (s)', 'Ignition time calculated (s)', 'HOC (kJ/g)']
+    header=False,
+    column_format='llcccc',
+    columns=[
+        'Institution',
+        'Conditions',
+        'Grain orientation',
+        'Ignition time reported (s)',
+        'Ignition time calculated (s)',
+        'HOC (kJ/g)'
+    ]
 )
 
-# Modify the string
-latex_string = latex_string.replace('\\toprule', '\\hline')
-latex_string = latex_string.replace('\\midrule', '\\hline')
+# Custom two-line header
+header = (
+    '\\hline\n'
+    '\\textbf{Institution} & '
+    '\\textbf{Conditions} & '
+    '\\textbf{Grain orientation} & '
+    '\\textbf{Ignition time} & '
+    '\\textbf{Ignition time} & '
+    '\\textbf{HOC} \\\\\n'
+    ' & '
+    ' & '
+    ' & '
+    '\\textbf{reported (s)} & '
+    '\\textbf{calculated (s)} & '
+    '\\textbf{(kJ/g)} \\\\\n'
+    '\\hline'
+)
+
+latex_string = latex_string.replace('\\toprule', header)
 latex_string = latex_string.replace('\\bottomrule', '\\hline')
+
+# Add footnote
 latex_string = latex_string.replace(
     '\\end{tabular}',
     '\\end{tabular}\n\\\\\n$^*$ Parallel grain orientation assumed when not explicitly specified in the original dataset filenames.'
 )
-
-# Make column headers bold
-for col in ['Institution', 'Conditions', 'Grain orientation',
-            'Ignition time reported (s)', 'Ignition time calculated (s)', 'HOC (kJ/g)']:
-    latex_string = latex_string.replace(col, '\\textbf{'+col+'}')
-
 
 # Add blank lines between different condition groups
 lines = latex_string.split('\n')
 new_lines = []
 prev_flux = None
 
-# Track condition keys as we iterate through table rows
 condition_keys = final_latex_table['condition_key'].tolist()
 data_row_index = 0
 
-for i, line in enumerate(lines):
+for line in lines:
 
-    # Check if this is a data row
-    if '&' in line and '\\textbf' not in line and '\\hline' not in line:
+    # Data rows only
+    if (
+        '&' in line
+        and '\\textbf' not in line
+        and '\\hline' not in line
+    ):
 
         current_condition_key = condition_keys[data_row_index]
 
-        # Extract only heat flux (e.g. 25kW, 50kW)
         if isinstance(current_condition_key, list):
             current_flux = current_condition_key[0]
         else:
             current_flux = current_condition_key.split('_')[0]
 
-        # Add small vertical spacing only when flux changes
         if prev_flux is not None and current_flux != prev_flux:
             new_lines.append('\\noalign{\\vskip 6pt}')
 
