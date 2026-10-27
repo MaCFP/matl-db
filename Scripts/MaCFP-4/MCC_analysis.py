@@ -24,14 +24,14 @@ from TGA_analysis import Calculate_dm_dt, average_tga_series
 #region Save plots as pdf or png
 ex = 'pdf' #options 'pdf' or 'png
 
-# TO DO: when prelim document pushed to main repo replace
-'../../../matl-db-organizing-committee/' #with
-'../../Documents/'
 
 #region create subdirectories to save plots.
 base_dir = Path('../../Documents/SCRIPT_FIGURES')
 Average_dir = base_dir / 'MCC' / 'Average'
 Average_dir.mkdir(parents=True, exist_ok=True)
+Baseline_dir = base_dir / 'MCC' / 'Baseline'
+Baseline_dir.mkdir(parents=True, exist_ok=True)
+
 
 
 # linear function for fitting
@@ -1186,9 +1186,8 @@ def baseline_correct_MCC(df_raw, name, order=3):
 
 
     df["HRR (W/g)"] = (df["HRR (W/g)"] - y_fit).round(3)
+    
     # Only keep data between baseline points
-
-
     df = df.iloc[int(index_before[0]) : int(index_end + 1)]
     df.drop("SMA", axis=1, inplace=True)
     df.drop("HRR (W/g) smooth", axis=1, inplace=True)

@@ -674,7 +674,6 @@ with open(base_dir / 'DSC' / 'DSC_Appendix_N2_Individual.tex', 'w') as f:
 #------------------------------------
 # only for STA data
 STA_Data = [p for p in device_data(DATA_DIR, 'STA') if '_N2_' in p.name]
-
 # Initialize list to store results
 results = []
 
@@ -746,6 +745,7 @@ for exp in STA_Data:
     # Integrate corrected heat flow rate with respect to time
     value = np.trapezoid(df_subset['HF_corrected'], df_subset['Time (s)']) / (M1 - M2)
 
+
     # Store results
     results.append({
         'Experiment': exp.stem,
@@ -753,17 +753,24 @@ for exp in STA_Data:
         'Mass_norm_1(g/g)': M1,
         'Mass_norm_2(g/g)': M2,
     })
-# print(results)
 
 # Create DataFrame from results
 results_df = pd.DataFrame(results)
 
 results_df['Institution'] = results_df['Experiment'].str.split('_').str[0].apply(lambda x: label_def(x)[0])
-results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d+(?:\.\d+)?)K_')[0].astype(float)
 
+mask = results_df['Experiment'].str.startswith('UMD_Wood_STA_N2_30K')
+extra_info = results_df.loc[mask, 'Experiment'].str.split('_').str[-2]
+
+results_df.loc[mask, 'Institution'] = results_df.loc[mask, 'Institution'] + ',' + extra_info
+
+results_df['Heating Rate (K/min)'] = results_df['Experiment'].str.extract(r'_(\d+(?:\.\d+)?)K_')[0].astype(float)
 # Group by institution and conditions, number the repetitions
+print()
 results_df['Repetition'] = results_df.groupby(['Institution', 'Heating Rate (K/min)']).cumcount() + 1
+rep_order = [f'R{i}' for i in sorted(results_df['Repetition'].unique())]
 results_df['Repetition'] = 'R' + results_df['Repetition'].astype(str)
+results_df['Repetition'] = pd.Categorical(results_df['Repetition'], categories=rep_order, ordered=True)
 
 # Calculate mean and standard deviation for each institution and heating rate
 group_stats = results_df.groupby(['Heating Rate (K/min)', 'Institution'])['Heat of Reaction (J/g)'].agg(['mean', 'std']).reset_index()
@@ -809,6 +816,7 @@ final_table = pd.concat([final_table, pd.DataFrame([overall_row])], ignore_index
 repeat_cols = [col for col in final_table.columns if str(col).startswith('R')]
 columns = ['Institution', 'Heating Rate (K/min)'] + repeat_cols + ['Mean ± SD']
 final_table = final_table[columns]
+final_table = final_table.rename(columns={'Heating Rate (K/min)': r'$\beta$ (K/min)'})
 
 # Convert to LaTeX
 latex_table = final_table.to_latex(
