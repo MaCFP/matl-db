@@ -1409,8 +1409,147 @@ Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves calculated
 \begin{figure}
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR.pdf}
-\caption{Comparison of average measured HRR in cone calorimeter tests at different incident heat fluxes, $\dot{q}_{\rm ext}''$. Average curves were calculated using all available measurements at each heat flux, including both parallel- and perpendicular-orientation tests where available, except for the Mallard' measurements obtained by mass loss calorimetry and two Cayuga' measurements at 25~kW/m$^2$ with substantially different ignition times. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\caption{Comparison of average measured HRR in cone calorimeter tests at different incident heat fluxes, $\dot{q}_{\rm ext}''$. Average curves were calculated using all available measurements at each heat flux, including both parallel- and perpendicular-orientation tests where available, except for the `Mallard' measurements obtained by mass loss calorimetry and two Cayuga' measurements at 25~kW/m$^2$ with substantially different ignition times. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\label{Fig:Cone-Calorimeter-all-fluxes}
 \end{figure}
+
+\textbf{Effect of Grain Orientation} \\
+To separate the effect of grain orientation from the overall experimental variability, the HRR data were averaged separately for samples with the grain oriented parallel and perpendicular to the exposed surface. The resulting curves in Figs.~\ref{Fig:Cone_Average_HRR_parallel} and \ref{Fig:Cone_Average_HRR_perpendicular} therefore no longer combine measurements with different grain orientations, and the remaining spread reflects repeatability within individual laboratories and reproducibility between laboratories. However, these sources of variability can still strongly affect the shape of the averaged curves. In particular, differences in the magnitude and timing of individual HRR peaks, as well as differences in test duration, can produce broadened or apparently additional peaks and abrupt changes that do not necessarily represent distinct physical burning phenomena.
+
+\begin{figure}
+\centering
+\includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_parallel.pdf}
+\caption{Comparison of average measured HRR in cone calorimeter tests for samples with the wood grain oriented \textbf{parallel} to the exposed surface at different incident heat fluxes. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\label{Fig:Cone_Average_HRR_parallel}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_perpendicular.pdf}
+\caption{Comparison of average measured HRR in cone calorimeter tests for samples with the wood grain oriented \textbf{perpendicular} to the exposed surface at different incident heat fluxes. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\label{Fig:Cone_Average_HRR_perpendicular}
+\end{figure}
+
+A systematic difference is visible in the perpendicular-orientation averages in Fig.~\ref{Fig:Cone_Average_HRR_perpendicular} at 30, 60, and 75~kW/m$^2$, where measurements from `Saxony' do not exhibit the pronounced second HRR peak observed in most other datasets. The same tendency is also present in the parallel-orientation measurements, but is less apparent after averaging with data from the other laboratories. This behaviour may be related to differences in the rear-surface thermal boundary condition, in particular the use of an Al$_2$O$_3$ ceramic backing plate in the `Saxony' cone calorimeter tests. Such a backing can alter heat transfer at the rear surface of the specimen and may therefore suppress or broaden the second HRR peak associated with heat accumulation at the back side of the sample.
+
+For a more direct comparison of the effect of grain orientation, Figs.~\ref{Fig:Cone_Average_HRR_grain_25kW} and \ref{Fig:Cone_Average_HRR_grain_50kW} compare the average HRR curves for parallel and perpendicular grain orientations at incident heat fluxes of 25 and 50~kW/m$^2$, respectively.  In both cases, the perpendicular orientation exhibits an earlier and more sharply defined second HRR peak, with a deeper preceding minimum and a somewhat higher peak magnitude than the corresponding parallel orientation. These systematic differences demonstrate that grain orientation has a clear influence on the HRR evolution and should therefore be reported explicitly and treated as an important experimental parameter for this material rather than neglected or combined within a single average. The corresponding comparisons for the remaining incident heat fluxes for which measurements in both orientations are available are provided in Appendix~\ref{Cone_HRR}.
+
+\begin{figure}
+\centering
+\includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_grain_25kW.pdf}
+\caption{Comparison of average measured HRR for samples with the wood grain oriented parallel and perpendicular to the exposed surface at an incident heat flux of 25~kW/m$^2$. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\label{Fig:Cone_Average_HRR_grain_25kW}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_grain_50kW.pdf}
+\caption{Comparison of average measured HRR for samples with the wood grain oriented parallel and perpendicular to the exposed surface at an incident heat flux of 50~kW/m$^2$. Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\label{Fig:Cone_Average_HRR_grain_50kW}
+\end{figure}
+
+\newpage
+
+\subsubsection{Time to Ignition}
+
+Time to ignition, $t_{\rm ign}$, an important value especially for fire growth prediction, was primarily determined from the measured HRR in each cone calorimeter experiment as the first time at which $\dot{Q}'' \ge 24$~kW/m$^2$~\cite{lyon2007criteria, DietenbergerHasburghYedinak2021}. This value was identified as an ignition criterion for a variety of combustible solids and was confirmed to be consistent with the ignition of wood~\cite{DietenbergerHasburghYedinak2021}. Calculated ignition times were only determined for experiments in which this threshold was reached. During the analysis, however, differences were observed between the ignition times determined using this criterion and values reported by the contributing institutions. Therefore, where available, reported ignition times were also extracted from the accompanying dataset documentation.
+
+The arithmetic mean and standard deviation (`Std Dev') of the time to ignition are reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. Calculated and reported ignition times were retained separately to allow their consistency to be assessed directly. For each quantity, the uncertainty reported in the table corresponds to one standard deviation of the repeated measurements at a given exposure condition.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of cone calorimeter results: reported and calculated time to ignition, $t_{\rm ign}$~(s), and heat of combustion, HOC~(kJ/g of mass lost). Values are reported as arithmetic mean $\pm$ one standard deviation for repeated measurements.}
+\label{tab:wood_cone_results}
+\small
+\input{../SCRIPT_FIGURES/Cone/Cone_Values.tex}
+\end{table}
+
+Figure~\ref{Fig:Cone_Ignition_time_calculated_vs_reported} compares the calculated and reported ignition times for experiments for which both values were available. In most cases, the two values show relatively good agreement, with differences typically limited to a few seconds. However, calculated ignition times tend to be slightly higher than the corresponding reported values. This difference may partly reflect uncertainties in the reported ignition times, including operator judgement and difficulties in identifying the exact onset of sustained flaming during the experiments.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=4.5in]{../SCRIPT_FIGURES/Cone/Cone_Ignition_time_calculated_vs_reported.pdf}
+  \caption{Comparison of calculated and reported ignition times in cone calorimeter experiments for which both values were available. Calculated ignition time is defined as the first time at which HRR reaches or exceeds 24~kW/m$^2$. The dashed line represents one-to-one agreement.}
+  \label{Fig:Cone_Ignition_time_calculated_vs_reported}
+\end{figure}
+
+Figures~\ref{Fig:Cone_Ignition_time_vs_Flux} summarize the repeatability and reproducibility of the calculated and reported ignition times. Repeatability within individual laboratories is generally good, with the notable exception of `Rouen', where the spread is approximately twice as large as in most other datasets. For nearly every incident heat flux, two repeated measurements from `Rouen' show very similar ignition times, while the third differs substantially. As sample preconditioning was not specified, the origin of these differences remains unclear. Despite this, interlaboratory agreement is generally good across the investigated heat fluxes, with the largest differences observed at 25~kW/m$^2$. Furthermore, samples with the grain oriented perpendicular to the exposed surface tend to exhibit systematically longer ignition times than those with parallel orientation.
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.80\textwidth}
+   \includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_time_calculated_vs_Flux.pdf}
+   \caption{}
+   \label{Fig:Cone_Ignition_time_calculated_vs_Flux}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.80\textwidth}
+   \includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_time_reported_vs_Flux.pdf}
+   \caption{}
+   \label{Fig:Cone_Ignition_time_reported_vs_Flux}
+\end{subfigure}
+
+\caption{Comparison of (a) calculated and (b) reported ignition times as a function of incident heat flux in cone calorimeter experiments. Symbols represent the arithmetic mean of repeated measurements for each institution and grain orientation, while error bars indicate the minimum and maximum values.}
+\label{Fig:Cone_Ignition_time_vs_Flux}
+\end{figure}
+
+
+\textbf{Critical Heat Flux} \\
+
+Time-to-ignition measurements can also be used to estimate the critical heat flux for ignition, $\dot{q}_{\rm cr}''$. For thermally thick materials, assuming one-dimensional heat conduction and a constant ignition temperature, the following approximation for ignition at short times, when heat losses from the exposed surface can be neglected~\cite{Quintiere2006}:
+
+\begin{equation}
+t_{\rm ign} \approx \frac{\pi}{4}k\rho c
+\left(
+\frac{T_{\rm ign}-T_{\infty}}{\dot{q}_{\rm ext}''}
+\right)^2
+\end{equation}
+
+where $k$, $\rho$, and $c$ are the thermal conductivity, density, and specific heat capacity, respectively, and $T_{\rm ign}$ and $T_{\infty}$ are the ignition and initial temperatures. This relationship suggests an approximately linear dependence of $t_{\rm ign}^{-1/2}$ on the incident heat flux. When surface heat losses are taken into account, this relationship can be approximated by:
+
+\begin{equation}
+t_{\rm ign}^{-1/2} \approx C\left(\dot{q}_{\rm ext}''-\dot{q}_{\rm cr}''\right)
+\end{equation}
+
+where $C$ is a proportionality constant. Consequently, the apparent critical heat flux can be estimated by extrapolating the linear relationship between $t_{\rm ign}^{-1/2}$ and $\dot{q}_{\rm ext}''$ to $t_{\rm ign}^{-1/2}=0$.
+
+Figures~\ref{Fig:Cone_Ignition_time_inv_sqrt_mean_vs_Flux}(a) and (b) show this relationship for the calculated and reported ignition times, respectively, while the corresponding regression equations, coefficients of determination ($R^2$), and estimated critical heat fluxes are summarised in Table~\ref{tab:wood_cone_critical_heat_flux}. An approximately linear trend is observed for most datasets, although the regression slopes differ between laboratories. Differences are also apparent between grain orientations, with perpendicular samples generally exhibiting lower values of $t_{\rm ign}^{-1/2}$, consistent with their longer ignition times.
+
+\begin{figure}[h!]
+\centering
+\begin{subfigure}[b]{0.95\textwidth}
+   \includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_time_calculated_inv_sqrt_mean_vs_Flux.pdf}
+   \caption{}
+   \label{Fig:Cone_Ignition_time_calculated_inv_sqrt_mean_vs_Flux}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.95\textwidth}
+   \includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_time_reported_inv_sqrt_mean_vs_Flux.pdf}
+   \caption{}
+   \label{Fig:Cone_Ignition_time_reported_inv_sqrt_mean_vs_Flux}
+\end{subfigure}
+
+\caption{Inverse square root of (a) calculated and (b) reported ignition times as a function of incident heat flux in cone calorimeter experiments. Symbols represent arithmetic mean values for each institution and grain orientation, with error bars indicating $\pm 1$ standard deviation. Coloured lines represent linear regressions for individual institutions and grain orientations, while black lines represent regressions of the combined data for parallel and perpendicular grain orientations. The intersections of the regression lines with the horizontal axis provide estimates of the apparent critical heat flux.}
+\label{Fig:Cone_Ignition_time_inv_sqrt_mean_vs_Flux}
+\end{figure}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Linear regression equations, coefficients of determination ($R^2$), and estimated apparent critical heat fluxes (CHF) obtained from the mean calculated and reported ignition times for individual institutions and grain orientations.}
+  \label{tab:wood_cone_critical_heat_flux}
+  \resizebox{\textwidth}{!}{%
+    \input{../SCRIPT_FIGURES/Cone/Cone_Ignition_time_inv_sqrt_regressions_mean.tex}
+  }
+\end{table}
+
+Despite relatively high coefficients of determination for most individual datasets, several regressions yield negative estimates of the critical heat flux, which are not physically meaningful. Using reported rather than calculated ignition times generally improves the estimates, but does not eliminate this problem. This demonstrates that the extrapolated critical heat flux is highly sensitive to relatively small differences in ignition time, even when the corresponding regressions exhibit good linearity.
+
+One possible explanation is the insufficient resolution of ignition behaviour at low incident heat fluxes. As the lowest applied heat flux was 25~kW/m$^2$, the measurements may not adequately capture the behaviour close to the critical heat flux, making extrapolation to this region unreliable. This limitation is particularly relevant for wood, for which \cite{SpearpointQuintiere2001} reported changes in ignition behaviour at low heat fluxes and observed ignition at fluxes as low as approximately 10~kW/m$^2$.
+
+Differences in sample preparation, particularly moisture content and conditioning, may also contribute to the observed interlaboratory variability. However, this information was missing or insufficiently documented for many participating institutions, preventing a systematic assessment of its influence. This highlights the importance of more consistent documentation of sample preparation and conditioning in future experimental datasets.
+
+Furthermore, discrepancies between calculated and reported ignition times may partly arise from differences in time synchronisation or data acquisition resolution. For example, reported ignition times for `Rouen' were found to precede a noticeable increase in HRR by approximately 10--15~s in some experiments. One possible explanation is an incorrect correction for the transport delay between combustion gas generation at the specimen and gas analysis in the cone calorimeter exhaust system, where the oxygen concentration is measured to determine HRR. However, this could not be verified from the available data. In addition, data from `Pekin' were recorded at 5~s intervals, limiting the temporal resolution of ignition time determination. These factors introduce additional uncertainty into the regressions. Consequently, the estimated critical heat flux values should be interpreted with considerable caution and should not be regarded as reliable quantitative measures of the ignition threshold.
+
 
 \newpage
 \subsubsection{Temperature measurements}
@@ -1469,19 +1608,8 @@ Temperature measurements were made at the top surface, back surface and in depth
 %
 \subsubsection{Tabulated values of interest}
 
-Time to ignition, $t_{\rm ign}$, in each cone calorimeter experiment is defined as the time at which $\dot{Q}'' \ge 24$~kW/m$^2$~\cite{lyon2007criteria, DietenbergerHasburghYedinak2021}. This value was found as ignition criteria for a variety of combustible solids, and was confirmed to be consistent with the ignition of wood \cite{DietenbergerHasburghYedinak2021}. The arithmetic mean and standard deviation (`Std Dev') of this time to ignition is reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average value at a given exposure condition.
-
 Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{Q}'' \ge 24$~kW/m$^2$ (a criteria for the critical energy release rate required for piloted ignition of solids in the cone calorimeter~\cite{lyon2007criteria}). The arithmetic mean and standard deviation (`Std Dev') of $\Delta H_{\rm c}$ is reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average value at a given exposure condition.
 
-
-
-\begin{table}[htbp]
-	\centering
-	\caption{Tabulated values of interest: Ignition time, $t_{\rm ign}$~(s), and Heat of Combustion (kJ/g, per gram mass lost) in Cone Calorimeter tests.}
-	\label{tab:wood_cone_results}
-	\small
-	\input{../SCRIPT_FIGURES/Cone/Cone_Values.tex}
-\end{table}
 
 
 \newpage
