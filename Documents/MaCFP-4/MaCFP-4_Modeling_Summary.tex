@@ -17,6 +17,7 @@
 \usepackage{enumitem}
 \usepackage{makecell}
 \usepackage{tocloft}
+\usepackage{natbib}
 \usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography and index in the ToC
 
 \usepackage{pifont}
@@ -24,7 +25,7 @@
 \newcommand{\xmark}{\ding{55}} % ✗
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric}
-
+\pdfminorversion=7 %allow newer versions of .pdfs to be used as images
 
 \pagestyle{fancy}
 \rhead{}
@@ -139,11 +140,11 @@ verbose]{hyperref}
 	\section*{Preface}
 	\addcontentsline{toc}{section}{\protect\numberline{}Preface}
 	\thispagestyle{fancy}
-	This report has been prepared on behalf of the MaCFP Condensed Phase Working Group. All modeling results presented here have been submitted voluntarily by participants of the MaCFP-4 Pyrolysis Model Calibration Exercise~\cite{MaCFP4Guidelines}. These calibrated material property sets, related predictions of material decomposition behavior (in response to idealized heating scenarios), and the corresponding meta-analysis provided in this document are presented here for subject matter experts to provide critical review and to ensure the integrity of the results submitted to the MaCFP-4 Condensed Phase Workshop. 
+	This report has been prepared on behalf of the Measurement and Computation of Fire Phenomena (MaCFP) Condensed Phase Working Group. All modeling results presented here have been submitted voluntarily to the MaCFP-4 Workshop by participants of the Pyrolysis Model Calibration Exercise~\cite{MaCFP4Guidelines}. These calibrated material property sets, related predictions of material decomposition behavior (in response to idealized heating scenarios), and the corresponding meta-analysis provided in this document are presented here for subject matter experts to provide critical review and to ensure the integrity of the results submitted to the MaCFP-4 Condensed Phase Workshop. 
 	
-	Modelers were not provided limitations or suggestions regarding their pyrolysis model parameterization (i.e., calibration) approach; however, they were required to use either (a) at least one of the milligram-scale datasets (e.g., TGA or DSC) and one gram-scale experiment (e.g., cone calorimetry or controlled atmosphere gasification experiments), or (b) at least two of the gram-scale experiments available in the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{Calibration\_Data section} of the MaCFP repository. A summary of the experimental measurements used for material property calibration discussed in this report is available elsewhere~\cite{MaCFP4PyrolysisExp}.
+	Modelers were not provided limitations or suggestions regarding their pyrolysis model parameterization approach (i.e., material property calibration); however, they were required to use either (a) at least one of the milligram-scale datasets (e.g., TGA or DSC) and one gram-scale experiment (e.g., cone calorimetry or controlled atmosphere gasification experiments), or (b) at least two of the gram-scale experiments available in the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data}{Calibration\_Data section} of the MaCFP repository. A summary of the experimental measurements used for material property calibration discussed in this report is available elsewhere~\cite{MaCFP4PyrolysisExp}.
 
-	Some material property sets presented here are incomplete (e.g., reaction mechanisms only, without associated transport properties) or offer varying degrees of accuracy with respect to experimental measurements used for property calibration. These results are welcomed submissions to the broader MaCFP effort, which seeks to foster collaborative and collegial discussions and encourages sharing of progressive, if imperfect, results to advance the community’s understanding of model performance and development. These results also enable discussion of the benefits and/or tradeoffs of using different calibration data, calibration approaches, and model complexity when developing pyrolysis property sets.
+	Some material property sets presented here are incomplete (e.g., decomposition reaction mechanisms only, without associated transport properties) or offer varying degrees of accuracy with respect to experimental measurements used for property calibration. These results are welcomed submissions to the broader MaCFP effort, which seeks to foster collaborative and collegial discussions and encourages sharing of progressive, if imperfect, results to advance the community’s understanding of model performance and development. These results also enable discussion of the benefits and/or tradeoffs of using different calibration data, calibration approaches, and model complexity when developing pyrolysis property sets.
 	
 	Parts of this work were prepared by the National Institute of Standards and Technology (NIST), an agency of the US government, and is not subject to copyright in the USA. Not all of the measurement data presented here has been through a formal review process. The identification of any commercial product or trade name does not imply endorsement or recommendation by NIST (or any other contributing institution). The policy of NIST is to use metric units of measurement in all its publications, and to provide statements of uncertainty for all original measurements. In this document, however, data from organizations outside NIST are shown, which may include measurements in non-metric units or measurements without uncertainty statements.
 	
@@ -160,7 +161,10 @@ verbose]{hyperref}
 
 \section{Introduction}
 
-For MaCFP-4, the Condensed Phase Subgroup coordinated an $anaerobic$ pyrolysis model calibration exercise (i.e., material property determination) focused on pine wood. This charring material was selected based on feedback from participants of the MaCFP-3 Workshop~\cite{MaCFP3Proceedings}, a majority of whom suggested (as a critical fire modeling need) studying a new material and/or studying charring/oxidation. This specific wood species was selected because of its widespread use in construction, furnishings, and standard fire testing (e.g., crib fires). MaCFP-4 pyrolysis modeling targets included $only$ anaerobic conditions; however, participants were encouraged to develop experimental datasets and corresponding models that will describe oxidation (as will be studied in detail at MaCFP-5). The intent is that this same wood will be studied in future MaCFP modeling exercises (e.g., oxidative pyrolysis, burning, and fire growth studies).
+The Measurement and Computation of Fire Phenomena (MaCFP) Condensed Phase Subgroup is focused on enabling the fire research community to make significant progress towards establishing a common framework for the selection of experiments (and the methodologies used to analyze these experiments) when developing pyrolysis models. Early workshops -- MaCFP-2 (2021) and MaCFP-3 (2023) -- focused on a relatively simple, non-charring material: poly(methyl methacrylate), `MaCFP-PMMA' ~\cite{MaCFP2ExpSummary, MaCFP3Proceedings}. 
+The measurement data (which can be used as targets for pyrolysis model calibration and validation) and calibrated material property sets presented at MaCFP-2 and MaCFP-3 have been uniformly formatted and well-documented. This standardized data naming and formatting, as well as inclusion of corresponding metadata (describing sample preparation, test setup, and experimental conditions) allows for efficient, automated analysis. All measurements (and related analysis tools) are maintained in a digital, version-controlled, and freely-available online repository: \url{https://github.com/MaCFP/matl-db}~\cite{MaCFP-cond-db}.
+
+For MaCFP-4, the Condensed Phase Subgroup coordinated a new $anaerobic$ pyrolysis model calibration exercise focused on pine wood. This charring material was selected based on feedback from participants of the MaCFP-3 Workshop~\cite{MaCFP3Proceedings}, a majority of whom suggested (as a critical fire modeling need) studying a new material and/or studying charring/oxidation. This specific wood species was selected because of its widespread use in construction, furnishings, and standard fire testing (e.g., crib fires). MaCFP-4 pyrolysis modeling targets included $only$ anaerobic conditions; however, participants were encouraged to develop experimental datasets and corresponding models that will describe oxidation (as will be studied in detail at MaCFP-5). The intent is that this same wood will be studied in future MaCFP modeling exercises (e.g., oxidative pyrolysis, burning, and fire growth studies).
 
 Limited quantities of `MaCFP Wood' were sent directly~\cite{MaCFP4Guidelines} to participants who committed to conducting experiments\footnote{All `MaCFP Wood' samples -- specifically, Eastern White Pine, $Pinus Strobus$ -- were obtained from the same forest/grove in Gardners, Pennsylvania (near Pine Grove Furnace State Park in the USA). Samples were felled, dried, prepared, and cut to size for milligram- and gram-scale experiments as described elsewhere~\cite{MaCFP4PyrolysisExp}}. No single approach for pyrolysis model parameterization was  suggested to participants especially because a key objective of MaCFP-4 was to catalogue current approaches used to parameterize complex pyrolysis models. Thus, participants were encouraged to follow their best practices to enable discussion of the similarities and differences of their approaches and results (i.e., final parameterization) without explicitly requiring a final validation versus a given test. Measurement data submitted by experimentalists participating in this exercise included: milligram-scale tests (e.g., thermogravimetric analysis, TGA, differential scanning calorimetery, DSC, and microscale combustion calorimetry, MCC), gram-scale testing (e.g., gasification and cone calorimetry experiments), and 'direct' property measurements (e.g., reflectivity or thermal diffusivity). A detailed summary of these experimental measurements is available elsewhere~\cite{MaCFP4PyrolysisExp}.
 
@@ -200,11 +204,32 @@ Modelers were not provided limitations or suggestions regarding their pyrolysis 
 \end{table}
 
 \pagebreak
-At MaCFP-4, comparisons of pyrolysis models were made by asking modelers to use their property sets to simulate the anaerobic decomposition of `MaCFP Wood' under idealized conditions:
+At MaCFP-4, comparisons of pyrolysis models were made by asking modelers to use their property sets to simulate the anaerobic decomposition of `MaCFP Wood' under idealized conditions (see Fig.~\ref{fig:model-scenarios}):
 \begin{enumerate}
 	\item  Zero-dimensional (0D) Thermogravimetric Analysis (TGA) and Differential Scanning Calorimetry (DSC) experiments conducted at two constant heating rates (10~K/min and 100~K/min); and
-	\item One-dimensional (1D), radiation-driven gasification scenarios conducted at three incident radiant heat fluxes (10~kW/m$^2 \leq q^{''}_{ext} \leq 60$~kW/m$^2$) and two sample thicknesses (6~mm and 18~mm).
+	\item One-dimensional (1D), radiation-driven gasification scenarios conducted at three incident radiant heat fluxes (10~kW/m$^2 \leq q^{''}_{rad} \leq 60$~kW/m$^2$; no convection, adiabatic back surface) and two thicknesses (6~mm and 18~mm).
 \end{enumerate}
+
+\begin{figure}[h!]
+	\centering
+	
+	\begin{subfigure}[t]{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../FIGURES/MaCFP4/model-TGA.pdf}
+		\label{Fig:model-TGA}
+		\caption{}
+	\end{subfigure}
+	\hspace{0.1\textwidth}
+	\begin{subfigure}[t]{0.35\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../FIGURES/MaCFP4/model-gasification.pdf}
+		\label{Fig:model-gasification}
+		\caption{}
+	\end{subfigure}
+	
+	\caption{Schematics of idealized (a) 0D and (b) 1D heating scenarios considered in model-to-model comparisons of idealized thermal decomposition of `MaCFP-Wood'.}
+	\label{fig:model-scenarios}
+\end{figure}
 
 In the case of the TGA simulations, mass loss rate profiles as a function of temperature were used for comparison. In the case of the DSC simulations, temperature-resolved heat flow rate and integral heat flow profiles will be used for comparison. In the case of the gasification simulations, mass loss rate and surface temperature profiles will be used for comparison. A summary of pyrolysis model comparison conditions and target outputs is provided in Table~\ref{table:Pyrolsis Model Comparison}.
 
@@ -246,12 +271,13 @@ In the case of the TGA simulations, mass loss rate profiles as a function of tem
 \end{table}
 
 
-To perform this phase of the modelling exercise, participants required input data in the form of kinetic parameters and thermophysical properties. Modelers were free to use experimental data generated by any participant in the associated experimental benchmark exercise~\cite{MaCFP4PyrolysisExp}, to perform their own parameter calibrations, or to adopt a combination of both approaches (or even complete the data set from literature). It should be noted that the calibration of kinetic and thermophysical parameters constituted an integral part of the benchmark exercise, thus the resulting methodologies and outcomes are discussed separately in this report.
 
-\pagebreak
+To perform this phase of the modeling exercise, participants required input data in the form of kinetic parameters and thermophysical properties. Modelers were free to use experimental data generated by any participant in the associated experimental benchmark exercise~\cite{MaCFP4PyrolysisExp}, to perform their own parameter calibrations, or to adopt a combination of both approaches (or even complete the data set from literature). It should be noted that the calibration of kinetic and thermophysical parameters constituted an integral part of the benchmark exercise, thus the resulting methodologies and outcomes are discussed separately in this report.
+
+\clearpage
 \section{Participating organizations}
 
-A total of ten different material property sets were received from six participating institutions (see Table~\ref{tab:pyrolysis-conributors}). Two of these submissions resulted from collaborations between two organizations. All organizations simulated the full set of scenarios, except NIST-StMU, which submitted simulations for the TGA scenarios only. 
+A total of ten different material property sets were received from six participating institutions (see Table~\ref{tab:pyrolysis-conributors}). Two of these submissions resulted from collaborations between two organizations. All organizations simulated the full set of scenarios, except NIST-StMU, which submitted simulations for the OD scenarios only (i.e., TGA and DSC). 
 
 
 \begin{table}[htbp]
@@ -285,12 +311,13 @@ A total of ten different material property sets were received from six participa
 %\end{tabular}
 %\caption{\label{tab:organization_scenarios}Simulated scenarios by the participating organizations.}
 %\end{table}
+
 \section{Model Development}
 This section provides a brief description of the physical assumptions adopted by the different participating organizations when developing their respective models. Further information is provided in the Supplemental Information Section of this report (Sec.~\ref{sec:SI}).
 
 \subsection{CORIA modeling assumptions}
 
-The pyrolysis process was represented by three parallel decomposition reactions corresponding to the three main wood pseudo-components, namely hemicellulose, cellulose, and lignin (Eq.~\ref{eq:CORIA-pyrolysis-reactions}). The initial mass fraction of these pseudo-components, are taken from literature \cite{marquezmontesino2021}: 0.163, 0.544 and 0.293, respectively. Dry wood was assumed in both the TGA and FPA simulations. The kinetic parameters were identified from TGA experiments from the MaCFP-4 experimental database (data set from laboratory UMET),  using the DAKOTA code and the NL2SOL optimization algorithm, and the resulting kinetic mechanism was subsequently employed in the FPA gasification simulations. Constant thermophysical properties, taken from the literature, were considered throughout the simulations. For the FPA configuration, fibers were assumed to be oriented perpendicular to the exposed surface. The gasification simulations were performed with the PATO code \cite{lachaud2017}. Radiative heat exchange was prescribed at the exposed surface, with no convection. A zero-temperature-gradient condition was imposed at the rear surface.
+The pyrolysis process was represented by three parallel decomposition reactions corresponding to the three main wood pseudo-components (nominally hemicellulose, cellulose, and lignin, see eqn.~\ref{eq:CORIA-pyrolysis-reactions}). The initial mass fraction of these pseudo-components, are taken from literature \cite{marquez2021kinetic}: 0.163, 0.544 and 0.293, respectively. Dry wood was assumed in both the OD and 1D simulations. The kinetic parameters were identified from TGA experiments from the MaCFP-4 experimental database (\href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data/UMET}{UMET data set}), using the DAKOTA code and the NL2SOL optimization algorithm, and the resulting kinetic mechanism was subsequently employed in the 0D and 1D simulations. Constant thermophysical properties, taken from the literature (Dinh PhD Dissertation~\cite{dinh2024developpement}), were considered throughout the simulations. For the 1D configuration, fibers were assumed to be oriented perpendicular to the exposed surface. The gasification simulations were performed with the PATO code \cite{lachaud2017generic}. Radiative heat exchange was prescribed at the exposed surface, with no convection. A zero-temperature-gradient condition was imposed at the rear surface.
 
 \begin{equation}
 \label{eq:CORIA-pyrolysis-reactions}
@@ -309,19 +336,48 @@ The pyrolysis process was represented by three parallel decomposition reactions 
 
 
 \subsection{FSRI - UMD modeling assumptions}
+The FSRI-UMD collaboration submitted two distinct models (i.e., two material property sets):
+\begin{itemize}
+	\item (\textbf{FSRI-UMD OPT}): an optimized property set, relying primarily on inverse analysis
+	\item (\textbf{FSRI-UMD DM}): based as much as possible on directly measured properties	
+\end{itemize}
+Temperature-dependent thermophysical properties were considered throughout the simulations. \\
 
-Two material property sets were considered: an optimized property set (\textbf{OPT}), relying primarily on inverse analysis, and a directly measured property set (\textbf{DM}), based as much as possible on experimentally measured properties. Both OPT and DM models employed the same thermal degradation kinetics and thermodynamics. The pyrolysis process was represented by six sequential first-order reactions, including one moisture evaporation reaction and five thermal degradation reactions. Kinetic and energetic parameters were calibrated against TGA and DSC measurements obtained at multiple heating rates. The kinetic parameters were identified from STA/TGA experiments conducted by FSRI at 3 and 30 K min$^{-1}$ and by UMD at 10 K min$^{-1}$ using a multi-stage hill-climbing optimization algorithm implemented in Julia and coupled with the \texttt{Pyrolysis.jl} model. The heats of reaction were subsequently calibrated against DSC measurements acquired at 10 K min$^{-1}$. For the FPA simulations, the models were implemented in FDS version 6.10.1 and neglected the moisture evaporation reaction. Temperature-dependent thermophysical properties were considered throughout the simulations. Specific heat capacities, densities, emissivities, and thermal conductivities were either directly derived from dedicated experiments (DM model) or identified through inverse analyses (OPT model). Surface emissivities were based on integrating-sphere measurements and depended on the incident heat flux, while radiation absorption was assumed to occur entirely at the exposed surface because of the high absorption coefficient of both virgin wood and char. \\
+Both OPT and DM models employed the same thermal degradation kinetics and thermodynamics. The pyrolysis process was represented by six sequential first-order reactions, including one moisture evaporation reaction and five thermal degradation reactions\footnote{For the 1D Idealized Gasification simulations, the models were implemented in FDS version 6.10.1, neglecting the moisture evaporation reaction.}. Kinetic and energetic parameters were calibrated against STA (i.e., combined TGA and DSC) measurements obtained at multiple heating rates. The kinetic parameters were identified from STA experiments conducted by FSRI at 3~K~min$^{-1}$ and 30~K~min$^{-1}$ and by UMD at 10~K~min$^{-1}$ using a multi-stage hill-climbing optimization algorithm implemented in Julia and coupled with the \texttt{Pyrolysis.jl} model. 
 
-The contribution of FSRI - UMD represents two distinct models: the OPT model and DM one. Consequently, these two models will be refred to as \textbf{FSRI-UMD OPT} and \textbf{FSRI-UMD DM} in the results discussion and on the figures. 
 
+Temperature-dependent specific heat capacities of the virgin material were determined through a linear interpolation of `directly measured' specific heat capacities (heat flow meter measurements between 25$^\circ$C and 45$^\circ$C) and apparent specific heat capacity (DSC measurements obtained between 150$^\circ$C and 185$^\circ$C; $\frac{dT}{dt}=10$~K/min). Char heat capacity was determined by fitting DSC data above the endset temperature of decomposition (STA experiments $\frac{dT}{dt}=10$~K/min).
+
+In the FSRI-UMD OPT model, the heat capacities of intermediate species were fit as weighted averages of apparent specific heat capacities of virgin wood and char. Char and Ash were defined to share the same linear form. Moisture specific heat capacity taken from the NIST Chemistry Webbook~\cite{linstrom2001nist}. The heats of reaction were subsequently calibrated against DSC measurements acquired at 10 K min$^{-1}$. The FSRI-UMD OPT model also incorporated a state-dependent heat of sorption function that relies on temperature and moisture content. 
+
+Density of the dried virgin component was determined from direct mass and volume measurements of regular shaped samples. The density of solid products of decomposition were determined from a combination of TGA and dilatometry data (both at 10K/min) for both models.
+Surface emissivities were based on integrating-sphere measurements and depended on the incident heat flux. FTIR Integrating Sphere measurements were repeated on both virgin wood and char; emissitivities of intermediate species were assumed to be either (1) equal to one of these two values, or (2) equal to a weighted fraction of these two values. For both models, the absorption coefficient was assumed to be sufficiently high that all radiation was absorbed at the boundary. 
 
 \subsection{NIST-StMU modeling assumptions}
 
-NIST-StMU participated in the TGA simulations only. The pyrolysis process was represented by a single reaction mechanism comprising three parallel reactions corresponding to the decomposition of the main wood constituents. Constant thermophysical properties were assumed throughout the simulations. In particular, a constant specific heat capacity was prescribed for the virgin material and a separate constant specific heat capacity for the char. The simulations were performed using the FACT calibration tool, which is dedicated to the modelling of zero-dimensional (0D) problems.
+The material property set submitted by NIST-StMU was calibrated using a hierarchical approach in which material properties are uniquely calibrated from individual measurements/datasets. For MaCFP-4, the NIST-StMU group provided a material property set based on the following measurements:
+\begin{itemize}
+	\item Thermogravimetric Analysis (TGA): Decomposition reaction mechanism (\textcolor{red}{3**} parallel reactions), kinetics
+	\item Differential Scanning Calorimetry (DSC): Heat capacities, Heats of reaction
+	\item Microscale Combustion Calorimeter (MCC): Heats of combustion (flaming & charring) 
+	\item  FTIR + Integrating Sphere: reflectivity
+\end{itemize}
+
+The decomposition process was represented by three parallel reactions corresponding to the decomposition of the main wood constituents (moisture loss is neglected). Constant thermophysical properties were assumed throughout the simulations though unique specific heat capacities were prescribed for the virgin wood and the char. Property calibration was performed using Flammability data Automated Calibration Tools (FACT), which are a suite of automated Python scripts for estimating material properties from small scale tests.
+ NIST-StMU properties were only used to predict 0D decomposition (i.e., idealized TGA/DSC tests) for the model-to-model comparison exercise.
 
 \subsection{UCB modeling assumptions}
+UCB submitted 12 distinct models (i.e., 12 material property sets). Each model used (1) one of three reaction schemes, (2) either constant or temperature-dependent material properties, and (3) thermophysical/transport properties calibrated to describe samples in which wood grains are oriented either parallel or perpendicular to the front surface of the wood. Each reaction scheme assumed that wood consisted of three main constituents -- cellulose, hemicellulose, and lignin -- each of which can decompose in parallel. 
 
-UCB considered several pyrolysis reaction schemes based on the decomposition of the three main wood constituents: cellulose, hemicellulose, and lignin. Three kinetic representations were investigated, ranging from a simple three-reaction parallel mechanism to a more detailed component-wise multi-step reaction scheme (Eq.~\ref{eq:UCB1}, Eq.~\ref{eq:UCB2} and Eq.~\ref{eq:UCB3}) . Kinetic parameters were identified from TGA measurements using the gpyro v0.8200 code coupled with the Shuffled Complex Evolution (SCE) optimization algorithm. The initial mass fractions of cellulose, hemicellulose, and lignin were first estimated from component-specific TGA data and subsequently used in the kinetic calibration. One-dimensional gasification simulations were performed using a modified OpenFOAM solver, porousFireDyMFoam, based on the gpyro biomass pyrolysis model. Thermophysical properties were calibrated against available gasification experiments. Both constant and temperature-dependent material properties were considered. Simulations were conducted for both parallel and perpendicular grain orientations. Property estimation for the gasification simulations was carried out using the Dakota optimization framework coupled to the one-dimensional model.
+The three reaction schemes ranged from a simple three-reaction, parallel mechanism to more detailed, component-wise, multi-step reaction schemes. For each scheme, individual char species may be lumped together by giving them identical material properties. A brief description of these reaction schemes is provided below; more information is \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Results/UCB#readme}{available elsewhere}:.
+\begin{itemize}
+	\item Reaction scheme 1 (eqn.~\ref{eq:UCB1}): Single-stage, parallel reaction mechanism whereby individual components are each converted to char through one of three parallel reactions. Here, 6 total species are tracked, as each reaction produces a different char residue. 
+	\item Reaction scheme 2 (eqn.~\ref{eq:UCB2}): multi-stage, parallel reaction mechanism whereby individual components are likewise converted to intermediate solid species, which are then converted to char residue through another set of parallel reactions. This gives a total of 6 reactions and 9 species
+	\item Reaction scheme 3 (eqn.~\ref{eq:UCB3}): Unique reaction mechanisms for each individual component, based on TGA mass loss curves for each component measured in Ref.~\cite{hasburgh2020chemical}. The best reaction scheme for each component was found through trial and error: cellulose: 2-step serial, hemicellulose: 3-step serial, and lignin: 2-step parallel. These individual component reaction schemes are combined in parallel to form the overall reaction scheme for wood, consisting of 11 species and 8 reactions. 
+\end{itemize}
+ Kinetic parameters for each reaction scheme were identified from TGA measurements using the gpyro v0.8200 code coupled with the Shuffled Complex Evolution (SCE) optimization algorithm. The initial mass fractions of cellulose, hemicellulose, and lignin were first estimated from component-specific TGA data and subsequently used in the kinetic calibration. 
+
+One-dimensional gasification simulations were performed using a modified OpenFOAM solver, porousFireDyMFoam, based on the gpyro biomass pyrolysis model. Thermophysical properties were calibrated against available gasification experiments. Both constant and temperature-dependent material properties were considered. Simulations were conducted for both parallel and perpendicular grain orientations. Property estimation for the gasification simulations was carried out using the Dakota optimization framework coupled to the one-dimensional model.
 
 \begin{equation}
 \label{eq:UCB1}
@@ -456,7 +512,7 @@ UCB considered several pyrolysis reaction schemes based on the decomposition of 
 \right\}
 \end{equation}
 \\
-By combining the different modelling assumptions, the UCB contribution resulted in three models for each TGA case, corresponding to the three reaction mechanisms described above. For the one-dimensional gasification simulations, the combination of the three reaction mechanisms, two thermophysical property formulations (constant and temperature-dependent), and two grain orientations (parallel and perpendicular) led to a total of twelve models for each gasification case. To facilitate the discussion of the results, the naming convention illustrated in Fig.~\ref{fig:ucb-naming} was adopted throughout this report.
+By combining the different modelling assumptions, the UCB contribution resulted in three models for each 0D decomposition case, corresponding to the three reaction mechanisms described above. For the idealized 1D gasification simulations, the combination of the three reaction mechanisms, two thermophysical property formulations (constant and temperature-dependent), and two grain orientations (parallel and perpendicular) led to a total of twelve models for each gasification case. To facilitate the discussion of the results, the naming convention illustrated in Fig.~\ref{fig:ucb-naming} was adopted throughout this report.
 
 \begin{figure}[htbp]
 \centering
@@ -818,9 +874,9 @@ It is interesting to note the strong similarity between the trends associated wi
 The influence of the kinetic mechanism on the MLR curve characteristics is generally moderate, although its impact varies significantly with both heat flux and sample thickness. For $pMLR$, the effect remains relatively limited, with standard deviations below 16\% in all cases. For the thin sample, the influence tends to increase with heat flux, rising from approximately 11\% at 10 kW/m$^2$ to more than 15\% at 60 kW/m$^2$. By contrast, for the thick sample, the influence decreases with increasing heat flux and becomes almost negligible at 60 kW/m$^2$. Regarding $t_{pMLR}$, the kinetic mechanism has a relatively small influence on the thin sample. However, its impact becomes much more pronounced for the thick sample. In particular, at 30 kW/m$^2$. This trend is remarkably similar to that observed for the temperature dependence of the thermophysical properties. The onset time, $t_{onset}$, appears to be one of the most sensitive quantities to the kinetic mechanism. For both thicknesses, the influence generally increases with heat flux. For the thin sample, the standard deviation increases from about 20\% to more than 25\% between 10 and 60 kW/m$^2$. A similar behavior is observed for the thick sample, for which the maximum influence reaches approximately 28\% at 30 kW/m$^2$. These results indicate that the kinetic mechanism plays an important role in controlling the initiation of thermal degradation. Overall, the kinetic mechanism primarily affects the temporal characteristics of the MLR curve rather than its magnitude. In particular, its strongest influence is observed on $t_{pMLR}$ and $t_{onset}$ for the thick sample, highlighting the important role played by the decomposition kinetics in controlling the progression of thermal degradation within the material.
 
 Interestingly, the influence of the kinetic mechanism exhibits trends that are qualitatively similar to those observed for the temperature dependence of the thermophysical properties. In particular, both assumptions have a limited effect on $pMLR$ but can strongly affect $t_{pMLR}$ and $t_{onset}$ for thick samples. This similarity suggests that both assumptions modify the balance between heat transfer and decomposition processes, although through different physical pathways. While the temperature-dependent properties primarily alter heat penetration within the solid, the kinetic mechanism directly controls the rate at which the material decomposes once sufficient thermal energy has been accumulated.\\
-
+\small
 \begin{table*}[htbp] \centering \caption{Sensitivity of the main MLR characteristics to the investigated modeling assumptions. Values correspond to the mean relative error (\%) $\pm$ standard deviation.} \label{tab:sensitivity_flux_thickness} \resizebox{\textwidth}{!}{ \begin{tabular}{llccc} \hline \textbf{Hypothesis} & \textbf{Case} & \textbf{$pMLR$ (\%)} & \textbf{$t_{\mathrm{pMLR}}$ (\%)} & \textbf{$t_{\mathrm{onset}}$ (\%)} \\ \hline CONST vs TDEP & $q10$--6 mm & 31.3 $\pm$ 10.7 & 20.9 $\pm$ 13.9 & 15.3 $\pm$ 11.8 \\ CONST vs TDEP & $q30$--6 mm & 24.9 $\pm$ 16.6 & 19.1 $\pm$ 12.1 & 15.9 $\pm$ 10.3 \\ CONST vs TDEP & $q60$--6 mm & 17.7 $\pm$ 20.4 & 17.3 $\pm$ 14.6 & 15.9 $\pm$ 27.4 \\ CONST vs TDEP & $q10$--18 mm & 28.4 $\pm$ 15.5 & 22.3 $\pm$ 14.6 & 15.9 $\pm$ 11.2 \\ CONST vs TDEP & $q30$--18 mm & 13.0 $\pm$ 12.7 & 67.2 $\pm$ 81.3 & 24.3 $\pm$ 21.4 \\ CONST vs TDEP & $q60$--18 mm & 16.5 $\pm$ 4.8 & 33.5 $\pm$ 20.4 & 17.9 $\pm$ 21.1 \\ \hline Kinetic scheme & $q10$--6 mm & 11.1 $\pm$ 7.2 & 10.9 $\pm$ 10.5 & 20.4 $\pm$ 14.4 \\ Kinetic scheme & $q30$--6 mm & 11.9 $\pm$ 12.8 & 7.3 $\pm$ 6.7 & 21.1 $\pm$ 15.5 \\ Kinetic scheme & $q60$--6 mm & 15.1 $\pm$ 14.6 & 9.8 $\pm$ 10.9 & 25.4 $\pm$ 23.4 \\ Kinetic scheme & $q10$--18 mm & 14.1 $\pm$ 11.1 & 16.1 $\pm$ 14.8 & 21.1 $\pm$ 15.5 \\ Kinetic scheme & $q30$--18 mm & 9.5 $\pm$ 8.8 & 61.9 $\pm$ 79.3 & 27.6 $\pm$ 23.6 \\ Kinetic scheme & $q60$--18 mm & 3.9 $\pm$ 3.5 & 22.2 $\pm$ 12.6 & 17.9 $\pm$ 20.1 \\ \hline PL vs PD & $q10$--6 mm & 6.9 $\pm$ 6.5 & 8.7 $\pm$ 8.5 & 12.1 $\pm$ 12.6 \\ PL vs PD & $q30$--6 mm & 27.9 $\pm$ 16.6 & 9.3 $\pm$ 2.8 & 12.8 $\pm$ 8.5 \\ PL vs PD & $q60$--6 mm & 40.0 $\pm$ 20.8 & 16.0 $\pm$ 11.3 & 16.2 $\pm$ 18.2 \\ PL vs PD & $q10$--18 mm & 19.3 $\pm$ 16.0 & 13.2 $\pm$ 13.2 & 12.8 $\pm$ 13.9 \\ PL vs PD & $q30$--18 mm & 30.6 $\pm$ 13.6 & 114.0 $\pm$ 85.6 & 21.1 $\pm$ 14.4 \\ PL vs PD & $q60$--18 mm & 12.0 $\pm$ 4.5 & 35.3 $\pm$ 17.6 & 8.5 $\pm$ 13.3 \\ \hline \end{tabular} } \end{table*}
-
+\normalsize
 
 \begin{figure}[htbp]
 \centering 
@@ -851,7 +907,7 @@ The comparison of the different models highlights a good overall agreement in te
 \clearpage
 \section{Supplemental Information}
 \label{sec:SI}
-\subsection{Calibration Overviews}}
+\subsection{Calibration Overviews}
 \subsubsection*{CORIA}
 \begin{enumerate}
 	\item Data
@@ -947,6 +1003,6 @@ A more detailed description of FSRI-UMD Calibration Results (including a discuss
 A more detailed description of UCB Calibration Results (including a discussion regarding modeling choices and approach) is provided in their README file, which is available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Results/UCB#readme}{UCB Calibration Results Page} of the MaCFP Github Repository.
 \FloatBarrier
 \bibliographystyle{plain}
-\bibliography{sample}
+\bibliography{../Matl-DB_Refs}	
 
 \end{document}
