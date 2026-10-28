@@ -15,10 +15,11 @@ from scipy.signal import savgol_filter
 from fnmatch import fnmatch
 from typing import Optional, Union, List, Dict
 from matplotlib.patches import Ellipse
+import fitz
 
 from Utils import device_data, get_series_names, make_institution_table, device_subset, label_def, interpolation, format_latex
 from Utils import format_with_uncertainty, format_temperature, format_regular, extract_heating_rate, extract_atmosphere, get_condition_key
-from Utils import DATA_DIR
+from Utils import DATA_DIR, CODES
 
 
 #region Save plots as pdf or png
@@ -61,6 +62,14 @@ set_plot_style()
 # ------------------------------------
 #region functions
 # ------------------------------------
+
+
+def count_legend_labels(pdf_path, label_keywords):
+    doc = fitz.open(pdf_path)
+    text = doc[0].get_text()
+    doc.close()
+    return sum(text.count(k) for k in label_keywords)
+
 
 def Calculate_dm_dt(df:pd.DataFrame) -> pd.DataFrame:
     """Calculate normalized mass and mass loss rate with smoothing."""
@@ -254,6 +263,7 @@ def plot_average_values(df, base_dir):
         handles, labels = ax1.get_legend_handles_labels()
         by_label = dict(zip(labels, handles))
         ax1.legend(by_label.values(), by_label.keys())
+        ax1.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
         
         ax2.set_xlabel('Peak Temperature [K]', fontsize=12)
         ax2.set_ylabel('Onset Temperature [K]', fontsize=12)
@@ -390,14 +400,20 @@ def main():
         key=lambda p: float(p.stem.split('_')[-1].replace('Kmin', ''))
     )
 
+    excluded_rates = {'5', '10', '20', '30'} # exclude because already in main text, do not repeat in appendix
+
+    heating_rate_pdfs = [
+        p for p in heating_rate_pdfs
+        if p.stem.split('_')[-1].replace('Kmin', '') not in excluded_rates
+    ]
+
     latex_lines = []
 
     for pdf_path in heating_rate_pdfs:
         hr_value = pdf_path.stem.split('_')[-1].replace('Kmin', '')
 
-        latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
-        latex_lines.append('')
         latex_lines.append(r'\begin{figure}[H]')
+        latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
         latex_lines.append(r'    \centering')
         latex_lines.append(rf'    \includegraphics[width=0.75\linewidth]{{../SCRIPT_FIGURES/TGA/{pdf_path.name}}}')
         latex_lines.append(rf'    \caption{{Measured heating-rate profiles for TGA tests conducted at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
@@ -414,6 +430,8 @@ def main():
     # Generate LaTeX appendix: mass and MLR curves in nitrogen
     # =============================================================================
 
+    excluded_rates = {5.0, 10.0, 20.0} # exclude files that are in main text
+
     mass_files = sorted(
         [
             p for p in (base_dir / 'TGA').glob('TGA_Wood_N2_*_Mass.pdf')
@@ -423,48 +441,57 @@ def main():
         key=lambda p: float(p.stem.split('_')[3].replace('K', ''))
     )
 
+    mass_files = [
+    p for p in mass_files
+    if float(p.stem.split('_')[3].replace('K', '')) not in excluded_rates
+    ]
+
+  
+
     latex_lines = []
 
     for mass_path in mass_files:
-        stem = mass_path.stem[:-5]  # remove "_Mass"
+        if count_legend_labels(mass_path, CODES)> 1: # only include plots with data from more than one institution
 
-        dmdt_path = mass_path.with_name(stem + '_dmdt.pdf')
-        mass_400_path = mass_path.with_name(stem + '_Mass_400Knorm.pdf')
-        dmdt_400_path = mass_path.with_name(stem + '_dmdt_400Knorm.pdf')
+            stem = mass_path.stem[:-5]  # remove "_Mass"
 
-        if not dmdt_path.exists() or not mass_400_path.exists() or not dmdt_400_path.exists():
-            continue
+            dmdt_path = mass_path.with_name(stem + '_dmdt.pdf')
+            #mass_400_path = mass_path.with_name(stem + '_Mass_400Knorm.pdf')
+            #dmdt_400_path = mass_path.with_name(stem + '_dmdt_400Knorm.pdf')
 
-        parts = stem.split('_')
-        hr = parts[3]
+            if not dmdt_path.exists():# or not mass_400_path.exists() or not dmdt_400_path.exists():
+                continue
 
-        if hr.endswith('Kiso'):
-            continue
+            parts = stem.split('_')
+            hr = parts[3]
 
-        hr_value = hr.replace('K', '')
+            if hr.endswith('Kiso'):
+                continue
 
-        latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
-        latex_lines.append('')
+            hr_value = hr.replace('K', '')
 
-        # Original normalization
-        latex_lines.append(r'\begin{figure}[H]')
-        latex_lines.append(r'    \centering')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
-        latex_lines.append(r'    \hfill')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
-        latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
-        latex_lines.append(r'\end{figure}')
-        latex_lines.append('')
+            latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+            latex_lines.append('')
 
-        # Normalization by mass at 400 K
-        latex_lines.append(r'\begin{figure}[H]')
-        latex_lines.append(r'    \centering')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_400_path.name}}}')
-        latex_lines.append(r'    \hfill')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_400_path.name}}}')
-        latex_lines.append(rf'    \caption{{Mass normalized by the mass at 400~K (left) and corresponding normalized mass loss rate (right) for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
-        latex_lines.append(r'\end{figure}')
-        latex_lines.append('')
+            # Original normalization
+            latex_lines.append(r'\begin{figure}[H]')
+            latex_lines.append(r'    \centering')
+            latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
+            latex_lines.append(r'    \hfill')
+            latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
+            latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+            latex_lines.append(r'\end{figure}')
+            latex_lines.append('')
+
+            # Normalization by mass at 400 K
+            # latex_lines.append(r'\begin{figure}[H]')
+            # latex_lines.append(r'    \centering')
+            # latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_400_path.name}}}')
+            # latex_lines.append(r'    \hfill')
+            # latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_400_path.name}}}')
+            # latex_lines.append(rf'    \caption{{Mass normalized by the mass at 400~K (left) and corresponding normalized mass loss rate (right) for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+            # latex_lines.append(r'\end{figure}')
+            # latex_lines.append('')
 
     latex_mass_mlr = '\n'.join(latex_lines)
 
@@ -478,57 +505,71 @@ def main():
     # =============================================================================
 
     mass_files = sorted(
-        [
-            p for p in (base_dir / 'TGA').glob('TGA_Wood_O2-*_Mass.pdf')
-            if '_zoom' not in p.stem
-            and 'iso' not in p.stem
-        ],
-        key=lambda p: (
-            float(p.stem.split('_')[2].split('-')[1]),
-            float(p.stem.split('_')[3].replace('K', ''))
-        )
+    [
+        p for p in (base_dir / 'TGA').glob('TGA_Wood_O2-*_Mass.pdf')
+        if '_zoom' not in p.stem
+        and 'iso' not in p.stem
+    ],
+    key=lambda p: (
+        float(p.stem.split('_')[3].replace('K', '')),
+        float(p.stem.split('_')[2].split('-')[1])
     )
+    )
+
+    excluded = {   # avoid repeating plots from main text
+        (10.0, 20.0),  # 10K, O2-20
+        (10.0, 21.0),  # 10K, O2-21
+    }
+
+    mass_files = [
+        p for p in mass_files
+        if (
+            float(p.stem.split('_')[3].replace('K', '')),
+            float(p.stem.split('_')[2].split('-')[1])
+        ) not in excluded
+    ]
 
     latex_lines = []
 
     for mass_path in mass_files:
-        stem = mass_path.stem[:-5]
+        if count_legend_labels(mass_path, CODES)> 1:
+            stem = mass_path.stem[:-5]
 
-        dmdt_path = mass_path.with_name(stem + '_dmdt.pdf')
-        mass_400_path = mass_path.with_name(stem + '_Mass_400Knorm.pdf')
-        dmdt_400_path = mass_path.with_name(stem + '_dmdt_400Knorm.pdf')
+            dmdt_path = mass_path.with_name(stem + '_dmdt.pdf')
+            mass_400_path = mass_path.with_name(stem + '_Mass_400Knorm.pdf')
+            dmdt_400_path = mass_path.with_name(stem + '_dmdt_400Knorm.pdf')
 
-        if not dmdt_path.exists() or not mass_400_path.exists() or not dmdt_400_path.exists():
-            continue
+            if not dmdt_path.exists() or not mass_400_path.exists() or not dmdt_400_path.exists():
+                continue
 
-        parts = stem.split('_')
-        atm = parts[2]
-        hr = parts[3]
+            parts = stem.split('_')
+            atm = parts[2]
+            hr = parts[3]
 
-        oxygen = atm.split('-')[1]
-        hr_value = hr.replace('K', '')
-        oxygen_fraction = float(oxygen) / 100
+            oxygen = atm.split('-')[1]
+            hr_value = hr.replace('K', '')
+            oxygen_fraction = float(oxygen) / 100
 
-        latex_lines.append(rf'\noindent\textbf{{$X_{{\rm O_2}}={oxygen_fraction:.2f}$, $\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
-        latex_lines.append('')
+            latex_lines.append(rf'\noindent\textbf{{$X_{{\rm O_2}}={oxygen_fraction:.2f}$, $\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
+            latex_lines.append('')
 
-        latex_lines.append(r'\begin{figure}[H]')
-        latex_lines.append(r'    \centering')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
-        latex_lines.append(r'    \hfill')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
-        latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
-        latex_lines.append(r'\end{figure}')
-        latex_lines.append('')
+            latex_lines.append(r'\begin{figure}[H]')
+            latex_lines.append(r'    \centering')
+            latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
+            latex_lines.append(r'    \hfill')
+            latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
+            latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+            latex_lines.append(r'\end{figure}')
+            latex_lines.append('')
 
-        latex_lines.append(r'\begin{figure}[H]')
-        latex_lines.append(r'    \centering')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_400_path.name}}}')
-        latex_lines.append(r'    \hfill')
-        latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_400_path.name}}}')
-        latex_lines.append(rf'    \caption{{Mass normalized by the mass at 400~K (left) and corresponding normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
-        latex_lines.append(r'\end{figure}')
-        latex_lines.append('')
+            # latex_lines.append(r'\begin{figure}[H]')
+            # latex_lines.append(r'    \centering')
+            # latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_400_path.name}}}')
+            # latex_lines.append(r'    \hfill')
+            # latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_400_path.name}}}')
+            # latex_lines.append(rf'    \caption{{Mass normalized by the mass at 400~K (left) and corresponding normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+            # latex_lines.append(r'\end{figure}')
+            # latex_lines.append('')
 
     latex_mass_mlr_o2 = '\n'.join(latex_lines)
 
@@ -622,6 +663,7 @@ def main():
             ax2.set_xlim(left=config['xlim'][0], right=config['xlim'][1])
             ax2.set_xlabel('Temperature [K]')
             ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+            ax2.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
             fig2.tight_layout()
             handles2, labels2 = ax2.get_legend_handles_labels()
             by_label2 = dict(zip(labels2, handles2))
@@ -772,6 +814,7 @@ def main():
         ax_mass.tick_params(axis='y', colors='blue')
         ax_rate.spines['right'].set_color('red')
         ax_rate.tick_params(axis='y', colors='red')
+        ax_rate.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
 
         # Figure title
         fig_title = path.stem
@@ -839,6 +882,7 @@ def main():
     ax2.set_xlim(right=1100)
     ax2.set_xlabel('Temperature [K]')
     ax2.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+    ax2.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
     fig2.tight_layout()
     ax2.legend()
 
@@ -977,6 +1021,7 @@ def main():
         ax_mass.set_xlabel('Temperature [K]')
         ax_mass.set_ylabel('m/m$_0$ [g/g]')
         ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+        ax_rate.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
 
         # Figure title
         plt.title(Duck+"\n"+Conditions)
@@ -1174,6 +1219,7 @@ def main():
     ax_mass.set_xlim(right=1100)
     ax_rate.set_ylim(bottom=0)
     ax_rate.set_xlim(right=1100)
+    ax_rate.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
 
     # Axes labels
     ax_mass.set_xlabel('Temperature [K]')
@@ -1220,9 +1266,10 @@ def main():
     Average_values['atmosphere_group'] = Average_values['atmosphere'].apply(atmosphere_group)
     Average_values['oxygen_sort'] = Average_values['atmosphere'].apply(oxygen_sort_key)
     Average_values['heating_rate_sort'] = Average_values['heating_rate'].apply(heating_rate_sort_key)
+  
 
     Average_values_sorted = Average_values.sort_values(
-        ['atmosphere_group', 'oxygen_sort', 'heating_rate_sort', 'Institution']
+        ['atmosphere_group', 'heating_rate_sort','oxygen_sort', 'Institution']
     )
 
     # Add superscript A if std is NaN (single sample)
@@ -1377,7 +1424,10 @@ def main():
                 if current_atmosphere_group != prev_atmosphere_group:
                     new_lines.append('\\hline\\hline')
                 else:
-                    new_lines.append('\\hline')
+                    if current_condition_key[1] != prev_condition_key[1]:
+                        new_lines.append('\\hline')
+                    elif not (prev_condition_key[0] == 'O2-20' and current_condition_key[0] == 'O2-21'):
+                        new_lines.append('\\hline')
 
             prev_condition_key = current_condition_key
             prev_atmosphere_group = current_atmosphere_group
