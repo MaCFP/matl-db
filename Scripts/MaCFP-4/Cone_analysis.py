@@ -2298,8 +2298,8 @@ if all_hoc_values:
     ax_hoc_compare.set_xlim(axis_min, axis_max)
     ax_hoc_compare.set_ylim(axis_min, axis_max)
 
-ax_hoc_compare.set_xlabel('Calculated heat of combustion [kJ/g]')
-ax_hoc_compare.set_ylabel('Reported heat of combustion [kJ/g]')
+ax_hoc_compare.set_xlabel('Heat of combustion using calculated ignition time [kJ/g]')
+ax_hoc_compare.set_ylabel('Heat of combustion using reported ignition time [kJ/g]')
 
 if institution_handles:
     legend1 = ax_hoc_compare.legend(institution_handles.values(), institution_handles.keys(), loc='upper left', framealpha=0.25)

@@ -1548,6 +1548,116 @@ Differences in sample preparation, particularly moisture content and conditionin
 
 Furthermore, discrepancies between calculated and reported ignition times may partly arise from differences in time synchronisation or data acquisition resolution. For example, when originally submitted reported ignition times for `Rouen' were found to precede a noticeable increase in HRR by approximately 10--15~s in some experiments. HRR data was resubmitted after correcting for oxygen delay time, excluding this discrepancy. In addition, data from `Pekin' were recorded at 5~s intervals, limiting the temporal resolution of ignition time determination. These factors introduce additional uncertainty into the regressions. Consequently, the estimated critical heat flux values should be interpreted with considerable caution and should not be regarded as reliable quantitative measures of the ignition threshold.
 
+\newpage
+\subsubsection{Heat of Combustion}
+
+Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of mass lost (kJ/g). The total energy release was determined by integrating the measured HRR between the first and last times at which $\dot{Q}'' \ge 24$~kW/m$^2$, using the same threshold as for the calculated time to ignition. The resulting energy was divided by the corresponding mass loss over this interval. To assess the influence of the ignition time definition, an alternative calculation was also performed using the ignition time reported by the contributing institutions as the beginning of the integration interval, while keeping the end unchanged. The arithmetic mean and standard deviation (`Std Dev') of $\Delta H_{\rm c}$ are reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. The reported variability corresponds to one standard deviation of the repeated measurements at a given exposure condition.
+
+Figure~\ref{Fig:Cone_HOC_calculated_vs_reported} compares the heat of combustion calculated using the HRR-based ignition criterion with the values obtained using the ignition times reported by the contributing institutions. The agreement is very good, with most values lying close to the line of one-to-one agreement. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=4.5in]{../SCRIPT_FIGURES/Cone/Cone_HOC_calculated_vs_reported.pdf}
+  \caption{Comparison of heat of combustion calculated using the HRR-based ignition criterion and the ignition times reported by the contributing institutions. The dashed line represents one-to-one agreement.}
+  \label{Fig:Cone_HOC_calculated_vs_reported}
+\end{figure}
+
+Figure~\ref{Fig:Cone_HOC_vs_Flux} shows the heat of combustion at different incident heat fluxes. Repeatability within individual laboratories is generally good, whereas more pronounced differences are observed between laboratories. No clear dependence on incident heat flux is apparent. However, samples with parallel grain orientation consistently exhibit higher heat of combustion than those with perpendicular orientation, although the difference becomes almost negligible at 75~kW/m$^2$.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_HOC_vs_Flux.pdf}
+  \caption{Heat of combustion as a function of incident heat flux. Symbols represent arithmetic mean values for each institution and grain orientation, while error bars indicate the minimum and maximum values of repeated measurements.}
+  \label{Fig:Cone_HOC_vs_Flux}
+\end{figure}
+
+\newpage
+\subsubsection{Repeatability and Reproducibility}
+
+The repeatability and reproducibility of the cone calorimeter measurements were further examined by comparing the calculated ignition times and heat of combustion across participating institutions. Figures~\ref{Fig:Cone_Ignition_vs_HOC_low} and \ref{Fig:Cone_Ignition_vs_HOC_high} present the results at all available incident heat fluxes. Symbols represent the arithmetic mean of repeated measurements, while horizontal and vertical error bars indicate one standard deviation of ignition time and heat of combustion, respectively.
+
+\begin{figure}[p]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_calculated_vs_HOC_25kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_reported_vs_HOC_25kW.pdf}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_calculated_vs_HOC_30kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_reported_vs_HOC_30kW.pdf}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_calculated_vs_HOC_45kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_reported_vs_HOC_45kW.pdf}
+\end{subfigure}
+
+\caption{Comparison of calculated (left) and reported (right) ignition times with heat of combustion at incident heat fluxes of 25, 30 and 45~kW/m$^2$ (top to bottom). Symbols represent arithmetic mean values for each institution and grain orientation, with error bars indicating $\pm 1$ standard deviation of repeated measurements.}
+\label{Fig:Cone_Ignition_vs_HOC_low}
+\end{figure}
+
+
+\begin{figure}[p]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_calculated_vs_HOC_50kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_reported_vs_HOC_50kW.pdf}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_calculated_vs_HOC_60kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_reported_vs_HOC_60kW.pdf}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_calculated_vs_HOC_75kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Ignition_reported_vs_HOC_75kW.pdf}
+\end{subfigure}
+
+\caption{Comparison of calculated (left) and reported (right) ignition times with heat of combustion at incident heat fluxes of 50, 60 and 75~kW/m$^2$ (top to bottom). Symbols represent arithmetic mean values for each institution and grain orientation, with error bars indicating $\pm 1$ standard deviation of repeated measurements.}
+\label{Fig:Cone_Ignition_vs_HOC_high}
+\end{figure}
+
+The results show generally good repeatability within individual laboratories, particularly for heat of combustion, while ignition times exhibit greater variability in some datasets. Differences between laboratories are more pronounced, especially for ignition time.
+
+The repeatability of the measured ignition times and heat of combustion was further evaluated against the repeatability limits reported in ASTM E1354-23, based on previous interlaboratory testing. For each experimental series, the experimental repeatability limit was calculated as $r_=2.8s$, where $s$ is the sample standard deviation of repeated measurements. The corresponding ASTM repeatability limits were calculated as:
+
+\begin{equation}
+r_{\rm ASTM,t_{ig}} = 4.1 + 0.125\,t_{\rm ig}
+\end{equation}
+
+\begin{equation}
+r_{\rm ASTM,HOC} = 1.23 + 0.050\,\Delta H_{\rm c}
+\end{equation}
+
+A series was considered to satisfy the ASTM repeatability criterion when $r_{\rm exp} \leq r_{\rm ASTM}$. Calculated and reported ignition times were evaluated separately. The results for individual experimental series and the overall summary are presented in Tables~\ref{tab:astm_repeatability} and \ref{tab:astm_repeatability_summary}, respectively.
+
+\begin{landscape}
+\begin{table}[p]
+  \centering
+  \caption{Comparison of experimental repeatability limits for calculated ignition time, reported ignition time and heat of combustion with those specified in ASTM E1354-23.}
+  \label{tab:astm_repeatability}
+  \footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \input{../SCRIPT_FIGURES/Cone/Cone_ASTM_Repeatability.tex}
+\end{table}
+\end{landscape}
+
+% TO BE CONTINUED
+% \input{../SCRIPT_FIGURES/Cone/Cone_ASTM_Repeatability_Summary.tex}
 
 \newpage
 \subsubsection{Temperature measurements}
@@ -1605,10 +1715,6 @@ Temperature measurements were made at the top surface, back surface and in depth
 %
 %
 \subsubsection{Tabulated values of interest}
-
-Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of gaseous volatiles produced (kJ/g) during the time period at which $\dot{Q}'' \ge 24$~kW/m$^2$ (a criteria for the critical energy release rate required for piloted ignition of solids in the cone calorimeter~\cite{lyon2007criteria}). The arithmetic mean and standard deviation (`Std Dev') of $\Delta H_{\rm c}$ is reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. Here, uncertainties are reported as one standard deviation of the average value at a given exposure condition.
-
-
 
 \newpage
 \subsection{Anaerobic Gasification}
