@@ -568,6 +568,9 @@ TGA experiments submitted to this workshop were generally performed at constant 
     \label{Fig:TGA_dTdt}
 \end{figure}
 
+
+As can be seen in Fig.~\ref{Fig:TGA_5K_dTdt}, some of the heating rate data follows a step like function, e.g 5~K/min submitted by 'Cayuga'. This behavior arises from the low temporal resolution of the submitted data, this effect becomes bigger for higher heating rates. When the data are interpolated to 0.5~K temperature intervals (prior to submission), the time resolution should be chosen to preserve the original resolution of the heating-rate data, $\beta$. Specifically, the required time resolution is the original temperature resolution divided by the heating rate.
+
 As shown in Figure~\ref{Fig:TGA_dTdt}, the actual heating rate can vary significantly during the early stages of testing, typically within approximately the first 50--150~K of temperature increase, before approaching its nominal value. In most cases, this behaviour reflects the dynamic response of the instrument furnace and its temperature-control system and is therefore strongly instrument dependent. Such deviations are difficult to eliminate completely, as they depend on factors such as furnace design, controller settings, and the prescribed temperature program. The effect generally becomes more pronounced at higher nominal heating rates, where the furnace and control system must respond more rapidly to maintain the programmed temperature increase. For a small number of tests, more pronounced departures from the nominal heating program, including temporary overshoots, undershoots, or discontinuities, were observed. Some of these features arise from intentionally programmed steps in the experimental procedure; for example, the discontinuity observed for `Orpington' at 10~K/min results from rapid heating to 373~K followed by an extended isothermal hold for sample drying before the subsequent constant-rate heating stage.
 
 Typically, the heating rate stabilised before substantial sample decomposition occurred. In most cases, the stabilised value was close to the nominal heating rate; however, for some experiments, a persistent offset remained and the prescribed heating rate was not fully reached even after the initial transient period. Deviations from the prescribed heating program may be particularly important in DSC and STA measurements, where both transient and persistent heating-rate errors can influence the measured heat-flow signal and consequently quantities derived from it, such as heat capacity or heats of reaction. For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments or pressures, no consistent systematic differences in the time-resolved heating-rate profiles were apparent; rather, the profiles were generally highly repeatable within each institution.
@@ -722,41 +725,20 @@ Despite the generally similar main decomposition behavior, two regions of the TG
 		\label{Fig:TGA_N2_10K_marked}
 	\end{subfigure}
 %	\hspace{-0.01\textwidth}
-	\begin{subfigure}[t]{0.49\textwidth}
+    \begin{subfigure}[t]{0.49\textwidth}
 		\centering
-		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/TGA_Wood_N2_10K_Mass_zoom1_marked.pdf}
-		\caption{Focus on low-temperature changes in sample mass due to variations in initial sample moisture content. The dashed vertical line at 400~K indicates the temperature used to define the dry reference mass, $m_{400}$. }		\label{Fig:TGA_N2_10K_moisture}
+		\includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/TGA_Wood_N2_10K_Mass_400Knorm_after.pdf}
+		\caption{Dry-mass normalization on TGA measurements conducted in pure nitrogen at a nominal heating rate of $\beta$~=~10~K/min. }
+		\label{Fig:TGA_N2_10K_drynorm}
 	\end{subfigure}
-	\caption{Key variations in TGA data from different institutions (Nitrogen atmosphere, $\beta=10$~K/min)}
-	\label{Fig:TGA_N2_10K_marked-moisture}
 \end{figure}
 
 
 \textbf{Accounting for Initial Sample Moisture Content (Dry-Mass Normalization)}\\
-Due to variations in sample preparation and/or testing conditions, at low temperatures initial mass loss varied  between measurements obtained by different laboratories. Apparent moisture content was therefore calculated as $1-m_{400}/m_0$, where $m_{400}$ is equal to the measured sample mass at $T$~=~400~K. This value was then used to re-normalize sample mass, as seen in Fig.~\ref{Fig:TGA_N2_10K_drynorm}. Apparent moisture contents (MC) from each dataset are reported in Table~\ref{tab:wood_tga_results}, ranging between 0~$\%$ and 8.2~$\%$. This variability is also evident in the enlarged low-temperature view shown in Figure~\ref{Fig:TGA_N2_10K_moisture}. These differences do not necessarily represent differences in the original material itself, but are strongly affected by sample conditioning and the experimental procedure prior to the main heating stage. Some institutions dried or otherwise conditioned the samples before testing, while others tested the material without additional drying. In some datasets, the initial part of the measurement was also removed before the data were submitted. Consequently, the apparent initial moisture content should be interpreted with caution when comparing results between laboratories.
+Due to variations in sample preparation and/or testing conditions, at low temperatures initial mass loss varied  between measurements obtained by different laboratories. Apparent moisture content was therefore calculated as $1-m_{400}/m_0$, where $m_{400}$ is equal to the measured sample mass at $T$~=~400~K. This value was then used to re-normalize sample mass, as seen in Fig.~\ref{Fig:TGA_N2_10K_drynorm}. Apparent moisture content (MC) from each dataset is reported in Table~\ref{tab:wood_tga_results}, ranging between 0~$\%$ and 8.2~$\%$. These differences do not necessarily reflect variations in the original material itself, but are strongly affected by sample conditioning and the experimental procedure prior to the main heating stage. Some institutions dried or conditioned the samples before testing, while others tested the material without additional conditioning. In some datasets, the initial part of the measurement was not included in the submitted data, or the device did not record data until the initial stabilization criteria were met. Consequently, the apparent initial moisture content should be interpreted with caution when comparing results between laboratories.
 
 
 One approach to reduce this variability would be to prescribe an identical drying and conditioning procedure for all participating laboratories. In practice, however, this would be difficult to implement consistently because of differences in available instrumentation and established measurement procedures. Alternatively, the temperature program could include an initial heating and drying stage followed by cooling and a second heating ramp, or an isothermal drying step before the main heating ramp, so that subsequent measurements start from a nominally dry sample. Such procedures may be appropriate when moisture itself is of interest or when moisture-sensitive quantities, such as heat capacity, are evaluated. For analysis focused primarily on the subsequent thermal decomposition, however, an additional experimental drying step is not necessary, since the data can instead be rescaled to the dry sample mass during post-processing as illustrated in Figure~\ref{Fig:TGA_N2_10K_drynorm}.
-
-\begin{figure}[h!]
-    \centering
-
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/TGA_Wood_N2_10K_Mass_before.pdf}
-        \label{Fig:TGA_N2_10K_drynorm_before}
-    \end{subfigure}
-    \hspace{-0.01\textwidth}
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, trim=6 6 6 6, clip]{../SCRIPT_FIGURES/TGA/TGA_Wood_N2_10K_Mass_400Knorm_after.pdf}
-        \label{Fig:TGA_N2_10K_drynorm_after}
-    \end{subfigure}
-
-    \caption{Effect of dry-mass normalization on TGA measurements conducted in pure nitrogen at a nominal heating rate of $\beta$~=~10~K/min. The left panel shows the original mass curves normalized by the initial sample mass, $m_0$, while the right panel shows the same data after rescaling by the mass measured at 400~K, $m_{400}$, selected as the dry reference mass.}
-
-    \label{Fig:TGA_N2_10K_drynorm}
-\end{figure}
 
 In the present analysis, the mass measured at 400~K, $m_{400}$, was selected as the reference dry mass. At this temperature, sample mass remained approximately constant after initial moisture loss and the main pyrolysis stage had not yet begun. Normalized mass is then calculated as $\frac{m}{m_{400}}$ (rather than as typically reported, $\frac{m}{m_{0}}$, where ${m_{0}}$ is initial sample mass); consequently, re-normalized mass at temperatures at $T<400$~K may exceed unity. Although this re-normalization greatly reduces differences between datasets prior to the onset of pyrolysis, it only partially improves the variability\footnote{\textcolor{red}{Consider measured residue yields calculated at both 700~K and 950~K from repeat measurements submitted by all institutions: at both temperatures, the standard deviation of $\frac{m}{m_{400}}$ is \# versus \# for $\frac{m}{m_{0}}$.}} in residue yield measured after the main decomposition stage (see Table~\ref{tab:wood_tga_results}). Across the investigated datasets, this correction increased the calculated residue yield by up to 2 percentage points at 700~K and 1.3 percentage points at 950~K. This demonstrates that differences in the measured residue yield cannot be explained by initial moisture content alone.
 
@@ -773,10 +755,12 @@ In the present analysis, the mass measured at 400~K, $m_{400}$, was selected as 
 \end{figure}
 
 \textbf{Atmospheric Pressure}\\
-The measurements by `Call' shown in Figure~\ref{Fig:TGA_pressure} also provide an opportunity to examine the effect of pressure. In addition to the atmospheric-pressure measurements discussed above, this institution performed tests at 40~Pa under the same nominal heating rate of 10~K/min. The reduced-pressure measurements show a substantially lower residue yield immediately after the main decomposition stage compared with the 100~kPa measurements, suggesting that pressure may influence the amount of solid residue formed during pyrolysis. However, interpretation of the original pressure comparison is complicated by the residual-oxygen effects identified above. The additional 100~kPa measurements performed with improved oxygen control demonstrate that the pronounced high-temperature mass loss in the original atmospheric-pressure dataset was not caused by pressure itself. Consequently, while the results suggest an effect of pressure on residue formation, the available data from a single institution are insufficient to isolate or quantify this effect independently of other experimental conditions.
+The measurements by `Call' shown in Figure~\ref{Fig:TGA_pressure} provide an opportunity to examine the effect of pressure. In addition to the atmospheric-pressure measurements discussed above, this institution performed tests at 40~Pa under the same nominal heating rate of 10~K/min. The reduced-pressure measurements show a substantially lower residue yield immediately after the main decomposition stage compared with the 100~kPa measurements, suggesting that pressure may influence the amount of solid residue formed during pyrolysis. However, interpretation of the original pressure comparison is complicated by the residual-oxygen effects identified above. The additional 100~kPa measurements performed with improved oxygen control demonstrate that the pronounced high-temperature mass loss in the original atmospheric-pressure dataset was not caused by pressure itself. Consequently, while the results suggest an effect of pressure on residue formation, the available data from a single institution are insufficient to isolate or quantify this effect independently of other experimental conditions.
 
 \textbf{Oxidation}\\ 
-TGA measurements were also conducted in oxidative atmospheres containing between 3 and 21~\% oxygen. These conditions were investigated less extensively than those in pure nitrogen because char oxidation was not a primary focus of MaCFP-4, although it will be considered in future workshops. Figure~\ref{Fig:TGA_O2-21_10K} shows measurements from 4 repeated tests conducted in mixtures of oxygen and nitrogen at approximately atmospheric oxygen concentration ($X_{\rm O_2}$~=~0.20--0.21) and a nominal heating rate of $\beta$~=~10~K/min. In these tests, sample mass loss occurs in two distinct stages, with approximately 70~\% of the initial sample mass lost by $T$~=~600~K and most of the remaining mass lost between approximately $T$~=~750~K and $T$~=~775~K as a result of char oxidation.
+TGA measurements were conducted in oxidative atmospheres containing between 3 and 21~\% oxygen. These conditions were investigated less extensively than those in pure nitrogen because char oxidation was not a primary focus of MaCFP-4, although it will be considered in future workshops. Figure~\ref{Fig:TGA_O2-21_10K} shows measurements from 4 institutions conducted in mixtures of oxygen and nitrogen at approximately atmospheric oxygen concentration ($X_{\rm O_2}$~=~0.20--0.21) and a nominal heating rate of $\beta$~=~10~K/min. In these tests, sample mass loss occurs in two distinct stages, with approximately 70~\% of the initial sample mass lost by $T$~=~600~K and most of the remaining mass lost between approximately $T$~=~750~K and $T$~=~775~K as a result of char oxidation.
+
+One institution, 'Alabio', submitted TGA data from experiments at 10~K/min under different oxidative environments. Figure~\ref{Fig:TGA_O2-21_10K} shows measurements for 4 different concentrations of oxygen. The onset temperature remains the same between the different oxygen concentrations. The peak temperature becomes higher for lower oxygen concentrations, while the peak becomes lower, both for the main reaction peak and the secondary reaction peak. 
 
 \begin{figure}
 \centering
@@ -793,6 +777,24 @@ TGA measurements were also conducted in oxidative atmospheres containing between
 \end{subfigure}
 	\caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in oxidative atmospheres at a nominal heating rate of $\beta$~=~10~K/min ('Cayuga', $X_{\rm O_2}$~=~0.20; 'Hardhead', 'Mallard', and 'Alabio', $X_{\rm O_2}$~=~0.21).}
   \label{Fig:TGA_O2-21_10K}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.85\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/TGA/TGAWood_O2-levels_Mass.pdf}
+		\caption{}
+		\label{Fig:TGA_O2-levels_10KMass}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.85\textwidth}
+		\includegraphics[width=1\linewidth]{../SCRIPT_FIGURES/TGA/TGAWood_O2-levels_dmdt.pdf}
+		\caption{}
+		\label{Fig:TGA_O2-levels_10Kdmdt}
+	\end{subfigure}
+	\caption{Normalized (a) mass and (b) mass loss rate of TGA tests conducted in different oxidative atmospheres ($X_{\rm O_2}$~=~0.03 to $X_{\rm O_2}$~=~0.21) at a nominal heating rate of $\beta$~=~10~K/min.}
+	\label{Fig:TGA_O2-levels_10K}
 \end{figure}
 
 \clearpage
