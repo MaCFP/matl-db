@@ -416,7 +416,7 @@ def main():
         latex_lines.append(rf'\noindent\textbf{{$\beta$ = {hr_value}~K/min}}\par\vspace{{0.3em}}')
         latex_lines.append(r'    \centering')
         latex_lines.append(rf'    \includegraphics[width=0.75\linewidth]{{../SCRIPT_FIGURES/TGA/{pdf_path.name}}}')
-        latex_lines.append(rf'    \caption{{Measured heating-rate profiles for TGA tests conducted at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+        latex_lines.append(rf'    \caption{{Measured heating-rate profiles for TGA tests conducted at a nominal heating rate of $\beta$~=~{hr_value}~K/min.}}')
         latex_lines.append(r'\end{figure}')
         latex_lines.append('')
 
@@ -558,7 +558,7 @@ def main():
             latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{mass_path.name}}}')
             latex_lines.append(r'    \hfill')
             latex_lines.append(rf'    \includegraphics[width=0.48\linewidth]{{../SCRIPT_FIGURES/TGA/{dmdt_path.name}}}')
-            latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta={hr_value}$~K/min.}}')
+            latex_lines.append(rf'    \caption{{Normalized mass (left) and normalized mass loss rate (right) for TGA tests conducted in an atmosphere containing {oxygen}~\% oxygen at a nominal heating rate of $\beta$~=~{hr_value}~K/min.}}')
             latex_lines.append(r'\end{figure}')
             latex_lines.append('')
 
@@ -826,6 +826,67 @@ def main():
         fig.savefig(str(base_dir) + f'/TGA/Individual/{path.stem}.{ex}')
         plt.close(fig)
     #--------------------------------------------------------
+
+    # plot different oxygen concentrations
+    TGA_subset_O2 = [path for path in TGA_Data if 'UMD' in path.name and 'O2-' in path.name and '10K' in path.name]
+
+    o2_values = sorted(
+    {
+        match.group(1)
+        for path in TGA_subset_O2
+        if (match := re.search(r'(O2-\d+)', path.stem))
+    },
+    key=lambda value: int(value.split('-')[1])
+    )
+
+    cmap = plt.get_cmap('Paired')
+    O2_colors = {
+        value: cmap(i % 20)
+        for i, value in enumerate(o2_values)
+    }
+    print()
+    fig1, ax_mass = plt.subplots(figsize=(6, 4))
+    fig2, ax_rate = plt.subplots(figsize=(6, 4))
+
+    for path in TGA_subset_O2:
+        df_raw = pd.read_csv(path)
+        df = Calculate_dm_dt(df_raw)
+
+        match = re.search(r'(O2-\d+)', path.stem)
+        conc = match.group(1)
+
+        # Plot mass (left y-axis)
+        ax_mass.plot(df['Temperature (K)'], df['Normalized mass'],color=O2_colors[conc], label = conc)
+
+        # Plot mass loss rate (right y-axis, dashed)
+        ax_rate.plot(df['Temperature (K)'], df['dm/dt'],color=O2_colors[conc], label = conc)
+
+        # Set lower limits of both y-axes to 0
+        ax_mass.set_ylim(bottom=0)
+        ax_mass.set_xlim(right=900)
+        ax_rate.set_ylim(bottom=0, top=0.003)
+        ax_rate.set_xlim(right=900)
+
+        # Axes labels
+        ax_mass.set_xlabel('Temperature [K]')
+        ax_mass.set_ylabel('m/m$_0$ [g/g]')
+        ax_rate.set_ylabel('d(m/m$_0$)/dt [s$^{-1}$]')
+
+        ax_rate.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
+
+        # Legend
+        handles, labels = ax_mass.get_legend_handles_labels()
+        unique = dict(zip(labels, handles))
+        fig1.legend(unique.values(), unique.keys(), loc='upper right', frameon=True, bbox_to_anchor=(0.95, 0.90),)
+        fig2.legend(unique.values(), unique.keys(), loc='upper right', frameon=True, bbox_to_anchor=(0.95, 0.90),)
+
+        fig1.tight_layout()
+        fig1.savefig(str(base_dir) + f'/TGA/TGAWood_O2-levels_Mass.{ex}') #Name without _ for line 514
+        fig2.tight_layout()
+        fig2.savefig(str(base_dir) + f'/TGA/TGAWood_O2-levels_dmdt.{ex}')
+        
+        plt.close(fig1)
+        plt.close(fig2)
 
 
 
@@ -1135,7 +1196,7 @@ def main():
         oxygen = float(parts[3].split('-')[1])
         heating_rate = float(parts[4].replace('K', ''))
         institution = parts[0]
-        return oxygen, heating_rate, institution, s
+        return  heating_rate,oxygen, institution, s
 
     o2_sets = sorted(o2_sets, key=o2_appendix_sort_key)
 
@@ -1445,7 +1506,7 @@ def main():
     # =============================================================================
     # Comparison of MaCFP4 and MaCFP2 TGA repeatability and reproducibility
     # =============================================================================
-
+    #Note table does not get updated automatically, last update/check October 2026
     tga_comparison_latex = r'''
     \begin{tabular}{|c|c|c|}
     \hline
