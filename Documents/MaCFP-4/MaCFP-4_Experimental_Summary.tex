@@ -848,36 +848,37 @@ All key features were calculated on submitted data, not on dry-mass normalized d
 
 A total of 87 DSC datasets were submitted by seven institutions. All DSC measurements were obtained as part of simultaneous thermal analysis (STA), with thermogravimetric and heat-flow data recorded during the same experiment.\footnote{Conventional DSC does not measure sample mass and is therefore best suited to quantitative evaluation of thermal events occurring without substantial mass change. When decomposition occurs, changes in sample mass can affect the DSC baseline and quantities normalised by sample mass. Simultaneous TGA-DSC measurements partly overcome this limitation by providing the corresponding mass-loss history, although STA generally represents a compromise compared with dedicated DSC measurements optimised specifically for calorimetric accuracy.} Of these measurements, 69 tests were conducted in pure nitrogen at nominal heating rates between 3~K/min and 50~K/min, with the largest number of 26 measurements obtained at 10~K/min. A further 18 tests were conducted at various heating rates in oxidative atmospheres containing 3~\%--21~\% oxygen in nitrogen.
 
-Although most experiments were conducted using nominally constant heating rates, the actual sample heating rate, $dT/dt$, was not constant throughout every test. The largest deviations generally occurred during the initial part of the heating program, before the system approached the prescribed heating rate. As discussed for the TGA measurements and illustrated in Figure~\ref{Fig:TGA_dTdt_ranges}, the relevance of these deviations depends on the temperature range of the process being analyzed. Consequently, interpretation of DSC signals, particularly at lower temperatures, should consider the measured sample-temperature history rather than the nominal heating rate alone.
+Although most experiments were conducted using nominally constant heating rates, the actual sample heating rate, $dT/dt$, was not constant throughout every test. The largest deviations generally occurred during the initial part of the heating program, before the system approached the prescribed heating rate. As discussed for the TGA measurements and illustrated in Figure~\ref{Fig:TGA_dTdt_ranges}, the relevance of these deviations depends on the temperature range of the process being analyzed. Consequently, interpretation of DSC signals, particularly at lower temperatures, should consider the measured sample-temperature history rather than the nominal heating rate alone.\\
 
 \textbf{Data Processing} \\
 The key measurements recorded during DSC tests are heat flow to the sample, $\dot{q}/m_0$ (W/g), sample temperature, $T$~(K), and the time, $t$~(s), at which these values were recorded.  Both heat flow $\dot{q}$ and temperature $T$ were reported as time-resolved measurements. Prior to further analysis, the submitted heat-flow measurements were adjusted to a common sign convention such that endothermic events (e.g., heat flow to the sample during thermal decomposition, which peaks at approximately 600~K to 650~K) would be recorded as positive (increasing) events, with respect to the baseline. However, due to significant deviations in reported DSC data (potentially as a result of calibration, baseline correction, or instrumentation issues), negative and/or positive heat flow measurements do not necessarily indicate exothermic and/or endothermic events. Consequently, caution should be exercised when attempting to use these measurements for determination of `MaCFP-Wood' heat capacity, $c_p$, or heat of decomposition.\footnote{Note: `Ancona' DSC data were submitted with the comment, "DSC data serve as supplementary only and are not suitable for calibration." This dataset is thus included here for qualitative comparison and caution should be used if considering it for model calibration/property determination.} 
 
-Most DSC tests were run at constant heating rates. Both heat flow to the sample and sample temperature were reported at regular time or temperature intervals. Much like TGA data, effectively this meant that heat flow to the sample was reported, in most experiments, approximately every 0.5~K. One institution reported data every 1~K, while another reported data at constant time intervals of 1~s. Because the reporting interval was not always defined directly in terms of temperature, and because measured sample temperature could occasionally decrease slightly from one time step to the next, the temperature spacing between consecutive reported data points was not strictly uniform in all datasets.
+Most DSC tests were run at constant heating rates. Both heat flow to the sample and sample temperature were reported at regular time or temperature intervals. Much like TGA data, effectively this meant that heat flow to the sample was reported, in most experiments, approximately every 0.5~K. One institution reported data every 1~K, while another reported data at constant time intervals of 1~s. This reporting frequency was not constant and, due to the nature of the experiment, measured sample temperature could actually decrease from one time step to the next. 
 
-For all tests, heat flow signals were first processed using linear interpolation such that they were each reported at the same regular temperature intervals (i.e., every 0.5~K). Integral heat flow, $q/m_0$~(J/g), was calculated for each replicate test, $j$, using the trapezoidal rule:
+For all tests, heat flow signals were first processed using linear interpolation such that they were each reported at the same regular temperature intervals (i.e., every 0.5~K). Integral heat flow, $q/m_0$~(J/g), was calculated at each temperature $T_i$, for each replicate test, $j$, using the trapezoidal rule:
 \begin{equation}
 \frac{q_{i,j}}{m_{0,j}} = \sum_{i'=1}^i \frac{1}{2} \left( \frac{\dot{q}_{i',j}}{m_{0,j}} + \frac{\dot{q}_{i'-1,j}}{m_{0,j}} \right) \left(t_{i'}-t_{i'-1} \right)
 %we have to start from i'=1 otherwise at i'-1, we have a conflict
 \end{equation}
-Note: integral heat flows reported here are simply calculated from beginning to end of each test, thus care should be taken when comparing results submitted by different institutions that may have used different initial sample temperatures.
+Note: integral heat flows reported here are calculated cumulatively at each temperature point, from the start of the test to that point. Care should be taken when comparing results from different institutions, as they may have used different initial sample temperatures.
 
-Due to substantial differences in heat flow measurements submitted by different laboratories under nominally identical heating and gaseous environment conditions, average DSC curves were primarily calculated separately for each institution. When repeated measurements were available from the same institution under the same experimental conditions, average heat flow and integral heat flow were calculated at each temperature point, $T_i$, using all available measurements within a 2~K interval centred at $T_i$:
+Due to substantial differences in heat flow measurements submitted by different laboratories under nominally identical heating and atmospheric conditions, average DSC curves were only calculated per institution. When repeated measurements were available from the same institution under the same experimental conditions, average heat flow and integral heat flow were calculated at each temperature point, $T_i$, using all available measurements within a 2~K interval centered at $T_i$:
 
 \begin{equation}
-\overline{\left(\frac{\dot{q}}{m_0}\right)_i}=\frac{1}{\sum_{j=1}^{N_j}N_{i,j}}\sum_{j=1}^{N_j}\sum_{i'=i-2}^{i+2}\frac{\dot{q}_{i',j}}{m_{0,j}}
+\overline{\left(\frac{\dot{q}}{m_0}\right)_i}=\frac{1}{\sum_{j=1}^{N_j}N_{i}}\sum_{j=1}^{N_j}\sum_{i'=i-2}^{i+2}\frac{\dot{q}_{i',j}}{m_{0,j}}
 \end{equation}
 
-where $N_{i,j}$ is the number of available measurements from experiment $j$ within the interval $i-2 \leq i' \leq i+2$. This corresponds to a total temperature interval of 2~K around $T_i$. The standard error of the mean, $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
+where $N_{i}$ is the number of measurements from an individual experiment $j$ within the interval $i-2 \leq i' \leq i+2$. This corresponds to a total temperature interval of 2~K around $T_i$. The standard error of the mean, $\sigma_{mean,i}$, was calculated at each temperature, $T_i$, as:
 
 \begin{equation}
-\sigma_{mean,i}=\sqrt{\frac{\sum_{j=1}^{N_j}\sum_{i'=i-2}^{i+2}\left(\frac{\dot{q}_{i',j}}{m_{0,j}}-\overline{\left(\frac{\dot{q}}{m_0}\right)_{i'}}\right)^2}{\left(\sum_{j=1}^{N_j}N_{i,j}\right)\left(\sum_{j=1}^{N_j}N_{i,j}-1\right)}}
+\sigma_{mean,i}=\sqrt{\frac{1}{\left(\sum_{j=1}^{N_j}N_{i}\right)\left(\sum_{j=1}^{N_j}N_{i}-1\right)}\sum_{j=1}^{N_j}\sum_{i'=i-2}^{i+2}\left(\frac{\dot{q}_{i',j}}{m_{0,j}}-\overline{\left(\frac{\dot{q}}{m_0}\right)_{i'}}\right)^2}
 \end{equation}
 
 The same averaging procedure was applied to integral heat flow. Average curves are shown together with shaded regions representing $\pm 2\sigma_{mean,i}$.
 
 \textbf{Heat Flow in Nitrogen} \\
-Figure~\ref{Fig:DSC_N2_10K} shows measurement data from repeated tests conducted in pure nitrogen at a nominal heating rate of $\beta$~=~10~K/min; data shown here were received from five unique institutions. Instantaneous and integral heat flow curves from DSC experiments conducted under all nitrogen heating-rate conditions are provided in Appendix~\ref{DSC_N2}. Between laboratories, variation between average curves is substantially lower than between individual test results. It is worth noting that, despite the variability in the submitted results, scatter in these measurements is lower than that observed in MaCFP-2, which studied PMMA, a material with comparatively simpler decomposition behavior~\cite{PreliminarySummary}.
+Figure~\ref{Fig:DSC_N2_10K} shows measurement data from repeated tests conducted in pure nitrogen at a nominal heating rate of $\beta$~=~10~K/min; data shown here were received from five unique institutions. Instantaneous and integral heat flow curves from DSC experiments conducted under all nitrogen heating-rate conditions are provided in Appendix~\ref{DSC_N2}. **Between laboratories, variation between average curves is substantially lower than between individual test results.** It is worth noting that, despite the variability in the submitted results, scatter in these measurements is lower than that observed in MaCFP-2, which studied PMMA, a material with comparatively simpler decomposition behavior~\cite{PreliminarySummary}.
+%Comment: I'm not sure I understand the average comment/ whether this is corrrect. 
 
 \begin{figure}[p]
 \centering
@@ -898,6 +899,22 @@ Sample moisture represents an additional source of uncertainty. The submitted sa
 
 The integral heat flow calculated over the entire experiment is particularly sensitive to these effects, as well as to differences in the initial heat-flow offset, baseline drift, and instrument-specific transients at the beginning of the heating program. Since even a relatively small offset can accumulate into a substantial difference in integral heat flow over a long experiment, these curves should be interpreted with caution. For quantitative determination of reaction enthalpies, integration of individual thermal events relative to an appropriate local baseline is therefore generally more meaningful than integration of the complete DSC signal.
 
+\begin{figure}[p]
+	\centering
+	
+	\includegraphics[width=0.85\textwidth]{../SCRIPT_FIGURES/DSC/DSC_differentmass.pdf}
+	
+	\vspace{0.5em}
+	
+	\includegraphics[width=0.85\textwidth]{../SCRIPT_FIGURES/DSC/DSC_differentmass_integral.pdf}
+	
+	\caption{Comparison of measured heat flow and integral heat flow from DSC tests conducted by 'Alabio' under pure nitrogen at a nominal heating rate of $\beta$~=~30~K/min. Samples had initial masses of 1~mg and 4~mg. }
+	\label{Fig:DSC_differentmass}
+\end{figure}
+
+One institution,'Alabio', performed STA experiments with two different initial masses, 1~mg (10 repetition experiments) and 4~mg (3 repetition experiments) samples, at 30~K/min under nitrogen atmosphere. As can be seen in Figure~\ref{Fig:DSC_differentmass}, each 1~mg run's heat flow is shifted by a roughly constant amount that differs run to run, so the averaged 1~mg heat flow has much more scatter than the 4~mg average. Once only char remains, the averaged 1~mg heat flow is negative, which looks like a systematic effect at small sample mass rather than scatter. Both make the 1~mg data poorly suited for heat capacity determination. The run-to-run variation is in the heat capacity rather than in the heat of decomposition; i.e. the heat of decomposition for samples with the same initial mass is highly repeatable, see table~\ref{Table_11}. Samples with an initial mass of 1~mg take up more heat over the main peak and leave less char (13.8\% compared to 16.5\%). This is consistent with available literature~\cite{RATH200381, Gomez2009, Jones2020}. 
+
+
 **Add discussion and plot on DSC heat flow data with different sized samples. UMD shows that same average heat flow is observed with 1~mg as 4~mg but requires ~3x more tests. More sensitive to shifts in baseline with smaller masses. This is further evidences by additional scatter in heat flow measured after only char remains (negative heat flow, even in average curve, with 1~mg data)
 
 \textbf{Heat of Decomposition} \\
@@ -914,7 +931,7 @@ Next, a linear baseline of heat flow to the sample crucible (neglecting the ener
 \begin{equation}
 h_{\rm r}=\frac{\displaystyle\int_{t_{\rm onset}}^{t_{\rm endset}}\left[\left(\frac{\dot{q}}{m_0}\right)-\left(\frac{\dot{q}}{m_0}\right)_{\rm baseline}\right]dt}{\Delta m/m_0}
 \end{equation}
-Individual values of $h_{\rm r}$ are presented in Table~\ref{Table_11} for each individual STA test conducted in a nitrogen environment.\footnote{The `Ancona' DSC data were submitted as supplementary information to the corresponding TGA measurements and were not acquired with the aim of maximizing DSC measurement accuracy. These values should therefore be interpreted with caution in quantitative comparisons.} Despite significant scatter in heat flow measurements from individual tests conducted by different labs (see Fig.~\ref{Fig:DSC_N2_10K}), the calculated values of $h_{\rm r}$ have a mean of 369~J/g and a standard deviation of 134~J/g.
+Individual values of $h_{\rm r}$ are presented in Table~\ref{Table_11} for each individual STA test conducted in a nitrogen environment.\footnote{The `Ancona' DSC data were submitted as supplementary information to the corresponding TGA measurements and were not acquired with the aim of maximizing DSC measurement accuracy. These values should therefore be interpreted with caution in quantitative comparisons.} Despite significant scatter in heat flow measurements from individual tests conducted by different labs (see Fig.~\ref{Fig:DSC_N2_10K}), the calculated values of $h_{\rm r}$ have a mean of 354~J/g and a standard deviation of 107~J/g.
 
 \begin{table}[h]
 \caption{Calculated heats of decomposition, $h_{\rm r}$ (J/g), for individual STA tests conducted in nitrogen, including mean $\pm$ standard deviation for each institution and overall.}
@@ -925,7 +942,7 @@ Individual values of $h_{\rm r}$ are presented in Table~\ref{Table_11} for each 
 \end{table}
 
 \textbf{Heat Flow in Oxidative Atmospheres} \\
-Only 18 DSC datasets were submitted for oxidative atmospheres, all from a single institution, covering oxygen concentrations between 3~\% and 21~\% in nitrogen and nominal heating rates between 2.5~K/min and 20~K/min. These data are therefore not suitable for inter-laboratory comparison, and oxidative DSC behavior was not a primary focus of the present MaCFP call. For this reason, only a representative example is discussed here.
+18 DSC datasets for oxidative atmospheres were submitted, all from a single institution, covering oxygen concentrations between 3~\% and 21~\% in nitrogen and nominal heating rates between 2.5~K/min and 20~K/min. These data are therefore not suitable for inter-laboratory comparison, and oxidative DSC behavior was not a primary focus of the present MaCFP call. For this reason, only a representative example is discussed here.
 
 Figure~\ref{Fig:DSC_O2-21_10K} shows heat-flow and integral heat-flow curves measured in an oxidative atmosphere at $\beta$~=~10~K/min; additional oxidative DSC results are provided in Appendix~\ref{DSC_O2}. Compared with the nitrogen measurements, the DSC response under oxidative conditions exhibits a much stronger exothermic contribution divided into two peaks, which is consistent with oxidation of pyrolysis products and residual char. These measurements are therefore included primarily for qualitative illustration of the change in thermal behavior in the presence of oxygen.
 

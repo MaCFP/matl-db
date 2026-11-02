@@ -485,6 +485,38 @@ for series, df_data in average_data.items():
 plt.close(fig1)
 plt.close(fig2)
 
+# Compare different masses UMD
+
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+fig2, ax2 = plt.subplots(figsize=(6, 4))
+color_mass = {'1mg': 'orange', '4mg':'blue'}
+DSC_subset_paths = [p for p in DSC_Data if f"UMD_Wood_STA_N2_30K" in p.name ]
+for path in DSC_subset_paths:
+    df_raw = pd.read_csv(path)
+    df = Integral_DSC(df_raw)
+    mass = path.stem.split('_')[-2]
+    ax1.plot(df['Temperature (K)'], df['Heat Flow Rate (W/g)'], label = mass, color=color_mass[mass])
+    ax2.plot(df['Temperature (K)'], df['Int Heat Flow (J/g)'], label = mass, color=color_mass[mass])
+
+
+ax1.set_xlabel('Temperature [K]')
+ax1.set_ylabel('Heat flow [W g$^{-1}$]')
+fig1.tight_layout()
+handles1, labels1 = ax1.get_legend_handles_labels()
+by_label1 = dict(zip(labels1, handles1))
+ax1.legend(by_label1.values(), by_label1.keys())
+
+ax2.set_xlabel('Temperature [K]')
+ax2.set_ylabel('Integral Heat Flow [J g$^{-1}$]')
+fig2.tight_layout()
+handles2, labels2 = ax2.get_legend_handles_labels()
+by_label2 = dict(zip(labels2, handles2))
+ax2.legend(by_label2.values(), by_label2.keys())
+
+fig1.savefig(str(base_dir) + '/DSC/DSC_differentmass.{}'.format(ex))
+fig2.savefig(str(base_dir) + '/DSC/DSC_differentmass_integral.{}'.format(ex))
+plt.close(fig1)
+plt.close(fig2)
 
 
 
