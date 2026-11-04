@@ -261,9 +261,9 @@ def format_with_uncertainty(mean, std):
 
 def format_temperature(mean, std):
     """Format temperature (no scientific notation)"""
-    if abs(mean) < 0.005:  # avoid -0.0
+    if abs(mean) < 0.05:  # avoid -0.0
         mean = 0.0
-    if pd.isna(std) or std == 0:
+    if pd.isna(std): #or std == 0:
         return f"${mean:.1f}$"
     else:
         return f"${mean:.1f} \\pm {std:.1f}$"

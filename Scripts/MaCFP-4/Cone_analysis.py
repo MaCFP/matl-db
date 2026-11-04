@@ -495,7 +495,7 @@ def average_Gas_series(series_name: str)->pd.DataFrame:
 
     diff = merged_df[dmdt_cols].sub(df_average['dm/dt'], axis=0)**2
     sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
-    df_average['unc dm/dt'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+    df_average['unc dm/dt'] = np.sqrt(sum_diff.clip(lower=0)/(cnt*(cnt-1)))
 
     return df_average
 
@@ -1017,11 +1017,15 @@ for series in unique_conditions_cone_material:
         grain_orientation = get_grain_orientation(path)
         linestyle = '-' if grain_orientation == 'Parallel' else (0, (1, 2))
 
-        ax1.plot(df['Time (s)'],
-                 savgol_filter((-1) * np.gradient(df['Mass (g)'],
-                                                  df['Time (s)']), 53, 3),
-                 linestyle=linestyle,
-                 color=color)
+        # Skip MLR plot if mass data contain NaN or Inf
+        if np.isfinite(df['Mass (g)']).all():
+            ax1.plot(df['Time (s)'],
+                     savgol_filter((-1) * np.gradient(df['Mass (g)'],
+                                                      df['Time (s)']), 53, 3),
+                     linestyle=linestyle,
+                     color=color)
+        else:
+            print(f"WARNING: MLR not plotted for {path.name} - mass data contain NaN or Inf.")
 
         if path.stem.split('_')[0] == 'UMET':
             zorder = 6
@@ -1166,6 +1170,32 @@ for idx,set in enumerate(Cone_sets):
 Average_values.drop('set',axis=1)
 print(Average_values)
 
+
+
+# Create LaTeX file for appendix: individual laboratory HRR plots from Cone/Average
+average_dir = base_dir / 'Cone' / 'Average'
+files = sorted(average_dir.glob('*.pdf'))
+
+lines = []
+
+for flux in cone_flux:
+    flux_files = [p for p in files if f'_{flux}_' in p.stem]
+    if not flux_files:
+        continue
+
+    lines.append(rf'\subsubsection{{External heat flux: {flux.replace("kW", "")} kW/m$^2$}}')
+
+    for i, path in enumerate(flux_files):
+        lines += [
+            r'\begin{minipage}{0.48\textwidth}',
+            rf'\includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/Cone/Average/{path.name}}}',
+            r'\end{minipage}',
+            r'\hfill' if i % 2 == 0 else r'\par\noindent'
+        ]
+
+    lines.append(r'\vspace{0.3cm}')
+
+(base_dir / 'Cone' / 'Cone_Appendix_Average_HRR.tex').write_text('\n'.join(lines))
 
 
 
@@ -2298,8 +2328,8 @@ if all_hoc_values:
     ax_hoc_compare.set_xlim(axis_min, axis_max)
     ax_hoc_compare.set_ylim(axis_min, axis_max)
 
-ax_hoc_compare.set_xlabel('Calculated heat of combustion [kJ/g]')
-ax_hoc_compare.set_ylabel('Reported heat of combustion [kJ/g]')
+ax_hoc_compare.set_xlabel('Heat of combustion using calculated ignition time [kJ/g]')
+ax_hoc_compare.set_ylabel('Heat of combustion using reported ignition time [kJ/g]')
 
 if institution_handles:
     legend1 = ax_hoc_compare.legend(institution_handles.values(), institution_handles.keys(), loc='upper left', framealpha=0.25)
@@ -3569,15 +3599,6 @@ summary_latex = summary_latex.replace('\\bottomrule', '\\hline')
 for col in ['Quantity', 'Passed', 'Total', 'Fraction']:
     summary_latex = summary_latex.replace(col, '\\textbf{' + col + '}')
 
-summary_latex = (
-    '\\begin{table}[ht]\n'
-    '\\centering\n'
-    '\\caption{Comparison to ASTM E1354-23 interlaboratory trials repeatability.}\n'
-    '\\label{tab:astm_repeatability_summary}\n'
-    + summary_latex +
-    '\\end{table}'
-)
-
 with open(str(base_dir) + '/Cone/Cone_ASTM_Repeatability_Summary.tex', 'w') as f:
     f.write(summary_latex)
 
@@ -3591,6 +3612,17 @@ macfp2_ranges = {
     '60--65': {'tig': '12--30', 'HOC': '22.3--26.1'}
 }
 
+def format_relative_range(values):
+    values = pd.to_numeric(values, errors='coerce').dropna()
+    if values.empty:
+        return '--'
+    low, high = values.min(), values.max()
+    return f'{low:.1f}--{high:.1f} ({200 * (high - low) / (high + low):.1f}\\%)'
+
+def format_macfp2_range(interval):
+    low, high = map(float, interval.split('--'))
+    return f'{interval} ({200 * (high - low) / (high + low):.1f}\\%)'
+
 comparison_rows = []
 
 for heat_flux_label, macfp4_flux in [('25', 25), ('50', 50), ('60--65', 60)]:
@@ -3600,17 +3632,13 @@ for heat_flux_label, macfp4_flux in [('25', 25), ('50', 50), ('60--65', 60)]:
     tig_reported_values = subset['ignition time reported'].dropna()
     hoc_values = subset['HOC'].dropna()
 
-    tig_calculated_range = f'{tig_calculated_values.min():.1f}--{tig_calculated_values.max():.1f}' if len(tig_calculated_values) > 0 else '--'
-    tig_reported_range = f'{tig_reported_values.min():.1f}--{tig_reported_values.max():.1f}' if len(tig_reported_values) > 0 else '--'
-    hoc_range = f'{hoc_values.min():.1f}--{hoc_values.max():.1f}' if len(hoc_values) > 0 else '--'
-
     comparison_rows.append({
         'Heat flux': heat_flux_label,
-        'MaCFP 4 calculated tig': tig_calculated_range,
-        'MaCFP 4 reported tig': tig_reported_range,
-        'MaCFP 2 tig': macfp2_ranges[heat_flux_label]['tig'],
-        'MaCFP 4 HOC': hoc_range,
-        'MaCFP 2 HOC': macfp2_ranges[heat_flux_label]['HOC']
+        'MaCFP 4 calculated tig': format_relative_range(tig_calculated_values),
+        'MaCFP 4 reported tig': format_relative_range(tig_reported_values),
+        'MaCFP 2 tig': format_macfp2_range(macfp2_ranges[heat_flux_label]['tig']),
+        'MaCFP 4 HOC': format_relative_range(hoc_values),
+        'MaCFP 2 HOC': format_macfp2_range(macfp2_ranges[heat_flux_label]['HOC'])
     })
 
 comparison_table = pd.DataFrame(comparison_rows)
@@ -3639,15 +3667,6 @@ header = (
 
 comparison_latex = comparison_latex.replace('\\toprule', header)
 comparison_latex = comparison_latex.replace('\\bottomrule', '\\hline')
-
-comparison_latex = (
-    '\\begin{table}[ht]\n'
-    '\\centering\n'
-    '\\caption{Comparison to MaCFP2 reported ranges.}\n'
-    '\\label{tab:macfp2_ranges}\n'
-    + comparison_latex +
-    '\\end{table}'
-)
 
 with open(str(base_dir) + '/Cone/Cone_MaCFP2_Range_Comparison.tex', 'w') as f:
     f.write(comparison_latex)

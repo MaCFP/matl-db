@@ -92,17 +92,6 @@ When error bars are provided, they are calculated as two standard deviations of 
     \caption{Peak normalized mass loss rate and onset temperature results for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta=5$~K/min.}
 \end{figure}
 
-\noindent\textbf{$\beta$ = 10~K/min}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.48\linewidth]{../SCRIPT_FIGURES/TGA/Tpeak_Average_N2_10K_MLR.pdf}
-    \hfill
-    \includegraphics[width=0.48\linewidth]{../SCRIPT_FIGURES/TGA/Tonset_Average_N2_10K.pdf}
-    \caption{Peak normalized mass loss rate and onset temperature results for TGA tests conducted in pure nitrogen at a nominal heating rate of $\beta=10$~K/min.}
-\end{figure}
-
-\newpage
 \noindent\textbf{$\beta$ = 20~K/min}
 
 \begin{figure}[H]
@@ -132,6 +121,7 @@ When error bars are provided, they are calculated as two standard deviations of 
 
 
 \section{Differential Scanning Calorimetry (DSC)}
+
 \subsection{Nitrogen Environment}
 \label{DSC_N2}
 
@@ -238,6 +228,7 @@ When error bars are provided, they are calculated as two standard deviations of 
 
 
 \newpage
+
 \section{Micro-Scale Combustion Calorimeter (MCC)}
 \subsection{Nitrogen Environment}
 \label{MCC_N2}
@@ -375,98 +366,142 @@ Finally, a third degree polynomial is fitted through the regions found in the pr
 \section{Cone Calorimeter}
 \subsection{Heat Release Rate (HRR)}
 \label{Cone_HRR}
-\subsubsection{External heat flux: 25 kW/m$^2$}
-\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/IMT_Wood_Cone_25kW_hor.pdf}}\\
-\end{figure}
-\end{minipage}
 
+\subsubsection{Individual Laboratory Results}
+\input{../SCRIPT_FIGURES/Cone/Cone_Appendix_Average_HRR.tex}
 
-\subsubsection{External heat flux: 30 kW/m$^2$}
-\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/TUBS_Wood_Cone_30kW_hor.pdf}}\\
-\end{figure}
-\end{minipage}
-\begin{minipage}{0.35\textwidth}
-\begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/UDRI_Wood_Cone_30kW_hor.pdf}}\\
-\end{figure}
-\end{minipage}\\
-\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/UMET_Wood_Cone_30kW_hor.pdf}}\\
-\end{figure}
-\end{minipage}
-\vfill
-\newpage
-\noindent
+\clearpage
+\subsubsection{Individual Heat Release Rate}
+The following figures present individual HRR measurements at incident heat fluxes of 25, 45 and 75~kW/m$^2$, complementing the results at 30~kW/m$^2$, 50~kW/m$^2$ and 60~kW/m$^2$ presented in the main text.
 
-\subsubsection{External heat flux: 50 kW/m$^2$}
-\begin{minipage}{0.5\textwidth}
 \begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/IMT_Wood_Cone_50kW_hor.pdf}}\\
-\end{figure}
-\end{minipage}\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-	{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/FPL_Wood_Cone_50kW_hor.pdf}}\\
-\end{figure}
-\end{minipage}
-\vfill
+\centering
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Wood_25kW_hor_HRR.pdf}
 
-\subsubsection{External heat flux: 60 kW/m$^2$}
-\begin{minipage}{0.5\textwidth}
-\begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/UDRI_Wood_Cone_60kW_hor.pdf}}\\
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Wood_45kW_hor_HRR.pdf}
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Wood_75kW_hor_HRR.pdf}
+
+\caption{Measured heat release rate in individual cone calorimeter experiments at incident heat fluxes of 25~kW/m$^2$, 45~kW/m$^2$ and 75~kW/m$^2$ (top to bottom).}
+\label{Fig:Cone_Appendix_Individual_HRR}
 \end{figure}
-\end{minipage}
-\begin{minipage}{0.35\textwidth}
+
+\clearpage
+
+\subsubsection{Effect of Grain Orientation}
+
+The following figures complement the grain orientation comparisons at 25~kW/m$^2$ and 50~kW/m$^2$ presented in the main text, showing the corresponding results at 30~kW/m$^2$, 60~kW/m$^2$ and 75~kW/m$^2$.
+
 \begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/UMET_Wood_Cone_60kW_hor.pdf}}\\
+\centering
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_grain_30kW.pdf}
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_grain_60kW.pdf}
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Average_HRR_grain_75kW.pdf}
+
+\caption{Comparison of average measured HRR for samples with the wood grain oriented parallel and perpendicular to the exposed surface at incident heat fluxes of 30~kW/m$^2$, 60~kW/m$^2$ and 75~kW/m$^2$ (top to bottom). Shaded areas represent $\pm 2\sigma_{\mathrm{mean},i}$.}
+\label{Fig:Cone_Appendix_HRR_grain}
 \end{figure}
-\end{minipage}\\
-\vfill
-\subsubsection{External heat flux: 75 kW/m$^2$}
-\begin{minipage}{0.5\textwidth}
+
+\clearpage
+\subsubsection{Initial Density vs. Ignition Time}
+
+The following figures complement the results at 30~kW/m$^2$, 50~kW/m$^2$ and 60~kW/m$^2$ presented in the main text, showing the relationship between initial specimen density and ignition time at the remaining incident heat fluxes of 25~kW/m$^2$, 45~kW/m$^2$ and 75~kW/m$^2$.
+
 \begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Average/IMT_Wood_Cone_75kW_hor.pdf}}\\
+\centering
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_Ignition_calculated_25kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_Ignition_reported_25kW.pdf}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_Ignition_calculated_45kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_Ignition_reported_45kW.pdf}
+\end{subfigure}
+
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_Ignition_calculated_75kW.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\linewidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_Ignition_reported_75kW.pdf}
+\end{subfigure}
+
+\caption{Relationship between initial specimen density and calculated (left) or reported (right) ignition time at incident heat fluxes of 25~kW/m$^2$, 45~kW/m$^2$ and 75~kW/m$^2$ (top to bottom). The initial specimen masses corresponding to the minimum and maximum densities at each incident heat flux are indicated by arrows.}
+\label{Fig:Cone_Appendix_Density_vs_Ignition}
 \end{figure}
-\end{minipage}\\
-\vfill 
-\newpage
+
+\clearpage
+
+\subsubsection{Initial Density vs. Heat of Combustion}
+
+The following figures complement the results at 30~kW/m$^2$, 50~kW/m$^2$ and 60~kW/m$^2$ presented in the main text, showing the relationship between initial specimen density and heat of combustion at the remaining incident heat fluxes of 25~kW/m$^2$, 45~kW/m$^2$ and 75~kW/m$^2$.
+
+\begin{figure}[H]
+\centering
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_HOC_25kW.pdf}
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_HOC_45kW.pdf}
+
+\includegraphics[width=0.55\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Density_vs_HOC_75kW.pdf}
+
+\caption{Relationship between initial specimen density and heat of combustion at incident heat fluxes of 25~kW/m$^2$, 45~kW/m$^2$ and 75~kW/m$^2$ (top to bottom). The initial specimen masses corresponding to the minimum and maximum densities at each incident heat flux are indicated by arrows.}
+\label{Fig:Cone_Appendix_Density_vs_HOC}
+\end{figure}
+
+\clearpage
 
 \subsection{Surface Temperature}
 \label{Cone_Temp}
-Temperatures measured in the same repetition experiment are plotted in the same color. Different line styles are used to indicate measurements recorded at different locations. All plotted temperatures represent backside surface temperature unless otherwise specified in the figure caption.
+
+Temperatures measured in the same repeated experiment are plotted in the same colour. Different line styles are used to indicate measurements recorded at different locations. All plotted temperatures represent back surface temperatures unless otherwise specified in the figure caption.
 
 \subsubsection{External heat flux: 30 kW/m$^2$}
+
 \begin{minipage}{0.5\textwidth}
 \begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_UDRI_Wood_Cone_30kW_hor_BackT.pdf}}\\
+\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_UDRI_Wood_Cone_30kW_hor_BackT.pdf}
 \end{figure}
 \end{minipage}
+
 \vfill
 
 \subsubsection{External heat flux: 50 kW/m$^2$}
+
 \begin{minipage}{0.5\textwidth}
 \begin{figure}[H]
-{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_FPL_Wood_Cone_50kW_hor_BackT.pdf}}\\
-\caption*{Temperatures were measured at the top surface (dashed line) and at depths 8.6 mm (solid line) and 17.2 mm (dotted line).}
+\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_FPL_Wood_Cone_50kW_hor_BackT.pdf}
+\caption*{Temperatures were measured at the top surface (solid line) and at depths of 8.6~mm (dashed line) and 17.2~mm (dotted line).}
 \end{figure}
 \end{minipage}
+
 \vfill
 
 \subsubsection{External heat flux: 60 kW/m$^2$}
+
 \begin{minipage}{0.5\textwidth}
-	\begin{figure}[H]
-		{\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_UDRI_Wood_Cone_60kW_hor_BackT.pdf}}\\
-	\end{figure}
+\begin{figure}[H]
+\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_UDRI_Wood_Cone_60kW_hor_BackT.pdf}
+\end{figure}
 \end{minipage}
+\begin{minipage}{0.5\textwidth}
+\begin{figure}[H]
+\includegraphics[width=3.25in]{../SCRIPT_FIGURES/Cone/Individual/Cone_UQ_Wood_Cone_60kW_hor_Parallel_BackT.pdf}
+\end{figure}
+\end{minipage}
+
 \vfill
-
-
 \newpage
+
+
 \section{Anaerobic Gasification}
 \subsection{Gasification Mass Flux}
 \label{Gas_Mass}
