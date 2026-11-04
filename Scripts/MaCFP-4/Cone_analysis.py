@@ -495,7 +495,7 @@ def average_Gas_series(series_name: str)->pd.DataFrame:
 
     diff = merged_df[dmdt_cols].sub(df_average['dm/dt'], axis=0)**2
     sum_diff = diff.rolling(2*n+1, min_periods=1,center=True).sum().sum(axis=1)
-    df_average['unc dm/dt'] = np.sqrt(sum_diff/(cnt*(cnt-1)))
+    df_average['unc dm/dt'] = np.sqrt(sum_diff.clip(lower=0)/(cnt*(cnt-1)))
 
     return df_average
 
@@ -1017,11 +1017,15 @@ for series in unique_conditions_cone_material:
         grain_orientation = get_grain_orientation(path)
         linestyle = '-' if grain_orientation == 'Parallel' else (0, (1, 2))
 
-        ax1.plot(df['Time (s)'],
-                 savgol_filter((-1) * np.gradient(df['Mass (g)'],
-                                                  df['Time (s)']), 53, 3),
-                 linestyle=linestyle,
-                 color=color)
+        # Skip MLR plot if mass data contain NaN or Inf
+        if np.isfinite(df['Mass (g)']).all():
+            ax1.plot(df['Time (s)'],
+                     savgol_filter((-1) * np.gradient(df['Mass (g)'],
+                                                      df['Time (s)']), 53, 3),
+                     linestyle=linestyle,
+                     color=color)
+        else:
+            print(f"WARNING: MLR not plotted for {path.name} - mass data contain NaN or Inf.")
 
         if path.stem.split('_')[0] == 'UMET':
             zorder = 6
