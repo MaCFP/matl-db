@@ -1853,60 +1853,90 @@ Temperature measurements in wood specimens are experimentally challenging, parti
 \newpage
 \subsection{Anaerobic Gasification}
 
-Anaerobic gasification experiments were conducted by two institutions using two different experimental apparatus: a controlled atmosphere cone calorimeter~\cite{babrauskas1992cone} and CAPA~II~\cite{swann2017controlled}. Key measurement data from anaerobic gasification tests include: gasification mass flux, $\dot{m}''$ (g/(m$^2 \cdot$s)), and front and back surface temperatures, $T_{\rm front}$~(K) and $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement.
+Anaerobic gasification experiments were conducted by five institutions using two different experimental apparatuses: controlled atmosphere cone calorimeters~\cite{babrauskas1992cone} and CAPA~II~\cite{swann2017controlled}. Key measurement data from anaerobic gasification tests include gasification mass flux, $\dot{m}''$ (g/(m$^2 \cdot$s)), and front and back surface temperatures, $T_{\rm front}$~(K) and $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement.
 
-Although plotted together in this section, measured mass loss rates and back surface temperatures may not be identical between different gasification tests, even at the same nominal incident heat flux due to differences in (a) initial sample thickness and (b) back surface boundary conditions. Specifically, CAPA-II sample were planed to just 8.7~mm thick, versus the ~25.4~mm thick samples used in controlled atmosphere cone calorimeter tests. Further, in CAPA~II tests, samples are not insulated at their back surface and, thus, this surface is subject to convective and radiative losses; this boundary condition is detailed elsewhere~\cite{swann2017controlled}.
+Although plotted together in this section, measured mass loss rates and back surface temperatures may differ between gasification tests, even at the same nominal incident heat flux, due to differences in initial sample thickness and back surface boundary conditions. Specifically, CAPA~II samples were just 8.7~mm thick, versus the ~25.4~mm thick samples used in controlled atmosphere cone calorimeter tests. Furthermore, CAPA~II samples were not insulated at their back surface, which was therefore subject to convective and radiative heat losses; this boundary condition is detailed elsewhere~\cite{swann2017controlled}.
 
-%One institution conducted anaerobic gasification experiments using CAPA~II. Tests were conducted at 40~kW/m$^2$ and 60~kW/m$^2$, repeated twice at each incident heat flux. Reported errors represent two standard deviations of the mean of the respective quantity. Data was reported at a frequency of 1~Hz. The mass loss rate was computed using a 5~s time differential and normalized by the initial top surface area of the sample. The data were subsequently grouped into 5~s bins for which mean mass loss rate and mean time values were computed. More information is available in Ref~\cite{fiola2020comparison}. For tests conducted with a Controlled Atmosphere Cone Calorimeter, experimental measurements are analyzed as described below.
+The submitted datasets include initial sample mass and time-resolved measurements of sample mass. Some institutions also provided front and/or back surface temperature measurements. Most time-resolved data were recorded at a frequency of 1~Hz.
 
-\subsubsection{Gasification Mass Flux}
+\textbf{Data Processing}\\
+The gasification mass flux, $\dot{m}''$, was calculated from the measured sample mass using a central finite difference:
 
-Mass flux in gasification experiments was calculated for each replicate test, $j$, at each time step, $t_i$, as the numerical derivative of measured sample mass using a time interval $\Delta t=5$~s as follows:
 \begin{equation}
-   \dot{m}_{i,j}'' = \frac{1}{A} \frac{\dot{m}_{i-2,j}-\dot{m}_{i+2,j}}{t_{i+2}-t_{i-2}}
+\dot{m}_{i,j}'' = \frac{1}{A_j}
+\frac{m_{i-2,j}-m_{i+2,j}}{t_{i+2,j}-t_{i-2,j}}
 \end{equation}
-where $A$ is the initial surface area of the sample. The subscript $j$ indicates a replicate measurement. Prior to further analysis, noise in individual mass loss curves (at 1~Hz) was reduced by applying a Savitzky-Golay filter (third order polynomial fit; 41 data point range). Due to the limited availability of measurement data, statistics are not calculated or presented for gasification tests. 
 
-Figures~\ref{Fig:Gasification_30kW_dmdt}, \ref{Fig:Gasification_40kW_dmdt}, and \ref{Fig:Gasification_60kW_dmdt} plot measured sample-area normalized mass loss rate during anaerobic gasification experiments conducted with an external heat flux of 30, 40, and 60 kW/m$^2$, respectively. Test type (i.e., apparatus) and external heat flux are noted in the legend of each figure. ``Gasification'' indicates that a given test was conducted in a controlled atmosphere cone calorimeter modified for gasification experiments.
+\noindent where $A_j$ is the initial exposed sample area and $j$ denotes an individual experiment. The exposed areas used for normalisation were 0.0100 and 0.00884~m$^2$ for controlled atmosphere cone calorimetry, with the smaller area corresponding to the use of a retaining frame by Crested, and 0.00385~m$^2$ for CAPA~II. For individual mass flux curves, a third-order Savitzky--Golay filter with a 41-point window was applied to reduce measurement noise.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_30kW_MLR.pdf}
-  \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 30~kW/m$^2$. Here, results from all individual experiments are plotted together, with no distinction made between wood grain orientation (discussed below).}
-  \label{Fig:Gasification_30kW_dmdt}
+For averaging, the submitted data were linearly interpolated to regular 1~s intervals. The mean mass flux was then calculated from the individual experiments using a five-point moving window, following the same approach described for cone calorimetry. The associated uncertainty was expressed as the standard error of the mean, with shaded regions representing $\pm 2\sigma_{\mathrm{mean},i}$.
+
+\subsubsection{Mass and Mass Loss Rate}
+
+Figure~\ref{Fig:Gasification_Mass_MLR} presents the measured sample mass and corresponding sample-area-normalised mass loss rate at incident heat fluxes of 30~kW/m$^2$ and 60~kW/m$^2$. These heat fluxes were selected because they provide the greatest overlap between participating institutions. Overall, the available dataset remains limited, with measurements from no more than two institutions at a given heat flux using the same apparatus, or three institutions when CAPA experiments are included. This limits direct interlaboratory comparisons, particularly given the differences in specimen geometry and boundary conditions between the two apparatuses. 
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Wood_30kW_Mass.pdf}
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Wood_30kW_MLR.pdf}
+
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Wood_60kW_Mass.pdf}
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Wood_60kW_MLR.pdf}
+\caption{Measured sample mass (left) and sample-area-normalised mass loss rate (right) during anaerobic gasification experiments at incident heat fluxes of 30~kW/m$^2$ (top) and 60~kW/m$^2$ (bottom). All individual experiments are shown, including those conducted using controlled atmosphere cone calorimeters (Pekin and Ancona) and CAPA~II (Alabio and Rouen), without distinguishing between wood grain orientations (discussed below).}
+    \label{Fig:Gasification_Mass_MLR}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_40kW_MLR.pdf}
-  \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 40 kW/m$^2$. Individual experiments are plotted.}
-  \label{Fig:Gasification_40kW_dmdt}
+The raw mass curves reveal considerable differences in initial mass even between nominally identical specimens, potentially reflecting differences in sample conditioning or the natural heterogeneity of wood. CAPA specimens are readily distinguished by their substantially lower initial masses (below 20~g), resulting from their smaller dimensions. Despite these differences, the area-normalised mass loss rates exhibit similar initial peaks across all experiments, including CAPA. This is followed by the characteristic behaviour of wood, with a decline after first peak and a subsequent second peak. However, the timing of the second peak varies considerably even among controlled atmosphere cone calorimeter experiments. In CAPA experiments, the second peak occurs substantially earlier due to the smaller sample thickness and different back-surface boundary conditions, making direct comparison of the later stages of gasification impossible.
+
+Figure~\ref{Fig:Gasification_Average_MLR} compares the average mass loss rates at different incident heat fluxes, separately for controlled atmosphere cone calorimetry and CAPA~II. In both apparatuses, increasing the incident heat flux generally leads to higher mass loss rates and shorter gasification durations. For controlled atmosphere cone calorimetry, the characteristic second peak becomes more pronounced and occurs earlier at higher heat fluxes. In CAPA~II experiments, the substantially thinner specimens result in shorter gasification durations, while the second peak is generally not distinguishable.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification.pdf}
+
+    \includegraphics[width=0.85\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_CAPA.pdf}
+	\caption{Average sample-area-normalised mass loss rates during anaerobic gasification experiments conducted using controlled atmosphere cone calorimeters (top) and CAPA~II (bottom) at different incident heat fluxes. Results from both wood grain orientations are averaged together where available. Shaded regions represent twice the standard error of the mean.}
+    \label{Fig:Gasification_Average_MLR}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_60kW_MLR.pdf}
-  \caption{Measured sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 60~kW/m$^2$. Here, results from all individual experiments are plotted together, with no distinction made between instrument type (controlled atmosphere cone or CAPA-II) or wood grain orientation (discussed below).}
-  \label{Fig:Gasification_60kW_dmdt}
+The CAPA results from Rouen exhibit considerable noise, particularly at 40~kW/m$^2$ and 60~kW/m$^2$, even after temporal averaging. In contrast, some of the averaged curves from controlled atmosphere cone calorimetry exhibit abrupt, non-physical changes, arising from averaging experiments with different durations and wood grain orientations. These differences motivate a separate examination of the effect of grain orientation in the following text.
+
+The effect of wood grain orientation was examined using only data from controlled atmosphere cone calorimeter experiments. Figure~\ref{Fig:Gasification_Grain_Overview} presents the average mass loss rates separately for parallel and perpendicular grain orientations across the available incident heat fluxes. In addition, Figure~\ref{Fig:Gasification_Grain_ByFlux} provides a direct comparison of the two grain orientations at each incident heat flux.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_Parallel.pdf}
+
+    \includegraphics[width=0.85\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_Perpendicular.pdf}
+    \caption{Average sample-area-normalised mass loss rates for wood grain orientations parallel (top) and perpendicular (bottom) to the heated surface at different incident heat fluxes. Only controlled atmosphere cone calorimeter experiments are included. Shaded regions represent twice the standard error of the mean.}
+    \label{Fig:Gasification_Grain_Overview}
 \end{figure}
 
-Ancona conducted experiments on samples with different wood grain orientations such that the grain was aligned parallel or perpendicular to the sample's top surface; these tests were repeated at external heat fluxes of 30~kW/m$^2$ and 60~kW/m$^2$. As seen in Figs.~\ref{Fig:Gasification_30kW_dmdt_grain} and \ref{Fig:Gasification_60kW_dmdt_grain}, grain orientation has a significant impact on mass loss rate: when the wood grain was orientated perpendicular to the sample's top, heated surface, higher mass fluxes and shorter total test duration are recorded. Decreased total test time is observed even for `perpendicular' samples that had greater initial mass than their `parallel'-grain counterparts.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_grain_20kW.pdf}
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_grain_30kW.pdf}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_30kW_hor_MLR_grain.pdf}
-	\caption{Effect of grain orientation on sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 30~kW/m$^2$. Individual experiments are plotted.}
-	\label{Fig:Gasification_30kW_dmdt_grain}
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_grain_45kW.pdf}
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_grain_60kW.pdf}
+    \caption{Comparison of average sample-area-normalised mass loss rates for parallel and perpendicular wood grain orientations at incident heat fluxes of 20~kW/m$^2$, 30~kW/m$^2$, 45~kW/m$^2$ and 60~kW/m$^2$. Only controlled atmosphere cone calorimeter experiments are included. Shaded regions represent twice the standard error of the mean.}
+    \label{Fig:Gasification_Grain_ByFlux}
 \end{figure}
 
-\begin{figure}
-	\centering
-	\includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Gasification_Wood_60kW_hor_MLR_grain.pdf}
-	\caption{Effect of grain orientation on sample-area normalized mass loss rate during anaerobic gasification experiments with an external heat flux of 60~kW/m$^2$. Individual experiments are plotted.}
-	\label{Fig:Gasification_60kW_dmdt_grain}
+As shown in Figs.~\ref{Fig:Gasification_Grain_Overview} and \ref~\ref{Fig:Gasification_Grain_ByFlux}, wood grain orientation has a considerable effect on the mass loss rate. At 20~kW/m$^2$, samples with parallel grain orientation exhibit an almost constant mass loss rate of approximately 1~g/(s$\cdot$m$^2$), without the two characteristic peaks observed for all other specimens and heat fluxes. At 30~kW/m$^2$, the differences between orientations are relatively small. At 45~kW/m$^2$ and 60~kW/m$^2$, the second peak occurs substantially earlier for parallel specimens. However, these trends are difficult to quantify due to persistent abrupt, non-physical changes in the averaged curves, particularly for perpendicular specimens at 60~kW/m$^2$. Since the data are already separated by grain orientation, these discontinuities arise from differences between laboratories and experimental durations. This is further illustrated by comparing individual laboratory results in Figure~\ref{Fig:Gasification_Laboratory_Comparison}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\textwidth]{../SCRIPT_FIGURES/Cone/Gasification_Average_MLR_Gasification_grain_60kW.pdf}
+
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Average/TIFP+UCT_Wood_Gasification_60kW_hor_Perpendicular.pdf}
+    \includegraphics[width=0.49\textwidth]{../SCRIPT_FIGURES/Cone/Average/Aalto_Wood_Gasification_60kW_hor_Perpendicular.pdf}
+
+    \caption{Comparison of sample-area-normalised mass loss rates at 60~kW/m$^2$. Top: combined average for parallel and perpendicular grain orientations. Bottom: individual laboratory results for perpendicular specimens from Ancona (left) and Pekin (right), showing differences in the timing of the second peak. Shaded regions represent twice the standard error of the mean.}
+    \label{Fig:Gasification_Laboratory_Comparison}
 \end{figure}
 
-
+% TO BE CONTINUED
 
 \newpage
 \subsubsection{Sample Surface Temperature}
