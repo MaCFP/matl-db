@@ -39,7 +39,7 @@ cases = [ "10K", "100K" ]
 # le nom du dossier correspondant.
 names = [ "CORIA",
           "UMD-FSRI",
-          "NIST_StMU",
+          "NIST-StMU",
           "UCB-1",
           "UCB-2",
           "UCB-3" ]
@@ -48,8 +48,8 @@ def get_institution_folder(name):
     """Deduit le nom du dossier institution a partir du nom de modele.
     Ex: 'UCB-1' -> 'UCB', 'CORIA' -> 'CORIA'
     """
-    if '-' in name:
-        return name.rsplit('-', 1)[0]
+    if 'UCB' in name:
+        return 'UCB'
     return name
 
 # =========================
@@ -57,11 +57,11 @@ def get_institution_folder(name):
 # =========================
 name_plt_lines = {
     "CORIA": ['b','-'],
-    "UMD_FSRI": ['green','-'],
-    "NIST_StMU": ['purple','-'],
-    "UCB-1": ['r','-'],
-    "UCB-2": ['k','-'],
-    "UCB-3": ['c','-'],
+    "UMD_FSRI": ['k','-'],
+    "NIST_StMU": ['darkviolet','-'],
+    "UCB-1": ['firebrick','-'],
+    "UCB-2": ['r','--'],
+    "UCB-3": ['darkorange','-.'],
 }
 
 # =========================
@@ -69,8 +69,8 @@ name_plt_lines = {
 # =========================
 name_labels = [
     "CORIA",
-    "UMD FSRI",
-    "NIST_StMU",
+    "UMD-FSRI",
+    "NIST-StMU",
 
     "UCB-1",
     "UCB-2",
@@ -106,6 +106,11 @@ for case in cases:
         file = os.path.join(DATA_ROOT, folder, filename)
 
         if not os.path.isfile(file):
+            filename = name + '_Wood_STA_N2_' + case + '.csv'
+            folder = get_institution_folder(name)
+            file = os.path.join(DATA_ROOT, folder, filename)
+            continue
+        if not os.path.isfile(file):
             print(f"⚠️  fichier absent, on saute : {file}")
             continue
 
@@ -113,28 +118,25 @@ for case in cases:
             # lecture robuste
             data = pd.read_csv(file, sep=None, engine='python')
 
-            if name == "UMD_FSRI":
-                T = data.iloc[:, 0].copy()
-                t = data.iloc[:, 1].copy()
-                data.iloc[:, 0] = t
-                data.iloc[:, 1] = T
-
-            data = data.iloc[:, :3]
-            data = data.apply(pd.to_numeric, errors='coerce').dropna()
-
-            if len(data) < 5:
-                continue
-
-            t = data.iloc[:,0].values
-            T = data.iloc[:,1].values
-            m = data.iloc[:,2].values
+            data.columns = data.columns.str.strip()  # Safe cleanup for hidden spaces
+    
+            # Select, convert to numeric, and drop bad rows all at once
+            data = data[['Time (s)', 'Temperature (K)', 'Mass (mg)']].apply(pd.to_numeric, errors='coerce').dropna()
+            
+            # if len(data) < 5:
+            #     continue
+                
+            # Direct access!
+            t = data['Time (s)'].values
+            T = data['Temperature (K)'].values
+            m = data['Mass (mg)'].values
 
         except Exception as e:
             print(f"❌ erreur fichier: {file} ({e})")
             continue
 
         # =====================
-        # CALCUL MLR
+        # CALCULATE MLR
         # =====================
         m_smooth = savgol_filter(m, 41, 3)
         dm_dt = np.gradient(m_smooth, t)
@@ -150,7 +152,7 @@ for case in cases:
         t_peak = t[idx_peak]
         T_peak = T[idx_peak]
 
-        threshold = 0.05 * peak
+        threshold = 0.05 * peak # define onset temperature of ML as 5% of peak MLR
         onset_idx = np.where(mlr > threshold)[0]
 
         if len(onset_idx) > 0:
