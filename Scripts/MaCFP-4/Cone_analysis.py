@@ -2056,6 +2056,27 @@ fig_gas_grain.tight_layout()
 fig_gas_grain.savefig(str(base_dir) + '/Cone/Gasification_Average_MLR_Gasification_grain.{}'.format(ex))
 plt.close(fig_gas_grain)
 
+for orientation in ['Parallel', 'Perpendicular']:
+    fig, ax = plt.subplots(figsize=(6, 4))
+
+    for flux in sorted(gas_flux):
+        paths = [p for p in Gasification_Data if f'_{flux}_' in p.name and '_Wood_Gasification_' in p.name and 'TEMPLATE' not in p.name and get_grain_orientation(p) == orientation]
+        df_average = average_gasification_paths(paths)
+
+        if df_average is None:
+            continue
+
+        ax.plot(df_average['Time (s)'], df_average['MLR'], color=color[flux], label=flux.replace('kW', ' kW/m$^2$'))
+        ax.fill_between(df_average['Time (s)'], df_average['MLR'] - 2*df_average['unc MLR'], df_average['MLR'] + 2*df_average['unc MLR'], color=color[flux], alpha=0.2)
+
+    ax.set_ylim(0, 15)
+    ax.set_xlabel('Time [s]')
+    ax.set_ylabel('Mass loss rate [g s$^{-1}$ m$^{-2}$]')
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(str(base_dir) + f'/Cone/Gasification_Average_MLR_Gasification_{orientation}.{ex}')
+    plt.close(fig)
+
 
 # Average gasification MLR plots separated by grain orientation for each heat flux
 
@@ -3189,6 +3210,34 @@ for idx,set in enumerate(Gas_sets):
     plt.savefig(str(base_dir) + f'/Cone/Average/{set}.{ex}')
     plt.close(fig)
 
+# Generate LaTeX appendix with individual laboratory gasification MLR plots,
+# automatically grouped by incident heat flux.
+average_dir = base_dir / 'Cone' / 'Average'
+groups = {}
+
+for path in average_dir.glob('*.pdf'):
+    if '_Gasification_' not in path.stem and '_CAPA_' not in path.stem:
+        continue
+    match = re.search(r'_(\d+)kW(?:_|$)', path.stem)
+    if match:
+        groups.setdefault(int(match.group(1)), []).append(path)
+
+lines = []
+
+for flux, paths in sorted(groups.items()):
+    lines.append(rf'\subsubsection{{External heat flux: {flux} kW/m$^2$}}')
+
+    for i, path in enumerate(sorted(paths)):
+        lines += [
+            r'\begin{minipage}{0.48\textwidth}',
+            rf'\includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/Cone/Average/{path.name}}}',
+            r'\end{minipage}',
+            r'\hfill' if i % 2 == 0 else r'\par\noindent'
+        ]
+
+    lines.append(r'\vspace{0.3cm}')
+
+(base_dir / 'Cone' / 'Gasification_Appendix_Average_MLR.tex').write_text('\n'.join(lines))
 
 
 #-----------------------------------------------
