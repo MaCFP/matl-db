@@ -57,8 +57,8 @@ def get_institution_folder(name):
 # =========================
 name_plt_lines = {
     "CORIA": ['b','-'],
-    "UMD_FSRI": ['k','-'],
-    "NIST_StMU": ['darkviolet','-'],
+    "UMD-FSRI": ['k','-'],
+    "NIST-StMU": ['g','-'],
     "UCB-1": ['firebrick','-'],
     "UCB-2": ['r','--'],
     "UCB-3": ['darkorange','-.'],
@@ -104,12 +104,14 @@ for case in cases:
         filename = name + '_Wood_TGA_N2_' + case + '.csv'
         folder = get_institution_folder(name)
         file = os.path.join(DATA_ROOT, folder, filename)
+        
 
         if not os.path.isfile(file):
             filename = name + '_Wood_STA_N2_' + case + '.csv'
             folder = get_institution_folder(name)
             file = os.path.join(DATA_ROOT, folder, filename)
-            continue
+            # continue
+
         if not os.path.isfile(file):
             print(f"⚠️  fichier absent, on saute : {file}")
             continue
@@ -119,7 +121,7 @@ for case in cases:
             data = pd.read_csv(file, sep=None, engine='python')
 
             data.columns = data.columns.str.strip()  # Safe cleanup for hidden spaces
-    
+            print(file)
             # Select, convert to numeric, and drop bad rows all at once
             data = data[['Time (s)', 'Temperature (K)', 'Mass (mg)']].apply(pd.to_numeric, errors='coerce').dropna()
             
@@ -130,7 +132,7 @@ for case in cases:
             t = data['Time (s)'].values
             T = data['Temperature (K)'].values
             m = data['Mass (mg)'].values
-
+            print(m)
         except Exception as e:
             print(f"❌ erreur fichier: {file} ({e})")
             continue
@@ -151,7 +153,8 @@ for case in cases:
         peak = mlr[idx_peak]
         t_peak = t[idx_peak]
         T_peak = T[idx_peak]
-
+        # print(filename)
+        # print(peak)
         threshold = 0.05 * peak # define onset temperature of ML as 5% of peak MLR
         onset_idx = np.where(mlr > threshold)[0]
 
