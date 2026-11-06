@@ -3210,6 +3210,34 @@ for idx,set in enumerate(Gas_sets):
     plt.savefig(str(base_dir) + f'/Cone/Average/{set}.{ex}')
     plt.close(fig)
 
+# Generate LaTeX appendix with individual laboratory gasification MLR plots,
+# automatically grouped by incident heat flux.
+average_dir = base_dir / 'Cone' / 'Average'
+groups = {}
+
+for path in average_dir.glob('*.pdf'):
+    if '_Gasification_' not in path.stem and '_CAPA_' not in path.stem:
+        continue
+    match = re.search(r'_(\d+)kW(?:_|$)', path.stem)
+    if match:
+        groups.setdefault(int(match.group(1)), []).append(path)
+
+lines = []
+
+for flux, paths in sorted(groups.items()):
+    lines.append(rf'\subsubsection{{External heat flux: {flux} kW/m$^2$}}')
+
+    for i, path in enumerate(sorted(paths)):
+        lines += [
+            r'\begin{minipage}{0.48\textwidth}',
+            rf'\includegraphics[width=\linewidth]{{../SCRIPT_FIGURES/Cone/Average/{path.name}}}',
+            r'\end{minipage}',
+            r'\hfill' if i % 2 == 0 else r'\par\noindent'
+        ]
+
+    lines.append(r'\vspace{0.3cm}')
+
+(base_dir / 'Cone' / 'Gasification_Appendix_Average_MLR.tex').write_text('\n'.join(lines))
 
 
 #-----------------------------------------------
