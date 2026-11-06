@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,7 +9,20 @@ plt.ion()
 # =========================
 # PARAMETRES
 # =========================
-N_interp = 200
+N_interp = 1401
+
+# =========================
+# CHEMIN VERS LES DONNEES
+# =========================
+# Script location: ...\Github\matl-db\Scripts\MaCFP-4\tga_predictions.py
+# Data location:   ...\Github\matl-db\Wood\Calibration_Data\InstitutionName\
+#
+# We build the data path relative to this script's location so it works
+# regardless of which machine / working directory it's run from.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_ROOT = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "Wood", "Calibration_Results")
+)
 
 # =========================
 # LISTE DES CAS
@@ -18,19 +32,32 @@ cases = [ "10K", "100K" ]
 # =========================
 # LISTE DES MODELES
 # =========================
+# Note : le nom du dossier institution ne correspond pas toujours
+# exactement au nom du modele. Par exemple, "UCB-1", "UCB-2", "UCB-3"
+# sont tous des fichiers situes dans le MEME dossier "UCB" (pas un
+# dossier par variante). On retire donc le suffixe "-N" pour retrouver
+# le nom du dossier correspondant.
 names = [ "CORIA",
-          "UMD_FSRI",
+          "UMD-FSRI",
           "NIST_StMU",
           "UCB-1",
           "UCB-2",
           "UCB-3" ]
+
+def get_institution_folder(name):
+    """Deduit le nom du dossier institution a partir du nom de modele.
+    Ex: 'UCB-1' -> 'UCB', 'CORIA' -> 'CORIA'
+    """
+    if '-' in name:
+        return name.rsplit('-', 1)[0]
+    return name
 
 # =========================
 # STYLES
 # =========================
 name_plt_lines = {
     "CORIA": ['b','-'],
-    "UMD_FSRI": ['lawngreen','-'],
+    "UMD_FSRI": ['green','-'],
     "NIST_StMU": ['purple','-'],
     "UCB-1": ['r','-'],
     "UCB-2": ['k','-'],
@@ -74,19 +101,23 @@ for case in cases:
 
     for name in names:
 
-        file = name + '_Wood_TGA_N2_' + case + '.csv'
+        filename = name + '_Wood_TGA_N2_' + case + '.csv'
+        folder = get_institution_folder(name)
+        file = os.path.join(DATA_ROOT, folder, filename)
+
+        if not os.path.isfile(file):
+            print(f"⚠️  fichier absent, on saute : {file}")
+            continue
 
         try:
             # lecture robuste
             data = pd.read_csv(file, sep=None, engine='python')
-          
 
             if name == "UMD_FSRI":
                 T = data.iloc[:, 0].copy()
                 t = data.iloc[:, 1].copy()
                 data.iloc[:, 0] = t
                 data.iloc[:, 1] = T
-
 
             data = data.iloc[:, :3]
             data = data.apply(pd.to_numeric, errors='coerce').dropna()
@@ -98,14 +129,14 @@ for case in cases:
             T = data.iloc[:,1].values
             m = data.iloc[:,2].values
 
-        except:
-            print(f"❌ erreur fichier: {file}")
+        except Exception as e:
+            print(f"❌ erreur fichier: {file} ({e})")
             continue
 
         # =====================
         # CALCUL MLR
         # =====================
-        m_smooth = savgol_filter(m, 11, 2)
+        m_smooth = savgol_filter(m, 41, 3)
         dm_dt = np.gradient(m_smooth, t)
         mlr = -dm_dt
         mlr[mlr < 0] = 0
@@ -283,4 +314,5 @@ stats.to_excel("stats_par_case.xlsx", index=False)
 
 print("✅ Analyse terminée")
 
-plt.show()
+#plt.show()
+plt.show(block=True)
