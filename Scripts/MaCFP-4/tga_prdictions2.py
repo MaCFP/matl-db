@@ -141,7 +141,7 @@ for case in cases:
         # CALCULATE MLR
         # =====================
         m_smooth = savgol_filter(m, 41, 3)
-        dm_dt = np.gradient(m_smooth, t)
+        dm_dt = np.gradient(m_smooth, t)/ np.mean(m[0:4])
         mlr = -dm_dt
         mlr[mlr < 0] = 0
 
@@ -155,7 +155,7 @@ for case in cases:
         T_peak = T[idx_peak]
         # print(filename)
         # print(peak)
-        threshold = 0.05 * peak # define onset temperature of ML as 5% of peak MLR
+        threshold = 0.10 * peak # define onset temperature of ML as 10% of peak MLR (to match exp. report)
         onset_idx = np.where(mlr > threshold)[0]
 
         if len(onset_idx) > 0:
