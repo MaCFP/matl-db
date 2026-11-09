@@ -92,7 +92,7 @@ verbose]{hyperref}
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=4in]{../FIGURES/MaCFP_Logo}
+		\includegraphics[width=4in]{../FIGURES/MaCFP_Logo_France.png}
 		\label{Cover_Image}
 	\end{figure}
 	
@@ -121,9 +121,10 @@ verbose]{hyperref}
 			
 			\vspace{2mm}
 			\textbf{Modeling Results Submitted by:}\\
+			Alexis Coppalle; CORIA INSA Rouen Country (CORIA)\\
 			Mark McKinnon, Grayson Bellamy; UL Fire Safety Research Institute (UL FSRI) \\
-			Morgan Bruns; St. Mary's University, San Antonio (StMU)\\
 			Isaac Leventon; National Institute of Standards and Technology (NIST) \\
+			Morgan Bruns; St. Mary's University, San Antonio (StMU)\\
 			Peter Blevington; University of Colorado Boulder (UCB)\\
 			Grayson Bellamy, Stanislav Stoliarov; University of Maryland (UMD) \\ 
 			
@@ -277,7 +278,7 @@ To perform this phase of the modeling exercise, participants required input data
 \clearpage
 \section{Participating organizations}
 
-A total of ten different material property sets were received from six participating institutions (see Table~\ref{tab:pyrolysis-conributors}). Two of these submissions resulted from collaborations between two organizations. All organizations simulated the full set of scenarios, except NIST-StMU, which submitted simulations for the OD scenarios only (i.e., TGA and DSC). 
+A total of sixteen different material property sets were received from six participating institutions (see Table~\ref{tab:pyrolysis-conributors}). Two of these submissions resulted from collaborations between two organizations. All organizations simulated the full set of scenarios, except NIST-StMU, which submitted simulations for the OD scenarios only (i.e., TGA and DSC). 
 
 
 \begin{table}[htbp]
@@ -317,7 +318,7 @@ This section provides a brief description of the physical assumptions adopted by
 
 \subsection{CORIA modeling assumptions}
 
-The pyrolysis process was represented by three parallel decomposition reactions corresponding to the three main wood pseudo-components (nominally hemicellulose, cellulose, and lignin, see eqn.~\ref{eq:CORIA-pyrolysis-reactions}). The initial mass fraction of these pseudo-components, are taken from literature \cite{marquez2021kinetic}: 0.163, 0.544 and 0.293, respectively. Dry wood was assumed in both the OD and 1D simulations. The kinetic parameters were identified from TGA experiments from the MaCFP-4 experimental database (\href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data/UMET}{UMET data set}), using the DAKOTA code and the NL2SOL optimization algorithm, and the resulting kinetic mechanism was subsequently employed in the 0D and 1D simulations. Constant thermophysical properties, taken from the literature (Dinh PhD Dissertation~\cite{dinh2024developpement}), were considered throughout the simulations. For the 1D configuration, fibers were assumed to be oriented perpendicular to the exposed surface. The gasification simulations were performed with the PATO code \cite{lachaud2017generic}. Radiative heat exchange was prescribed at the exposed surface, with no convection. A zero-temperature-gradient condition was imposed at the rear surface.
+The pyrolysis process was represented by three parallel decomposition reactions corresponding to the three main wood pseudo-components (nominally hemicellulose, cellulose, and lignin, see eqn.~\ref{eq:CORIA-pyrolysis-reactions}). The initial mass fraction of these pseudo-components, are taken from literature \cite{marquez2021kinetic}: 0.163, 0.544 and 0.293, respectively. Dry wood was assumed in both the OD and 1D simulations. The kinetic parameters were identified from TGA experiments from the MaCFP-4 experimental database (\href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Data/UMET}{UMET data set}), using the DAKOTA code and the NL2SOL optimization algorithm\footnote{Kinetic parameters for the CORIA reaction mechanism were optimized based on a fitness function that minimized the absolute error between calibrated and measured sample mass loss between 0 and 1500~s in 10~K/min TGA experiments.}, and the resulting kinetic mechanism was subsequently employed in the 0D and 1D simulations. Constant thermophysical properties, taken from the literature (Dinh PhD Dissertation~\cite{dinh2024developpement}), were considered throughout the simulations. For the 1D configuration, fibers were assumed to be oriented perpendicular to the exposed surface. The gasification simulations were performed with the PATO code \cite{lachaud2017generic}. Radiative heat exchange was prescribed at the exposed surface, with no convection. A zero-temperature-gradient condition was imposed at the rear surface.
 
 \begin{equation}
 \label{eq:CORIA-pyrolysis-reactions}
@@ -339,7 +340,7 @@ The pyrolysis process was represented by three parallel decomposition reactions 
 The FSRI-UMD collaboration submitted two distinct models (i.e., two material property sets):
 \begin{itemize}
 	\item (\textbf{FSRI-UMD OPT}): an optimized property set, relying primarily on inverse analysis
-	\item (\textbf{FSRI-UMD DM}): based as much as possible on directly measured properties	
+	\item (at l	
 \end{itemize}
 Temperature-dependent thermophysical properties were considered throughout the simulations. \\
 
@@ -363,7 +364,10 @@ The material property set submitted by NIST-StMU was calibrated using a hierarch
 	\item  FTIR + Integrating Sphere: reflectivity
 \end{itemize}
 
-The decomposition process was represented by three parallel reactions corresponding to the decomposition of the main wood constituents (moisture loss is neglected). Constant thermophysical properties were assumed throughout the simulations though unique specific heat capacities were prescribed for the virgin wood and the char. Property calibration was performed using Flammability data Automated Calibration Tools (FACT), which are a suite of automated Python scripts for estimating material properties from small scale tests.
+The decomposition process was represented by three parallel reactions corresponding to the decomposition of the main wood constituents (moisture loss is neglected). 
+%%%\textcolor{red}{**find peaks first, use values of M and MLR at the peaks to infer kinetics; some iteration for total Mass to ensure conservation.}
+
+Constant thermophysical properties were assumed throughout the simulations though unique specific heat capacities were prescribed for the virgin wood and the char. Property calibration was performed using Flammability data Automated Calibration Tools (FACT), which are a suite of automated Python scripts for estimating material properties from small scale tests.
  NIST-StMU properties were only used to predict 0D decomposition (i.e., idealized TGA/DSC tests) for the model-to-model comparison exercise.
 
 \subsection{UCB modeling assumptions}
@@ -512,7 +516,7 @@ One-dimensional gasification simulations were performed using a modified OpenFOA
 \right\}
 \end{equation}
 \\
-By combining the different modelling assumptions, the UCB contribution resulted in three models for each 0D decomposition case, corresponding to the three reaction mechanisms described above. For the idealized 1D gasification simulations, the combination of the three reaction mechanisms, two thermophysical property formulations (constant and temperature-dependent), and two grain orientations (parallel and perpendicular) led to a total of twelve models for each gasification case. To facilitate the discussion of the results, the naming convention illustrated in Fig.~\ref{fig:ucb-naming} was adopted throughout this report.
+By combining the different modeling assumptions, the UCB contribution resulted in three models for each 0D decomposition case, corresponding to the three reaction mechanisms described above. For the idealized 1D gasification simulations, the combination of the three reaction mechanisms, two thermophysical property formulations (constant and temperature-dependent), and two grain orientations (parallel and perpendicular) led to a total of twelve models for each gasification case. To facilitate the discussion of the results, the naming convention illustrated in Fig.~\ref{fig:ucb-naming} was adopted throughout this report.
 
 \begin{figure}[htbp]
 \centering
@@ -584,12 +588,12 @@ align=center
 }
 \section{Model-to-Model Comparison}
 
-The objective of the MaCFP-4 condensed-phase benchmark exercise is to perform a model-to-model comparison. Since no common set of physical assumptions was imposed on the participants, and considering the diversity of the submitted modelling approaches, each contribution was treated as a separate model in the analysis. This approach makes it possible to assess the extent to which different modelling choices and assumptions affect the predicted results. Furthermore, the comparison of these contributions provides an opportunity to evaluate the individual influence of specific modelling assumptions on the simulation outcomes.
+The objective of the MaCFP-4 condensed-phase benchmark exercise is to perform a model-to-model comparison. Since no common set of physical assumptions was imposed on the participants, and considering the diversity of the submitted modeling approaches, each contribution was treated as a separate model in the analysis. This approach makes it possible to assess the extent to which different modeling choices and assumptions affect the predicted results. Furthermore, the comparison of these contributions provides an opportunity to evaluate the individual influence of specific modeling assumptions on the simulation outcomes.
 
 \subsection{TGA results}
-The TGA results are evaluated based on two criteria: (i) the comparison of the mass loss rate (MLR) curves and (ii) the comparison of the peak MLR (\textbf{pMLR}) values together with their corresponding temperatures(\textbf{T\_pMLR}). The analysis is conducted for two simulated heating rates, 10 K/min and 100 K/min.\\
+The TGA results are evaluated by comparing: (1) temperature-resolved mass loss rate (MLR) curves and (2) key features of this curve (i.e., peak MLR, the temperature at which this peak is recorded $T_{\rm{pMLR}}$, and onset temperature of decomposition, $T_{\rm{onset}}$. Here, $T_{\rm{onset}}$,  is defined as the lowest temperature at which normalized MLR exceeds 10~\% of its peak value (consistent with the definition used in the analysis of Experimental Results submitted to MaCFP-4~\cite{MaCFP4PyrolysisExp}). This analysis is conducted for two simulated heating rates, 10~K/min and 100~K/min.\\
 
-To compare the mass loss rate (MLR) predictions, the mass loss curves provided by the participating organizations were first differentiated to obtain the corresponding MLR curves. The resulting MLR data were then interpolated onto a common grid, enabling the calculation of the mean value (Eq. \ref{eq:mean_value}) and the standard deviation (Eq. \ref{eq:std_deviation}) at each point. In these equations, $x_i$ denotes the predicted value at a given time, $n$ is the number of predictions, $\bar{x}$ (or $Mean$) represents the mean value, and $Std$ denotes the standard deviation. The purpose of calculating the mean value and its associated standard deviation is to quantify the degree of agreement among the different model predictions. A low standard deviation indicates a strong consistency between the models, whereas a high standard deviation reflects a greater spread in the predictions and, therefore, a lower level of agreement among the participants.
+To consistently compare predictions submitted by different institutions, calculated mass versus time/temperature were first interpolated onto a common grid (i.e., $\Delta T$~=~0.5~K). Next, these curves were smoothed by applying a Savitzky-Golay filter (third order polynomial fit; 41 data point range). Finally, a simple numerical derivative was used to obtain the corresponding MLR curves. This uniform processing enables the calculation of the mean (Eq. \ref{eq:mean_value}) and standard deviation (Eq. \ref{eq:std_deviation}) of all submitted datasets (values calculated at each temperature interval, $\Delta$, between 300~K and 1000~K. In these equations, $x_i$ denotes the predicted value at a given time or temperature, $n$ is the number of predictions, $\bar{x}$ (or $Mean$) represents the mean value, and $Std$ denotes the standard deviation.  Higher or lower standard deviations do not necessarily suggest more or less accurate predictions; this simply indicates the level of agreement between all of the model predictions submitted by participants.
 
 \begin{equation} 
 \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i 
@@ -597,63 +601,59 @@ To compare the mass loss rate (MLR) predictions, the mass loss curves provided b
 \end{equation}
 
 \begin{equation} 
-Std = \sqrt{ \frac{\sum_{i=1}^{n}\left(x_i-\bar{x}\right)^2} {n-1} } 
+Std = \sqrt{ \frac{\sum_{i=1}^{n}\left(x_i-\bar{x}\right)^2} {n} } 
 \label{eq:std_deviation}
 \end{equation}
 
-Figures \ref{fig:TGA_10K/min} and \ref{fig:TGA_100K/min} present the TGA mass loss rate (MLR) curves obtained for heating rates of 10 K/min and 100 K/min, respectively. The predictions for the 10 K/min case exhibit substantial discrepancies, with peak MLR values differing by up to one order of magnitude. Nevertheless, most predictions remain clustered within a relatively narrow range, while one contribution clearly deviates from the others, likely as a result of an error in the submitted data. To enable a more meaningful comparison, the 10 K/min analysis was repeated without this outlying contribution (Figure \ref{fig:TGA_100K/min_withoutFSRI}).
-
-Excluding this dataset reveals an improved level of agreement among the remaining predictions, although noticeable differences still persist. These discrepancies may arise from the different modelling assumptions adopted by the participants, as well as from the experimental datasets selected for model calibration. Indeed, the experimental benchmark exercise, which included both TGA and gasification measurements, highlighted considerable variability among the submitted experimental results. Since the present modelling exercise relies directly on these experimental data, part of the observed variability in the predictions can reasonably be attributed to the variability already present in the benchmark measurements themselves.
-
-The results obtained for the 100 K/min heating rate exhibit even larger discrepancies among the different contributions. The predicted peak MLR values vary by nearly a factor of two between the lowest and highest predictions. This behaviour may be explained by the same two factors discussed previously, namely differences in modelling assumptions and differences in the experimental datasets used for model calibration. It is also worth noting that the discrepancies observed in the experimental benchmark data become more pronounced at higher heating rates. Since the present modelling exercise is directly based on these experimental measurements, part of the variability observed in the predictions at 100 K/min is likely inherited from the increased uncertainty and scatter in the underlying experimental data. 
+Figure~\ref{fig:TGA_Predictions} plots the mass loss rate (MLR) curves predicted in idealized TGA tests conducted at heating rates of 10~K/min and 100~K/min. Table~\ref{tab:TGA_stats} summarizes key features of these curves -- $T_{\rm{onset}}$, $T_{\rm{pMLR}}$, and peak MLR -- and also shares the mean and standard deviation of experimentally measured values (for tests conducted at 10~K/min). Qualitatively, modeling results show strong agreement both between different predictions and as compared to experimental measurements. Since the present modeling exercise relies directly on the experimental data submitted to the MaCFP-4 Pyrolysis Model Calibration Exercise~\cite{MaCFP4PyrolysisExp}, part of the observed variability in the predictions can reasonably be attributed to the variability already present in the benchmark measurements themselves. 
 
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{TGA_figures/TGA_10K-min.png}
-    \caption{Predicted TGA MLR at 10 K/min.}
-    \label{fig:TGA_10K/min}
+	\centering	
+	\begin{subfigure}[]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, ]{../SCRIPT_FIGURES/TGA/TGA_MLR_Predicted_10K.pdf}
+		\caption{}
+		\label{Fig:TGA_10K}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth, ]{../SCRIPT_FIGURES/TGA/TGA_MLR_Predicted_100K.pdf}
+		\caption{}
+		\label{Fig:TGA_100K}
+	\end{subfigure}
+	\caption{Predicted normalized mass loss rate (MLR) in anaerobic TGA tests. Shaded error bars indicate one standard deviation of all modeling results submitted at a given heating rate. Experimental data is presented elsewhere~\cite{MaCFP4PyrolysisExp}.}
+	\label{fig:TGA_Predictions}
 \end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{TGA_figures/TGA_100K-min.png}
-    \caption{Predicted TGA MLR at 100 K/min.}
-    \label{fig:TGA_100K/min}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{TGA_figures/TGA_10K-min_withoutFSRI.png}
-    \caption{Predicted TGA MLR at 10 K/min (reproduction of Figure \ref{fig:TGA_10K/min} excluding singular behavior shown by one contribution).}
-    \label{fig:TGA_100K/min_withoutFSRI}
-\end{figure}
-
-Table \ref{tab:TGA_stats} summarizes the mean values and standard deviations of the predicted peak mass loss rates (pMLR) and the corresponding peak temperatures. An interesting observation is that all participants predicted very similar temperatures at peak MLR, with a standard deviation of less than 1\% for both heating rates. In contrast, the variability in the predicted pMLR values is much larger, particularly for the 10 K/min case.
-
-This high standard deviation at 10 K/min is primarily driven by the singular behaviour of one contribution discussed previously. When this outlying prediction is excluded from the analysis, the standard deviation of the pMLR decreases significantly, indicating a better agreement among the remaining contributions.
-
-Overall, these results are encouraging, especially considering the complexity of the material behaviour and the significant scatter observed in the experimental data used as the basis for model calibration. The close agreement in the predicted peak temperatures, together with the improved consistency in pMLR predictions after removal of the apparent outlier, suggests that the participating models capture the main features of the thermal degradation process in a relatively consistent manner.  
 
 \begin{table}[htbp] 
-\centering 
-\caption{Statistical summary of the predicted TGA peak mass loss rate (pMLR) and corresponding temperature.} 
-\label{tab:TGA_stats} 
-\begin{tabular}{lcccc} 
-\toprule & \multicolumn{2}{c}{10 K/min} & \multicolumn{2}{c}{100 K/min} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5} & pMLR (g/s) & $T_{\mathrm{pMLR}}$ (K) & pMLR (g/s) & $T_{\mathrm{pMLR}}$ (K) \\ 
-\midrule 
-Mean value & 0.014 & 635 & 0.061 & 685 \\ 
-Standard deviation (\%) & 121 & 1 & 23 & 1 \\ \bottomrule 
-\end{tabular} 
+	\centering 
+	\caption{Key Features of TGA Data: Comparison of Experimentally-Measured and Model-Predicted Results} 
+	\label{tab:TGA_stats} 
+	\begin{tabular}{rcccccc} 
+		\toprule & \multicolumn{3}{c}{10~K/min} & \multicolumn{3}{c}{100~K/min} \\ \cmidrule(lr){2-4} \cmidrule(lr){5-7} & $T_{\mathrm{onset}}$ (K) & $T_{\mathrm{pMLR}}$ (K) & peak MLR (s$^{-1}$) & $T_{\mathrm{onset}}$ (K) & $T_{\mathrm{pMLR}}$ (K) & peak MLR (s$^{-1}$)\\ 
+		\midrule 
+		Modeling  & 508.3$\pm$14.9& 635.4$\pm$7.7&0.0015$\pm$0.0002& 563.2$\pm$19.4& 685.6$\pm$6.7&0.0668$\pm$0.0142\\ 
+		Experimental~\cite{MaCFP4PyrolysisExp} & 508.8$\pm$14.2 & 641.8$\pm$5.02 & 0.0016$\pm$0.0001 & -&-&- \\ \bottomrule 
+		\multicolumn{7}{l}{\textsuperscript{A} Uncertainty statements represent one standard deviation of repeated values}
+	\end{tabular} 
 \end{table}
+
+Considering only the results of 10~K/min tests, model predictions of $T_{\rm{pMLR}}$ show very strong agreement. However, greater variations are observed for  $T_{\rm{onset}}$ and peak MLR. For all three key features of data (Table~\ref{tab:TGA_stats}), based on their respective standard deviations, scatter in model predictions is approximately equal to that of experimentally observed variations. This is promising; however, it should be noted that each model was calibrated to a subset of TGA data that typically was closer to the mean of all datasets submitted. One interpretation of this result is that: (1) modelers may have correctly identified the most representative experimental data sets (effectively choosing not to analyze outliers and thus reducing scatter in their predictions) but (2) model calibration tools remain imperfect, though the significance of these deviations is not clearly understood by this comparison alone\footnote{The greatest deviation in $T_{\rm{onset}}$ predicted by different submissions is observed for the CORIA and NIST-StMU modeling results (lower and higher $T_{\rm{onset}}$, repetitively; both within the scatter of experimental results). The CORIA calibration approach optimized kinetic parameters ($A$ and $E$) but assumed initial mass fractions for each of the initial components (hemicellulose, cellulose and lignin) The NIST-STMU calibration scheme does not emphasize $T_{\rm{onset}}$, and instead focuses on accurately capturing peak MLR and $T_{\rm{pMLR}}$.}. Further analysis is needed to quantify how variations in $T_{\rm{onset}}$, $T_{\rm{pMLR}}$, and peak MLR propagate when these models are applied to other scenarios or heating conditions (e.g., do these differences amplify when predicting ignition, burning rate, and flame spread / fire growth rate). 
+
+A first order assessment of the generalizability of these decomposition models was made by using the exact same mechanisms and associated kinetic parameters to predict mass loss in idealized TGA experiments at 100~K/min. As seen in Fig.~\ref{fig:TGA_Predictions}(b), models demonstrate equal or better scatter in $T_{\rm{pMLR}}$ but notable differences in peak MLR and the relative temperature range of secondary reactions, especially at high temperatures. This increase in scatter between predictions at higher heating rates is NOT observed~\cite{MaCFP4PyrolysisExp} in experimental data submitted at higher heating rates (though limited data is available above 20~K/min). 
+
+Previous modeling analysis~\cite{ding2023analysis} has suggested that shifts in $T_{\rm{pMLR}}$ (to lower or higher temperatures) have a much more significant impact on predicted flame spread and fire growth than similar shifts in peak MLR (higher or lower peak MLR at the same temperature). Thus, the close agreement in the predicted peak temperatures, suggests that the participating models capture the main features of the thermal degradation process in a relatively consistent manner. Overall, these results are encouraging, especially considering the complexity of the decomposition behavior of this wood and the relative scatter observed in the experimental data used for model calibration. 
+
 
 \subsection{Gasification results (FPA simulations)}
 
 The 1D gasification results are evaluated using the following two approaches: 
 \begin{enumerate} 
 \item Comparison of the mass loss rate (MLR) and back-surface temperature curves. 
-\item Comparison of key characteristic quantities, namely the peak mass loss rate ($pMLR$), the time to peak mass loss rate ($t_{\mathrm{pMLR}}$), the onset time ($t_{\mathrm{onset}}$), and the end-of-pyrolysis time ($t_{\mathrm{end}}$). \end{enumerate} 
+\item Comparison of key characteristic quantities, namely the peak MLR, the time this was observed ($t_{\mathrm{pMLR}}$), the onset time ($t_{\mathrm{onset}}$), and the end-of-pyrolysis time ($t_{\mathrm{end}}$). \end{enumerate} 
 
-The analysis is performed for six simulation scenarios, corresponding to the combination of three external heat fluxes (10, 30, and 60~kW\,m$^{-2}$) and two sample thicknesses (6 and 18~mm). As discussed above, the various contributions provided by the participating organizations are considered as independent model predictions because they are based on different modelling assumptions, parameter sets, and calibration strategies. As a result, the present comparison comprises one model from CORIA, two models from UMD-FSRI, and twelve models from UCB.\\
+The analysis is performed for six simulation scenarios, corresponding to the combination of three external heat fluxes (10, 30, and 60~kW\,m$^{-2}$) and two sample thicknesses (6 and 18~mm). As discussed above, the various contributions provided by the participating organizations are considered as independent model predictions because they are based on different modeling assumptions, parameter sets, and calibration strategies. As a result, the present comparison comprises one model from CORIA, two models from UMD-FSRI, and twelve models from UCB.\\
 
 Figures \ref{fig:FPA_MLR_q10_6mm} to \ref{fig:FPA_MLR_q60_18mm} present the predicted mass loss rate (MLR) curves for the different heat fluxes and sample thicknesses considered in this study. For each case, the ensemble mean prediction is shown together with a shaded region representing the standard deviation. 
 
@@ -954,7 +954,7 @@ A more detailed description of CORIA Calibration Results (including a descriptio
 		\item Multi-stage hill-climbing algorithm in Pyrolysis.jl
 	\end{itemize}
 \end{enumerate}
-A more detailed description of FSRI-UMD Calibration Results (including a discussion modelling philosophy) is provided in their README file, which is available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Results/UMD_FSRI/README.md}{FSRI-UMD Calibration Results Page} of the MaCFP Github Repository.
+A more detailed description of FSRI-UMD Calibration Results (including a discussion modeling philosophy) is provided in their README file, which is available on the \href{https://github.com/MaCFP/matl-db/tree/master/Wood/Calibration_Results/UMD_FSRI/README.md}{FSRI-UMD Calibration Results Page} of the MaCFP Github Repository.
 
 \subsubsection*{NIST-StMU}
 \begin{enumerate}
