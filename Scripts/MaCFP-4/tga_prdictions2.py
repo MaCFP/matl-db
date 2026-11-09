@@ -23,6 +23,9 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "Wood", "Calibration_Results")
 )
+SCRIPT_FIGS = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "Documents", "SCRIPT_FIGURES")
+)
 
 # =========================
 # LISTE DES CAS
@@ -97,7 +100,7 @@ for case in cases:
     # =====================
     # FIGURE TEMPS
     # =====================
-    plt.figure(figsize=(8,6))
+    fig_t=plt.figure(figsize=(8,6))
 
     for name in names:
 
@@ -141,7 +144,7 @@ for case in cases:
         # CALCULATE MLR
         # =====================
         m_smooth = savgol_filter(m, 41, 3)
-        dm_dt = np.gradient(m_smooth, t)
+        dm_dt = np.gradient(m_smooth, t)/ np.mean(m[0:4])
         mlr = -dm_dt
         mlr[mlr < 0] = 0
 
@@ -155,7 +158,7 @@ for case in cases:
         T_peak = T[idx_peak]
         # print(filename)
         # print(peak)
-        threshold = 0.05 * peak # define onset temperature of ML as 5% of peak MLR
+        threshold = 0.10 * peak # define onset temperature of ML as 10% of peak MLR (to match exp. report)
         onset_idx = np.where(mlr > threshold)[0]
 
         if len(onset_idx) > 0:
@@ -241,12 +244,13 @@ for case in cases:
     plt.ylabel("MLR (g/s)")
     plt.title(f"MLR vs Time - {case}")
     plt.grid()
+    plt.close(fig_t)
 
 
     # =====================
     # FIGURE TEMPERATURE
     # =====================
-    plt.figure(figsize=(8,6))
+    fig_T=plt.figure(figsize=(8,6))
 
     mlr_all_T = np.array(mlr_all_T)
 
@@ -287,9 +291,16 @@ for case in cases:
     plt.legend(handles, new_labels, fontsize=16, ncol=1)
 
     plt.xlabel("Temperature (K)", fontsize=16)
-    plt.ylabel("MLR (g/s)", fontsize=16)
+    plt.ylabel("MLR (1/s)", fontsize=16)
     plt.title(f"TGA - {case}/min", fontsize=20)
     plt.grid()
+
+    plt.tight_layout()
+    os.makedirs(os.path.join(str(SCRIPT_FIGS), 'TGA'), exist_ok=True)
+    fig_T.savefig(os.path.join(str(SCRIPT_FIGS), 'TGA',f'TGA_MLR_Predicted_{case}.pdf'))
+    plt.close(fig_T)
+
+
 
 # =========================
 # EXPORT RESULTATS
@@ -321,3 +332,5 @@ print("✅ Analyse terminée")
 
 #plt.show()
 plt.show(block=True)
+
+
