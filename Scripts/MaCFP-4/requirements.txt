@@ -1,0 +1,5 @@
+matplotlib>=3.10
+numpy>=2.3
+pandas>=2.3.3
+scipy>=1.16
+PyMuPDF>=2.0
