@@ -1,5 +1,6 @@
 # script to analyze and plot gasification simulations
 
+import os
 import math
 import numpy as np
 from matplotlib import pyplot as plt
@@ -19,6 +20,15 @@ plt.rc('xtick', labelsize=18)
 plt.rc('ytick', labelsize=18)
 
 results = []
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_ROOT = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "Wood", "Calibration_Results")
+)
+
+SCRIPT_FIGS = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "Documents", "SCRIPT_FIGURES","MODELING")
+)
 
 # list of cases
 cases = [ "q10_6mm", "q10_18mm",
@@ -58,14 +68,14 @@ name_plt_lines = {
     "UCB-CONST-PARALLEL-2": ['r','-','s'],
     "UCB-CONST-PARALLEL-3": ['r','-','^'],
 
-    "UCB-TDEP-PARALLEL-1": ['r','--','o'],
-    "UCB-TDEP-PARALLEL-2": ['r','--','s'],
-    "UCB-TDEP-PARALLEL-3": ['r','--','^'],
+    "UCB-TDEP-PARALLEL-1": ['darkorange','--','o'],
+    "UCB-TDEP-PARALLEL-2": ['darkorange','--','s'],
+    "UCB-TDEP-PARALLEL-3": ['darkorange','--','^'],
 
     # PERPENDICULAR → clear blue
-    "UCB-CONST-PERPENDICULAR-1": ['c','-','o'],
-    "UCB-CONST-PERPENDICULAR-2": ['c','-','s'],
-    "UCB-CONST-PERPENDICULAR-3": ['c','-','^'],
+    "UCB-CONST-PERPENDICULAR-1": ['b','-','o'],
+    "UCB-CONST-PERPENDICULAR-2": ['b','-','s'],
+    "UCB-CONST-PERPENDICULAR-3": ['b','-','^'],
 
     "UCB-TDEP-PERPENDICULAR-1": ['c','--','o'],
     "UCB-TDEP-PERPENDICULAR-2": ['c','--','s'],
@@ -116,9 +126,14 @@ for case in cases:
 
     # loop through predictions for 'case' to get raw data
     for name in names:
-
+        if "UCB" in name:
+            foldername="/UCB/"
+        elif "FSRI" in name:
+            foldername="/UMD-FSRI/"
+        elif "CORIA" in name: 
+            foldername="/CORIA/"
         # read data from files
-        dat = np.loadtxt(name + '_Wood_Gasification_' + case + '.csv',
+        dat = np.loadtxt(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv',
                             skiprows=2, delimiter=',')
 
         # parse data
@@ -230,7 +245,7 @@ for case in cases:
                           np.sum( (T_back_c_avg - T_back_c[:,i])**2)/(N*dT_back**2)
     
     # back surface temperature versus time
-    plt.figure(i_case)
+    fig_T=plt.figure(i_case)
    
     # loop through different predictions
     i_n = 0     # initialize counter for predictions
@@ -258,11 +273,11 @@ for case in cases:
     plt.ylabel(r"Back Surface Temperature (K)", fontsize=20)
     plt.legend(loc=4, numpoints=1, ncol=2, prop={'size':10})
     plt.tight_layout()
-    plt.savefig("T_back_vs_t_" +
-                case + ".png")
-       
+    os.makedirs(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION'), exist_ok=True)
+    fig_T.savefig(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION',f'T_back_vs_t_{case}.pdf'))
+           
     # mass loss rate versus time
-    plt.figure(i_case+1)
+    fig_M=plt.figure(i_case+1)
    
     # loop through different predictions
     i_n = 0     # initialize counter for predictions
@@ -290,8 +305,9 @@ for case in cases:
     plt.ylabel(r"Mass Loss Rate (g m$^{-2}$ s$^{-1}$)", fontsize=20)
     plt.legend(loc=1, numpoints=1, ncol=2, prop={'size':10})
     plt.tight_layout()
-    plt.savefig("mlr_vs_t_" +
-                case + ".png")
+
+    
+    fig_M.savefig(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION',f'mlr_vs_t_{case}.pdf'))
 
     # update case counter
     i_case += 10
@@ -313,9 +329,9 @@ for i in range(0,N_names):
 # Export vers fichier Excel
 # ==========================================================
 df = pd.DataFrame(results)
-df.to_excel("results_statistics.xlsx", index=False, engine="openpyxl")
+df.to_csv(os.path.join(str(SCRIPT_FIGS), "GASIFICATION","Gasification_statistics.csv"), index=False)
 
-print("✅ Result saved to 'results_statistics.xlsx'")
+print("✅ Result saved to 'Gasification_statistics.csv'")
 
 import numpy as np
 import matplotlib.pyplot as plt
