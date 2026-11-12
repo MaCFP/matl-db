@@ -24,7 +24,7 @@ DATA_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "Wood", "Calibration_Results")
 )
 SCRIPT_FIGS = os.path.normpath(
-    os.path.join(SCRIPT_DIR, "..", "..", "Documents", "SCRIPT_FIGURES")
+    os.path.join(SCRIPT_DIR, "..", "..", "Documents", "SCRIPT_FIGURES","MODELING")
 )
 
 # =========================
@@ -306,8 +306,7 @@ for case in cases:
 # EXPORT RESULTATS
 # =========================
 df = pd.DataFrame(results)
-df.to_excel("results_TGA.xlsx", index=False)
-
+df.to_csv(os.path.join(str(SCRIPT_FIGS), 'TGA',f"TGA_Key-Features.csv"), index=False)
 df = pd.DataFrame(results)
 
 stats = df.groupby("case").agg({
@@ -325,8 +324,7 @@ stats.columns = [
 stats = stats.reset_index()
 
 # export
-stats.to_excel("stats_par_case.xlsx", index=False)
-
+df.to_csv(os.path.join(str(SCRIPT_FIGS), 'TGA',f"TGA_stats.csv"), index=False)
 
 print("✅ Analyse terminée")
 
