@@ -488,7 +488,7 @@ Ten institutions submitted experimental measurements from 91 unique cone calorim
 
 \subsection{Anaerobic Gasification}
 \label{g_tests_gasification}
-Five institutions performed anaerobic gasification tests on `MaCFP-Wood' using two different experimental apparatuses. Three institutions conducted a total of 36 experiments using Controlled Atmosphere Cone Calorimeters, with square samples 100~mm $\times$ 100~mm and 25~mm thick. Two institutions conducted a total of 14 experiments using Controlled Atmosphere Pyrolysis Apparatuses (CAPA), with circular samples 70~mm in diameter and 9~mm thick. Both apparatuses provide nominally one-dimensional heating of samples under controlled anaerobic conditions.
+Five institutions performed anaerobic gasification tests on `MaCFP-Wood' using two different experimental apparatuses. Three institutions conducted a total of 36 experiments using Controlled Atmosphere Cone Calorimeters, with square samples 100~mm $\times$ 100~mm and 25.4~mm thick. Two institutions conducted a total of 14 experiments using Controlled Atmosphere Pyrolysis Apparatuses (CAPA), with circular samples 70~mm in diameter and 8.7~mm thick. Both apparatuses provide nominally one-dimensional heating of samples under controlled anaerobic conditions.
 
 Table~\ref{Table:Gasification_Matrix} lists the number of gasification experiments conducted under each combination of apparatus type and test conditions. Each dataset includes time-resolved measurements of total sample mass as well as back- and/or top-surface temperature measurements.
 
@@ -551,7 +551,7 @@ Measurements of spectrally-dependent sample reflectivity were determined using e
 \label{exp_results}
 In this section, experimental measurements from both mg- and g-scale tests are presented. When tests were conducted under the same nominal experimental conditions (e.g., heating rate, incident heat flux, and/or gaseous environment) and when data provided by different institutions showed qualitative agreement, average curves (e.g., heat release rate or mass loss rate vs. time or temperature) were calculated; these mean values are identified throughout the text by symbols with overbars. Type A uncertainties~\cite{taylor1994nist} of these mean values are reported for all data as two standard errors of the mean calculated over at least three independent observations, unless otherwise stated.
 
-It should be noted that some variations between datasets are simply stochastic (i.e., random, unavoidable noise in repeated tests); however, others may result from systematic causes. 
+It should be noted that some variations between datasets are simply stochastic (i.e., random, unavoidable noise in repeated tests); however, others may result from systematic causes.
 For mg-scale experiments, these may include:
 \begin{itemize}\itemsep0pt
     \item differences in temperature and sensitivity calibration,
@@ -561,7 +561,7 @@ For mg-scale experiments, these may include:
     \item sample mass,
     \item initial moisture content.
 \end{itemize}
-\noindent 
+\noindent
 For g-scale experiments, systematic differences may arise from:
 \begin{itemize}\itemsep0pt
     \item incident heat-flux calibration,
@@ -625,7 +625,7 @@ As can be seen in Fig.~\ref{Fig:TGA_dTdt}, some of the heating rate data follows
 
 As shown in Figure~\ref{Fig:TGA_dTdt}, the actual heating rate can vary significantly during the early stages of testing, typically within approximately the first 50--150~K of temperature increase, before approaching its nominal value. In most cases, this behaviour reflects the dynamic response of the instrument furnace and its temperature-control system and is therefore strongly instrument dependent. Such deviations are difficult to eliminate completely, as they depend on factors such as furnace design, controller settings, and the prescribed temperature program. The effect generally becomes more pronounced at higher nominal heating rates, where the furnace and control system must respond more rapidly to maintain the programmed temperature increase. For a small number of tests, larger deviations from the nominal heating program, including temporary overshoots, undershoots, or discontinuities, were observed. Some of these features arise from intentionally programmed steps in the experimental procedure; for example, the discontinuity observed for `Orpington' at 10~K/min results from rapid heating to 373~K followed by an extended isothermal hold for sample drying before the subsequent constant-rate heating stage.
 
-Typically, the heating rate stabilised before substantial sample decomposition occurred. In most cases, the stabilised value was close to the nominal heating rate; however, for some experiments, a persistent offset remained and the prescribed heating rate was not fully reached even after the initial transient period. 
+Typically, the heating rate stabilised before substantial sample decomposition occurred. In most cases, the stabilised value was close to the nominal heating rate; however, for some experiments, a persistent offset remained and the prescribed heating rate was not fully reached even after the initial transient period.
 For experiments conducted by a single institution at the same nominal heating rate but under different gaseous environments or pressures, no consistent systematic differences in the time-resolved heating-rate profiles were apparent; rather, the profiles were generally highly repeatable within each institution.
 
 The practical importance of deviations between nominal and actual heating rate depends on the process or property being studied.
@@ -792,7 +792,7 @@ Despite the generally similar main decomposition behavior, two regions of the TG
 \textbf{Accounting for Initial Sample Moisture Content (Dry-Mass Normalization)}\\
 Due to variations in sample preparation and/or testing conditions, at low temperatures initial mass loss varied  between measurements obtained by different laboratories. In the present analysis, the mass measured at 400~K, $m_{400}$, was selected as the reference dry mass. At this temperature, sample mass remained approximately constant after initial moisture loss and the main pyrolysis stage had not yet begun. Apparent moisture content was therefore calculated as $1-m_{400}/m_0$. Apparent moisture content (MC) from each dataset is reported in Table~\ref{tab:wood_tga_results}, ranging between 0~$\%$ and 8.2~$\%$. These differences do not necessarily reflect variations in the original material itself, but are strongly affected by sample conditioning and the experimental procedure prior to the main heating stage. Some institutions dried or conditioned the samples before testing, while others tested the material without additional conditioning. In some datasets, the initial part of the measurement was not included in the submitted data, or the device did not record data until the initial stabilization criteria were met. Consequently, the apparent initial moisture content should be interpreted with caution when comparing results between laboratories.
 
-One approach to reduce this variability would be to prescribe an identical pre-test drying and conditioning procedure for all participating laboratories. In practice, however, this would be difficult to implement consistently because of differences in available instrumentation and established measurement procedures. 
+One approach to reduce this variability would be to prescribe an identical pre-test drying and conditioning procedure for all participating laboratories. In practice, however, this would be difficult to implement consistently because of differences in available instrumentation and established measurement procedures.
 Alternatively, the TGA temperature program could include an initial heating and drying stage followed by cooling and a second heating ramp, or an isothermal drying step before the main heating ramp, so that subsequent measurements start from a nominally dry sample. Such procedures may be appropriate when moisture itself is of interest or when moisture-sensitive quantities, such as heat capacity, are evaluated. For analysis focused primarily on the subsequent thermal decomposition, however, an additional experimental drying step is not necessary, since the data can instead be rescaled to the dry sample mass during post-processing as illustrated in Figure~\ref{Fig:TGA_N2_10K_drynorm}.
 In the present analysis, normalized mass was therefore calculated as $\frac{m}{m_{400}}$ (rather than as typically reported, $\frac{m}{m_{0}}$, where ${m_{0}}$ is initial sample mass); consequently, re-normalized mass at temperatures $T<400$~K may exceed unity. Although this re-normalization greatly reduces differences between datasets prior to the onset of pyrolysis, it only partially reduces the variability\footnote{\textcolor{red}{Consider measured residue yields calculated at both 700~K and 950~K from repeat measurements submitted by all institutions: at both temperatures, the standard deviation of $\frac{m}{m_{400}}$ is \# versus \# for $\frac{m}{m_{0}}$.}} in residue yield measured after the main decomposition stage (see Table~\ref{tab:wood_tga_results}). Across the investigated datasets, this correction increased the calculated residue yield by up to 2 percentage points at 700~K and 1.3 percentage points at 950~K. This demonstrates that differences in the measured residue yield cannot be explained by initial moisture content alone.
 
@@ -1420,6 +1420,7 @@ The arithmetic mean and standard deviation (`Std Dev') of each of these values a
 
 Key measurement data from cone calorimeter tests include heat release rate normalized by the initial exposed sample area, $\dot{Q}''$~(kW/m$^2$), sample mass, $m$~(g), and in-depth or back-surface temperature, $T_{\rm back}$~(K). Each quantity was reported as a time-resolved measurement. In addition, initial sample mass, time to ignition, and time to flameout were reported for individual experiments where available. For most tests, recording frequencies were close to or equal to 1~Hz. For comparison and averaging, the submitted time-resolved data were linearly interpolated to regular 1~s intervals (1~Hz).
 
+
 \textbf{Data Processing} \\
 When repeated measurements were available (submitted by the same or different lab(s) under the same incident heating conditions), average HRR was calculated at each time step, $t_i$, as the mean value reported from all repeated tests:
 
@@ -1454,11 +1455,16 @@ The standard error of the mean, $\sigma_{\mathrm{mean},i}$, was calculated at ea
 
 \subsubsection{Heat Release Rate}
 
-Heat release rate measurements were available from 91 cone calorimeter experiments conducted by 10 institutions at incident heat fluxes of 25, 30, 45, 50, 60, and 75~kW/m$^2$, as summarised in Table~\ref{Table:Cone_Matrix}. The largest datasets were obtained at 60, 30, and 50~kW/m$^2$, comprising 24, 20, and 17 experiments, respectively. Measurements were performed with the wood grain oriented both parallel and perpendicular to the exposed sample surface. However, the dataset is dominated by the parallel orientation, with 70 parallel and 21 perpendicular tests. Furthermore, perpendicular-orientation measurements were generally contributed by only a single institution at a given heat flux. Only at 75~kW/m$^2$ are perpendicular-orientation data available from two institutions.
+Heat release rate measurements were available from 91 cone calorimeter experiments conducted by 10 institutions at incident heat fluxes of 25, 30, 45, 50, 60, and 75~kW/m$^2$, as summarised in Table~\ref{Table:Cone_Matrix}. Of these, 70 tests were conducted with the wood grain parallel to the exposed surface and only 21 with the grain perpendicular. Moreover, perpendicular-orientation measurements were provided by only one institution at each heat flux where such data were available, except at 75 kW/m², where two institutions contributed. Consequently, interlaboratory reproducibility for this orientation could not be assessed at most heat fluxes.
+Heat release rate measurements from all cone calorimeter experiments, including individual and averaged curves with associated uncertainties, are provided in the Supplemental Information \ref{Cone_HRR}.
 
-Figures~\ref{Fig:Cone_30kWindivHRR}, \ref{Fig:Cone_50kWindivHRR}, and \ref{Fig:Cone_60kWindivHRR} plot measured area-normalized heat release rate from individual experiments conducted at 30~kW/m$^2$, 50~kW/m$^2$, and 60~kW/m$^2$, respectively. Most measurements show typical behaviour observed for charring materials, where HRR rapidly increases after sample ignition before decreasing to a lower, relatively steady value. Later, a second rise in HRR is observed for most samples as the sample heats through to its back surface and HRR typically does not return to zero at the end of the tests due to continued smouldering of the residual char. An exception is the measurements submitted by `Mallard' (violet curves in Figs.~\ref{Fig:Cone_30kWindivHRR} and \ref{Fig:Cone_60kWindivHRR}), which exhibit qualitatively different HRR profiles because they were obtained using mass loss calorimetry rather than oxygen consumption calorimetry. In these experiments, HRR was determined from temperature measurements in the exhaust flow. This method yields lower HRR values towards the end of the tests, although ignition and early heat release behaviour are reasonably well captured.
+The largest datasets, regardless of grain orientation, were obtained at 60, 30, and 50~kW/m$^2$, comprising 24, 20, and 17 experiments, respectively.
+Figures~\ref{Fig:Cone_30kWindivHRR}, \ref{Fig:Cone_50kWindivHRR}, and \ref{Fig:Cone_60kWindivHRR} show the corresponding individual HRR measurements.
+Most measurements show the typical HRR behaviour observed for charring materials: a rapid increase after ignition, followed by a decrease to a lower, relatively steady value, and a second rise as the sample heats through to its back surface. After the second peak, HRR typically does not return to zero by the end of the test due to continued smouldering of the residual char.
+An exception is the measurements submitted by `Mallard' (violet curves in Figs.~\ref{Fig:Cone_30kWindivHRR} and \ref{Fig:Cone_60kWindivHRR}), which exhibit qualitatively different HRR profiles. Unlike the other datasets based on oxygen consumption calorimetry,`Mallard' HRR was determined from exhaust-flow temperature measurements.
+This method yields lower HRR values towards the end of the tests, although ignition and early heat release behaviour are reasonably well captured.
 
-Apart from the `Mallard' measurements, the HRR curves generally retain a similar overall shape and show relatively good agreement in the timing of the first HRR peak, although its magnitude varies between experiments. Larger differences are observed for the second HRR peak, for which both the magnitude and timing can vary substantially between datasets, with shifts in peak position of several hundred seconds in some cases. Due to variations in test duration between submissions (i.e., how long samples were allowed to continue smouldering later in each test), care should be taken when comparing quantities that depend on the total area under the HRR curve or on the state of the sample at the end of the measurement, including char/residue yield, total heat released, and heat of combustion.
+Due to variations in test duration between submissions (i.e., how long samples were allowed to continue smouldering later in each test), care should be taken when comparing quantities that depend on the total area under the HRR curve or on the state of the sample at the end of the measurement, including char/residue yield, total heat released, and heat of combustion.
 
 \begin{figure}
   \centering
@@ -1481,7 +1487,12 @@ Apart from the `Mallard' measurements, the HRR curves generally retain a similar
   \label{Fig:Cone_60kWindivHRR}
 \end{figure}
 
-Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves calculated from all available measurements at each incident heat flux, including both parallel- and perpendicular-orientation tests where available. Apparent changes in slope at later times can result from individual datasets ending at different times. Although the resulting average curves appear relatively smooth and consistent, their characteristic peaks may arise from averaging individual measurements that differ substantially in both peak magnitude and timing. Heat release rate measurements from all cone calorimeter experiments, including individual and averaged curves with associated uncertainties, are provided in the Supplemental Information \ref{Cone_HRR}.
+The HRR curves generally show relatively good agreement in the timing of the first HRR peak, although its magnitude varies between experiments.
+Larger differences are observed for the second HRR peak, for which both the magnitude and timing can vary substantially between datasets, with shifts in peak position of several hundred seconds in some cases. These differences in peak magnitude and timing should also be considered when interpreting the averaged HRR curves.
+Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} shows average HRR curves calculated at each incident heat flux, combining both grain orientations where available. Although the resulting average curves appear relatively smooth and consistent, their characteristic peaks may arise from averaging individual measurements that differ substantially in both peak magnitude and timing. The greater variability of the second HRR peak is also reflected in the wider uncertainty bands in this region.
+Despite this variability, the averaged curves still show the expected trend with increasing incident heat flux: the first HRR peak becomes higher and occurs earlier, while the second rise in HRR generally shifts to earlier times.
+At later times, the averaged HRR curves may exhibit step-like changes as individual measurements end at different times.
+
 
 \begin{figure}
   \centering
@@ -1490,8 +1501,10 @@ Figure~\ref{Fig:Cone-Calorimeter-all-fluxes} plots average HRR curves calculated
 \label{Fig:Cone-Calorimeter-all-fluxes}
 \end{figure}
 
-\textbf{Effect of Grain Orientation} \\
-To separate the effect of grain orientation from the overall experimental variability, the HRR data were also averaged separately for samples with the grain oriented parallel and perpendicular to the exposed surface. The resulting curves in Figs.~\ref{Fig:Cone_Average_HRR_parallel} and \ref{Fig:Cone_Average_HRR_perpendicular} therefore no longer combine measurements with different grain orientations, and the remaining spread reflects repeatability within individual laboratories and reproducibility between laboratories. However, these sources of variability can still strongly affect the shape of the averaged curves. In particular, differences in the magnitude and timing of individual HRR peaks, as well as differences in test duration, can produce broadened or apparently additional peaks and abrupt changes that do not necessarily represent distinct physical burning phenomena.
+\textbf{Effect of Grain Orientation on Heat Release Rate} \\
+Given the variability observed in the HRR measurements, the data were also averaged separately for samples with the grain oriented parallel and perpendicular to the exposed surface.
+The resulting curves are shown in Figs.~\ref{Fig:Cone_Average_HRR_parallel} and \ref{Fig:Cone_Average_HRR_perpendicular}. The resulting spread reflects repeatability within individual laboratories and, where multiple institutions contributed, reproducibility between laboratories. 
+However, even after separating the data by grain orientation, differences between individual measurements can still affect the shape of the averaged curves. In particular, differences in the magnitude and timing of individual HRR peaks, as well as differences in test duration, can produce broadened or apparently additional peaks and abrupt step-like changes that do not necessarily represent distinct physical burning phenomena.
 
 \begin{figure}
 \centering
@@ -1507,9 +1520,17 @@ To separate the effect of grain orientation from the overall experimental variab
 \label{Fig:Cone_Average_HRR_perpendicular}
 \end{figure}
 
-A systematic difference is visible in the perpendicular-orientation averages in Fig.~\ref{Fig:Cone_Average_HRR_perpendicular} at 30~kW/m$^2$, 60~kW/m$^2$, and 75~kW/m$^2$, where measurements from `Saxony' do not exhibit the pronounced second HRR peak observed in most other datasets. The same tendency is also present in the parallel-orientation measurements, but is less apparent after averaging with data from the other laboratories. This behaviour may be related to differences in the rear-surface thermal boundary condition, in particular the use of an Al$_2$O$_3$ ceramic backing plate in the `Saxony' cone calorimeter tests. Such a backing can alter heat transfer at the rear surface of the specimen and may therefore suppress or broaden the second HRR peak associated with heat accumulation at the back side of the sample.
+A systematic difference is visible in the perpendicular-orientation averages in Fig.~\ref{Fig:Cone_Average_HRR_perpendicular} at 30~kW/m$^2$, 60~kW/m$^2$, and 75~kW/m$^2$.
+However, at 30 and 60~kW/m$^2$, these averages are based exclusively on measurements from `Saxony', while at 75~kW/m$^2$, measurements from both `Saxony' and `Rouen' are included.
+The individual HRR curves in Appendix~\ref{Cone_HRR} show that a similarly weak or absent second HRR peak is also observed in the parallel-orientation measurements from `Saxony', but is masked in the averaged curves for parallel grain samples because these include a larger number of measurements from other laboratories, most of which exhibit a pronounced second HRR peak. `Rouen' exhibits a pronounced second peak at 75~kW/m$^2$ for both parallel and perpendicular cut samples.
+These observations suggest that the absence of a pronounced second HRR peak in averaged HRR curves in Fig.~\ref{Fig:Cone_Average_HRR_perpendicular} is more closely associated with the specific behaviour of the `Saxony' measurements than with perpendicular grain orientation itself.
 
-For a more direct comparison of the effect of grain orientation, Figs.~\ref{Fig:Cone_Average_HRR_grain_25kW} and \ref{Fig:Cone_Average_HRR_grain_50kW} compare the average HRR curves for parallel and perpendicular grain orientations at incident heat fluxes of 25~kW/m$^2$ and 50~kW/m$^2$, respectively.  In both cases, the perpendicular orientation exhibits an earlier and more sharply defined second HRR peak, with a deeper preceding minimum and a somewhat higher peak magnitude than the corresponding parallel orientation. These systematic differences demonstrate that grain orientation has a clear influence on the HRR evolution and should therefore be reported explicitly and treated as an important experimental parameter for this material rather than neglected or combined within a single average. The corresponding comparisons for the remaining incident heat fluxes for which measurements in both orientations are available are provided in Appendix~\ref{Cone_HRR}.
+For a more direct comparison of the effect of grain orientation, Figs.~\ref{Fig:Cone_Average_HRR_grain_25kW} and \ref{Fig:Cone_Average_HRR_grain_50kW} compare the average HRR curves for parallel and perpendicular grain orientations at incident heat fluxes of 25~kW/m$^2$ and 50~kW/m$^2$, respectively.  
+In both cases, the perpendicular orientation exhibits an earlier and more sharply defined second HRR peak, with a deeper preceding minimum and a somewhat higher peak magnitude than the corresponding parallel orientation. 
+Although the perpendicular-orientation measurements at both heat fluxes were provided only by `Rouen', the same earlier second HRR peak for perpendicular samples is also observed when comparing only the `Rouen' measurements for both grain orientations.
+These observations suggest that grain orientation influences HRR evolution and should therefore be reported explicitly rather than combined within a single average.
+The corresponding comparisons for the remaining incident heat fluxes for which measurements in both orientations are available are provided in Appendix~\ref{Cone_HRR}.
+
 
 \begin{figure}
 \centering
@@ -1529,9 +1550,10 @@ For a more direct comparison of the effect of grain orientation, Figs.~\ref{Fig:
 
 \subsubsection{Time to Ignition}
 
-Time to ignition, $t_{\rm ign}$, an important value especially for fire growth prediction, was primarily determined from the measured HRR in each cone calorimeter experiment as the first time at which $\dot{Q}'' \ge 24$~kW/m$^2$~\cite{lyon2007criteria, DietenbergerHasburghYedinak2021}. This value was identified as an ignition criterion for a variety of combustible solids and was confirmed to be consistent with the ignition of wood~\cite{DietenbergerHasburghYedinak2021}. Calculated ignition times were only determined for experiments in which this threshold was reached. During the analysis, however, differences were observed between the ignition times determined using this criterion and values reported by the contributing institutions. Therefore, where available, reported ignition times were also extracted from the accompanying dataset documentation.
+Time to ignition, $t_{\rm ign}$, an important value especially for fire growth prediction, was primarily determined from the measured HRR in each cone calorimeter experiment as the first time at which $\dot{Q}'' \ge 24$~kW/m$^2$~\cite{lyon2007criteria, DietenbergerHasburghYedinak2021}. This value was identified as an ignition criterion for a variety of combustible solids and was confirmed to be consistent with the ignition of wood~\cite{DietenbergerHasburghYedinak2021}. Calculated ignition times were only determined for experiments in which this threshold was reached. 
+To assess the consistency of the HRR-based ignition criterion with direct experimental observations, ignition times reported by the contributing institutions were also considered where available.
+The arithmetic mean and standard deviation of the time to ignition are reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. For each quantity, the uncertainty reported in the table corresponds to one standard deviation of the repeated measurements at a given exposure condition.
 
-The arithmetic mean and standard deviation of the time to ignition are reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. Calculated and reported ignition times were retained separately to allow their consistency to be assessed directly. For each quantity, the uncertainty reported in the table corresponds to one standard deviation of the repeated measurements at a given exposure condition.
 
 \begin{table}[htbp]
 \centering
@@ -1541,7 +1563,8 @@ The arithmetic mean and standard deviation of the time to ignition are reported 
 \input{../SCRIPT_FIGURES/Cone/Cone_Values.tex}
 \end{table}
 
-Figure~\ref{Fig:Cone_Ignition_time_calculated_vs_reported} compares the calculated and reported ignition times for experiments for which both values were available. In most cases, the two values show relatively good agreement, with differences typically limited to a few seconds. However, calculated ignition times tend to be slightly higher than the corresponding reported values. This difference may partly reflect uncertainties in the reported ignition times, including operator judgement and difficulties in identifying the exact onset of sustained flaming during the experiments. Another possible source of discrepancy is incorrect time synchronisation between the observed ignition and the measured HRR, particularly if the transport delay of combustion gases through the exhaust sampling system to the gas analyser is not properly accounted for.
+Figure~\ref{Fig:Cone_Ignition_time_calculated_vs_reported} compares the calculated and reported ignition times for experiments for which both values were available. In most cases, the two values show relatively good agreement, with differences typically limited to a few seconds. However, calculated ignition times tend to be slightly higher than the corresponding reported values. This difference may partly reflect uncertainties in the reported ignition times, including operator judgement and difficulties in identifying the exact onset of sustained flaming during the experiments. 
+Furthermore, discrepancies between calculated and reported ignition times may partly arise from differences in time synchronisation or data acquisition resolution. For example,in the originally submitted `Rouen' data,  reported ignition times were found to precede a noticeable increase in HRR by approximately 10--15~s in some experiments. HRR data was resubmitted after correcting for oxygen delay time, excluding this discrepancy. In addition, data from `Pekin' were recorded at 5~s intervals, limiting the temporal resolution of ignition time determination. 
 
 \begin{figure}
   \centering
@@ -1550,7 +1573,12 @@ Figure~\ref{Fig:Cone_Ignition_time_calculated_vs_reported} compares the calculat
   \label{Fig:Cone_Ignition_time_calculated_vs_reported}
 \end{figure}
 
-Figures~\ref{Fig:Cone_Ignition_time_vs_Flux} summarize the repeatability and reproducibility of the calculated and reported ignition times. Repeatability within individual laboratories is generally good, with the notable exception of `Rouen', where the spread is approximately twice as large as in most other datasets. For nearly every incident heat flux, two repeated measurements from `Rouen' show very similar ignition times, while the third differs substantially. As sample preconditioning was not specified, the origin of these differences remains unclear. Despite this, interlaboratory agreement is generally good across the investigated heat fluxes, with the largest differences observed at 25~kW/m$^2$. Furthermore, samples with the grain oriented perpendicular to the exposed surface tend to exhibit systematically longer ignition times than those with parallel orientation.
+Figure~\ref{Fig:Cone_Ignition_time_vs_Flux} shows the calculated and reported ignition times as a function of incident heat flux for individual institutions and grain orientations. This allows both intra- and interlaboratory variability to be examined.
+The spread of repeated measurements varies between institutions, with notably large variations observed for `Rouen'. For nearly every incident heat flux, two repeated measurements from `Rouen' show very similar ignition times, while the third differs substantially. As sample preconditioning was not specified, the origin of these differences remains unclear.
+
+More generally, differences in sample preparation, particularly moisture content and conditioning, may also contribute to the observed interlaboratory variability. However, this information was missing or insufficiently documented for many participating institutions, preventing a systematic assessment of its influence. This highlights the importance of more consistent documentation of sample preparation and conditioning in future experimental datasets.
+The largest differences between laboratories are observed at 25~kW/m$^2$. Furthermore, samples with the grain oriented perpendicular to the exposed surface tend to exhibit systematically longer ignition times than those with parallel orientation.
+
 
 \begin{figure}[h!]
 \centering
@@ -1571,8 +1599,8 @@ Figures~\ref{Fig:Cone_Ignition_time_vs_Flux} summarize the repeatability and rep
 \end{figure}
 
 
-\textbf{Critical Heat Flux} \\
-Time-to-ignition measurements can also be used to estimate the critical heat flux for ignition, $\dot{q}_{\rm cr}''$. For thermally thick materials, assuming one-dimensional heat conduction and a constant ignition temperature, the following approximation for ignition at short times, when heat losses from the exposed surface can be neglected~\cite{Quintiere2006}:
+\textbf{Critical Heat Flux for Ignition} \\
+Time-to-ignition measurements can also be used to estimate the critical heat flux for ignition, $\dot{q}_{\rm cr}''$. For thermally thick materials, assuming one-dimensional heat conduction and a constant ignition temperature, the following approximation can be used for ignition at short times, when heat losses from the exposed surface can be neglected~\cite{Quintiere2006}:
 
 \begin{equation}
 t_{\rm ign} \approx \frac{\pi}{4}k\rho c
@@ -1581,7 +1609,7 @@ t_{\rm ign} \approx \frac{\pi}{4}k\rho c
 \right)^2
 \end{equation}
 
-\noindent where $k$, $\rho$, and $c$ are the thermal conductivity, density, and specific heat capacity, respectively, and $T_{\rm ign}$ and $T_{\infty}$ are the ignition and initial temperatures. This relationship suggests an approximately linear dependence of $t_{\rm ign}^{-1/2}$ on the incident heat flux. When surface heat losses are taken into account, this relationship can be approximated by:
+\noindent where $k$, $\rho$, and $c$ are the thermal conductivity, density, and specific heat capacity, respectively, and $T_{\rm ign}$ and $T_{\infty}$ are the ignition temperature and initial sample temperatures. This relationship suggests an approximately linear dependence of $t_{\rm ign}^{-1/2}$ on the incident heat flux. When surface heat losses are taken into account, this relationship can be approximated by:
 
 \begin{equation}
 t_{\rm ign}^{-1/2} \approx C\left(\dot{q}_{\rm ext}''-\dot{q}_{\rm cr}''\right)
@@ -1622,16 +1650,17 @@ Despite relatively high coefficients of determination for most individual datase
 
 One possible explanation is the insufficient resolution of ignition behaviour at low incident heat fluxes. As the lowest applied heat flux was 25~kW/m$^2$, the measurements may not adequately capture the behaviour close to the critical heat flux, making extrapolation to this region unreliable. This limitation is particularly relevant for wood, for which \cite{SpearpointQuintiere2001} reported changes in ignition behaviour at low heat fluxes and observed ignition at fluxes as low as approximately 10~kW/m$^2$.
 
-Differences in sample preparation, particularly moisture content and conditioning, may also contribute to the observed interlaboratory variability. However, this information was missing or insufficiently documented for many participating institutions, preventing a systematic assessment of its influence. This highlights the importance of more consistent documentation of sample preparation and conditioning in future experimental datasets.
+Consequently, the estimated critical heat flux values should be interpreted with considerable caution and should not be regarded as reliable quantitative measures of the ignition threshold.
 
-Furthermore, discrepancies between calculated and reported ignition times may partly arise from differences in time synchronisation or data acquisition resolution. For example, when originally submitted reported ignition times for `Rouen' were found to precede a noticeable increase in HRR by approximately 10--15~s in some experiments. HRR data was resubmitted after correcting for oxygen delay time, excluding this discrepancy. In addition, data from `Pekin' were recorded at 5~s intervals, limiting the temporal resolution of ignition time determination. These factors introduce additional uncertainty into the regressions. Consequently, the estimated critical heat flux values should be interpreted with considerable caution and should not be regarded as reliable quantitative measures of the ignition threshold.
+
 
 \newpage
-\subsubsection{Heat of Combustion}
+\subsubsection{Effective Heat of Combustion}
 
-Heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of mass lost (kJ/g). The total energy release was determined by integrating the measured HRR between the first and last times at which $\dot{Q}'' \ge 24$~kW/m$^2$, using the same threshold as for the calculated time to ignition. The resulting energy was divided by the corresponding mass loss over this interval. To assess the influence of the ignition time definition, an alternative calculation was also performed using the ignition time reported by the contributing institutions as the beginning of the integration interval, while keeping the end unchanged. The arithmetic mean and standard deviation of $\Delta H_{\rm c}$ are reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. The reported variability corresponds to one standard deviation of the repeated measurements at a given exposure condition.
+Effective heat of combustion, $\Delta H_{\rm c}$, was calculated based on cone calorimeter measurements as the total energy released per gram of mass lost (kJ/g). The total energy release was determined by integrating the measured HRR between the first and last times at which $\dot{Q}'' \ge 24$~kW/m$^2$, using the same threshold as for the calculated time to ignition. The resulting energy was divided by the corresponding mass loss over this interval. To assess the influence of the ignition time definition on effective heat of combustion, calculation was also performed using the ignition time reported by the contributing institutions as the beginning of the integration interval, while keeping the end unchanged.
+Figure~\ref{Fig:Cone_HOC_calculated_vs_reported} indicates that the choice of ignition time definition has a negligible effect on the calculated effective heat of combustion. Therefore, only values obtained using the HRR-based ignition criterion are considered in the subsequent analysis.
 
-Figure~\ref{Fig:Cone_HOC_calculated_vs_reported} compares the heat of combustion calculated using the HRR-based ignition criterion with the values obtained using the ignition times reported by the contributing institutions. The agreement is very good, with most values lying close to the line of one-to-one agreement.
+The arithmetic mean and standard deviation of $\Delta H_{\rm c}$ are reported in Table~\ref{tab:wood_cone_results} for repeated measurements from all institutions that submitted cone calorimeter data. The reported variability corresponds to one standard deviation of the repeated measurements at a given exposure condition.
 
 \begin{figure}[h!]
   \centering
@@ -1640,7 +1669,11 @@ Figure~\ref{Fig:Cone_HOC_calculated_vs_reported} compares the heat of combustion
   \label{Fig:Cone_HOC_calculated_vs_reported}
 \end{figure}
 
-Figure~\ref{Fig:Cone_HOC_vs_Flux} shows the heat of combustion at different incident heat fluxes. Repeatability within individual laboratories is generally good, whereas more pronounced differences are observed between laboratories. No clear dependence on incident heat flux is apparent. However, samples with parallel grain orientation consistently exhibit higher heat of combustion than those with perpendicular orientation, although the difference becomes almost negligible at 75~kW/m$^2$.
+Figure~\ref{Fig:Cone_HOC_vs_Flux} shows the effective heat of combustion as a function of incident heat flux for individual institutions and grain orientations.
+This allows both intra- and interlaboratory variability to be examined.
+Differences between laboratories are generally more pronounced than the spread of repeated measurements within individual laboratories.
+No clear dependence on incident heat flux is apparent.
+However, samples with parallel grain orientation generally exhibit higher effective heat of combustion than those with perpendicular orientation, although the difference becomes almost negligible at 75~kW/m$^2$.
 
 \begin{figure}[h!]
   \centering
@@ -1650,9 +1683,11 @@ Figure~\ref{Fig:Cone_HOC_vs_Flux} shows the heat of combustion at different inci
 \end{figure}
 
 \newpage
-\subsubsection{Repeatability and Reproducibility}
-
-The repeatability and reproducibility of the cone calorimeter measurements were further examined by comparing the calculated ignition times and heat of combustion across participating institutions. Figures~\ref{Fig:Cone_Ignition_vs_HOC_low} and \ref{Fig:Cone_Ignition_vs_HOC_high} present the results at all available incident heat fluxes. Symbols represent the arithmetic mean of repeated measurements, while horizontal and vertical error bars indicate one standard deviation of ignition time and heat of combustion, respectively.
+\subsubsection{Repeatability and Reproducibility of $t_{\rm ign}$ and $\Delta H_{\rm c}$}
+The variability of time to ignition and effective heat of combustion was discussed separately in the preceding sections.
+Figures~\ref{Fig:Cone_Ignition_vs_HOC_low} and \ref{Fig:Cone_Ignition_vs_HOC_high} present these two quantities together for each institution and incident heat flux, allowing their intra- and interlaboratory variability to be examined simultaneously.
+Symbols represent the arithmetic mean of repeated measurements, while horizontal and vertical error bars indicate one standard deviation of ignition time and effective heat of combustion, respectively.
+The observed variability is further assessed through comparison with MaCFP-2 results and the repeatability limits specified in ASTM E1354-23.
 
 \begin{figure}[p]
 \centering
@@ -1709,7 +1744,8 @@ The repeatability and reproducibility of the cone calorimeter measurements were 
 \label{Fig:Cone_Ignition_vs_HOC_high}
 \end{figure}
 
-The results show generally reasonable repeatability within individual laboratories, particularly for heat of combustion, while ignition times exhibit greater variability in some datasets. Differences between laboratories are more pronounced, especially for ignition time. To provide context for the observed interlaboratory variability, Table~\ref{tab:macfp2_ranges} compares the ranges of ignition times and heat of combustion obtained in MaCFP-4 with those reported in MaCFP-2. The relative ranges in MaCFP-4 are generally approximately twice those reported in MaCFP-2. However, this comparison should be interpreted with caution, as MaCFP-4 involved considerably more participating laboratories, while some MaCFP-2 ranges were based on results from only two institutions. Furthermore, MaCFP-2 investigated PMMA, whereas MaCFP-4 focused on wood, a substantially more heterogeneous material. Variations in moisture content, grain orientation and other material properties introduce additional sources of variability that are not present to the same extent in PMMA. Consequently, the larger ranges observed in MaCFP-4 should not be interpreted solely as an indication of poorer measurement reproducibility.
+The combined plots illustrate the variability of ignition time and effective heat of combustion within and between laboratories, but do not establish whether the observed spread is acceptable.
+To provide context for the observed interlaboratory variability, Table~\ref{tab:macfp2_ranges} compares the ranges of ignition times and heat of combustion obtained in MaCFP-4 with those reported in MaCFP-2. The relative ranges in MaCFP-4 are generally approximately twice those reported in MaCFP-2. However, this comparison should be interpreted with caution, as MaCFP-4 involved considerably more participating laboratories, while some MaCFP-2 ranges were based on results from only two institutions. 
 
 \begin{table}[htbp]
   \centering
@@ -1731,8 +1767,13 @@ r_{\rm ASTM,HOC} = 1.23 + 0.050\,\Delta H_{\rm c}
 
 A series was considered to satisfy the ASTM repeatability criterion when $r_{\rm exp} \leq r_{\rm ASTM}$. Calculated and reported ignition times were evaluated separately. The results for individual experimental series and the overall summary are presented in Tables~\ref{tab:astm_repeatability} and \ref{tab:astm_repeatability_summary}, respectively.
 
+The results show that only 46.4\% of experimental series satisfied the ASTM repeatability criterion for calculated ignition time, compared with 32.0\% for reported ignition time and 43.5\% for heat of combustion. An even smaller proportion of experimental series satisfied both criteria simultaneously, with only 17.4\% and 13.0\% meeting the limits for heat of combustion together with calculated or reported ignition time, respectively. Repeatability was generally better at the highest incident heat flux of 75~kW/m$^2$. However, these results should be interpreted with caution, as the ASTM repeatability limits were established using relatively homogeneous particleboard, ABS, PMMA, PE, PVC and foam, rather than natural wood.
+
+Both comparisons indicate substantial variability in the MaCFP-4 results. However, neither provides a direct basis for distinguishing variability arising from experimental procedures from that associated with the material itself. Unlike PMMA investigated in MaCFP-2 and the generally more homogeneous materials used to establish the ASTM repeatability limits, natural wood is inherently heterogeneous.
+While moisture content and grain orientation have already been discussed, another potentially important factor is the initial specimen density. Participating laboratories reported considerable differences in the initial masses of specimens, despite their nominally identical dimensions and conditioning under the same conditions within each laboratory. These differences therefore cannot be attributed solely to variations in moisture content or experimental procedures, but reflect differences in the density of the distributed specimens. The possible influence of initial specimen density on ignition time and heat of combustion is examined in the following section.
+
 \begin{landscape}
-\begin{table}[p]
+\begin{table}[htpb]
   \centering
   \caption{Comparison of experimental repeatability limits for calculated ignition time, reported ignition time and heat of combustion with those specified in ASTM E1354-23.}
   \label{tab:astm_repeatability}
@@ -1750,29 +1791,30 @@ A series was considered to satisfy the ASTM repeatability criterion when $r_{\rm
   \input{../SCRIPT_FIGURES/Cone/Cone_ASTM_Repeatability_Summary.tex}
 \end{table}
 
-The results show that only 46.4\% of experimental series satisfied the ASTM repeatability criterion for calculated ignition time, compared with 32.0\% for reported ignition time and 43.5\% for heat of combustion. The lower fraction for reported ignition time is partly associated with missing reported values, as series with unavailable data were included in the total count but could not satisfy the criterion. An even smaller proportion of experimental series satisfied both criteria simultaneously, with only 17.4\% and 13.0\% meeting the limits for heat of combustion together with calculated or reported ignition time, respectively. Repeatability was generally better at the highest incident heat flux of 75~kW/m$^2$. However, these results should be interpreted with caution, as the ASTM repeatability limits were established using relatively homogeneous particleboard, ABS, PMMA, PE, PVC and foam, rather than natural wood. The heterogeneity of wood, variations in moisture content and the influence of grain orientation introduce additional sources of variability that may contribute to the relatively low fractions of series satisfying the ASTM criteria.
 
-Another potential source of variability is the wood specimens themselves. Participating laboratories reported considerable differences in the initial masses of specimens, despite their nominally identical dimensions and conditioning under the same conditions within each laboratory. These differences therefore cannot be attributed solely to variations in moisture content or experimental procedures, but reflect differences in the density of the distributed specimens. The possible influence of initial specimen density on ignition time and heat of combustion is examined in the following section.
 
-\newpage
+\FloatBarrier
 \subsubsection{Initial density}
 
-Following feedback from the MaCFP community, participating laboratories were asked, where possible, to provide the initial masses of wood specimens measured before their placement in the cone calorimeter. Where these values were unavailable, clarification was requested regarding the initial mass recorded at the beginning of the submitted experimental data. This distinction is important because the mass recorded by the instrument may include additional components, such as aluminium foil wrapping, or may be affected by thermocouples attached to the specimen.
+Initial calculations of specimen density revealed several implausible values, raising questions about the initial masses recorded in the submitted datasets. Although the sample holder and frame are typically tared before testing, the initial mass recorded by the calorimeter may still include contributions from aluminium foil wrapping or attached thermocouples, and therefore may not represent the mass of the wood specimen alone.
 
-To assess the consistency of the reported masses, these values were compared with the mean of the first four mass measurements following the initial data point in the submitted datasets (Fig.~\ref{Fig:Cone_Initial_mass_comparison}).
+To clarify this, participating laboratories were asked, where possible, to provide the initial masses of wood specimens measured separately before any further preparation or installation in the cone calorimeter.
+Where these values were unavailable, clarification was requested regarding the initial mass recorded at the beginning of the submitted experimental data.
+The initial specimen masses provided by the laboratories were then compared with the mean of the first four mass measurements following the initial data point in the submitted datasets as shown in Fig.~\ref{Fig:Cone_Initial_mass_comparison}.
+Most measurements show good agreement, with only minor differences. For Pekin, the masses recorded by the calorimeter are systematically higher than the reported values because the reported initial mass represents the wood specimen weighed separately before placement in the sample holder and therefore excludes the holder, thermocouples and backing insulation. A substantial discrepancy is also observed for one perpendicular sample measurement from Saxony, where the mass signal initially increases before following the expected decreasing trend. The Saxony README notes that interpolation of the submitted data may introduce inconsistencies in the initial data points due to measurement noise. For Cayuga, the lower masses obtained from the experimental data can be explained by the 5~s sampling interval, as averaging the first four measurements after the initial point includes data up to 20~s, during which mass loss may already have occurred.
+For the subsequent analysis, the initial masses reported separately in the README files were preferentially used to calculate specimen density. Where these values were unavailable, the mean of the first four mass measurements following the initial data point was used instead. The initial specimen density was then calculated using the nominal specimen volume of 254~cm$^3$.
 
-\begin{figure}[htbp]
+Fig.~\ref{Fig:Cone_Initial_mass_comparison} also illustrates that the initial specimen masses of MaCFP wood vary considerably, ranging approximately from 80 to 125~g despite nominally identical specimen dimensions. No consistent difference between parallel and perpendicular grain orientations is observed in terms of sample mass.
+
+\begin{figure}[htpb]
   \centering
   \includegraphics[width=0.65\textwidth]{../SCRIPT_FIGURES/Cone/Cone_Initial_mass_average_vs_reported.pdf}
   \caption{Comparison of initial specimen masses reported in the README files with the average masses determined from the first four measurements following the initial data point in the submitted experimental datasets. The dashed line indicates perfect agreement.}
   \label{Fig:Cone_Initial_mass_comparison}
 \end{figure}
 
-Most measurements show good agreement, with only minor differences. For Pekin, the masses recorded by the calorimeter are systematically higher than the reported values because the reported initial mass represents the wood specimen weighed separately before placement in the sample holder and therefore excludes the holder, thermocouples and backing insulation. A substantial discrepancy is also observed for one perpendicular sample measurement from Saxony, where the mass signal initially increases before following the expected decreasing trend. The Saxony README notes that interpolation of the submitted data may introduce inconsistencies in the initial data points due to measurement noise. For Cayuga, the lower masses obtained from the experimental data can be explained by the 5~s sampling interval, as averaging the first four measurements after the initial point includes data up to 20~s, during which mass loss may already have occurred.
-
-For the subsequent analysis, the initial masses reported separately in the README files were preferentially used to calculate specimen density. Where these values were unavailable, the mean of the first four mass measurements following the initial data point was used instead. The initial specimen density was then calculated using the nominal specimen volume of 254~cm$^3$.
-
 The possible influence of initial specimen density on ignition time and heat of combustion was examined using the calculated densities described above. Figures~\ref{Fig:Cone_Density_vs_Ignition} and \ref{Fig:Cone_Density_vs_HOC} present the results at incident heat fluxes of 30~kW/m$^2$, 50~kW/m$^2$ and 60~kW/m$^2$. Both calculated and reported ignition times are included to assess whether the method used to determine ignition time affects the observed relationship with initial density. The corresponding results for the remaining incident heat fluxes of 25~kW/m$^2$, 45~kW/m$^2$ and 75~kW/m$^2$ are provided in Appendix~\ref{Cone_HRR}.
+The results show no clear relationship between initial specimen density and either ignition time or heat of combustion at the investigated incident heat fluxes. Similarly, no consistent trend associated with grain orientation can be identified. The observed scatter suggests that differences in initial density and grain orientation alone cannot explain the variability between measurements.
 
 \begin{figure}[p]
 \centering
@@ -1819,35 +1861,42 @@ The possible influence of initial specimen density on ignition time and heat of 
 \label{Fig:Cone_Density_vs_HOC}
 \end{figure}
 
-The results show no clear relationship between initial specimen density and either ignition time or heat of combustion at the investigated incident heat fluxes. Similarly, no consistent trend associated with grain orientation can be identified. The observed scatter suggests that differences in initial density and grain orientation alone cannot explain the variability between measurements.
 
-\newpage
+\FloatBarrier
+
 \subsubsection{Temperature measurements}
 
-Temperature measurements were made at the top surface, back surface and in depth in the sample. At 30~kW/m$^2$, one institution measured back surface temperatures, with one measurement per repeated experiment. The results are plotted in Fig.~\ref{Fig:Cone_30kWindivTEMP}. At 50~kW/m$^2$, one institution provided measurement data of the top surface and at depths of 8.6~mm and 17.2~mm. Three experiments were submitted, and the results are plotted in Fig.~\ref{Fig:Cone_50kWindivTEMP}. Additionally, back surface temperatures were measured by two institutions at an incident heat flux of 60~kW/m$^2$. The results can be found in Fig.~\ref{Fig:Cone_60kWindivTEMP}. Due to the relatively limited number of available measurements, no further statistical analysis was performed.
 
-\begin{figure}[p]
+Several participating laboratories also measured specimen temperatures during cone calorimeter experiments, although the measurement locations and conditions varied between laboratories.
+At 30~kW/m$^2$, one institution measured back surface temperatures, with one measurement per repeated experiment. The results are plotted in Fig.~\ref{Fig:Cone_30kWindivTEMP}. 
+At 50~kW/m$^2$, one institution provided measurement data of the top surface and at depths of 8.6~mm and 17.2~mm. Three experiments were submitted, and the results are plotted in Fig.~\ref{Fig:Cone_50kWindivTEMP}. 
+Additionally, back surface temperatures were measured by two institutions at an incident heat flux of 60~kW/m$^2$. The results can be found in Fig.~\ref{Fig:Cone_60kWindivTEMP}. 
+Due to the relatively limited number of available measurements, no further statistical analysis was performed.
+
+Temperature measurements in wood specimens during cone calorimeter test are challenging, particularly due to uncertainties in thermocouple positioning, thermal contact with the specimen and possible changes in contact as the material deforms and chars during heating. Despite these challenges, the measured temperature histories show reasonably good repeatability within individual laboratories and, at 60~kW/m$^2$, also good agreement between the two participating institutions. However, the available data are too limited for a comprehensive assessment of reproducibility. Differences become more pronounced at later stages of the experiments, potentially reflecting variations in the timing of specimen burnout and the associated rapid increase in back surface temperature.
+
+\begin{figure}[htpb]
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Wood_30kW_hor_BackT.pdf}
   \caption{Measured back surface temperature in cone calorimeter tests conducted at 30~kW/m$^2$. Each curve represents measurements recorded at the back surface of samples by individual thermocouples in repeated experiments.}
   \label{Fig:Cone_30kWindivTEMP}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htpb]
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Wood_50kW_hor_BackT.pdf}
 \caption{Measured temperatures in cone calorimeter tests conducted at 50~kW/m$^2$. Measurements were made at the top surface (solid line), at 8.6~mm depth (dashed line) and at 17.2~mm depth (dotted line).}
   \label{Fig:Cone_50kWindivTEMP}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htpb]
   \centering
   \includegraphics[width=5.5in]{../SCRIPT_FIGURES/Cone/Cone_Wood_60kW_hor_BackT.pdf}
 \caption{Measured back surface temperatures in cone calorimeter tests conducted at 60~kW/m$^2$ by two participating institutions. Each curve represents measurements recorded by individual thermocouples in repeated experiments.}
   \label{Fig:Cone_60kWindivTEMP}
 \end{figure}
 
-Temperature measurements in wood specimens are experimentally challenging, particularly due to uncertainties in thermocouple positioning, thermal contact with the specimen and possible changes in contact as the material deforms and chars during heating. Despite these challenges, the measured temperature histories show reasonably good repeatability within individual laboratories and, at 60~kW/m$^2$, also good agreement between the two participating institutions. However, the available data are too limited for a comprehensive assessment of reproducibility. Differences become more pronounced at later stages of the experiments, potentially reflecting variations in the timing of specimen burnout and the associated rapid increase in back surface temperature.
+
 %
 %
 %For repeated measurements, the average back surface temperature was calculated at each time step, $t_i$, as the mean value reported from all $N_{k_j}$ locations in all $N_j$ repeated tests:
@@ -1915,9 +1964,10 @@ Figure~\ref{Fig:Gasification_Mass_MLR} presents the measured sample mass and cor
     \label{Fig:Gasification_Mass_MLR}
 \end{figure}
 
-The raw mass curves reveal considerable differences in initial mass even between nominally identical specimens, potentially reflecting differences in sample conditioning or the natural heterogeneity of wood. CAPA specimens are readily distinguished by their substantially lower initial masses (below 20~g), resulting from their smaller dimensions. Despite these differences, the area-normalised mass loss rates exhibit similar initial peaks across all experiments, including CAPA. This is followed by the characteristic behaviour of wood, with a decline after the first peak and a subsequent second peak. However, the timing of the second peak varies considerably even among controlled atmosphere cone calorimeter experiments. In CAPA experiments, the second peak occurs substantially earlier due to the smaller sample thickness and different back-surface boundary conditions, making direct comparison of the later stages of gasification impossible.
+Looking first at the mass curves in Fig.~\ref{Fig:Gasification_Mass_MLR}, considerable differences in initial specimen masses are apparent, consistent with the variability discussed in the preceding cone calorimeter section. CAPA specimens are readily distinguished by their substantially lower initial masses (below 20~g), resulting from their smaller dimensions.
 
-Figure~\ref{Fig:Gasification_Average_MLR} compares the average mass loss rates at different incident heat fluxes, separately for controlled atmosphere cone calorimetry and CAPA~II. In both apparatuses, increasing the incident heat flux generally leads to higher mass loss rates and shorter gasification durations. For controlled atmosphere cone calorimetry, the characteristic second peak becomes more pronounced and occurs earlier at higher heat fluxes. In CAPA~II experiments, the substantially thinner specimens result in shorter gasification durations, while the second peak is generally not distinguishable.
+Despite these differences, the area-normalised mass loss rates exhibit similar initial peaks across all experiments, including CAPA. This is followed by a decline after the first peak and a subsequent second peak. However, the timing of the second peak varies considerably even among controlled atmosphere cone calorimeter experiments. In CAPA experiments, the second peak is less pronounced or not clearly distinguishable and occurs substantially earlier due to the smaller sample thickness and different back-surface boundary conditions. This difference between the two apparatuses is more apparent in the average mass loss rate curves presented in Fig.~\ref{Fig:Gasification_Average_MLR} which compares the average mass loss rates at different incident heat fluxes, separately for controlled atmosphere cone calorimetry and CAPA~II. The CAPA results from Rouen exhibit considerable noise, particularly at 40~kW/m$^2$ and 60~kW/m$^2$, even after temporal averaging. At 45 and 60~kW/m$^2$, the averaged mass loss rate curves from controlled atmosphere cone calorimetry exhibit abrupt, non-physical changes, likely resulting from averaging experiments with different durations.
+In both apparatuses, increasing the incident heat flux generally leads to higher mass loss rates and shorter gasification durations. For controlled atmosphere cone calorimetry, the characteristic second peak becomes more pronounced and occurs earlier at higher heat fluxes.
 
 \begin{figure}[htbp]
     \centering
@@ -1928,7 +1978,6 @@ Figure~\ref{Fig:Gasification_Average_MLR} compares the average mass loss rates a
     \label{Fig:Gasification_Average_MLR}
 \end{figure}
 
-The CAPA results from Rouen exhibit considerable noise, particularly at 40~kW/m$^2$ and 60~kW/m$^2$, even after temporal averaging. In contrast, some of the averaged curves from controlled atmosphere cone calorimetry exhibit abrupt, non-physical changes, arising from averaging experiments with different durations and wood grain orientations. These differences motivate a separate examination of the effect of grain orientation in the following text.
 
 The effect of wood grain orientation was examined using only data from controlled atmosphere cone calorimeter experiments. Figure~\ref{Fig:Gasification_Grain_Overview} presents the average mass loss rates separately for parallel and perpendicular grain orientations across the available incident heat fluxes. In addition, Figure~\ref{Fig:Gasification_Grain_ByFlux} provides a direct comparison of the two grain orientations at each incident heat flux.
 
@@ -1953,6 +2002,11 @@ The effect of wood grain orientation was examined using only data from controlle
 \end{figure}
 
 As shown in Figs.~\ref{Fig:Gasification_Grain_Overview} and \ref{Fig:Gasification_Grain_ByFlux}, wood grain orientation has a considerable effect on the mass loss rate. At 20~kW/m$^2$, samples with parallel grain orientation exhibit an almost constant mass loss rate of approximately 1~g/(s$\cdot$m$^2$), without the two characteristic peaks observed for all other specimens and heat fluxes. At 30~kW/m$^2$, the differences between orientations are relatively small. At 45~kW/m$^2$ and 60~kW/m$^2$, the second peak occurs substantially earlier for parallel specimens. However, these trends are difficult to quantify due to persistent abrupt, non-physical changes in the averaged curves, particularly for perpendicular specimens at 60~kW/m$^2$. Since the data are already separated by grain orientation, these discontinuities arise from differences between laboratories and experimental durations. This is further illustrated by comparing individual laboratory results at 60~kW/m$^2$ in Figure~\ref{Fig:Gasification_Laboratory_Comparison}.
+The results from Ancona and Pekin exhibit similar mass loss rate profiles and very good repeatability within each laboratory. However, the second peak occurs approximately 400~s later in Pekin than in Ancona, indicating substantial interlaboratory differences. Averaging these profiles therefore produces an artificial shape around the second peak that is not representative of either laboratory, clearly illustrating the substantial interlaboratory variability in its timing.
+Both laboratories used similar experimental configurations, without a retaining frame or grid. The initial specimen masses ranged from 105 to 114~g for Ancona and from 113 to 158~g for Pekin. One notable difference was the back-surface insulation: Ancona used a 23~mm thick Dalfratherm 1260 Hybrid Blanket (density 128~kg/m$^3$; thermal conductivity 0.05, 0.09, 0.13, 0.18 and 0.25~W/(m$\cdot$K) at 200, 400, 600, 800 and 1000~$^\circ$C, respectively), whereas Pekin used two 10~mm layers of ceramic wool (density 65~kg/m$^3$; other thermal properties unknown).
+
+
+Although the limited number of participating laboratories prevents a more comprehensive assessment of reproducibility, the contrast between good intralaboratory repeatability and substantial interlaboratory differences highlights the potential importance of back-surface boundary conditions. Careful specification and reporting of the experimental configuration, particularly the back-surface insulation material, its thermal properties, thickness and installation, are therefore essential for meaningful comparisons of anaerobic gasification experiments.
 
 \begin{figure}[htbp]
     \centering
@@ -1973,11 +2027,9 @@ As shown in Figs.~\ref{Fig:Gasification_Grain_Overview} and \ref{Fig:Gasificatio
     \label{Fig:Gasification_Laboratory_Comparison}
 \end{figure}
 
-The results from Ancona and Pekin exhibit similar mass loss rate profiles and very good repeatability within each laboratory. However, the second peak occurs approximately 400~s later in Pekin than in Ancona, indicating substantial interlaboratory differences. Both laboratories used similar experimental configurations, without a retaining frame or grid, and specimens with partially overlapping initial masses (Ancona: 105--114~g; Pekin: 113--158~g). One notable difference was the back-surface insulation: Ancona used a 23~mm thick Dalfratherm 1260 Hybrid Blanket (density 128~kg/m$^3$; thermal conductivity 0.05, 0.09, 0.13, 0.18 and 0.25~W/(m$\cdot$K) at 200, 400, 600, 800 and 1000~$^\circ$C, respectively), whereas Pekin used two 10~mm layers of ceramic wool (density 65~kg/m$^3$; other thermal properties unknown).
 
-Although the limited number of participating laboratories prevents a more comprehensive assessment of reproducibility, the contrast between good intralaboratory repeatability and substantial interlaboratory differences highlights the potential importance of back-surface boundary conditions. Careful specification and reporting of the experimental configuration, particularly the back-surface insulation material, its thermal properties, thickness and installation, are therefore essential for meaningful comparisons of anaerobic gasification experiments.
 
-\newpage
+\FloatBarrier
 \subsubsection{Sample Surface Temperature}
 Sample surface temperature measurements were provided for selected experiments at one or multiple locations. The available datasets include back surface temperature measurements, $T_{\rm back}$. One institution, ‘Rouen’, also provided front surface measurements, $T_{\rm front}$. These results are plotted together with the back surface data, with the measurement location indicated in the figure captions. Further details of how these front surface temperature measurements were obtained (optical pyrometry) are provided in the README file associated with this dataset.
 
