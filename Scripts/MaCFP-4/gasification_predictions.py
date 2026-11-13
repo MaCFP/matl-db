@@ -140,10 +140,14 @@ for case,t_plot in cases.items():
                             skiprows=2, delimiter=',')
 
         # parse data
-        t       = dat[:,0]          # times (s)
-        m       = dat[:,1]          # mass (g)
-        T_back  = dat[:,2]          # bottom surface temperature (K)
-        T_top   = dat[:,3]          # top surface temperature (K)
+        t = data['Time (s)'].values
+        m = data['Mass (g)'].values
+        T_back = data['T back (K)'].values
+        T_top = data['T top (K)'].values
+        # t       = dat[:,0]          # times (s)
+        # m       = dat[:,1]          # mass (g)
+        # T_back  = dat[:,2]          # bottom surface temperature (K)
+        # T_top   = dat[:,3]          # top surface temperature (K)
 
         # compute mass loss rate (g/m^2-s)
         mlr     = -(1/A_s)*np.gradient( m, t )
