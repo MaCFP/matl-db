@@ -30,10 +30,13 @@ SCRIPT_FIGS = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "Documents", "SCRIPT_FIGURES","MODELING")
 )
 
-# list of cases
-cases = [ "q10_6mm", "q10_18mm",
-          "q30_6mm", "q30_18mm",
-          "q60_6mm", "q60_18mm" ]
+# list of cases (and end of test time [min] for plotting)
+cases = { "q10_6mm":25,
+          "q10_18mm":80,
+          "q30_6mm":6, 
+          "q30_18mm":30,
+          "q60_6mm":4,
+          "q60_18mm":20 }
 
 # list of prediction set names
 names = [ "CORIA",
@@ -56,30 +59,30 @@ N_names = len(names)
 
 name_plt_lines = {
     "CORIA": ['b','-', 'o'],
-    "UMD_FSRI_DM": ['lawngreen','-', 'o'],
-    "UMD_FSRI_OPT": ['lawngreen','--','o'],
+    "UMD_FSRI_DM": ['k','-', 'o'],
+    "UMD_FSRI_OPT": ['k','--','o'],
 
     # PARALLEL → red
     # CONST → line
     # TDEP → dashed line
     # kinetic schemes 1/2/3 → o, s, ^
 
-    "UCB-CONST-PARALLEL-1": ['r','-','o'],
-    "UCB-CONST-PARALLEL-2": ['r','-','s'],
-    "UCB-CONST-PARALLEL-3": ['r','-','^'],
+    "UCB-CONST-PARALLEL-1": ['firebrick','-','o'],
+    "UCB-CONST-PARALLEL-2": ['firebrick','-','s'],
+    "UCB-CONST-PARALLEL-3": ['firebrick','-','^'],
 
-    "UCB-TDEP-PARALLEL-1": ['darkorange','--','o'],
-    "UCB-TDEP-PARALLEL-2": ['darkorange','--','s'],
-    "UCB-TDEP-PARALLEL-3": ['darkorange','--','^'],
+    "UCB-TDEP-PARALLEL-1": ['r','--','o'],
+    "UCB-TDEP-PARALLEL-2": ['r','--','s'],
+    "UCB-TDEP-PARALLEL-3": ['r','--','^'],
 
     # PERPENDICULAR → clear blue
-    "UCB-CONST-PERPENDICULAR-1": ['b','-','o'],
-    "UCB-CONST-PERPENDICULAR-2": ['b','-','s'],
-    "UCB-CONST-PERPENDICULAR-3": ['b','-','^'],
+    "UCB-CONST-PERPENDICULAR-1": ['forestgreen','-','o'],
+    "UCB-CONST-PERPENDICULAR-2": ['forestgreen','-','s'],
+    "UCB-CONST-PERPENDICULAR-3": ['forestgreen','-','^'],
 
-    "UCB-TDEP-PERPENDICULAR-1": ['c','--','o'],
-    "UCB-TDEP-PERPENDICULAR-2": ['c','--','s'],
-    "UCB-TDEP-PERPENDICULAR-3": ['c','--','^'],
+    "UCB-TDEP-PERPENDICULAR-1": ['limegreen','--','o'],
+    "UCB-TDEP-PERPENDICULAR-2": ['limegreen','--','s'],
+    "UCB-TDEP-PERPENDICULAR-3": ['limegreen','--','^'],
 }
 
 name_labels = [
@@ -111,7 +114,7 @@ name_labels = [
 i_case  = 0                     # case counter index
 SSE     = np.zeros( N_names )   # initialize sum of squares error for each name
 
-for case in cases:
+for case,t_plot in cases.items():
     
     # list of data arrays 
     times           = []
@@ -266,12 +269,12 @@ for case in cases:
                         color='gray', alpha=0.2)
 
     plt.xlim(left=0)
-    plt.xlim(right=math.ceil( (t_c[-1]/60)/5 )*5 )
+    plt.xlim(right=t_plot)
     plt.ylim(bottom=200)
     plt.title(case, fontsize=20, fontweight='bold')
     plt.xlabel(r"Time (min)", fontsize=20)
     plt.ylabel(r"Back Surface Temperature (K)", fontsize=20)
-    plt.legend(loc=4, numpoints=1, ncol=2, prop={'size':10})
+    plt.legend(loc=4, numpoints=1, ncol=2, prop={'size':7})
     plt.tight_layout()
     os.makedirs(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION'), exist_ok=True)
     fig_T.savefig(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION',f'T_back_vs_t_{case}.pdf'))
@@ -298,12 +301,12 @@ for case in cases:
                         color='gray', alpha=0.2)
 
     plt.xlim(left=0)
-    plt.xlim(right=math.ceil( (t_c[-1]/60)/5 )*5 )
+    plt.xlim(right=t_plot)
     plt.ylim(bottom=0)
     plt.title(case, fontsize=20, fontweight='bold')
     plt.xlabel(r"Time (min)", fontsize=20)
     plt.ylabel(r"Mass Loss Rate (g m$^{-2}$ s$^{-1}$)", fontsize=20)
-    plt.legend(loc=1, numpoints=1, ncol=2, prop={'size':10})
+    plt.legend(loc=1, numpoints=1, ncol=2, prop={'size':7})
     plt.tight_layout()
 
     
