@@ -639,7 +639,9 @@ Figure~\ref{fig:TGA_Predictions} plots the mass loss rate (MLR) curves predicted
 	\end{tabular} 
 \end{table}
 
-Considering only the results of 10~K/min tests, model predictions of $T_{\rm{pMLR}}$ show very strong agreement. However, greater variations are observed for  $T_{\rm{onset}}$ and peak MLR. For all three key features of data (Table~\ref{tab:TGA_stats}), based on their respective standard deviations, scatter in model predictions is approximately equal to that of experimentally observed variations. This is promising; however, it should be noted that each model was calibrated to a subset of TGA data that typically was closer to the mean of all datasets submitted. One interpretation of this result is that: (1) modelers may have correctly identified the most representative experimental data sets (effectively choosing not to analyze outliers and thus reducing scatter in their predictions) but (2) model calibration tools remain imperfect, though the significance of these deviations is not clearly understood by this comparison alone\footnote{The greatest deviation in $T_{\rm{onset}}$ predicted by different submissions is observed for the CORIA and NIST-StMU modeling results (lower and higher $T_{\rm{onset}}$, repetitively; both within the scatter of experimental results). The CORIA calibration approach optimized kinetic parameters ($A$ and $E$) but assumed initial mass fractions for each of the initial components (hemicellulose, cellulose and lignin) The NIST-STMU calibration scheme does not emphasize $T_{\rm{onset}}$, and instead focuses on accurately capturing peak MLR and $T_{\rm{pMLR}}$.}. Further analysis is needed to quantify how variations in $T_{\rm{onset}}$, $T_{\rm{pMLR}}$, and peak MLR propagate when these models are applied to other scenarios or heating conditions (e.g., do these differences amplify when predicting ignition, burning rate, and flame spread / fire growth rate). 
+Considering only the results of 10~K/min tests, model predictions of $T_{\rm{pMLR}}$ match quite closely (within, on average, 7.7~K). However, greater variations are observed for  $T_{\rm{onset}}$ ($\pm 14.9$~K) and peak MLR($\pm11.6$~\%). Here, uncertainty statements represent one standard deviation of repeated values. For all three key features of data (Table~\ref{tab:TGA_stats}), based on their respective standard deviations, scatter in model predictions is approximately equal to that of experimentally observed variations. This is promising; however, it should be noted that each model was calibrated to a subset of TGA data that typically was closer to the mean of all datasets submitted. One interpretation of this result is that: (1) modelers may have correctly identified the most representative experimental data sets (effectively choosing not to analyze outliers and thus reducing scatter in their predictions) but (2) model calibration tools remain imperfect, though the significance of these deviations is not clearly understood by this comparison alone\footnote{The greatest deviation in $T_{\rm{onset}}$ predicted by different submissions is observed for the CORIA and NIST-StMU modeling results (lower and higher $T_{\rm{onset}}$, repetitively; both within the scatter of experimental results). The CORIA calibration approach optimized kinetic parameters ($A$ and $E$) but assumed initial mass fractions for each of the initial components (hemicellulose, cellulose and lignin) The NIST-STMU calibration scheme does not emphasize $T_{\rm{onset}}$, and instead focuses on accurately capturing peak MLR and $T_{\rm{pMLR}}$.}. Further analysis is needed to quantify how variations in $T_{\rm{onset}}$, $T_{\rm{pMLR}}$, and peak MLR propagate when these models are applied to other scenarios or heating conditions (e.g., do these differences amplify when predicting ignition, burning rate, and flame spread / fire growth rate). 
+
+**note, relative order of Tpeak from different kinetic models varies at different heating rates. though Tonset order looks the same, highest and lowest Tpeaks switch.
 
 A first order assessment of the generalizability of these decomposition models was made by using the exact same mechanisms and associated kinetic parameters to predict mass loss in idealized TGA experiments at 100~K/min. As seen in Fig.~\ref{fig:TGA_Predictions}(b), models demonstrate equal or better scatter in $T_{\rm{pMLR}}$ but notable differences in peak MLR and the relative temperature range of secondary reactions, especially at high temperatures. This increase in scatter between predictions at higher heating rates is NOT observed~\cite{MaCFP4PyrolysisExp} in experimental data submitted at higher heating rates (though limited data is available above 20~K/min). 
 
@@ -654,87 +656,120 @@ Modelers were also asked to perform simulations of idealized, one-dimensional, r
 
 As discussed above, the various contributions provided by the participating organizations are considered as independent model predictions because they are based on different modeling assumptions, parameter sets, and calibration strategies. As a result, the present comparison comprises one model from CORIA, two models from UMD-FSRI, and twelve models from UCB.\\
 
+**Draft notes on just the UCB data:
+\begin{itemize}[]
+	\item perpendicular vs. parallel: Green perpendicular higher MLR and higher dMLR/dt (with 30, 60 kW/m2 flux; no clear trend at low flux). slower initial rise but longer period of high dT/dt before plateau Tback --\>, higher peak Tback. Considerably more variation for thicker samples. (trend is stronger with higher heat flux)
+	
+	\item UCB kinetic mechanisms 1, 2, 3; Tonset [506 505 502], Tpeak [633 642 633.5], MLRpeak [14.8 14.3 12.7]. Reaction mechanism has strongest impact on Parallel, TDEP properties (which predict lowest MLR). EXCEPT for Parallel Constant Rxn 1, which looks like an outlier.. (much higher MLR, Trise than all the others). Otherwise, within a property set grouping (PD vs. PL and const vs T-dep), kinetics do not have as strong an impact. VERY interesting, no? Suggests that, although many studies show kinetics are most important, compensation of other properties can mitigate, depending on calibration approach.
+	
+	\item Constant vs. temp-dependent properties. Perpendicular, constant always yields higher MLR and high Tback and dT/dt [EXCEPT MLR switches order at high q'' and thick]. no clear trend for parallel: Tdep and constant curves all overlap in MLR and Tback.  for both parallel and perp, Constant MLR predictions seem less sensitive to kinetics than temp-dependence (things cluster for a given color [T-Dep/const  + pd/pl], but not line type).
+
+	\item for perpendicular, constant vs. T-dep are more biased/distinct for thin samples than for thick samples. when thick, t-dep and constant all overlap in Tback and MLR. when thin, t-dep and constant  form two different groups.
+	\item  Parallel Constant Rxn 1, looks like an outlier.. (much higher MLR, Trise than all the others)
+	\item I think we see greatest deviation for all, especially late stage heating at higher fluxes and thicker samples (flux has more of an impact)
+\end{itemize}
+At low fluxes, seems to be random scatter btwn models. At high fluxes, especially for thicker samples, models cluster based on property definition (pl/pd, const/T-dep)
+
+**CORIA is qualitatively most different from others and i don't know why yet. It's always the slowest rate of rise /onset. About the same average MLR though. MUCH more tail (possibly due to lower emissivity or k (takes twice as long to reach 800K at back even though initial rate of rise is average/in the middle of all others)? Maybe it's the broader TGA range of decomposition?)
+
+FSRI and UCB have different approaches. looks like calibration targets can dictate reproducibility. that is, FSRI is similar to FSRI, opt or DM. UCB is similar to UCB (within a group, pl/pd or T-dep/const)
+
 Figures \ref{fig:FPA_MLR_q10_6mm} to \ref{fig:FPA_MLR_q60_18mm} present the predicted mass loss rate (MLR) curves for the different heat fluxes and sample thicknesses considered in this study. For each case, the ensemble mean prediction is shown together with a shaded region representing the standard deviation. 
 
 Overall, the different models exhibit a consistent qualitative behaviour. At low heat fluxes, the predictions generally display a single dominant MLR peak, whereas a more pronounced double-peak behaviour emerges as the incident heat flux increases. This trend is observed for most contributions and is therefore reflected in the mean predictions. Since oxidation processes are not considered in the present simulations, the appearance of two distinct peaks cannot be attributed to char oxidation. Instead, it is likely related to the thermal decomposition of the different wood constituents and the development of temperature gradients within the sample. Hemicellulose typically decomposes at lower temperatures than cellulose, while lignin degrades over a much broader temperature range. As the heat flux increases, the heating rate becomes higher and these degradation stages may become more clearly separated in time, leading to the emergence of two distinct MLR peaks. In addition, the larger temperature gradients that develop within the material under higher thermal loads, together with the formation of a char layer at the surface, can further promote the separation of the dominant decomposition processes. The models also successfully predict an increase in the peak mass loss rate (MLR) and a reduction in fire duration with increasing heat flux. Conversely, increasing the material thickness is predicted to decrease the peak MLR while extending the fire duration.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/mlr_vs_t_q10_6mm.png}
-    \caption{Predicted 1D gasification MLR: heat flux = 10 kW/m²; thickness = 6mm.}
-    \label{fig:FPA_MLR_q10_6mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/mlr_vs_t_q10_18mm.png}
-    \caption{Predicted 1D gasification MLR: heat flux = 10 kW/m²; thickness = 18mm.}
-    \label{fig:FPA_MLR_q10_18mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/mlr_vs_t_q30_6mm.png}
-    \caption{Predicted 1D gasification MLR: heat flux = 30 kW/m²; thickness = 6mm.}
-    \label{fig:FPA_MLR_q30_6mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/mlr_vs_t_q30_18mm.png}
-    \caption{Predicted 1D gasification MLR: heat flux = 30 kW/m²; thickness = 18mm.}
-    \label{fig:FPA_MLR_q30_18mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/mlr_vs_t_q60_6mm.png}
-    \caption{Predicted 1D gasification MLR: heat flux = 60 kW/m²; thickness = 6mm.}
-    \label{fig:FPA_MLR_q60_6mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/mlr_vs_t_q60_18mm.png}
-    \caption{Predicted 1D gasification MLR: heat flux = 60 kW/m²; thickness = 18mm.}
-    \label{fig:FPA_MLR_q60_18mm}
+    \begin{subfigure}[t]{0.475\textwidth}
+    	\centering
+    	\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/mlr_vs_t_q10_6mm.pdf}
+    	\caption{}
+    	\label{Fig:model-Gas-mlr-q10_6mm}
+    	\end{subfigure}
+    \hspace{0.02\textwidth}
+    \begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/mlr_vs_t_q10_18mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-mlr-q10_18mm}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/mlr_vs_t_q30_6mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-mlr-q30_6mm}
+	\end{subfigure}
+	\hspace{0.02\textwidth}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/mlr_vs_t_q30_18mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-mlr-q30_18mm}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/mlr_vs_t_q60_6mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-mlr-q60_6mm}
+	\end{subfigure}
+	\hspace{0.02\textwidth}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/mlr_vs_t_q60_18mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-mlr-q60_18mm}
+	\end{subfigure}
+    \caption{Predicted mass loss rate (MLR) in idealized 1D gasification experiments. Left: thickness~=~6~mm; Right: thickness~=~18~mm. (a,b)~$q^{''}_{rad}=10$~kW/m$^2$; (c,d)~$q^{''}_{rad}=30$~kW/m$^2$; (e,f)$q^{''}_{rad}=60$~kW/m$^2$.}
+    \label{fig:model-gasification-mlr}
 \end{figure}
 
 Figures \ref{fig:FPA_Tback_q10_6mm} to \ref{fig:FPA_MLR_q60_18mm} present the back-surface temperature predicted by the different models under the various operating conditions. Similar to the mass loss rate (MLR) results, all models predict the same general trends. Specifically, the models predict an increase in the asymptotic back-surface temperature with increasing heat flux, accompanied by a shorter transient phase. Conversely, increasing the sample thickness results in a lower asymptotic temperature and a longer transient phase before steady-state conditions are reached. It is also worth noting that the models tend to produce more consistent predictions during the steady-state phase than during the transient phase. Another interesting observation is the overall better agreement between the models for the thinner samples compared to the thicker ones. A possible explanation is that increasing the sample thickness results in the formation of a thicker char layer, which enhances the influence of physical phenomena such as radiative heat transfer and mass transport within the porous char structure. Since these processes are modelled differently by the various models, larger discrepancies in the predictions can be expected for thicker samples.
 
 The operating condition for which the agreement between the models is the poorest corresponds to the highest imposed heat flux combined with the greatest sample thickness. Identifying this critical scenario is particularly valuable, as it highlights the conditions under which the predictive capabilities of the models diverge the most. This observation suggests that further efforts should be directed toward improving the representation of thermally thick behaviours, which appear to be more challenging to predict accurately. The increased complexity of these conditions is likely associated with the larger temperature gradients, thicker char layers, and heat and mass transfer processes that develop within the material.\\
 
-
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/T_back_vs_t_q10_6mm.png}
-    \caption{Predicted back surface temperature: heat flux = 10 kW/m²; thickness = 6mm.}
-    \label{fig:FPA_Tback_q10_6mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/T_back_vs_t_q10_18mm.png}
-    \caption{Predicted back surface temperature: heat flux = 10 kW/m²; thickness = 18mm.}
-    \label{fig:FPA_Tback_q10_18mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/T_back_vs_t_q30_6mm.png}
-    \caption{Predicted back surface temperature: heat flux = 30 kW/m²; thickness = 6mm.}
-    \label{fig:FPA_Tback_q30_6mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/T_back_vs_t_q30_18mm.png}
-    \caption{Predicted back surface temperature: heat flux = 30 kW/m²; thickness = 18mm.}
-    \label{fig:FPA_Tback_q30_18mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/T_back_vs_t_q60_6mm.png}
-    \caption{Predicted back surface temperature: heat flux = 60 kW/m²; thickness = 6mm.}
-    \label{fig:FPA_Tback_q60_6mm}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{FPA_figures/T_back_vs_t_q60_18mm.png}
-    \caption{Predicted back surface temperature: heat flux = 60 kW/m²; thickness = 18mm.}
-    \label{fig:FPA_Tback_q60_18mm}
+	\centering
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/T_back_vs_t_q10_6mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-Temp-q10_6mm}
+	\end{subfigure}
+	\hspace{0.02\textwidth}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/T_back_vs_t_q10_18mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-Tback-q10_18mm}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/T_back_vs_t_q30_6mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-Tback-q30_6mm}
+	\end{subfigure}
+	\hspace{0.02\textwidth}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/T_back_vs_t_q30_18mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-Tback-q30_18mm}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/T_back_vs_t_q60_6mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-Tback-q60_6mm}
+	\end{subfigure}
+	\hspace{0.02\textwidth}
+	\begin{subfigure}[t]{0.475\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{../SCRIPT_FIGURES/MODELING/GASIFICATION/T_back_vs_t_q60_18mm.pdf}
+		\caption{}
+		\label{Fig:model-Gas-Tback-q60_18mm}
+	\end{subfigure}
+	\caption{Predicted Back Surface Temperature Rise in idealized 1D gasification experiments. Left: thickness~=~6~mm; Right: thickness~=~18~mm. (a,b)~$q^{''}_{rad}=10$~kW/m$^2$; (c,d)~$q^{''}_{rad}=30$~kW/m$^2$; (e,f)$q^{''}_{rad}=60$~kW/m$^2$.}
+	\label{fig:model-gasification-Tback}
 \end{figure}
 
 In order to have a more quantitative comparison, figures \ref{fig:FPA_onset_time_stats}, \ref{fig:FPA_peak_MLR_stats}, \ref{fig:FPA_t_peak_MLR_stats} and \ref{fig:FPA_t_end_stats} represent the  predicted mean onset time, the predicted mean MLR, the predicted mean time to peak MLR and the predicted mean end-of-pyrolysis time, respectively. The associated standard deviation to the mean value is represented by the error bars. The mean value and standard deviation are calculated for each parameter, using equation \ref{eq:mean_value} and \ref{eq:std_deviation}. 

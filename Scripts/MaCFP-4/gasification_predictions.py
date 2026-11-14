@@ -40,8 +40,8 @@ cases = { "q10_6mm":25,
 
 # list of prediction set names
 names = [ "CORIA",
-          "UMD_FSRI_DM",
-          "UMD_FSRI_OPT",
+          "UMD-FSRI-DM",
+          "UMD-FSRI-OPT",
           "UCB-CONST-PARALLEL-1",
           "UCB-CONST-PARALLEL-2",
           "UCB-CONST-PARALLEL-3",
@@ -59,8 +59,8 @@ N_names = len(names)
 
 name_plt_lines = {
     "CORIA": ['b','-', 'o'],
-    "UMD_FSRI_DM": ['k','-', 'o'],
-    "UMD_FSRI_OPT": ['k','--','o'],
+    "UMD-FSRI-DM": ['k','-', 'o'],
+    "UMD-FSRI-OPT": ['k','--','o'],
 
     # PARALLEL → red
     # CONST → line
@@ -136,14 +136,20 @@ for case,t_plot in cases.items():
         elif "CORIA" in name: 
             foldername="/CORIA/"
         # read data from files
-        dat = np.loadtxt(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv',
-                            skiprows=2, delimiter=',')
+        data = pd.read_csv(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv', sep=None, engine='python')
+        print(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv')
+        data.columns = data.columns.str.strip()  # Safe cleanup for hidden spaces
+        data = data[['Time (s)', 'Mass (g)','T back (K)','T top (K)']].apply(pd.to_numeric, errors='coerce').dropna()
 
         # parse data
-        t       = dat[:,0]          # times (s)
-        m       = dat[:,1]          # mass (g)
-        T_back  = dat[:,2]          # bottom surface temperature (K)
-        T_top   = dat[:,3]          # top surface temperature (K)
+        t = data['Time (s)'].values
+        m = data['Mass (g)'].values
+        T_back = data['T back (K)'].values
+        T_top = data['T top (K)'].values
+        # t       = dat[:,0]          # times (s)
+        # m       = dat[:,1]          # mass (g)
+        # T_back  = dat[:,2]          # bottom surface temperature (K)
+        # T_top   = dat[:,3]          # top surface temperature (K)
 
         # compute mass loss rate (g/m^2-s)
         mlr     = -(1/A_s)*np.gradient( m, t )
