@@ -5,6 +5,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 import pandas as pd
+from scipy.signal import savgol_filter
 
 plt.ion()
 
@@ -68,21 +69,21 @@ name_plt_lines = {
     # kinetic schemes 1/2/3 → o, s, ^
 
     "UCB-CONST-PARALLEL-1": ['firebrick','-','o'],
-    "UCB-CONST-PARALLEL-2": ['firebrick','-','s'],
-    "UCB-CONST-PARALLEL-3": ['firebrick','-','^'],
+    "UCB-CONST-PARALLEL-2": ['firebrick','--','s'],
+    "UCB-CONST-PARALLEL-3": ['firebrick','-.','^'],
 
-    "UCB-TDEP-PARALLEL-1": ['r','--','o'],
-    "UCB-TDEP-PARALLEL-2": ['r','--','s'],
-    "UCB-TDEP-PARALLEL-3": ['r','--','^'],
+    "UCB-TDEP-PARALLEL-1": ['orangered','-','o'],
+    "UCB-TDEP-PARALLEL-2": ['orangered','--','s'],
+    "UCB-TDEP-PARALLEL-3": ['orangered','-.','^'],
 
     # PERPENDICULAR → clear blue
-    "UCB-CONST-PERPENDICULAR-1": ['forestgreen','-','o'],
-    "UCB-CONST-PERPENDICULAR-2": ['forestgreen','-','s'],
-    "UCB-CONST-PERPENDICULAR-3": ['forestgreen','-','^'],
+    "UCB-CONST-PERPENDICULAR-1": ['darkgreen','-','o'],
+    "UCB-CONST-PERPENDICULAR-2": ['darkgreen','--','s'],
+    "UCB-CONST-PERPENDICULAR-3": ['darkgreen','-.','^'],
 
-    "UCB-TDEP-PERPENDICULAR-1": ['limegreen','--','o'],
+    "UCB-TDEP-PERPENDICULAR-1": ['limegreen','-','o'],
     "UCB-TDEP-PERPENDICULAR-2": ['limegreen','--','s'],
-    "UCB-TDEP-PERPENDICULAR-3": ['limegreen','--','^'],
+    "UCB-TDEP-PERPENDICULAR-3": ['limegreen','-.','^'],
 }
 
 name_labels = [
@@ -121,10 +122,12 @@ for case,t_plot in cases.items():
     masses          = []
     temps_back      = []
     temps_top       = []
+    char_yields     = []
     mlrates         = []
     mlrates_peak    = []
     times_peak      = []
     times_onset     = []
+    times_onset_sqrt     = []
     times_final     = []
 
     # loop through predictions for 'case' to get raw data
@@ -137,7 +140,7 @@ for case,t_plot in cases.items():
             foldername="/CORIA/"
         # read data from files
         data = pd.read_csv(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv', sep=None, engine='python')
-        print(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv')
+        # print(DATA_ROOT + foldername + name + '_Wood_Gasification_' + case + '.csv')
         data.columns = data.columns.str.strip()  # Safe cleanup for hidden spaces
         data = data[['Time (s)', 'Mass (g)','T back (K)','T top (K)']].apply(pd.to_numeric, errors='coerce').dropna()
 
@@ -151,16 +154,20 @@ for case,t_plot in cases.items():
         # T_back  = dat[:,2]          # bottom surface temperature (K)
         # T_top   = dat[:,3]          # top surface temperature (K)
 
+        #calculate residue yield
+        u_char= m[-1]/m[0]  # Residue yield at end of experiment
+
         # compute mass loss rate (g/m^2-s)
         mlr     = -(1/A_s)*np.gradient( m, t )
-
+        mlr = savgol_filter(mlr, 41, 3)
         # find peak MLR and time to peak MLR
         mlr_p   = mlr.max()         # peak MLR (g/m^2-s)
         t_p     = t[mlr.argmax()]   # time to peak MLR (s)
 
         # find time to MLR = 1 g/m^2-s
         t_o     = t[np.argwhere( mlr >= 1. ).min()]
-
+        if t_o > 0:
+            t_o_sqrt= 1/math.sqrt(t_o)
         # find maximum time for MLR >= 0.1 g/m^2-s
         t_f     = t[np.argwhere( mlr >= 0.1 ).max()]
 
@@ -169,21 +176,27 @@ for case,t_plot in cases.items():
         masses.append( m )
         temps_back.append( T_back )
         temps_top.append( T_top )
+        char_yields.append( u_char) 
         mlrates.append( mlr )
         mlrates_peak.append( mlr_p )
         times_peak.append( t_p )
         times_onset.append( t_o )
+        times_onset_sqrt.append( t_o_sqrt )
         times_final.append( t_f )
-
+        #print(times_onset)
     # compute mean and standard deviations
     t_p_mean    = np.mean( times_peak )
+    uchar_mean    = np.mean( char_yields )
     mlr_p_mean  = np.mean( mlrates_peak )
     t_o_mean    = np.mean( times_onset )
+    t_o_sqrt_mean    = np.mean( times_onset_sqrt )
     t_f_mean    = np.mean( times_final )
 
     t_p_std     = np.std( times_peak )
+    uchar_std    = np.std( char_yields )
     mlr_p_std   = np.std( mlrates_peak )
     t_o_std     = np.std( times_onset )
+    t_o_sqrt_std    = np.std( times_onset_sqrt )
     t_f_std     = np.std( times_final )
     
     # ==========================================================
@@ -194,15 +207,21 @@ for case,t_plot in cases.items():
         "t_p_mean": t_p_mean,
         "mlr_p_mean": mlr_p_mean,
         "t_o_mean": t_o_mean,
+        "t_o_sqrt_mean": t_o_sqrt_mean,
         "t_f_mean": t_f_mean,
+        "u_char_mean": uchar_mean,
         "t_p_std": t_p_std,
         "mlr_p_std": mlr_p_std,
         "t_o_std": t_o_std,
+        "t_o_sqrt_std": t_o_sqrt_std,
         "t_f_std": t_f_std,
+        "u_char_std": uchar_std,
         "t_p_std_%": t_p_std*100/t_p_mean,
         "mlr_p_std_%": mlr_p_std*100/mlr_p_mean,
         "t_o_std_%": t_o_std*100/t_o_mean,
-        "t_f_std_%": t_f_std*100/t_f_mean
+        "t_o_sqrt_std_%": t_o_sqrt_std*100/t_o_sqrt_mean,
+        "t_f_std_%": t_f_std*100/t_f_mean,
+        "u_char_std_%": uchar_std*100/uchar_mean,
     })
     # create array of common times for averaging of predictions
     t_min       = min(times_onset)    # smallest onset time (s)
@@ -210,6 +229,7 @@ for case,t_plot in cases.items():
     t_c         = np.linspace( t_min, t_max, N )
 
     # arrays for storing interpolated data to common times 
+    T_top_c    = np.zeros( (N, N_names) ) 
     T_back_c    = np.zeros( (N, N_names) ) 
     mlr_c       = np.zeros( (N, N_names) ) 
 
@@ -218,6 +238,7 @@ for case,t_plot in cases.items():
 
         # get raw data for prediction i
         t_i         = times[i]
+        T_top_i    = temps_top[i]
         T_back_i    = temps_back[i]
         mlr_i       = mlrates[i]
 
@@ -230,30 +251,35 @@ for case,t_plot in cases.items():
             # append additional times to raw data
             t_i = np.append( t_i, t_add )
 
-            # append MLR = 0 and T_back = T_back_final to raw data
+            # append MLR = 0 and T_.._ = T_.._final to raw data
+            T_top_i = np.append( T_top_i, T_top_i[-1]*np.ones( len(t_add) ) )
             T_back_i = np.append( T_back_i, T_back_i[-1]*np.ones( len(t_add) ) )
             mlr_i = np.append( mlr_i, np.zeros( len(t_add) ) )
 
         # interpolate MLR and T_back to common time arrays
+        T_top_c[:,i]   = np.interp( t_c, t_i, T_top_i )
         T_back_c[:,i]   = np.interp( t_c, t_i, T_back_i )
         mlr_c[:,i]      = np.interp( t_c, t_i, mlr_i )
 
     # compute mean and standard deviations at common times
+    T_top_c_avg    = np.mean( T_top_c, axis=1 )
     T_back_c_avg    = np.mean( T_back_c, axis=1 )
     mlr_c_avg       = np.mean( mlr_c, axis=1 )
 
+    T_top_c_std    = np.std( T_top_c, axis=1 )
     T_back_c_std    = np.std( T_back_c, axis=1 )
     mlr_c_std       = np.std( mlr_c, axis=1 )
 
     # compute total sum of squares errors of predictions from mean MLR and T_back
     dmlr    = mlr_c_avg.max() - mlr_c_avg.min()         # range of MLR values
     dT_back = T_back_c_avg.max() - T_back_c_avg.min()   # range of T_back
+    dT_top = T_top_c_avg.max() - T_top_c_avg.min()   # range of T_top
     for i in range(0, N_names):
 
         SSE[i] = SSE[i] + np.sum( (mlr_c_avg - mlr_c[:,i])**2 )/(N*dmlr**2) + \
                           np.sum( (T_back_c_avg - T_back_c[:,i])**2)/(N*dT_back**2)
     
-    # back surface temperature versus time
+    ### Back surface temperature versus time
     fig_T=plt.figure(i_case)
    
     # loop through different predictions
@@ -284,9 +310,42 @@ for case,t_plot in cases.items():
     plt.tight_layout()
     os.makedirs(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION'), exist_ok=True)
     fig_T.savefig(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION',f'T_back_vs_t_{case}.pdf'))
+
+
+    #### Top surface temperature versus time
+    fig_T_top=plt.figure(i_case+1)
+   
+    # loop through different predictions
+    i_n = 0     # initialize counter for predictions
+    for name in names:
+
+        plt.plot( times[i_n]/60, temps_top[i_n],
+                  ls=name_plt_lines[name][1],
+                  color=name_plt_lines[name][0],
+                  label=name_labels[i_n] )
+        
+        # update prediction counter
+        i_n += 1
+
+    # mean and standard deviation
+    plt.plot( t_c/60, T_top_c_avg, ls='-', color='gray', lw=2.5,
+                label='Mean')
+    plt.fill_between(t_c/60, T_top_c_avg - T_top_c_std, T_top_c_avg + T_top_c_std, 
+                        color='gray', alpha=0.2)
+
+    plt.xlim(left=0)
+    plt.xlim(right=t_plot)
+    plt.ylim(bottom=200)
+    plt.title(case, fontsize=20, fontweight='bold')
+    plt.xlabel(r"Time (min)", fontsize=20)
+    plt.ylabel(r"Top Surface Temperature (K)", fontsize=20)
+    plt.legend(loc=4, numpoints=1, ncol=2, prop={'size':7})
+    plt.tight_layout()
+    os.makedirs(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION'), exist_ok=True)
+    fig_T_top.savefig(os.path.join(str(SCRIPT_FIGS), 'GASIFICATION',f'T_top_vs_t_{case}.pdf'))
            
     # mass loss rate versus time
-    fig_M=plt.figure(i_case+1)
+    fig_M=plt.figure(i_case+2)
    
     # loop through different predictions
     i_n = 0     # initialize counter for predictions
@@ -322,7 +381,6 @@ for case,t_plot in cases.items():
     i_case += 10
 
 # print final SSEs
-
 print('---------------------------------------------------')
 print(' ')
 print(' Total Sum of Squares Error for Each Parameter Set ')
@@ -358,34 +416,43 @@ df_grouped = df.groupby(["flux", "thickness"]).mean(numeric_only=True).reset_ind
 
 # --- Fonction de tracé ---
 def plot_two_series(df, y_mean, y_std, title, ylabel):
-    plt.figure(figsize=(8,6))
+    fig, ax = plt.subplots(figsize=(8, 6))
 
     for thickness in sorted(df["thickness"].unique()):
-        subset = df[df["thickness"] == thickness]
+        subset = df[df["thickness"] == thickness].sort_values("flux")
 
-        plt.errorbar(
+        ax.errorbar(
             subset["flux"],
             subset[y_mean],
             yerr=subset[y_std],
-            fmt='o-',
+            fmt="o-",
             capsize=5,
-            label=f"{thickness} mm"
+            label=f"{thickness} mm",
         )
 
-    plt.xticks([10, 30, 60])
-    plt.xlabel("Heat flux (kW/m²)", fontsize=20)
-    plt.ylabel(ylabel, fontsize=20)
-    plt.title(title, fontsize=20)
-    plt.legend(fontsize=20)
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
+    ax.set_xticks([10, 30, 60])
+    ax.set_xlabel("Heat flux (kW/m²)", fontsize=20)
+    ax.set_ylabel(ylabel, fontsize=20)
+    ax.set_title(title, fontsize=20)
+    ax.legend(fontsize=16)
+    ax.grid(True)
+    fig.tight_layout()
 
+    out_dir = os.path.join(str(SCRIPT_FIGS), "GASIFICATION")
+    os.makedirs(out_dir, exist_ok=True)
+    fig.savefig(os.path.join(out_dir, f"{y_mean}.pdf"))
+
+    plt.show()
+    plt.close(fig)
+    print(y_mean, thickness)
 # --- Tracés ---
 plot_two_series(df_grouped, "t_p_mean", "t_p_std", "Mean Time to Peak MLR", "Time to Peak MLR (s)")
 plot_two_series(df_grouped, "mlr_p_mean", "mlr_p_std", "Mean Peak MLR", "Mean Peak MLR (kW/m²)")
-plot_two_series(df_grouped, "t_o_mean", "t_o_std", "Mean Onset Time", "Onset Time (s)")
+plot_two_series(df_grouped, "t_o_mean", "t_o_std", "Mean Onset Time", "Time to Onset of Mass Loss (s)")
+plot_two_series(df_grouped, "t_o_sqrt_mean", "t_o_sqrt_std", "Mean Onset Time", "$t_{onset}^{-0.5}$ (s$^{-1/2}$)")
 plot_two_series(df_grouped, "t_f_mean", "t_f_std", "Mean Final Time", "Final Time (s)")
+plot_two_series(df_grouped, "u_char_mean", "u_char_std", "Residue yield", "Final Residue yield (g/g)")
+
 
 
 
