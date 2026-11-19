@@ -124,7 +124,7 @@ for case in cases:
             data = pd.read_csv(file, sep=None, engine='python')
 
             data.columns = data.columns.str.strip()  # Safe cleanup for hidden spaces
-            print(file)
+            
             # Select, convert to numeric, and drop bad rows all at once
             data = data[['Time (s)', 'Temperature (K)', 'Mass (mg)']].apply(pd.to_numeric, errors='coerce').dropna()
             
