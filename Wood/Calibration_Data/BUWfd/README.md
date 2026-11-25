@@ -80,4 +80,3 @@ The data was interpolated to match a 0.5 K spacing, as requested by MaCFP.Note t
 | BUWfd_Wood_Cone_50kW_hor_R2.csv |        50         |           -            |          96.28          |      2.55      |       parallel        |    10     |      1372      |
 | BUWfd_Wood_Cone_60kW_hor_R1.csv |        60         |           -            |          96.09          |      2.55      |       parallel        |     7     |      1237      |
 | BUWfd_Wood_Cone_60kW_hor_R2.csv |        60         |           -            |         106.90          |      2.55      |       parallel        |     6     |      1429      |
-
