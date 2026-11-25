@@ -42,16 +42,42 @@ The data was interpolated to match a 0.5 K spacing, as requested by MaCFP.Note t
 - Calibration
     - Type: None
 
-| Run Label | Initial Sample Mass (mg) | Final Sample Mass (mg) | Heating Rate (K/min) | Purpose |
-| :---- | :---- | :---- | :---- | :---- |
-| BUWfd_Wood_STA_N2_5K_R1 | 5.28 | 0.96 | 5 | main measurement |
-| BUWfd_Wood_STA_N2_5K_R2 | 4.86 | 0.87 | 5 | main measurement |
-| BUWfd_Wood_STA_N2_5K_R3 | 5.12 | 0.84 | 5 | main measurement |
-| BUWfd_Wood_STA_N2_10K_R1 | 4.88 | 0.23 | 10 | main measurement |
-| BUWfd_Wood_STA_N2_10K_R2 | 5.07 | 0.18 | 10 | main measurement |
-| BUWfd_Wood_STA_N2_20K_R1 | 5.12 | 1.1 | 20 | main measurement |
-| BUWfd_Wood_STA_N2_20K_R2 | 4.98 | 1.1 | 20 | main measurement |
-| BUWfd_Wood_STA_N2_50K_R1 | 4.85 | 1.0 | 50 | main measurement |
-| BUWfd_Wood_STA_N2_50K_R2 | 5.14 | 0.98 | 50 | main measurement |
-| BUWfd_Wood_STA_N2_50K_R3 | 4.83 | 0.92 | 50 | main measurement |
+| Run Label                | Initial Sample Mass (mg) | Final Sample Mass (mg) | Heating Rate (K/min) | Purpose          |
+|:-------------------------|:-------------------------|:-----------------------|:---------------------|:-----------------|
+| BUWfd_Wood_STA_N2_5K_R1  | 5.28                     | 0.96                   | 5                    | main measurement |
+| BUWfd_Wood_STA_N2_5K_R2  | 4.86                     | 0.87                   | 5                    | main measurement |
+| BUWfd_Wood_STA_N2_5K_R3  | 5.12                     | 0.84                   | 5                    | main measurement |
+| BUWfd_Wood_STA_N2_10K_R1 | 4.88                     | 0.23                   | 10                   | main measurement |
+| BUWfd_Wood_STA_N2_10K_R2 | 5.07                     | 0.18                   | 10                   | main measurement |
+| BUWfd_Wood_STA_N2_20K_R1 | 5.12                     | 1.1                    | 20                   | main measurement |
+| BUWfd_Wood_STA_N2_20K_R2 | 4.98                     | 1.1                    | 20                   | main measurement |
+| BUWfd_Wood_STA_N2_50K_R1 | 4.85                     | 1.0                    | 50                   | main measurement |
+| BUWfd_Wood_STA_N2_50K_R2 | 5.14                     | 0.98                   | 50                   | main measurement |
+| BUWfd_Wood_STA_N2_50K_R3 | 4.83                     | 0.92                   | 50                   | main measurement |
+
+
+### Experimental Conditions: Cone calorimeter
+
+* Test Standard: ISO 5660
+* Extraction flow rate: 24L/s
+* Sample Surface Area: 0.00884 m2
+* Sample holder dimensions:
+    - Square pan: 106mm x 106mm x 25mm
+    - Retainer frame: 94mm x 94mm opening, 53mm height
+    - Retaining grid: None
+* Backing Insulation: 27.5mm thick layer of mineal wool.
+* Thermocouple location: None
+* Ignition Source: spark ignitor
+* Sample mass in the cone calorimeter data at time 0 sec is the initial mass of the sample.
+
+###### Test Heating Conditions  
+
+| Test Name                       | Heat Flux (kW/m2) | Heater Temperature (K) | Initial sample mass (g) | Thickness (cm) | Grain orientation (-) | t_ign (s) | t_flameout (s) |
+|---------------------------------|:-----------------:|:----------------------:|:-----------------------:|:--------------:|:---------------------:|:---------:|:--------------:|
+| BUWfd_Wood_Cone_30kW_hor_R1.csv |        30         |           -            |         102.14          |      2.55      |       parallel        |    34     |      1774      |
+| BUWfd_Wood_Cone_30kW_hor_R2.csv |        30         |           -            |          91.28          |      2.55      |       parallel        |    37     |      1723      |
+| BUWfd_Wood_Cone_50kW_hor_R1.csv |        50         |           -            |         103.69          |      2.55      |       parallel        |     9     |      1448      |
+| BUWfd_Wood_Cone_50kW_hor_R2.csv |        50         |           -            |          96.28          |      2.55      |       parallel        |    10     |      1372      |
+| BUWfd_Wood_Cone_60kW_hor_R1.csv |        60         |           -            |          96.09          |      2.55      |       parallel        |     7     |      1237      |
+| BUWfd_Wood_Cone_60kW_hor_R2.csv |        60         |           -            |         106.90          |      2.55      |       parallel        |     6     |      1429      |
 
